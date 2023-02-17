@@ -1,8 +1,6 @@
-### <p align=right>`Fabric` `1.19.3`</p>
+### <p align=right>[`→` Modrinth](https://modrinth.com/mods/knowledges)</p>
 
-# Example Mod
-
-This is an example mod.
+# Knowledges
 
 ## License
 
