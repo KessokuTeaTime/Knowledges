@@ -14,16 +14,16 @@
   },
 
   "license": "GPL-3.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/knowledges/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.krlite.modid.ExampleMod"
+      "net.krlite.knowledges.Knowledges"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+	"knowledges.mixins.json"
   ],
 
   "depends": {
