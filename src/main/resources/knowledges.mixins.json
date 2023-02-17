@@ -6,8 +6,9 @@
   "mixins": [
   ],
   "client": [
+	"client.KnowledgesHud"
   ],
   "injectors": {
-    "defaultRequire": 0
+	"defaultRequire": 0
   }
 }
