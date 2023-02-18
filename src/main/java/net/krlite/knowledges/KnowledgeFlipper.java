@@ -2,9 +2,9 @@ package net.krlite.knowledges;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.krlite.equator.util.Pusher;
 import net.krlite.equator.util.Timer;
+import net.krlite.knowledges.util.FlaggedTimer;
+import net.krlite.knowledges.util.Ranger;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
@@ -14,6 +14,7 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -22,40 +23,80 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Stack;
 
 public class KnowledgeFlipper {
-	@Nullable
-	private static ItemStack permanentItem = null;
-	private static final Stack<Pair<ItemStack, Timer>> TEMPORARY_ITEMS = new Stack<>();
-	private static final Timer FLIP_TIMER = new Timer(175);
-	private static final Pusher POP_MODE = new Pusher();
-	private static boolean popping = false;
+	public static final long ANIMATION_TIME = 175, DURATION_TIME = 1000;
+	@NotNull private static ItemStack permanentItem = ItemStack.EMPTY;
+	private static final Stack<Pair<ItemStack, Ranger>> TEMPORARY_ITEMS = new Stack<>();
+	@Nullable private static Ranger temporaryAnimation = null;
+	@NotNull private static final Ranger PERMANENT_ANIMATION = new Ranger(DURATION_TIME + ANIMATION_TIME, ANIMATION_TIME);
+	@NotNull private static final FlaggedTimer TERMINAL_ANIMATION = new FlaggedTimer(ANIMATION_TIME);
+	@NotNull private static ItemStack lastPushed = ItemStack.EMPTY;
 
 	public static void renderKnowledge() {
 		while (!TEMPORARY_ITEMS.empty() && TEMPORARY_ITEMS.peek().getRight().isFinished()) TEMPORARY_ITEMS.pop();
-		FLIP_TIMER.run(() -> POP_MODE.pull(() -> popping = false));
 		if (!TEMPORARY_ITEMS.empty()) {
-			Knowledges.LOGGER.warn(TEMPORARY_ITEMS.peek().getLeft().getItem().getName().getString() + ", " + FLIP_TIMER.queueAsPercentage() + ", " + popping);
-			flipUp(TEMPORARY_ITEMS.peek().getLeft(), popping);
+			temporaryAnimation = TEMPORARY_ITEMS.peek().getRight();
+			flipUpTemporary(TEMPORARY_ITEMS.peek().getLeft());
+
+			if (TEMPORARY_ITEMS.size() > 1)
+				TEMPORARY_ITEMS.stream().skip(TEMPORARY_ITEMS.size() - 2).limit(1).findFirst()
+						.filter(p -> isValidRanger(p.getRight())).ifPresent(secondary -> flipDownTemporary(secondary.getLeft()));
+		} else temporaryAnimation = null;
+
+		if (!permanentItem.isEmpty() && (PERMANENT_ANIMATION.isPresent() || !TERMINAL_ANIMATION.isFlagged() || TERMINAL_ANIMATION.isPresent()))
+			flipPermanent(permanentItem);
+	}
+
+	public static void pushTemporary(@NotNull ItemStack itemStack, long lasting) {
+		if (!lastPushed.isItemEqual(itemStack)) {
+			if (!itemStack.isEmpty() && (!permanentItem.isItemEqual(itemStack) || (PERMANENT_ANIMATION.isFinished() && TERMINAL_ANIMATION.isFinished())))
+				TEMPORARY_ITEMS.push(new Pair<>(itemStack, new Ranger(lasting + ANIMATION_TIME, ANIMATION_TIME)));
+			lastPushed = itemStack;
 		}
 	}
 
-	public static void pushItem(ItemStack itemStack, Timer timer) {
-		TEMPORARY_ITEMS.push(new Pair<>(itemStack, timer));
-		FLIP_TIMER.reset();
+	public static void pushTemporary(@NotNull ItemStack itemStack) {
+		pushTemporary(itemStack, DURATION_TIME);
 	}
 
-	private static void popItem() {
-		TEMPORARY_ITEMS.push(new Pair<>(TEMPORARY_ITEMS.pop().getLeft(), FLIP_TIMER));
-		FLIP_TIMER.reset();
+	public static void setPermanent(@NotNull ItemStack itemStack, boolean force) {
+		if ((!itemStack.isEmpty() && !permanentItem.isItemEqual(itemStack)) || force) {
+			permanentItem = itemStack;
+			PERMANENT_ANIMATION.reset();
+			TERMINAL_ANIMATION.unFlag();
+		}
 	}
 
-	private static void flipUp(@Nullable ItemStack itemStack, boolean reversed) {
-		if (itemStack != null)
-			renderItem(itemStack, new Vec3d(Knowledges.getX(), Knowledges.getY(), 0), 0.75F, reversed ? (float) FLIP_TIMER.queueAsPercentage() : 1 - (float) FLIP_TIMER.queueAsPercentage());
+	public static void setPermanent(@NotNull ItemStack itemStack) {
+		setPermanent(itemStack, false);
 	}
 
-	public static void flipDown(@Nullable ItemStack itemStack, boolean reversed) {
-		if (itemStack != null)
-			renderItem(itemStack, new Vec3d(Knowledges.getX(), Knowledges.getY(), 0), 0.75F, reversed ? (float) FLIP_TIMER.queueAsPercentage() - 1 : (float) -FLIP_TIMER.queueAsPercentage());
+	public static void clearPermanent() {
+		if (!permanentItem.isEmpty()) TERMINAL_ANIMATION.flag();
+	}
+
+	private static void flipUpTemporary(@NotNull ItemStack itemStack) {
+		if (!itemStack.isEmpty() && temporaryAnimation != null && temporaryAnimation.isPresent())
+			renderItem(itemStack, 1 - (float) temporaryAnimation.queueAsPercentage());
+	}
+
+	private static void flipDownTemporary(@NotNull ItemStack itemStack) {
+		if (!itemStack.isEmpty() && temporaryAnimation != null && temporaryAnimation.isPresent())
+			renderItem(itemStack, (float) -temporaryAnimation.queueAsPercentage());
+	}
+
+	private static void flipPermanent(@NotNull ItemStack itemStack) {
+		if (PERMANENT_ANIMATION.isPresent() || !TERMINAL_ANIMATION.isFlagged() || TERMINAL_ANIMATION.isPresent()) {
+			double permanentSqueezing =
+					PERMANENT_ANIMATION.isAscending() ?
+							Math.max(1 - PERMANENT_ANIMATION.queueAsPercentage(), TERMINAL_ANIMATION.queueAsPercentage()) :
+							Math.min(1 - PERMANENT_ANIMATION.queueAsPercentage(), TERMINAL_ANIMATION.queueAsPercentage());
+			permanentSqueezing = TERMINAL_ANIMATION.isFinished() ? 1 : permanentSqueezing - ((TEMPORARY_ITEMS.size() > 1 && isValidRanger(TEMPORARY_ITEMS.peek().getRight()) ? 1 : temporaryAnimation != null ? temporaryAnimation.queueAsPercentage() : 0));
+			renderItem(itemStack, (float) permanentSqueezing);
+		}
+	}
+
+	private static boolean isValidRanger(Ranger ranger) {
+		return ranger.getLasting() - ranger.queueRaw() >= ANIMATION_TIME;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -102,5 +143,9 @@ public class KnowledgeFlipper {
 
 		matrixStack.pop();
 		RenderSystem.applyModelViewMatrix();
+	}
+
+	private static void renderItem(@NotNull ItemStack itemStack, float squeezing) {
+		renderItem(itemStack, new Vec3d(Knowledges.getX(), Knowledges.getY(), 0), 0.75F, squeezing);
 	}
 }

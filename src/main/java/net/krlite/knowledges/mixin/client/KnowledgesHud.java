@@ -1,17 +1,21 @@
 package net.krlite.knowledges.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.krlite.equator.util.Timer;
 import net.krlite.knowledges.KnowledgeFlipper;
-import net.krlite.knowledges.Knowledges;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.GameMode;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,9 +46,19 @@ public abstract class KnowledgesHud {
 					(this.client.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR || this.shouldRenderSpectatorCrosshair(this.client.crosshairTarget)) &&
 					!(this.client.options.debugEnabled && !this.client.options.hudHidden && !this.client.player.hasReducedDebugInfo() && !this.client.options.getReducedDebugInfo().getValue())
 		) {
-			if (this.client.options.playerListKey.wasPressed()) {
-				KnowledgeFlipper.pushItem(getCameraPlayer().getMainHandStack(), new Timer(500));
-			}
+			PlayerEntity player = getCameraPlayer();
+			ItemStack mainHand = player.getMainHandStack(), offHand = player.getOffHandStack();
+			ItemStack head = player.getEquippedStack(EquipmentSlot.HEAD), chest = player.getEquippedStack(EquipmentSlot.CHEST), LEGS = player.getEquippedStack(EquipmentSlot.LEGS), feet = player.getEquippedStack(EquipmentSlot.FEET);
+
+			KnowledgeFlipper.pushTemporary(mainHand);
+
+			if (head.isEmpty()) KnowledgeFlipper.clearPermanent();
+			else KnowledgeFlipper.setPermanent(head);
+
+			HitResult hitResult = client.crosshairTarget;
+			@Nullable BlockState block = hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(((BlockHitResult) hitResult).getBlockPos()) : null;
+			@Nullable Entity entity = hitResult != null && hitResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult) hitResult).getEntity() : null;
+
 			KnowledgeFlipper.renderKnowledge();
 		}
 	}
