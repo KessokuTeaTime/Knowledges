@@ -2,7 +2,6 @@ package net.krlite.knowledges;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.krlite.equator.util.Timer;
 import net.krlite.knowledges.util.FlaggedTimer;
 import net.krlite.knowledges.util.Ranger;
 import net.minecraft.client.MinecraftClient;
@@ -14,7 +13,6 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;

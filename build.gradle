@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.0-SNAPSHOT'
+	id 'fabric-loom' version '1.3-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -18,7 +18,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	implementation include("com.github.KrLite:Pierced:${project.pierced_version}")
-	implementation include("com.github.KrLite:Equator-Utils:${project.eu_version}")
+	implementation include("com.github.KrLite:Equator-v2:${project:minecraft_version}-${project.equator_version}")
 }
 
 processResources {
