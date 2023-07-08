@@ -18,7 +18,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	implementation include("com.github.KrLite:Pierced:${project.pierced_version}")
-	implementation include("com.github.KrLite:Equator-v2:${project:minecraft_version}-${project.equator_version}")
+	modImplementation "com.github.KrLite.Equator-v2:build:${project:minecraft_version}-${project.equator_version}"
 }
 
 processResources {
