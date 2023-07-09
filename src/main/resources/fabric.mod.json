@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "knowledges",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Knowledges",
   "description": "",
   "authors": [
     "KrLite"
