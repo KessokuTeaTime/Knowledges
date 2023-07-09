@@ -37,7 +37,9 @@ public interface Knowledge {
 	}
 
 	default double scalar() {
-		return Knowledges.CONFIG.scalar() * Knowledges.Animations.sprintShrink();
+		return Knowledges.CONFIG.scalar()
+					   * Knowledges.Animations.sprintShrink()
+					   * (1 - Knowledges.Animations.positionDifferenceOnYAxis());
 	}
 
 	default Box crosshairSafeArea() {
@@ -45,7 +47,8 @@ public interface Knowledge {
 		return new Box(Vector.UNIT.scale(size))
 					   .center(Vector.ZERO)
 					   .shift(0, -1)
-					   .shift(Knowledges.Animations.rotationDifference().negate());
+					   .shift(Knowledges.Animations.rotationDifference().negate())
+					   .shift(Knowledges.Animations.positionDifferenceOnXYPlane().negate());
 	}
 
 	@Nullable

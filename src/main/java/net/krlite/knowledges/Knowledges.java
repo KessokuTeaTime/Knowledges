@@ -13,7 +13,11 @@ import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.RotationAxis;
 import org.joml.Quaterniond;
+import org.joml.Quaterniondc;
+import org.joml.Quaternionf;
+import org.joml.Vector3d;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +50,8 @@ public class Knowledges implements ModInitializer {
 		private static boolean initialized = false;
 
 		private static final Interpolation
-				yaw = new Interpolation(0, 0, 100),
-				pitch = new Interpolation(0, 0, 100);
+				yaw = new Interpolation(0, 0, 200),
+				pitch = new Interpolation(0, 0, 200);
 
 		private static Vector rotation(PlayerEntity player) {
 			return Vector.fromCartesian(player.getYaw(), player.getPitch());
@@ -62,16 +66,16 @@ public class Knowledges implements ModInitializer {
 					rotation(player).y() - pitch.value()
 			);
 
-			return diff.magnitude(5 * mapToExponential(diff.magnitude(), 1, 0.1));
+			return diff.magnitude(3 * mapToExponential(diff.magnitude(), 1, 0.1));
 		}
 
 		private static final Interpolation
-				x = new Interpolation(0, 0, 114),
-				y = new Interpolation(0, 0, 79),
-				z = new Interpolation(0, 0, 207);
+				x = new Interpolation(0, 0, 200),
+				y = new Interpolation(0, 0, 125),
+				z = new Interpolation(0, 0, 200);
 
 		private static Pos position(PlayerEntity player) {
-			return new Pos(player.getX(), player.getY(), player.getZ());
+			return new Pos(player.getEyePos().getX(), player.getEyePos().getY(), player.getEyePos().getZ());
 		}
 
 		public static Pos positionDifference() {
@@ -84,7 +88,18 @@ public class Knowledges implements ModInitializer {
 					z.value()
 			);
 
-			return diff.magnitude(5 * mapToExponential(diff.magnitude(), 1, 0.1));
+			return projectOntoXYPlane(diff, rotation(player))
+						   .magnitude(5 * mapToExponential(diff.magnitude(), 1, 1));
+		}
+
+		public static Vector positionDifferenceOnXYPlane() {
+			Vector diff = Vector.fromCartesian(-positionDifference().x(), -positionDifference().y());
+			return diff.magnitude(3 * mapToExponential(diff.magnitude(), 1, 1));
+		}
+
+		public static double positionDifferenceOnYAxis() {
+			double diff = -positionDifference().z();
+			return 0.4 * mapToExponential(diff, 1, 0.1);
 		}
 
 		static void registerEvents() {
@@ -93,17 +108,32 @@ public class Knowledges implements ModInitializer {
 					sprinting.targetValue(client.player.isSprinting() ? 1 : 0);
 
 					if (!initialized) {
+						// Rotation
 						yaw.originValue(rotation(client.player).x());
 						yaw.reset();
 
 						pitch.originValue(rotation(client.player).y());
 						pitch.reset();
 
+						// Position
+						x.originValue(client.player.getEyePos().getX());
+						x.reset();
+
+						y.originValue(client.player.getEyePos().getY());
+						y.reset();
+
+						z.originValue(client.player.getEyePos().getZ());
+						z.reset();
+
 						initialized = true;
 					}
 
 					yaw.targetValue(rotation(client.player).x());
 					pitch.targetValue(rotation(client.player).y());
+
+					x.targetValue(client.player.getEyePos().getX());
+					y.targetValue(client.player.getEyePos().getY());
+					z.targetValue(client.player.getEyePos().getZ());
 				}
 			});
 		}
@@ -111,9 +141,6 @@ public class Knowledges implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		Pos pos = new Pos(1, 0, 1);
-		System.out.println(projectToXYPlane(pos, Vector.fromCartesian(360, 360)));
-
 		Animations.registerEvents();
 
 		LOGGER.info("Initializing default components for " + NAME + "...");
@@ -140,7 +167,10 @@ public class Knowledges implements ModInitializer {
 	}
 
 	public static Pos projectOntoXYPlane(Pos pos, Vector rotation /* x: yaw, y: pitch */ ) {
-		Quaterniond q = new Quaterniond().rotateZYX(Math.toRadians(rotation.y()), Math.toRadians(rotation.x()), 0);
-		return pos.rotate(q);
+		return pos
+					   .rotate(new Quaterniond(new Quaternionf().rotationY(
+							   (float) Math.toRadians(rotation.x()))))
+					   .rotate(new Quaterniond(new Quaternionf().rotationX(
+							   (float) Math.toRadians(-rotation.y()))));
 	}
 }
