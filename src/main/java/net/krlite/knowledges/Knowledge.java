@@ -47,8 +47,8 @@ public interface Knowledge {
 		return new Box(Vector.UNIT.scale(size))
 					   .center(Vector.ZERO)
 					   .shift(0, -1)
-					   .shift(Knowledges.Animations.rotationDifference().negate())
-					   .shift(Knowledges.Animations.positionDifferenceOnXYPlane().negate());
+					   .shift(Knowledges.Animations.rotationDifference().negate().scale(1 - Knowledges.Animations.positionDifferenceOnYAxis()))
+					   .shift(Knowledges.Animations.positionDifferenceOnXYPlane().negate().scale(1 - Knowledges.Animations.positionDifferenceOnYAxis()));
 	}
 
 	@Nullable

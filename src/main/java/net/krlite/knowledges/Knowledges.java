@@ -99,7 +99,7 @@ public class Knowledges implements ModInitializer {
 
 		public static double positionDifferenceOnYAxis() {
 			double diff = -positionDifference().z();
-			return 0.4 * mapToExponential(diff, 1, 0.1);
+			return 0.5 * mapToExponential(diff, 1, 0.15);
 		}
 
 		static void registerEvents() {
