@@ -41,10 +41,16 @@ public interface Knowledge {
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 48 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
+		double size = 24 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
 		return new Box(Vector.UNIT.scale(size))
 					   .center(Vector.ZERO)
 					   .shift(0, -1);
+	}
+
+	default boolean hasCrosshairTarget() {
+		MinecraftClient client = MinecraftClient.getInstance();
+		if (client.world == null || client.player == null) return false;
+		return crosshairBlock() != null || crosshairEntity() != null;
 	}
 
 	@Nullable

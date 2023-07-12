@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.krlite.knowledges.components.ArmorDurabilityComponent;
 import net.krlite.knowledges.components.BlockInfoComponent;
+import net.krlite.knowledges.components.CrosshairComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.util.math.MatrixStack;
 import org.slf4j.Logger;
@@ -19,9 +20,6 @@ public class Knowledges implements ModInitializer {
 	public static final ArrayList<Knowledge> KNOWLEDGES = new ArrayList<>();
 
 	public static class Constants {
-		public static double MAX_TEXT_SHIFT = 20, MIN_TEXT_SHIFT = 0;
-
-		public static double MAX_TEXT_SHRINK = 1, MIN_TEXT_SHRINK = 0;
 	}
 
 	public static class Animations {
@@ -39,6 +37,7 @@ public class Knowledges implements ModInitializer {
 		Animations.registerEvents();
 
 		LOGGER.info("Initializing default components for " + NAME + "...");
+		KNOWLEDGES.add(new CrosshairComponent());
 		KNOWLEDGES.add(new BlockInfoComponent());
 		KNOWLEDGES.add(new ArmorDurabilityComponent());
 		LOGGER.info("Finished initializing default components for " + NAME + ".");

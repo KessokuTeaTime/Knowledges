@@ -2,7 +2,7 @@ package net.krlite.knowledges.config;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.krlite.equator.math.algebra.Theory;
-import net.krlite.equator.visual.animation.Interpolation;
+import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.pierced.annotation.Silent;
 import net.krlite.pierced.config.Pierced;
@@ -22,14 +22,14 @@ public class KnowledgesConfig extends Pierced {
 	// SILENT
 	// Block Breaking Progress
 
-	private @Silent final Interpolation blockBreakingProgress = new Interpolation(0, 0, 45);
+	private @Silent final InterpolatedDouble blockBreakingProgress = new InterpolatedDouble(0, 0.021);
 
 	public double blockBreakingProgress() {
 		return blockBreakingProgress.value();
 	}
 
 	public void blockBreakingProgress(double progress) {
-		blockBreakingProgress.targetValue(Theory.clamp(progress, 0, 1));
+		blockBreakingProgress.target(Theory.clamp(progress, 0, 1));
 	}
 
 	// SILENT
