@@ -1,12 +1,10 @@
 package net.krlite.knowledges.components;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
-import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledge;
+import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
@@ -14,24 +12,34 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class CrosshairComponent implements Knowledge {
-	private static final InterpolatedDouble opacity = new InterpolatedDouble(0, 0.013);
-
 	@Override
-	public void render(MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		opacity.target(hasCrosshairTarget() ? 1D : 0D);
+	public void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
+		Box box = crosshairSafeArea()
+						  .scaleCenter(Knowledges.Animations.focusingBlock())
+						  .scaleCenter(1 + 0.2 * Knowledges.Animations.mouseHolding());
 
-		RenderSystem.blendFunc(GlStateManager.SrcFactor.ONE_MINUS_DST_COLOR, GlStateManager.DstFactor.ZERO);
-
-		crosshairSafeArea().render(matrixStack,
+		// Oval
+		box.render(matrixStack,
 				flat -> flat.new Oval()
-								.colorCenter(Palette.TRANSPARENT)
-
-								.addColor(0, Palette.WHITE)
-
+								.colorCenter(Knowledges.Animations.ovalColor())
 								.ovalMode(Flat.Oval.OvalMode.GRADIANT_OUT)
-								.innerRadiusFactor(0.9)
 		);
 
-		RenderSystem.defaultBlendFunc();
+		// Ring
+		box.render(matrixStack,
+				flat -> flat.new Oval()
+								.radians(Knowledges.Animations.ringRadians())
+								.ovalMode(Flat.Oval.OvalMode.FILL)
+
+								.colorCenter(Palette.TRANSPARENT)
+
+								.addColor(
+										Knowledges.Animations.ringRadians(),
+										Knowledges.Animations.ringColor().opacity(
+												Knowledges.Animations.ringColor().opacity()
+														* Knowledges.Animations.ovalOpacity()
+										)
+								)
+		);
 	}
 }

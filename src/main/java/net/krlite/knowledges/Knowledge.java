@@ -18,63 +18,50 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface Knowledge {
-	void render(MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
-
-	default void render(MatrixStack matrixStack) {
-		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.world == null || client.player == null) return;
-
-		if (client.options.getPerspective().isFirstPerson()
-					&& ((client.interactionManager != null && client.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR)
-								|| ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(crosshairTarget()))
-					&& !(client.options.debugEnabled && !client.options.hudHidden && !client.player.hasReducedDebugInfo() && !client.options.getReducedDebugInfo().getValue())
-		) {
-			matrixStack.push();
-			matrixStack.translate(FrameInfo.scaled().w() / 2, FrameInfo.scaled().h() / 2, 0);
-			render(matrixStack, client, client.player, client.world);
-			matrixStack.pop();
-		}
-	}
+	void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
 	default double scalar() {
-		return Knowledges.CONFIG.scalar();
+		return 0.5 + 0.5 * Knowledges.CONFIG.scalar();
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 24 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
+		double size = 16 + 8 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
 		return new Box(Vector.UNIT.scale(size))
+					   .scaleCenter(scalar())
 					   .center(Vector.ZERO)
 					   .shift(0, -1);
 	}
 
-	default boolean hasCrosshairTarget() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.world == null || client.player == null) return false;
-		return crosshairBlock() != null || crosshairEntity() != null;
-	}
+	class Info {
+		public static boolean hasCrosshairTarget() {
+			MinecraftClient client = MinecraftClient.getInstance();
+			if (client.world == null || client.player == null) return false;
+			return crosshairBlock() != null || crosshairEntity() != null;
+		}
 
-	@Nullable
-	default HitResult crosshairTarget() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.world == null || client.player == null) return null;
-		return client.crosshairTarget;
-	}
+		@Nullable
+		public static HitResult crosshairTarget() {
+			MinecraftClient client = MinecraftClient.getInstance();
+			if (client.world == null || client.player == null) return null;
+			return client.crosshairTarget;
+		}
 
-	@Nullable
-	default BlockState crosshairBlock() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.world == null || client.player == null) return null;
+		@Nullable
+		public static BlockState crosshairBlock() {
+			MinecraftClient client = MinecraftClient.getInstance();
+			if (client.world == null || client.player == null) return null;
 
-		HitResult hitResult = crosshairTarget();
-		return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(((BlockHitResult) hitResult).getBlockPos()) : null;
-	}
+			HitResult hitResult = crosshairTarget();
+			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(((BlockHitResult) hitResult).getBlockPos()) : null;
+		}
 
-	@Nullable
-	default Entity crosshairEntity() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.world == null || client.player == null) return null;
+		@Nullable
+		public static Entity crosshairEntity() {
+			MinecraftClient client = MinecraftClient.getInstance();
+			if (client.world == null || client.player == null) return null;
 
-		HitResult hitResult = crosshairTarget();
-		return hitResult != null && hitResult.getType() == HitResult.Type.ENTITY && hitResult instanceof EntityHitResult ? ((EntityHitResult) hitResult).getEntity() : null;
+			HitResult hitResult = crosshairTarget();
+			return hitResult != null && hitResult.getType() == HitResult.Type.ENTITY && hitResult instanceof EntityHitResult ? ((EntityHitResult) hitResult).getEntity() : null;
+		}
 	}
 }
