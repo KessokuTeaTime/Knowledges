@@ -37,18 +37,14 @@ public interface Knowledge {
 	}
 
 	default double scalar() {
-		return Knowledges.CONFIG.scalar()
-					   * Knowledges.Animations.sprintShrink()
-					   * (1 - Knowledges.Animations.positionDifferenceOnYAxis());
+		return Knowledges.CONFIG.scalar();
 	}
 
 	default Box crosshairSafeArea() {
 		double size = 48 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
 		return new Box(Vector.UNIT.scale(size))
 					   .center(Vector.ZERO)
-					   .shift(0, -1)
-					   .shift(Knowledges.Animations.rotationDifference().negate().scale(1 - Knowledges.Animations.positionDifferenceOnYAxis()))
-					   .shift(Knowledges.Animations.positionDifferenceOnXYPlane().negate().scale(1 - Knowledges.Animations.positionDifferenceOnYAxis()));
+					   .shift(0, -1);
 	}
 
 	@Nullable

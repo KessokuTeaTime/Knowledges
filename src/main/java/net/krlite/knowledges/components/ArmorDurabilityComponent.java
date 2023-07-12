@@ -49,40 +49,5 @@ public class ArmorDurabilityComponent implements Knowledge {
 
 	@Unique
 	private void renderArmorIndicator(MatrixStack matrixStack, double positionRatio, ItemStack itemStack, boolean enabled) {
-		double shift = 3.5 * scalar();
-		Box indicator = new Box(Vector.fromCartesian(Knowledges.mapToExponential(
-				enabled ? itemStack.getMaxDamage() / 5D : 5,
-				32 * scalar(), 0.02
-				), 1))
-								.rightCenter(crosshairSafeArea().leftCenter().add(0, shift * (2 * positionRatio - 1)))
-								.shift(-Knowledges.Animations.sprintShift(), 0);
-
-		if (enabled) {
-			indicator
-					.render(matrixStack,
-							flat -> flat.new Rectangle()
-									.colors((
-											itemStack.getItem().isDamageable()
-													? Palette.Minecraft.WHITE
-													: Palette.Minecraft.LIGHT_PURPLE
-									).opacity(0.2))
-			);
-
-			long color = itemStack.getItemBarColor();
-			double damageProgress = (double) itemStack.getDamage() / itemStack.getMaxDamage();
-
-			indicator
-					.translateLeft(damageProgress)
-					.render(matrixStack,
-							flat -> flat.new Rectangle()
-											.colors(AccurateColor.fromARGB(color | 0xFF000000L).opacity(Knowledges.mapToPower(damageProgress, 4, 0.2)))
-					);
-		} else {
-			indicator
-					.render(matrixStack,
-							flat -> flat.new Rectangle()
-											.colors(Palette.Minecraft.GRAY.opacity(0.2))
-			);
-		}
 	}
 }
