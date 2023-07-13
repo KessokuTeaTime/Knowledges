@@ -7,6 +7,7 @@ import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.animation.animated.AnimatedDouble;
 import net.krlite.equator.visual.animation.base.Interpolation;
+import net.krlite.equator.visual.animation.interpolated.InterpolatedColor;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
@@ -82,7 +83,7 @@ public class Knowledges implements ModInitializer {
 				ovalOpacity = new InterpolatedDouble(0, 0.013),
 				mouseHolding = new InterpolatedDouble(0, 0.02);
 
-		private static final AnimatedDouble focusingBlock = new AnimatedDouble(0, 1, 290, Curves.Back.OUT);
+		private static final AnimatedDouble focusingBlock = new AnimatedDouble(1.6, 1, 150, Curves.Sinusoidal.EASE);
 
 		static {
 			focusingBlock.speedDirection(false);
@@ -116,12 +117,8 @@ public class Knowledges implements ModInitializer {
 		}
 
 		private static final Interpolation<AccurateColor>
-				ringColor = new Interpolation.Any<AccurateColor>(
-						(value, target, ratio) -> value.mix(target, ratio, ColorStandard.MixMode.PIGMENT)
-		).use(Palette.TRANSPARENT, 0.009),
-				ovalColor = new Interpolation.Any<AccurateColor>(
-						(value, target, ratio) -> value.mix(target, ratio, ColorStandard.MixMode.PIGMENT)
-		).use(Palette.TRANSPARENT, 0.009);
+				ringColor = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT),
+				ovalColor = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT);
 
 		public static AccurateColor ringColor() {
 			return ringColor.value();
@@ -132,7 +129,7 @@ public class Knowledges implements ModInitializer {
 		}
 
 		public static void ringColor(AccurateColor color) {
-			ringColor.target(color.opacity(0.5 * mapToPower(ringRadians() / (2 * Math.PI), 2, 0.5)));
+			ringColor.target(color.opacity(0.5 * mapToPower(ringRadians() / (2 * Math.PI), 2, 0.15)));
 		}
 
 		public static void ovalColor(AccurateColor color) {

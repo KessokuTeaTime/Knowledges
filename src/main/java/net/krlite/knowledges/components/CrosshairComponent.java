@@ -1,5 +1,6 @@
 package net.krlite.knowledges.components;
 
+import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.Palette;
@@ -16,30 +17,31 @@ public class CrosshairComponent implements Knowledge {
 	public void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		Box box = crosshairSafeArea()
 						  .scaleCenter(Knowledges.Animations.focusingBlock())
-						  .scaleCenter(1 + 0.2 * Knowledges.Animations.mouseHolding());
+						  .scaleCenter(1 + 0.3 * Knowledges.Animations.mouseHolding());
 
 		// Oval
 		box.render(matrixStack,
 				flat -> flat.new Oval()
 								.colorCenter(Knowledges.Animations.ovalColor())
-								.ovalMode(Flat.Oval.OvalMode.GRADIANT_OUT)
+								.mode(Flat.Oval.OvalMode.FILL)
 		);
 
 		// Ring
-		box.render(matrixStack,
-				flat -> flat.new Oval()
-								.radians(Knowledges.Animations.ringRadians())
-								.ovalMode(Flat.Oval.OvalMode.FILL)
+		if (Theory.looseGreater(Knowledges.Animations.ringRadians(), 0)) {
+			box.render(matrixStack,
+					flat -> flat.new Oval()
+									.radians(Knowledges.Animations.ringRadians())
+									.mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
+									.opacityMultiplier(Knowledges.Animations.ovalOpacity())
 
-								.colorCenter(Palette.TRANSPARENT)
+									.colorCenter(Knowledges.Animations.ringColor().opacity(0.3))
 
-								.addColor(
-										Knowledges.Animations.ringRadians(),
-										Knowledges.Animations.ringColor().opacity(
-												Knowledges.Animations.ringColor().opacity()
-														* Knowledges.Animations.ovalOpacity()
-										)
-								)
-		);
+									.addColor(0, Palette.TRANSPARENT)
+									.addColor(
+											Knowledges.Animations.ringRadians(),
+											Knowledges.Animations.ringColor()
+									)
+			);
+		}
 	}
 }
