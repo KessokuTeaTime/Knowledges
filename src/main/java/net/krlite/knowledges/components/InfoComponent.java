@@ -2,6 +2,7 @@ package net.krlite.knowledges.components;
 
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
+import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;

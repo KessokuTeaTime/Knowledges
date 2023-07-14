@@ -19,6 +19,15 @@ public class CrosshairComponent implements Knowledge {
 						  .scaleCenter(Knowledges.Animations.focusingBlock())
 						  .scaleCenter(1 + 0.3 * Knowledges.Animations.mouseHolding());
 
+		// Shadow
+		box.render(matrixStack,
+				flat -> flat.new Rectangle()
+								.colors(Palette.Minecraft.BLACK)
+								.opacityMultiplier(0.075 * Knowledges.Animations.ovalOpacity())
+								.new Outlined(box.size())
+								.style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
+		);
+
 		// Oval
 		box.render(matrixStack,
 				flat -> flat.new Oval()

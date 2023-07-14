@@ -2,8 +2,6 @@ package net.krlite.knowledges;
 
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
-import net.krlite.equator.render.frame.FrameInfo;
-import net.krlite.knowledges.mixin.client.InGameHudInvoker;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,8 +23,8 @@ public interface Knowledge {
 
 	default Box crosshairSafeArea() {
 		double size = 16 + 8 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
-		return new Box(Vector.UNIT.scale(size))
-					   .scaleCenter(scalar())
+		return Box.UNIT.scale(size)
+					   .scale(scalar())
 					   .center(Vector.ZERO)
 					   .shift(0, -1);
 	}
