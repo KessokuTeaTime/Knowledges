@@ -10,7 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,12 +43,7 @@ public class BlockInfoComponent extends InfoComponent {
 	}
 
 	@Override
-	public @NotNull Text name() {
-		return Text.translatable("knowledge." + Knowledges.ID + ".block_info.name");
-	}
-
-	@Override
-	public @NotNull Text tooltip() {
-		return Text.translatable("knowledge." + Knowledges.ID + ".block_info.tooltip");
+	public String id() {
+		return "block";
 	}
 }

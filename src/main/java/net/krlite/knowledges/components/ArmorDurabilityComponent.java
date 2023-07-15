@@ -96,11 +96,11 @@ public class ArmorDurabilityComponent implements Knowledge {
 
 	@Override
 	public @NotNull Text name() {
-		return Text.translatable("knowledge." + Knowledges.ID + ".armor_durability.name");
+		return Knowledges.localize("knowledge", "armor_durability", "name");
 	}
 
 	@Override
-	public @NotNull Text tooltip() {
-		return Text.translatable("knowledge." + Knowledges.ID + ".armor_durability.tooltip");
+	public @Nullable Text tooltip() {
+		return Knowledges.localize("knowledge", "armor_durability", "tooltip");
 	}
 }

@@ -1,0 +1,25 @@
+{
+  "screen.knowledges.config.title": "Knowledges",
+
+  "config.knowledges.category.general": "General",
+
+  "config.knowledges.general.crosshair_safe_area_size_scalar": "Crosshair Safe Area Size Scalar",
+  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7Scalar for the crosshair safe area size",
+
+  "config.knowledges.general.scalar": "Scalar",
+  "config.knowledges.general.scalar.tooltip": "§7Scalar for the components",
+
+  "config.knowledges.category.components": "Components",
+
+  "knowledge.knowledges.crosshair.name": "Crosshair",
+  "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block\nor an entity\n§cIf disabled, information such as §lblock\nbreaking progress §r§cand §lentity\nhealth §r§cwill not be displayed",
+
+  "knowledge.knowledges.info.block.name": "Block Info",
+  "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block\nyou are looking at",
+
+  "knowledge.knowledges.info.entity.name": "Entity Info",
+  "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity\nyou are looking at",
+
+  "knowledge.knowledges.armor_durability.name": "Armor Durability",
+  "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor"
+}

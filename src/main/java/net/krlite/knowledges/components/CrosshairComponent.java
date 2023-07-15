@@ -12,6 +12,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CrosshairComponent implements Knowledge {
 	@Override
@@ -57,11 +58,11 @@ public class CrosshairComponent implements Knowledge {
 
 	@Override
 	public @NotNull Text name() {
-		return Text.translatable("knowledge." + Knowledges.ID + ".crosshair.name");
+		return Knowledges.localize("knowledge", "crosshair", "name");
 	}
 
 	@Override
-	public @NotNull Text tooltip() {
-		return Text.translatable("knowledge." + Knowledges.ID + ".crosshair.tooltip");
+	public @Nullable Text tooltip() {
+		return Knowledges.localize("knowledge", "crosshair", "tooltip");
 	}
 }

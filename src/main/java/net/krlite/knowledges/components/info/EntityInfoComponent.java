@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,12 +62,7 @@ public class EntityInfoComponent extends InfoComponent {
 	}
 
 	@Override
-	public @NotNull Text name() {
-		return Text.translatable("knowledge" + Knowledges.ID + ".entity_info.name");
-	}
-
-	@Override
-	public @NotNull Text tooltip() {
-		return Text.translatable("knowledge" + Knowledges.ID + ".entity_info.tooltip");
+	public String id() {
+		return "entity";
 	}
 }

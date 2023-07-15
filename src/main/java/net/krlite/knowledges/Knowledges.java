@@ -1,22 +1,24 @@
 package net.krlite.knowledges;
 
+import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.input.Mouse;
 import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
-import net.krlite.equator.math.geometry.volume.Pos;
 import net.krlite.equator.visual.animation.animated.AnimatedDouble;
 import net.krlite.equator.visual.animation.base.Interpolation;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedColor;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
-import net.krlite.equator.visual.animation.interpolated.InterpolatedPos;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
+import net.krlite.knowledges.api.KnowledgeContainer;
 import net.krlite.knowledges.components.ArmorDurabilityComponent;
-import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.components.CrosshairComponent;
+import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.components.info.EntityInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
@@ -25,9 +27,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,11 +39,9 @@ public class Knowledges implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 	public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
-	public static final ArrayList<Knowledge> KNOWLEDGES = new ArrayList<>();
-	public static final HashMap<Knowledge, Boolean> KNOWLEDGE_STATES = new HashMap<>();
-
-	public static class Constants {
-	}
+	private static final ArrayList<Knowledge> KNOWLEDGES = new ArrayList<>();
+	private static final HashMap<Knowledge, Boolean> KNOWLEDGE_STATES = new HashMap<>();
+	private static int knowledgesCount = 0;
 
 	public static class Animations {
 		private static final InterpolatedDouble textLength = new InterpolatedDouble(0, 0.01);
@@ -154,7 +152,19 @@ public class Knowledges implements ModInitializer {
 		}
 	}
 
-	private static void addKnowledge(Knowledge knowledge) {
+	public static int knowledgesCount() {
+		return knowledgesCount;
+	}
+
+	public static ArrayList<Knowledge> knowledges() {
+		return new ArrayList<>(KNOWLEDGES);
+	}
+
+	public static Text localize(String category, String... paths) {
+		return Text.translatable(category + "." + ID + "." + String.join(".", paths));
+	}
+
+	private static void register(Knowledge knowledge) {
 		KNOWLEDGES.add(knowledge);
 		KNOWLEDGE_STATES.put(knowledge, true);
 	}
@@ -171,16 +181,16 @@ public class Knowledges implements ModInitializer {
 	public void onInitialize() {
 		Animations.registerEvents();
 
-		LOGGER.info("Initializing default components for " + NAME + "...");
-		addKnowledge(new CrosshairComponent());
+		LOGGER.info("Initializing components for " + NAME + "...");
 
-		addKnowledge(new BlockInfoComponent());
-		addKnowledge(new EntityInfoComponent());
+		FabricLoader.getInstance().getEntrypointContainers("knowledges", KnowledgeContainer.class).forEach(entrypoint -> {
+			KnowledgeContainer container = entrypoint.getEntrypoint();
+			container.register().forEach(Knowledges::register);
 
-		addKnowledge(new ArmorDurabilityComponent());
+			knowledgesCount += container.register().size();
+		});
 
-		// TODO: Implement more components
-
+		LOGGER.info("Successfully registered " + knowledgesCount + " knowledges.");
 		LOGGER.info("You're now full of knowledge! 📚");
 	}
 

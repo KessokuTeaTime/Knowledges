@@ -23,6 +23,9 @@
     ],
     "modmenu": [
       "net.krlite.knowledges.config.modmenu.KnowledgesModMenuIntegration"
+    ],
+    "knowledges": [
+      "net.krlite.knowledges.DefaultComponents"
     ]
   },
   "mixins": [

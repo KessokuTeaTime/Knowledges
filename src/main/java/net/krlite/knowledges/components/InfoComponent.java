@@ -13,7 +13,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class InfoComponent implements Knowledge {
 	public Box info() {
@@ -40,5 +42,17 @@ public abstract class InfoComponent implements Knowledge {
 												.opacity(0.3)
 								)
 		);
+	}
+
+	public abstract String id();
+
+	@Override
+	public @NotNull Text name() {
+		return Knowledges.localize("knowledge", "info", id(), "name");
+	}
+
+	@Override
+	public @Nullable Text tooltip() {
+		return Knowledges.localize("knowledge", "info", id(), "tooltip");
 	}
 }

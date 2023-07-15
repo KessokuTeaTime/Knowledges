@@ -20,8 +20,8 @@ public interface Knowledge {
 
 	@NotNull Text name();
 
-	default @NotNull Text tooltip() {
-		return Text.empty();
+	default @Nullable Text tooltip() {
+		return null;
 	}
 
 	default double scalar() {
