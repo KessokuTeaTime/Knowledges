@@ -1,7 +1,3 @@
-### <p align=right>[`→` Modrinth](https://modrinth.com/mods/knowledges)</p>
+### <p align=right>[Main Branch `←`](https://github.com/KrLite/Knowledges)&emsp;[`→` Modrinth](https://modrinth.com/mods/knowledges)</p>
 
-# Knowledges
-
-## License
-
-This repository is available under the **[GNU Public License.](LICENSE)**
+# Knowledges for `1.19.3~1.19.4`
