@@ -27,15 +27,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Knowledges implements ModInitializer {
 	public static final String NAME = "Knowledges", ID = "knowledges";
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 	public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
-	private static final KnowledgesBanList BAN_LIST = new KnowledgesBanList();
-	private static final ArrayList<Knowledge> KNOWLEDGES = new ArrayList<>();
+	private static final KnowledgesBanList banList = new KnowledgesBanList();
+	private static final ArrayList<Knowledge> knowledges = new ArrayList<>();
 	private static int knowledgesCount = 0;
 
 	public static class Animations {
@@ -152,7 +151,7 @@ public class Knowledges implements ModInitializer {
 	}
 
 	public static ArrayList<Knowledge> knowledges() {
-		return new ArrayList<>(KNOWLEDGES);
+		return new ArrayList<>(knowledges);
 	}
 
 	public static Text localize(String category, String... paths) {
@@ -160,15 +159,15 @@ public class Knowledges implements ModInitializer {
 	}
 
 	private static void register(Knowledge knowledge) {
-		KNOWLEDGES.add(knowledge);
+		knowledges.add(knowledge);
 	}
 
 	public static boolean knowledgeState(Knowledge knowledge) {
-		return !BAN_LIST.isBanned(knowledge.name());
+		return !banList.isBanned(knowledge.name());
 	}
 
 	public static void knowledgeState(Knowledge knowledge, boolean state) {
-		BAN_LIST.setBanned(knowledge.name(), !state);
+		banList.setBanned(knowledge.name(), !state);
 	}
 
 	@Override
@@ -191,8 +190,8 @@ public class Knowledges implements ModInitializer {
 			@NotNull DrawContext context, @NotNull MinecraftClient client,
 			@NotNull PlayerEntity player, @NotNull ClientWorld world
 	) {
-		KNOWLEDGES.forEach(knowledge -> {
-			if (!BAN_LIST.isBanned(knowledge.name()))
+		knowledges.forEach(knowledge -> {
+			if (!banList.isBanned(knowledge.name()))
 				knowledge.render(context, client, player, world);
 		});
 	}
