@@ -6,6 +6,8 @@
   "mixins": [
   ],
   "client": [
+	"client.ClientPlayerInteractionManagerMixin",
+	"client.InGameHudInvoker",
 	"client.KnowledgesHud"
   ],
   "injectors": {

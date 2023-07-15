@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "knowledges",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Knowledges",
   "description": "",
   "authors": [
     "KrLite"
   ],
   "contact": {
     "homepage": "https://github.com/KrLite",
-    "sources": "https://github.com/KrLite/Example-Mod"
+    "sources": "https://github.com/KrLite/Knowledges"
   },
 
   "license": "GPL-3.0",
@@ -20,6 +20,12 @@
   "entrypoints": {
     "main": [
       "net.krlite.knowledges.Knowledges"
+    ],
+    "modmenu": [
+      "net.krlite.knowledges.config.modmenu.KnowledgesModMenuIntegration"
+    ],
+    "knowledges": [
+      "net.krlite.knowledges.DefaultComponents"
     ]
   },
   "mixins": [
@@ -27,9 +33,11 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.11",
+    "fabricloader": ">=0.14.21",
     "fabric-api": "*",
-    "minecraft": "~1.19.3"
+    "fabric-key-binding-api-v1": "*",
+    "minecraft": "~1.19.4",
+    "equator": ">=2.5.2"
   },
   "suggests": {
   }

@@ -1,0 +1,25 @@
+{
+  "screen.knowledges.config.title": "知识库",
+
+  "config.knowledges.category.general": "通用设置",
+
+  "config.knowledges.general.crosshair_safe_area_size_scalar": "准心安全区缩放",
+  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7改变准心安全区的大小",
+
+  "config.knowledges.general.scalar": "缩放",
+  "config.knowledges.general.scalar.tooltip": "§7改变所有组件的大小",
+
+  "config.knowledges.category.components": "组件设置",
+
+  "knowledge.knowledges.crosshair.name": "准心",
+  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体\n血量§r§c等信息不会被显示",
+
+  "knowledge.knowledges.info.block.name": "方块信息",
+  "knowledge.knowledges.info.block.tooltip": "§7显示你正看着的方块的信息",
+
+  "knowledge.knowledges.info.entity.name": "实体信息",
+  "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
+
+  "knowledge.knowledges.armor_durability.name": "装备耐久",
+  "knowledge.knowledges.armor_durability.tooltip": "§7显示你的装备耐久"
+}
