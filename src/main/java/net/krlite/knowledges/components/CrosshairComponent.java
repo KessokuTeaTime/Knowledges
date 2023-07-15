@@ -7,6 +7,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,13 +17,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrosshairComponent implements Knowledge {
 	@Override
-	public void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
+	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		Box box = crosshairSafeArea()
 						  .scaleCenter(Knowledges.Animations.focusingBlock())
 						  .scaleCenter(1 + 0.3 * Knowledges.Animations.mouseHolding());
 
 		// Shadow
-		box.render(matrixStack,
+		box.render(context,
 				flat -> flat.new Rectangle()
 								.colors(Palette.Minecraft.BLACK)
 								.opacityMultiplier(0.075 * Knowledges.Animations.ovalOpacity())
@@ -31,7 +32,7 @@ public class CrosshairComponent implements Knowledge {
 		);
 
 		// Oval
-		box.render(matrixStack,
+		box.render(context,
 				flat -> flat.new Oval()
 								.colorCenter(Knowledges.Animations.ovalColor())
 								.mode(Flat.Oval.OvalMode.FILL)
@@ -39,7 +40,7 @@ public class CrosshairComponent implements Knowledge {
 
 		// Ring
 		if (Theory.looseGreater(Knowledges.Animations.ringRadians(), 0)) {
-			box.render(matrixStack,
+			box.render(context,
 					flat -> flat.new Oval()
 									.radians(Knowledges.Animations.ringRadians())
 									.mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)

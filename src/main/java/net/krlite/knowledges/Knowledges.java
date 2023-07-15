@@ -22,6 +22,7 @@ import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.components.info.EntityInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
@@ -195,12 +196,12 @@ public class Knowledges implements ModInitializer {
 	}
 
 	public static void render(
-			@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client,
+			@NotNull DrawContext context, @NotNull MinecraftClient client,
 			@NotNull PlayerEntity player, @NotNull ClientWorld world
 	) {
 		KNOWLEDGES.forEach(knowledge -> {
 			if (KNOWLEDGE_STATES.containsKey(knowledge) && KNOWLEDGE_STATES.get(knowledge))
-				knowledge.render(matrixStack, client, player, world);
+				knowledge.render(context, client, player, world);
 		});
 	}
 

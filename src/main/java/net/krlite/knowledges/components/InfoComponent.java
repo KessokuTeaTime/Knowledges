@@ -2,7 +2,6 @@ package net.krlite.knowledges.components;
 
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
-import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
@@ -10,7 +9,7 @@ import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -25,13 +24,13 @@ public abstract class InfoComponent implements Knowledge {
 	}
 
 	@Override
-	public void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
+	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) {
 			Knowledges.Animations.textLength(0);
 			Knowledges.Animations.ovalColor(Palette.Minecraft.WHITE);
 		}
 
-		info().render(matrixStack,
+		info().render(context,
 				flat -> flat.new Text(section -> section.fontSize(0.9 * scalar()).append(Knowledges.Animations.text()))
 								.verticalAlignment(Section.Alignment.CENTER)
 								.horizontalAlignment(Paragraph.Alignment.LEFT)

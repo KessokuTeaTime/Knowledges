@@ -6,6 +6,7 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class BlockInfoComponent extends InfoComponent {
 	@Override
-	public void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		super.render(matrixStack, client, player, world);
+	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
+		super.render(context, client, player, world);
 		@Nullable BlockState blockState = Info.crosshairBlock();
 
 		if (blockState != null) {

@@ -5,6 +5,7 @@ import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.knowledges.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -17,13 +18,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public abstract class KnowledgesHud {
 	@Inject(method = "render", at = @At(value = "TAIL"))
-	private void injectKnowledge(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
+	private void injectKnowledge(DrawContext context, float tickDelta, CallbackInfo ci) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.enableBlend();
 
-		matrixStack.push();
-		matrixStack.translate(FrameInfo.scaled().w() / 2, FrameInfo.scaled().h() / 2, 0);
+		context.getMatrices().push();
+		context.getMatrices().translate(FrameInfo.scaled().w() / 2, FrameInfo.scaled().h() / 2, 0);
 
 		render: {
 			MinecraftClient client = MinecraftClient.getInstance();
@@ -33,10 +34,10 @@ public abstract class KnowledgesHud {
 						&& ((client.interactionManager != null && client.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR)
 									|| ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(Knowledge.Info.crosshairTarget()))
 						&& !(client.options.debugEnabled && !client.options.hudHidden && !client.player.hasReducedDebugInfo() && !client.options.getReducedDebugInfo().getValue())
-			) Knowledges.render(matrixStack, client, client.player, client.world);
+			) Knowledges.render(context, client, client.player, client.world);
 		}
 
-		matrixStack.pop();
+		context.getMatrices().pop();
 
 		RenderSystem.disableBlend();
 	}
