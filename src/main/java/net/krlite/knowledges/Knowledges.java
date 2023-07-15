@@ -25,8 +25,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +60,7 @@ public class Knowledges implements ModInitializer {
 			textLength.target((double) length);
 		}
 
-		private static MutableText lastText = Text.empty(), lastShownText = Text.empty(), text = Text.empty();
+		private static MutableText lastText = LiteralText.EMPTY.copy(), lastShownText = LiteralText.EMPTY.copy(), text = LiteralText.EMPTY.copy();
 
 		public static MutableText text() {
 			if (!lastShownText.equals(text)) lastText = lastShownText;
@@ -66,7 +68,7 @@ public class Knowledges implements ModInitializer {
 					currentLength = text.getString().length(),
 					truncatedLength = Math.min(textLengthInt(), lastText.getString().length());
 
-			MutableText value = Text.literal(
+			MutableText value = new LiteralText(
 					text.asTruncatedString(textLengthInt())
 							+ (currentLength < truncatedLength
 									   ? lastText.getString().substring(currentLength, truncatedLength)
@@ -161,7 +163,7 @@ public class Knowledges implements ModInitializer {
 	}
 
 	public static Text localize(String category, String... paths) {
-		return Text.translatable(category + "." + ID + "." + String.join(".", paths));
+		return new TranslatableText(category + "." + ID + "." + String.join(".", paths));
 	}
 
 	private static void register(Knowledge knowledge) {

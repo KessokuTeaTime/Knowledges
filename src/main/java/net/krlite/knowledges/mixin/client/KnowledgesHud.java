@@ -32,7 +32,7 @@ public abstract class KnowledgesHud {
 			if (client.options.getPerspective().isFirstPerson()
 						&& ((client.interactionManager != null && client.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR)
 									|| ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(Knowledge.Info.crosshairTarget()))
-						&& !(client.options.debugEnabled && !client.options.hudHidden && !client.player.hasReducedDebugInfo() && !client.options.getReducedDebugInfo().getValue())
+						&& !(client.options.debugEnabled && !client.options.hudHidden && !client.player.hasReducedDebugInfo() && !client.options.reducedDebugInfo)
 			) Knowledges.render(matrixStack, client, client.player, client.world);
 		}
 
