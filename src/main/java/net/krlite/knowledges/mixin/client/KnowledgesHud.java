@@ -19,7 +19,7 @@ public abstract class KnowledgesHud {
 	@Inject(method = "render", at = @At(value = "TAIL"))
 	private void injectKnowledge(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.enableBlend();
 
 		matrixStack.push();
