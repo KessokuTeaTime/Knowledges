@@ -1,10 +1,8 @@
 package net.krlite.knowledges;
 
-import com.google.common.collect.ImmutableMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.input.Mouse;
 import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
@@ -16,14 +14,10 @@ import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.api.KnowledgeContainer;
-import net.krlite.knowledges.components.ArmorDurabilityComponent;
-import net.krlite.knowledges.components.CrosshairComponent;
-import net.krlite.knowledges.components.info.BlockInfoComponent;
-import net.krlite.knowledges.components.info.EntityInfoComponent;
+import net.krlite.knowledges.config.KnowledgesBanList;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
@@ -40,8 +34,8 @@ public class Knowledges implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 	public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
+	private static final KnowledgesBanList BAN_LIST = new KnowledgesBanList();
 	private static final ArrayList<Knowledge> KNOWLEDGES = new ArrayList<>();
-	private static final HashMap<Knowledge, Boolean> KNOWLEDGE_STATES = new HashMap<>();
 	private static int knowledgesCount = 0;
 
 	public static class Animations {
@@ -167,15 +161,14 @@ public class Knowledges implements ModInitializer {
 
 	private static void register(Knowledge knowledge) {
 		KNOWLEDGES.add(knowledge);
-		KNOWLEDGE_STATES.put(knowledge, true);
 	}
 
 	public static boolean knowledgeState(Knowledge knowledge) {
-		return KNOWLEDGE_STATES.getOrDefault(knowledge, false);
+		return !BAN_LIST.isBanned(knowledge.name());
 	}
 
 	public static void knowledgeState(Knowledge knowledge, boolean state) {
-		if (KNOWLEDGE_STATES.containsKey(knowledge)) KNOWLEDGE_STATES.put(knowledge, state);
+		BAN_LIST.setBanned(knowledge.name(), !state);
 	}
 
 	@Override
@@ -191,8 +184,7 @@ public class Knowledges implements ModInitializer {
 			knowledgesCount += container.register().size();
 		});
 
-		LOGGER.info("Successfully registered " + knowledgesCount + " knowledges.");
-		LOGGER.info("You're now full of knowledge! 📚");
+		LOGGER.info("Successfully registered " + knowledgesCount + " knowledge. You're now full of knowledge! 📚");
 	}
 
 	public static void render(
@@ -200,7 +192,7 @@ public class Knowledges implements ModInitializer {
 			@NotNull PlayerEntity player, @NotNull ClientWorld world
 	) {
 		KNOWLEDGES.forEach(knowledge -> {
-			if (KNOWLEDGE_STATES.containsKey(knowledge) && KNOWLEDGE_STATES.get(knowledge))
+			if (!BAN_LIST.isBanned(knowledge.name()))
 				knowledge.render(context, client, player, world);
 		});
 	}
