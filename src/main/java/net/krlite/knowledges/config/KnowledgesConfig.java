@@ -55,7 +55,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public void crosshairSafeAreaSizeScalar(double scalar) {
-		crosshairSafeAreaSizeScalar = Theory.clamp(scalar, 0, 1);
+		crosshairSafeAreaSizeScalar = Theory.clamp(scalar, 0, 2);
 		save();
 	}
 
@@ -68,7 +68,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public void scalar(double scalar) {
-		this.scalar = Theory.clamp(scalar, 0, 1);
+		this.scalar = Theory.clamp(scalar, 0, 2);
 		save();
 	}
 }

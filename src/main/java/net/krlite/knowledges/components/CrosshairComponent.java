@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public class CrosshairComponent implements Knowledge {
@@ -52,5 +53,15 @@ public class CrosshairComponent implements Knowledge {
 									)
 			);
 		}
+	}
+
+	@Override
+	public @NotNull Text name() {
+		return Text.translatable("knowledge." + Knowledges.ID + ".crosshair.name");
+	}
+
+	@Override
+	public @NotNull Text tooltip() {
+		return Text.translatable("knowledge." + Knowledges.ID + ".crosshair.tooltip");
 	}
 }

@@ -8,6 +8,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -16,6 +17,12 @@ import org.jetbrains.annotations.Nullable;
 
 public interface Knowledge {
 	void render(@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
+
+	@NotNull Text name();
+
+	default @NotNull Text tooltip() {
+		return Text.empty();
+	}
 
 	default double scalar() {
 		return 0.5 + 0.5 * Knowledges.CONFIG.scalar();

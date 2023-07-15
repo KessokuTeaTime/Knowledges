@@ -5,10 +5,12 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.krlite.equator.input.Mouse;
 import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
+import net.krlite.equator.math.geometry.volume.Pos;
 import net.krlite.equator.visual.animation.animated.AnimatedDouble;
 import net.krlite.equator.visual.animation.base.Interpolation;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedColor;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
+import net.krlite.equator.visual.animation.interpolated.InterpolatedPos;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
@@ -23,13 +25,14 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Knowledges implements ModInitializer {
 	public static final String NAME = "Knowledges", ID = "knowledges";
@@ -37,6 +40,7 @@ public class Knowledges implements ModInitializer {
 
 	public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
 	public static final ArrayList<Knowledge> KNOWLEDGES = new ArrayList<>();
+	public static final HashMap<Knowledge, Boolean> KNOWLEDGE_STATES = new HashMap<>();
 
 	public static class Constants {
 	}
@@ -121,19 +125,19 @@ public class Knowledges implements ModInitializer {
 				ovalColor = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT);
 
 		public static AccurateColor ringColor() {
-			return ringColor.value();
+			return ringColor.value().opacity(0.5 * mapToPower(ringRadians() / (2 * Math.PI), 2, 0.15));
 		}
 
 		public static AccurateColor ovalColor() {
-			return ovalColor.value();
+			return ovalColor.value().opacity(0.075 * ovalOpacity());
 		}
 
 		public static void ringColor(AccurateColor color) {
-			ringColor.target(color.opacity(0.5 * mapToPower(ringRadians() / (2 * Math.PI), 2, 0.15)));
+			ringColor.target(color);
 		}
 
 		public static void ovalColor(AccurateColor color) {
-			ovalColor.target(color.opacity(0.075 * ovalOpacity()));
+			ovalColor.target(color);
 		}
 
 		static void registerEvents() {
@@ -150,18 +154,30 @@ public class Knowledges implements ModInitializer {
 		}
 	}
 
+	private static void addKnowledge(Knowledge knowledge) {
+		KNOWLEDGES.add(knowledge);
+		KNOWLEDGE_STATES.put(knowledge, true);
+	}
+
+	public static boolean knowledgeState(Knowledge knowledge) {
+		return KNOWLEDGE_STATES.getOrDefault(knowledge, false);
+	}
+
+	public static void knowledgeState(Knowledge knowledge, boolean state) {
+		if (KNOWLEDGE_STATES.containsKey(knowledge)) KNOWLEDGE_STATES.put(knowledge, state);
+	}
+
 	@Override
 	public void onInitialize() {
 		Animations.registerEvents();
 
 		LOGGER.info("Initializing default components for " + NAME + "...");
-		KNOWLEDGES.add(new CrosshairComponent());
+		addKnowledge(new CrosshairComponent());
 
-		KNOWLEDGES.add(new BlockInfoComponent());
-		KNOWLEDGES.add(new EntityInfoComponent());
+		addKnowledge(new BlockInfoComponent());
+		addKnowledge(new EntityInfoComponent());
 
-		KNOWLEDGES.add(new ArmorDurabilityComponent());
-		LOGGER.info("Finished initializing default components for " + NAME + ".");
+		addKnowledge(new ArmorDurabilityComponent());
 
 		// TODO: Implement more components
 
@@ -172,7 +188,10 @@ public class Knowledges implements ModInitializer {
 			@NotNull MatrixStack matrixStack, @NotNull MinecraftClient client,
 			@NotNull PlayerEntity player, @NotNull ClientWorld world
 	) {
-		KNOWLEDGES.forEach(knowledge -> knowledge.render(matrixStack, client, player, world));
+		KNOWLEDGES.forEach(knowledge -> {
+			if (KNOWLEDGE_STATES.containsKey(knowledge) && KNOWLEDGE_STATES.get(knowledge))
+				knowledge.render(matrixStack, client, player, world);
+		});
 	}
 
 	public static double mapToPower(double x, double power, double threshold) {

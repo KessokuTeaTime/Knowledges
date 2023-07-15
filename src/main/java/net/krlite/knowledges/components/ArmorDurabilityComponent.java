@@ -6,6 +6,7 @@ import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
@@ -14,6 +15,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -42,34 +44,63 @@ public class ArmorDurabilityComponent implements Knowledge {
 		renderArmorIndicator(matrixStack, 0, head, hasHead);
 
 		// Chest plate
-		//renderArmorIndicator(matrixStack, 1, chest, hasChest);
+		renderArmorIndicator(matrixStack, 1, chest, hasChest);
 
 		// Leggings
-		//renderArmorIndicator(matrixStack, 2, legs, hasLegs);
+		renderArmorIndicator(matrixStack, 2, legs, hasLegs);
 
 		// Boots
-		//renderArmorIndicator(matrixStack, 3, feet, hasFeet);
+		renderArmorIndicator(matrixStack, 3, feet, hasFeet);
 	}
 
 	@Unique
 	private void renderArmorIndicator(MatrixStack matrixStack, @Range(from = 0, to = 3) int position, @Nullable ItemStack itemStack, boolean enabled) {
-		Box box = Box.UNIT.scale(22).center(FrameInfo.scaled()).shift(-50, -50);
+		Box box = Box.UNIT.scale(16 * 2).scale(scalar()).center(FrameInfo.scaled());
 
-		AccurateColor color;
-		if (itemStack == null || itemStack.isEmpty()) {
-			color = Palette.Minecraft.WHITE;
-		} else {
-			double health = (double) itemStack.getDamage() / itemStack.getMaxDamage();
-			color = AccurateColor.fromARGB(itemStack.getItemBarColor());
-							//.opacity(0.5 * Knowledges.mapToPower(health / (2 * Math.PI), 2, 0.15));
-		}
+		double
+				offset = -Math.PI / 2 + ((double) position / 4) * -Math.PI / 2,
+				radians = -Math.PI / 8;
 
 		box.render(matrixStack,
 				flat -> flat.new Oval()
-								.colorCenter(Palette.WHITE)
+								.colorCenter(Palette.WHITE.opacity(0.075))
 								.mode(Flat.Oval.OvalMode.FILL)
-								.offset(-0.5)
-								.radians(1)
+
+								.offset(offset)
+								.radians(radians)
 		);
+
+		if (enabled) {
+			AccurateColor color;
+			if (itemStack == null || itemStack.isEmpty()) {
+				color = Palette.Minecraft.WHITE.opacity(0.1);
+			} else {
+				double health = (double) itemStack.getDamage() / itemStack.getMaxDamage();
+				color = AccurateColor.fromARGB(itemStack.getItemBarColor())
+								.opacity(Knowledges.mapToPower(health, 2, 0.15));
+			}
+
+			box.render(matrixStack,
+					flat -> flat.new Oval()
+									.colorCenter(Palette.TRANSPARENT)
+									.mode(Flat.Oval.OvalMode.GRADIANT_OUT)
+									.mixMode(ColorStandard.MixMode.PIGMENT)
+
+									.offset(offset)
+									.radians(radians)
+
+									.addColor(0, color)
+			);
+		}
+	}
+
+	@Override
+	public @NotNull Text name() {
+		return Text.translatable("knowledge." + Knowledges.ID + ".armor_durability.name");
+	}
+
+	@Override
+	public @NotNull Text tooltip() {
+		return Text.translatable("knowledge." + Knowledges.ID + ".armor_durability.tooltip");
 	}
 }

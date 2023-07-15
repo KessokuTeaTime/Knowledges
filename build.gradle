@@ -9,6 +9,8 @@ group = project.maven_group
 
 repositories {
 	maven { url "https://jitpack.io" }
+	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.terraformersmc.com/releases/" }
 }
 
 dependencies {
@@ -19,6 +21,11 @@ dependencies {
 
 	implementation include("com.github.KrLite:Pierced:${project.pierced_version}")
 	modImplementation "com.github.KrLite.Equator-v2:build:${project:minecraft_version}-${project.equator_version}"
+
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {
