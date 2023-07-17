@@ -44,4 +44,4 @@ By default, we provide 4 knowledge:
 
 ## License
 
-This repository is available under the **[GNU Public License.](LICENSE)**
+**Knowledges** is available under the **[GNU Public License.](LICENSE)**
