@@ -24,21 +24,21 @@ By default, we provide 4 knowledge:
     <summary>
       Block Breaking Progress, Block Name
     </summary>
-    <img src="https://github.com/KrLite/Knowledges/blob/artwork/content/block.png?raw=true">
+    <img src="https://github.com/KrLite/Knowledges/blob/artwork/content/block.png">
   </details>
   
   <details>
     <summary>
       Ambient Type Mob Health, Entity Name
     </summary>
-    <img src="https://github.com/KrLite/Knowledges/blob/artwork/content/mob.png?raw=true">
+    <img src="https://github.com/KrLite/Knowledges/blob/artwork/content/mob.png">
   </details>
   
   <details>
     <summary>
       Hostile Type Mob, Entity Name, Armor Durability
     </summary>
-    <img src="https://github.com/KrLite/Knowledges/blob/artwork/content/hostile_armor.png?raw=true">
+    <img src="https://github.com/KrLite/Knowledges/blob/artwork/content/hostile_armor.png">
   </details>
 </blockquote>
 
