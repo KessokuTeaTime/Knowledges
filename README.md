@@ -44,4 +44,4 @@ By default, we provide 4 knowledge:
 
 ## License
 
-**Knowledges** is available under the **[GNU Public License.](LICENSE)**
+**Knowledges** is licensed under the **[GNU General Public License v3.](LICENSE)**
