@@ -16,7 +16,7 @@
   "license": "GPL-3.0",
   "icon": "assets/knowledges/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "net.krlite.knowledges.Knowledges"
