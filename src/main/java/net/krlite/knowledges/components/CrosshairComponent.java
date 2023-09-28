@@ -23,36 +23,36 @@ public class CrosshairComponent implements Knowledge {
 						  .scaleCenter(1 + 0.3 * Knowledges.Animations.mouseHolding());
 
 		// Shadow
-		box.render(context,
-				flat -> flat.new Rectangle()
-								.colors(Palette.Minecraft.BLACK)
-								.opacityMultiplier(0.075 * Knowledges.Animations.ovalOpacity())
-								.new Outlined(box.size())
-								.style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
+		box.render(context, flat ->
+				flat.new Rectangle()
+						.colors(Palette.Minecraft.BLACK)
+						.opacityMultiplier(0.075 * Knowledges.Animations.ovalOpacity())
+						.new Outlined(box.size())
+						.style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
 		);
 
 		// Oval
-		box.render(context,
-				flat -> flat.new Oval()
-								.colorCenter(Knowledges.Animations.ovalColor())
-								.mode(Flat.Oval.OvalMode.FILL)
+		box.render(context, flat ->
+				flat.new Oval()
+						.colorCenter(Knowledges.Animations.ovalColor())
+						.mode(Flat.Oval.OvalMode.FILL)
 		);
 
 		// Ring
 		if (Theory.looseGreater(Knowledges.Animations.ringRadians(), 0)) {
-			box.render(context,
-					flat -> flat.new Oval()
-									.radians(Knowledges.Animations.ringRadians())
-									.mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
-									.opacityMultiplier(Knowledges.Animations.ovalOpacity())
+			box.render(context, flat ->
+					flat.new Oval()
+							.radians(Knowledges.Animations.ringRadians())
+							.mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
+							.opacityMultiplier(Knowledges.Animations.ovalOpacity())
 
-									.colorCenter(Knowledges.Animations.ringColor().opacity(0.3))
+							.colorCenter(Knowledges.Animations.ringColor().opacity(0.3))
 
-									.addColor(0, Palette.TRANSPARENT)
-									.addColor(
-											Knowledges.Animations.ringRadians(),
-											Knowledges.Animations.ringColor()
-									)
+							.addColor(0, Palette.TRANSPARENT)
+							.addColor(
+									Knowledges.Animations.ringRadians(),
+									Knowledges.Animations.ringColor()
+							)
 			);
 		}
 	}

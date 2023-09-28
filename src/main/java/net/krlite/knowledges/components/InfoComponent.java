@@ -30,16 +30,16 @@ public abstract class InfoComponent implements Knowledge {
 			Knowledges.Animations.ovalColor(Palette.Minecraft.WHITE);
 		}
 
-		info().render(context,
-				flat -> flat.new Text(section -> section.fontSize(0.9 * scalar()).append(Knowledges.Animations.text()))
-								.verticalAlignment(Section.Alignment.CENTER)
-								.horizontalAlignment(Paragraph.Alignment.LEFT)
-								.color(
-										Palette.Minecraft.WHITE
-												.mix(Knowledges.Animations.ovalColor(), 0.8, ColorStandard.MixMode.PIGMENT)
-												.mix(Knowledges.Animations.ringColor(), Knowledges.Animations.ringRadians() / (Math.PI * 2), ColorStandard.MixMode.PIGMENT)
-												.opacity(0.3)
-								)
+		info().render(context, flat ->
+				flat.new Text(section -> section.fontSize(0.9 * scalar()).append(Knowledges.Animations.text()))
+						.verticalAlignment(Section.Alignment.CENTER)
+						.horizontalAlignment(Paragraph.Alignment.LEFT)
+						.color(
+								Palette.Minecraft.WHITE
+										.mix(Knowledges.Animations.ovalColor(), 0.8, ColorStandard.MixMode.PIGMENT)
+										.mix(Knowledges.Animations.ringColor(), Knowledges.Animations.ringRadians() / (Math.PI * 2), ColorStandard.MixMode.PIGMENT)
+										.opacity(0.3)
+						)
 		);
 	}
 

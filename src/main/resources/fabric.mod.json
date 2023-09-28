@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Knowledges",
-  "description": "",
+  "description": "What You See is Knowledge!",
   "authors": [
     "KrLite"
   ],
@@ -22,7 +22,7 @@
       "net.krlite.knowledges.Knowledges"
     ],
     "modmenu": [
-      "net.krlite.knowledges.config.modmenu.KnowledgesModMenuIntegration"
+      "net.krlite.knowledges.config.modmenu.KnowledgesModMenuImpl"
     ],
     "knowledges": [
       "net.krlite.knowledges.DefaultComponents"
@@ -33,10 +33,10 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.21",
+    "fabricloader": "*",
     "fabric-api": "*",
-    "minecraft": ["~1.20", "~1.20.1"],
-    "equator": ">=2.5.3"
+    "minecraft": "1.20.x",
+    "equator": ">=2.6.0"
   },
   "suggests": {
   }
