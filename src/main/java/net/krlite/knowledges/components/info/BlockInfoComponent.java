@@ -7,9 +7,9 @@ import net.krlite.knowledges.components.InfoComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,24 +22,14 @@ public class BlockInfoComponent extends InfoComponent {
 
 		if (blockState != null) {
 			MutableText blockName = blockState.getBlock().getName();
-			Knowledges.Animations.textLength(blockName.getString().length());
 
-			/*
-			@Nullable ItemStack itemStack = blockState.getBlock().asItem().getDefaultStack();
-
-			if (itemStack != null) {
-				blockName.formatted(itemStack.getRarity().formatting);
-				if (itemStack.hasCustomName()) blockName.formatted(Formatting.ITALIC);
-			}
-
-			 */
-
-			Knowledges.Animations.text(blockName);
+			Knowledges.Animations.title(blockName);
+			Knowledges.Animations.subtitle(Knowledges.getModName(Registries.BLOCK.getId(blockState.getBlock()).getNamespace()));
 
 			Knowledges.Animations.ovalColor(player.canHarvest(blockState) ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
 
-			Knowledges.Animations.ringRadians(Math.PI * 2 * Knowledges.CONFIG.blockBreakingProgress());
-			Knowledges.Animations.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Knowledges.CONFIG.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
+			Knowledges.Animations.ringRadians(Math.PI * 2 * Knowledges.Animations.blockBreakingProgress());
+			Knowledges.Animations.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Knowledges.Animations.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
 		}
 	}
 

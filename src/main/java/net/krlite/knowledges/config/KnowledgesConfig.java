@@ -19,35 +19,6 @@ public class KnowledgesConfig extends Pierced {
 		load();
 	}
 
-	// SILENT
-	// Block Breaking Progress
-
-	private @Silent final InterpolatedDouble blockBreakingProgress = new InterpolatedDouble(0, 0.021);
-
-	public double blockBreakingProgress() {
-		return blockBreakingProgress.value();
-	}
-
-	public void blockBreakingProgress(double progress) {
-		blockBreakingProgress.target(Theory.clamp(progress, 0, 1));
-	}
-
-	// SILENT
-	// Last Shown Block Name
-
-	private @Silent MutableText lastShownBlockName = null;
-
-	@Nullable
-	public MutableText lastShownBlockName() {
-		return lastShownBlockName;
-	}
-
-	public void lastShownBlockName(MutableText text) {
-		lastShownBlockName = text;
-	}
-
-	// Crosshair Safe Area Size Scalar
-
 	private double crosshairSafeAreaSizeScalar = 1;
 
 	public double crosshairSafeAreaSizeScalar() {
@@ -59,8 +30,6 @@ public class KnowledgesConfig extends Pierced {
 		save();
 	}
 
-	// Scalar
-
 	private double scalar = 1;
 
 	public double scalar() {
@@ -70,5 +39,25 @@ public class KnowledgesConfig extends Pierced {
 	public void scalar(double scalar) {
 		this.scalar = Theory.clamp(scalar, 0, 2);
 		save();
+	}
+
+	private boolean	infoTitleEnabled = true;
+
+	public boolean infoTitleEnabled() {
+		return infoTitleEnabled;
+	}
+
+	public void infoTitleEnabled(boolean flag) {
+		infoTitleEnabled = flag;
+	}
+
+	private boolean	infoSubtitleEnabled = true;
+
+	public boolean infoSubtitleEnabled() {
+		return infoSubtitleEnabled;
+	}
+
+	public void infoSubtitleEnabled(boolean flag) {
+		infoSubtitleEnabled = flag;
 	}
 }

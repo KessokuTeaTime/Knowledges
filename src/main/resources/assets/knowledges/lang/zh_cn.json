@@ -4,15 +4,21 @@
   "config.knowledges.category.general": "通用设置",
 
   "config.knowledges.general.crosshair_safe_area_size_scalar": "准心安全区缩放",
-  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7改变准心安全区的大小",
+  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7缩放准心安全区的大小",
 
   "config.knowledges.general.scalar": "缩放",
-  "config.knowledges.general.scalar.tooltip": "§7改变所有组件的大小",
+  "config.knowledges.general.scalar.tooltip": "§7缩放所有组件的大小",
+
+  "config.knowledges.general.info_title_enabled": "显示准心处标题",
+  "config.knowledges.general.info_title_enabled.tooltip": "§7决定是否显示准心右侧的信息",
+
+  "config.knowledges.general.info_subtitle_enabled": "显示准心处副标题",
+  "config.knowledges.general.info_subtitle_enabled.tooltip": "§7决定是否显示准心左侧的信息",
 
   "config.knowledges.category.components": "组件设置",
 
   "knowledge.knowledges.crosshair.name": "准心",
-  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体\n血量§r§c等信息不会被显示",
+  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体\n血量§r§c等组件会同时被隐藏",
 
   "knowledge.knowledges.info.block.name": "方块信息",
   "knowledge.knowledges.info.block.tooltip": "§7显示你正看着的方块的信息",

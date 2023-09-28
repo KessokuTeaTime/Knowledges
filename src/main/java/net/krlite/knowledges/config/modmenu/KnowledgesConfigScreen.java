@@ -34,29 +34,45 @@ public class KnowledgesConfigScreen {
 
 	private void initEntries() {
 		// General
-
 		general.addEntry(entryBuilder.startIntSlider(
 						Knowledges.localize("config", "general", "crosshair_safe_area_size_scalar"),
 						(int) (CONFIG.crosshairSafeAreaSizeScalar() * 50),
 						0, 100
 				)
-								 .setDefaultValue(50)
-								 .setTooltip(Knowledges.localize("config", "general", "crosshair_safe_area_size_scalar", "tooltip"))
-								 .setSaveConsumer(value -> CONFIG.crosshairSafeAreaSizeScalar(value.floatValue() / 50))
-								 .build());
+				.setDefaultValue(50)
+				.setTooltip(Knowledges.localize("config", "general", "crosshair_safe_area_size_scalar", "tooltip"))
+				.setSaveConsumer(value -> CONFIG.crosshairSafeAreaSizeScalar(value.floatValue() / 50))
+				.build());
 
 		general.addEntry(entryBuilder.startIntSlider(
 						Knowledges.localize("config", "general", "scalar"),
 						(int) (CONFIG.scalar() * 50),
 						0, 100
 				)
-								 .setDefaultValue(50)
-								 .setTooltip(Knowledges.localize("config", "general", "scalar", "tooltip"))
-								 .setSaveConsumer(value -> CONFIG.scalar(value.floatValue() / 50))
-								 .build());
+				.setDefaultValue(50)
+				.setTooltip(Knowledges.localize("config", "general", "scalar", "tooltip"))
+				.setSaveConsumer(value -> CONFIG.scalar(value.floatValue() / 50))
+				.build());
+
+		general.addEntry(entryBuilder.startBooleanToggle(
+						Knowledges.localize("config", "general", "info_title_enabled"),
+						CONFIG.infoTitleEnabled()
+				)
+				.setDefaultValue(true)
+				.setTooltip(Knowledges.localize("config", "general", "info_title_enabled", "tooltip"))
+				.setSaveConsumer(CONFIG::infoTitleEnabled)
+				.build());
+
+		general.addEntry(entryBuilder.startBooleanToggle(
+						Knowledges.localize("config", "general", "info_subtitle_enabled"),
+						CONFIG.infoSubtitleEnabled()
+				)
+				.setDefaultValue(true)
+				.setTooltip(Knowledges.localize("config", "general", "info_subtitle_enabled", "tooltip"))
+				.setSaveConsumer(CONFIG::infoSubtitleEnabled)
+				.build());
 
 		// Components
-
 		Knowledges.knowledges().forEach(knowledge -> {
 			BooleanToggleBuilder booleanBuilder =
 					entryBuilder.startBooleanToggle(

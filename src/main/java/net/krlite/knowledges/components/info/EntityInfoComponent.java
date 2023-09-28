@@ -9,6 +9,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,9 +22,9 @@ public class EntityInfoComponent extends InfoComponent {
 
 		if (entity != null) {
 			MutableText entityName = entity.getDisplayName().copy();
-			Knowledges.Animations.textLength(entityName.getString().length());
 
-			Knowledges.Animations.text(entityName);
+			Knowledges.Animations.title(entityName);
+			Knowledges.Animations.subtitle(Knowledges.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 
 			if (entity.isInvulnerable()) {
 				Knowledges.Animations.ringColor(Palette.Minecraft.LIGHT_PURPLE);

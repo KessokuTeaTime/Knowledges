@@ -1,0 +1,105 @@
+package net.krlite.knowledges;
+
+import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
+
+public class InterpolatedText {
+    private final InterpolatedDouble width = new InterpolatedDouble(0, 0.02);
+    private final Alignment alignment;
+
+    public enum Alignment {
+        LEFT((letters, width) -> {
+            ArrayList<Character> result = new ArrayList<>();
+
+            ListIterator<Character> iterator = letters.listIterator(0);
+            int currentWidth = 0;
+            while (iterator.hasNext()) {
+                Character letter = iterator.next();
+                int letterWidth = widthOf(String.valueOf(letter));
+
+                if (currentWidth + letterWidth > width + 1) break;
+
+                currentWidth += letterWidth;
+                result.add(letter);
+            }
+
+            return result;
+        }),
+        RIGHT((letters, width) -> {
+            ArrayList<Character> result = new ArrayList<>();
+
+            ListIterator<Character> iterator = letters.listIterator(letters.size());
+            int currentWidth = 0;
+            while (iterator.hasPrevious()) {
+                Character letter = iterator.previous();
+                int letterWidth = widthOf(String.valueOf(letter));
+
+                if (currentWidth + letterWidth > width + 1) break;
+
+                currentWidth += letterWidth;
+                result.add(0, letter);
+            }
+
+            return result;
+        });
+
+        final BiFunction<ArrayList<Character>, Double, ArrayList<Character>> truncateFunction;
+
+        Alignment(BiFunction<ArrayList<Character>, Double, ArrayList<Character>> truncateFunction) {
+            this.truncateFunction = truncateFunction;
+        }
+
+        public ArrayList<MutableText> truncate(ArrayList<Character> letters, double width) {
+            return truncateFunction.apply(letters, width).stream()
+                    .map(String::valueOf)
+                    .map(Text::literal)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+    }
+
+    public InterpolatedText(Alignment alignment) {
+        this.alignment = alignment;
+    }
+
+    protected static int widthOf(String string) {
+        return MinecraftClient.getInstance().textRenderer.getWidth(string);
+    }
+
+    private String last = "", current = "", cache = current;
+    private Style style = Style.EMPTY;
+
+    public MutableText text() {
+        ArrayList<Character> letters = new ArrayList<>();
+
+        for (int i = 0; i < Math.max(last.length(), current.length()); i++) {
+            if (i < current.length()) letters.add(current.toCharArray()[i]);
+            else letters.add(last.toCharArray()[i]);
+        }
+
+        return alignment.truncate(letters, width.value()).stream()
+                .reduce(MutableText::append)
+                .orElse(Text.empty())
+                .setStyle(style);
+    }
+
+    public void text(Text text) {
+        if (!text.getString().isEmpty()) {
+            if (!cache.equals(current)) {
+                last = cache;
+                cache = current;
+            }
+
+            current = text.getString();
+            style = text.getStyle();
+        }
+
+        width.target(widthOf(text.getString()));
+    }
+}

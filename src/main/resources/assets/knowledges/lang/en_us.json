@@ -4,10 +4,16 @@
   "config.knowledges.category.general": "General",
 
   "config.knowledges.general.crosshair_safe_area_size_scalar": "Crosshair Safe Area Size Scalar",
-  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7Scalar for the crosshair safe area size",
+  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7The local scalar for the crosshair safe\narea size",
 
   "config.knowledges.general.scalar": "Scalar",
-  "config.knowledges.general.scalar.tooltip": "§7Scalar for the components",
+  "config.knowledges.general.scalar.tooltip": "§7The global scalar for the components",
+
+  "config.knowledges.general.info_title_enabled": "Display Hit Result Title",
+  "config.knowledges.general.info_title_enabled.tooltip": "§7Whether to display the informational text\nplaced against the right side of the cursor",
+
+  "config.knowledges.general.info_subtitle_enabled": "Display Hit Result Subtitle",
+  "config.knowledges.general.info_subtitle_enabled.tooltip": "§7Whether to display the informational text\nplaced against the left side of the cursor",
 
   "config.knowledges.category.components": "Components",
 
