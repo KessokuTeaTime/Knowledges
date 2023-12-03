@@ -9,20 +9,32 @@ import net.krlite.knowledges.components.info.EntityInfoComponent;
 import net.krlite.knowledges.components.info.FluidInfoComponent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class DefaultComponents implements KnowledgeContainer {
+	private static final List<Class<? extends Knowledge>> classes = List.of(
+			CrosshairComponent.class,
+
+			BlockInfoComponent.class,
+			EntityInfoComponent.class,
+			FluidInfoComponent.class,
+
+			ArmorDurabilityComponent.class
+	);
+
 	@Override
-	public @NotNull List<Knowledge> register() {
-		return List.of(
-				new CrosshairComponent(),
+	public @NotNull List<? extends Knowledge> register() {
+		return classes.stream().map(c -> {
+			try {
+				return c.getDeclaredConstructor().newInstance();
+			} catch (Throwable throwable) {
+				throw new RuntimeException(throwable);
+			}
+        }).toList();
+	}
 
-				new BlockInfoComponent(),
-				new EntityInfoComponent(),
-				new FluidInfoComponent(),
-
-				new ArmorDurabilityComponent()
-		);
+	public static boolean contains(Knowledge knowledge) {
+		return classes.contains(knowledge.getClass());
 	}
 }

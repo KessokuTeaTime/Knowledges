@@ -123,7 +123,7 @@ public class EntityInfoComponent extends InfoComponent {
 	}
 
 	@Override
-	public boolean provideTooltip() {
+	public boolean providesTooltip() {
 		return true;
 	}
 }

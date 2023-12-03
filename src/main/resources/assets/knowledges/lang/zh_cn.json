@@ -3,11 +3,11 @@
 
   "config.knowledges.category.general": "通用设置",
 
-  "config.knowledges.general.crosshair_safe_area_size_scalar": "准心安全区缩放",
-  "config.knowledges.general.crosshair_safe_area_size_scalar.tooltip": "§7缩放准心安全区的大小",
+  "config.knowledges.general.crosshair_safe_area_scalar": "准心安全区缩放",
+  "config.knowledges.general.crosshair_safe_area_scalar.tooltip": "§7缩放准心安全区的大小",
 
-  "config.knowledges.general.scalar": "缩放",
-  "config.knowledges.general.scalar.tooltip": "§7缩放所有组件的大小",
+  "config.knowledges.general.main_scalar": "缩放",
+  "config.knowledges.general.main_scalar.tooltip": "§7缩放所有组件的大小",
 
   "config.knowledges.general.info_texts_right_enabled": "准心右侧文本",
   "config.knowledges.general.info_texts_right_enabled.tooltip": "§7显示准心右侧的扩展信息",
@@ -18,7 +18,10 @@
   "config.knowledges.general.info_subtitles_enabled": "副标题",
   "config.knowledges.general.info_subtitles_enabled.tooltip": "§7显示位于准心文本上方或下方的描述性文本",
 
-  "config.knowledges.category.components": "组件设置",
+  "config.knowledges.category.components": "组件",
+
+  "config.knowledges.components.default": "默认组件",
+  "config.knowledges.components.custom": "第三方组件",
 
   "knowledge.knowledges.crosshair.name": "准心",
   "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体\n血量§r§c等组件会同时被隐藏",
@@ -45,6 +48,14 @@
 
   "knowledge.knowledges.info.entity.name": "实体信息",
   "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
+
+  "knowledge.knowledges.info.fluid.name": "流体信息",
+  "knowledge.knowledges.info.fluid.tooltip": "§7显示你正看着的流体的信息",
+
+  "knowledge.knowledges.info.fluid.config.category": "流体信息",
+
+  "knowledge.knowledges.info.fluid.config.ignores_water": "忽略水",
+  "knowledge.knowledges.info.fluid.config.ignores_lava": "忽略熔岩",
 
   "knowledge.knowledges.armor_durability.name": "装备耐久",
   "knowledge.knowledges.armor_durability.tooltip": "§7在屏幕角落处显示你的装备耐久",

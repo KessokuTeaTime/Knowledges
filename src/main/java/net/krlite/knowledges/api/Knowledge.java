@@ -1,5 +1,7 @@
 package net.krlite.knowledges.api;
 
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -16,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -36,20 +39,29 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 
 public interface Knowledge {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
 	@NotNull String id();
 
-	boolean provideTooltip();
+	boolean providesTooltip();
+
+	default boolean requestsIndependentConfigPage() {
+		return false;
+	};
 
 	default @NotNull Text name() {
 		return localize("name");
 	};
 
 	default @Nullable Text tooltip() {
-		return provideTooltip() ? localize("tooltip") : null;
+		return providesTooltip() ? localize("tooltip") : null;
+	}
+
+	default Function<ConfigEntryBuilder, List<AbstractConfigListEntry>> buildConfigEntries() {
+		return configEntryBuilder -> new ArrayList<>();
 	}
 
 	default String localizationKey(String... paths) {
@@ -64,11 +76,11 @@ public interface Knowledge {
 	}
 
 	default double scalar() {
-		return 0.5 + 0.5 * Knowledges.CONFIG.scalar();
+		return 0.5 + 0.5 * Knowledges.CONFIG.mainScalar();
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 16 + 8 * Knowledges.CONFIG.crosshairSafeAreaSizeScalar();
+		double size = 16 + 8 * Knowledges.CONFIG.crosshairSafeAreaScalar();
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
 					   .center(Vector.ZERO)
@@ -80,7 +92,11 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			return crosshairBlockPos().isPresent() || crosshairEntity().isPresent() || crosshairFluidState().isPresent();
+			boolean blockPos = Knowledges.knowledgeState(Knowledges.knowledge("info.block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = Knowledges.knowledgeState(Knowledges.knowledge("info.entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = Knowledges.knowledgeState(Knowledges.knowledge("info.fluid").orElseThrow()) && crosshairFluidState().isPresent();
+
+			return blockPos || entity || fluidState;
 		}
 
 		public static Optional<HitResult> crosshairTarget() {
@@ -120,6 +136,7 @@ public interface Knowledge {
 
 		public static Optional<FluidState> crosshairFluidState() {
 			MinecraftClient client = MinecraftClient.getInstance();
+
 			return crosshairTarget()
 					.filter(hitResult -> hitResult.getType() == HitResult.Type.MISS)
 					.flatMap(hitResult -> crosshairPos()
@@ -127,7 +144,9 @@ public interface Knowledge {
 									.map(world -> world.getFluidState(new BlockPos((int) pos.getX(), (int) pos.getY(), (int) pos.getZ())))
 							)
 					)
-					.filter(fluidState -> !fluidState.isEmpty());
+					.filter(fluidState -> !fluidState.isEmpty())
+					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresWater() && (fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER)))
+					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresLava() && (fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA)));
 		}
 	}
 

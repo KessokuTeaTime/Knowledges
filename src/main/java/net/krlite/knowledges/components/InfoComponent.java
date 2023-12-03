@@ -33,15 +33,8 @@ public abstract class InfoComponent implements Knowledge {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) {
-			Animations.Texts.titleRight(Text.empty());
-			Animations.Texts.titleLeft(Text.empty());
-
-			Animations.Texts.subtitleRightAbove(Text.empty());
-			Animations.Texts.subtitleRightBelow(Text.empty());
-			Animations.Texts.subtitleLeftAbove(Text.empty());
-			Animations.Texts.subtitleLeftBelow(Text.empty());
-
-			Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+			reset();
+			return;
 		}
 
 		final Box textsRight = FrameInfo.scaled()
@@ -128,6 +121,18 @@ public abstract class InfoComponent implements Knowledge {
 		}
 	}
 
+	protected void reset() {
+		Animations.Texts.titleRight(Text.empty());
+		Animations.Texts.titleLeft(Text.empty());
+
+		Animations.Texts.subtitleRightAbove(Text.empty());
+		Animations.Texts.subtitleRightBelow(Text.empty());
+		Animations.Texts.subtitleLeftAbove(Text.empty());
+		Animations.Texts.subtitleLeftBelow(Text.empty());
+
+		Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+	}
+
 	private void renderText(DrawContext context, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color, double fontSizeMultiplier) {
 		box.render(context, flat ->
 				flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * scalar()).append(text))
@@ -141,19 +146,11 @@ public abstract class InfoComponent implements Knowledge {
 		renderText(context, box, text, alignment, color, 1);
 	}
 
-	@Override
-	public @NotNull String id() {
-		return "info";
-	}
-
 	public abstract @NotNull String infoId();
 
 	@Override
-	public String localizationKey(String... paths) {
-		List<String> fullPaths = new ArrayList<>(List.of(infoId()));
-		fullPaths.addAll(List.of(paths));
-
-		return Knowledge.super.localizationKey(fullPaths.toArray(String[]::new));
+	public @NotNull String id() {
+		return "info." + infoId();
 	}
 
 	public static class Animations {
@@ -203,8 +200,8 @@ public abstract class InfoComponent implements Knowledge {
 
 
 			private static final InterpolatedText
-					SUBTITLE_RIGHT_BELOW = new InterpolatedText(InterpolatedText.Alignment.LEFT, 85),
-					SUBTITLE_LEFT_BELOW = new InterpolatedText(InterpolatedText.Alignment.RIGHT, 85);
+					SUBTITLE_RIGHT_BELOW = new InterpolatedText(InterpolatedText.Alignment.LEFT),
+					SUBTITLE_LEFT_BELOW = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
 
 			public static MutableText subtitleRightBelow() {
 				return SUBTITLE_RIGHT_BELOW.text();

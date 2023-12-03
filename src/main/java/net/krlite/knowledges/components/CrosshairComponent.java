@@ -59,7 +59,7 @@ public class CrosshairComponent implements Knowledge {
 	}
 
 	@Override
-	public boolean provideTooltip() {
+	public boolean providesTooltip() {
 		return true;
 	}
 }

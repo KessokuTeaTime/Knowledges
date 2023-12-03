@@ -6,5 +6,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface KnowledgeContainer {
-	@NotNull List<Knowledge> register();
+	@NotNull List<? extends Knowledge> register();
 }

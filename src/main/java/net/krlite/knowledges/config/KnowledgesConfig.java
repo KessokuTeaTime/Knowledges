@@ -17,32 +17,42 @@ public class KnowledgesConfig extends Pierced {
 		load();
 	}
 
-	@Table("global")
-	private double crosshairSafeAreaSizeScalar = 1;
-
-	public double crosshairSafeAreaSizeScalar() {
-		return crosshairSafeAreaSizeScalar;
+	public static class Default {
+		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1;
+		public static final double MAIN_SCALAR = 1;
+		public static boolean INFO_TEXTS_RIGHT_ENABLED = true;
+		public static boolean INFO_TEXTS_LEFT_ENABLED = true;
+		public static boolean INFO_SUBTITLES_ENABLED = true;
+		public static boolean INFO_FLUID_IGNORES_WATER = false;
+		public static boolean INFO_FLUID_IGNORES_LAVA = false;
 	}
 
-	public void crosshairSafeAreaSizeScalar(double scalar) {
-		crosshairSafeAreaSizeScalar = Theory.clamp(scalar, 0, 2);
+	@Table("global")
+	private double crosshairSafeAreaScalar = Default.CROSSHAIR_SAFE_AREA_SCALAR;
+
+	public double crosshairSafeAreaScalar() {
+		return crosshairSafeAreaScalar;
+	}
+
+	public void crosshairSafeAreaScalar(double scalar) {
+		crosshairSafeAreaScalar = Theory.clamp(scalar, 0, 2);
 		save();
 	}
 
 	@Table("global")
-	private double scalar = 1;
+	private double mainScalar = Default.MAIN_SCALAR;
 
-	public double scalar() {
-		return scalar;
+	public double mainScalar() {
+		return mainScalar;
 	}
 
-	public void scalar(double scalar) {
-		this.scalar = Theory.clamp(scalar, 0, 2);
+	public void mainScalar(double scalar) {
+		this.mainScalar = Theory.clamp(scalar, 0, 2);
 		save();
 	}
 
 	@Table("info")
-	private boolean infoTextsRightEnabled = true;
+	private boolean infoTextsRightEnabled = Default.INFO_TEXTS_RIGHT_ENABLED;
 
 	public boolean infoTextsRightEnabled() {
 		return infoTextsRightEnabled;
@@ -53,7 +63,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	@Table("info")
-	private boolean infoTextsLeftEnabled = true;
+	private boolean infoTextsLeftEnabled = Default.INFO_TEXTS_LEFT_ENABLED;
 
 	public boolean infoTextsLeftEnabled() {
 		return infoTextsLeftEnabled;
@@ -64,7 +74,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	@Table("info")
-	private boolean infoSubtitlesEnabled = true;
+	private boolean infoSubtitlesEnabled = Default.INFO_SUBTITLES_ENABLED;
 
 	public boolean infoSubtitlesEnabled() {
 		return infoSubtitlesEnabled;
@@ -72,5 +82,27 @@ public class KnowledgesConfig extends Pierced {
 
 	public void infoSubtitlesEnabled(boolean flag) {
 		infoSubtitlesEnabled = flag;
+	}
+
+	@Table("info")
+	private boolean infoFluidIgnoresWater = Default.INFO_FLUID_IGNORES_WATER;
+
+	public boolean infoFluidIgnoresWater() {
+		return infoFluidIgnoresWater;
+	}
+
+	public void infoFluidIgnoresWater(boolean flag) {
+		infoFluidIgnoresWater = flag;
+	}
+
+	@Table("info")
+	private boolean infoFluidIgnoresLava = Default.INFO_FLUID_IGNORES_LAVA;
+
+	public boolean infoFluidIgnoresLava() {
+		return infoFluidIgnoresLava;
+	}
+
+	public void infoFluidIgnoresLava(boolean flag) {
+		infoFluidIgnoresLava = flag;
 	}
 }

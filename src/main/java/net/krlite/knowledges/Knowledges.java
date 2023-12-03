@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Knowledges implements ModInitializer {
 	public static final String NAME = "Knowledges", ID = "knowledges";
@@ -35,6 +36,12 @@ public class Knowledges implements ModInitializer {
 
 	public static ArrayList<Knowledge> knowledges() {
 		return new ArrayList<>(knowledges);
+	}
+
+	public static Optional<Knowledge> knowledge(String id) {
+		return knowledges.stream()
+				.filter(knowledge -> knowledge.id().equals(id))
+				.findFirst();
 	}
 
 	public static String localizationKey(String category, String... paths) {
@@ -74,7 +81,7 @@ public class Knowledges implements ModInitializer {
 			knowledgesCount += container.register().size();
 		});
 
-		LOGGER.info("Successfully registered " + knowledgesCount + " knowledge. You're now full of knowledge! 📚");
+		LOGGER.info("Successfully registered " + knowledgesCount + " knowledge. They make you wiser! 📚");
 	}
 
 	public static void render(
