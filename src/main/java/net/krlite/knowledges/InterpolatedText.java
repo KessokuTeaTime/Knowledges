@@ -78,9 +78,18 @@ public class InterpolatedText {
     public MutableText text() {
         ArrayList<Character> letters = new ArrayList<>();
 
-        for (int i = 0; i < Math.max(last.length(), current.length()); i++) {
-            if (i < current.length()) letters.add(current.toCharArray()[i]);
-            else letters.add(last.toCharArray()[i]);
+        final int maxLength = Math.max(last.length(), current.length());
+        for (int i = 0; i < maxLength; i++) {
+            switch (alignment) {
+                case LEFT -> {
+                    if (i < current.length()) letters.add(current.toCharArray()[i]);
+                    else letters.add(last.toCharArray()[i]);
+                }
+                case RIGHT -> {
+                    if (i < maxLength - current.length()) letters.add(last.toCharArray()[i]);
+                    else letters.add(current.toCharArray()[i + current.length() - maxLength]);
+                }
+            }
         }
 
         return alignment.truncate(letters, width.value()).stream()
