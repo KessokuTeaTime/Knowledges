@@ -55,7 +55,7 @@ public class ArmorDurabilityComponent implements Knowledge {
 				.scale(16)
 				.scale(scalar())
 				.center(FrameInfo.scaled())
-				.shift(-8, -8 - 16 * position);
+				.shift(-8 * scalar(), (-8 - 16 * position) * scalar());
 
 		if (enabled) {
 			AccurateColor color;
