@@ -5,7 +5,6 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -20,20 +19,17 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 public class BlockInfoComponent extends InfoComponent {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);
-		@Nullable BlockState blockState = Info.crosshairBlock();
-
-		if (blockState != null) {
+		Info.crosshairBlockState().ifPresent(blockState -> {
 			MutableText blockName = blockState.getBlock().getName();
 
-			float hardness = blockState.getHardness(world, Info.crosshairBlockPos());
+			float hardness = Info.crosshairBlockPos()
+					.map(blockPos -> blockState.getHardness(world, blockPos))
+					.orElse(0F);
 			boolean harvestable = hardness >= 0 && player.canHarvest(blockState);
 
 			// Titles
@@ -129,8 +125,8 @@ public class BlockInfoComponent extends InfoComponent {
 					break subtitleLeftBelow;
 				}
 
-				if (blockState.isIn(BlockTags.BANNERS)) {
-					var patterns = ((BannerBlockEntity) Objects.requireNonNull(Info.crosshairBlockEntity())).getPatterns();
+				if (blockState.isIn(BlockTags.BANNERS) && Info.crosshairBlockEntity().isPresent()) {
+					var patterns = ((BannerBlockEntity) Info.crosshairBlockEntity().get()).getPatterns();
 
 					if (patterns.size() > 1) {
 						// The first pattern is always the background color, so ignore it
@@ -158,7 +154,7 @@ public class BlockInfoComponent extends InfoComponent {
 
 				Animations.Texts.subtitleLeftBelow(Text.empty());
 			}
-		}
+		});
 	}
 
 	@Override
