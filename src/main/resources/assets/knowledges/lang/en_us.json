@@ -1,6 +1,9 @@
 {
   "screen.knowledges.config.title": "Knowledges",
 
+  "config.knowledges.text.enabled": "§aEnabled",
+  "config.knowledges.text.disabled": "§cDisabled",
+
   "config.knowledges.category.general": "General",
 
   "config.knowledges.general.crosshair_safe_area_scalar": "Crosshair Safe Area Scalar",

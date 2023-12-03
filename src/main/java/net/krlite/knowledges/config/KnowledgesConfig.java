@@ -18,8 +18,8 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public static class Default {
-		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1;
-		public static final double MAIN_SCALAR = 1;
+		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1, CROSSHAIR_SAFE_AREA_SCALAR_MIN = 0, CROSSHAIR_SAFE_AREA_SCALAR_MAX = 3;
+		public static final double MAIN_SCALAR = 1, MAIN_SCALAR_MIN = 0, MAIN_SCALAR_MAX = 3;
 		public static boolean INFO_TEXTS_RIGHT_ENABLED = true;
 		public static boolean INFO_TEXTS_LEFT_ENABLED = true;
 		public static boolean INFO_SUBTITLES_ENABLED = true;
@@ -35,7 +35,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public void crosshairSafeAreaScalar(double scalar) {
-		crosshairSafeAreaScalar = Theory.clamp(scalar, 0, 2);
+		crosshairSafeAreaScalar = Theory.clamp(scalar, Default.CROSSHAIR_SAFE_AREA_SCALAR_MIN, Default.CROSSHAIR_SAFE_AREA_SCALAR_MAX);
 		save();
 	}
 
@@ -47,7 +47,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public void mainScalar(double scalar) {
-		this.mainScalar = Theory.clamp(scalar, 0, 2);
+		this.mainScalar = Theory.clamp(scalar, Default.MAIN_SCALAR_MIN, Default.MAIN_SCALAR_MAX);
 		save();
 	}
 

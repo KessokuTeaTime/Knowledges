@@ -1,6 +1,9 @@
 {
   "screen.knowledges.config.title": "知识库",
 
+  "config.knowledges.text.enabled": "§a开启",
+  "config.knowledges.text.disabled": "§c关闭",
+
   "config.knowledges.category.general": "通用设置",
 
   "config.knowledges.general.crosshair_safe_area_scalar": "准心安全区缩放",

@@ -56,8 +56,8 @@ public interface Knowledge {
 		return localize("name");
 	};
 
-	default @Nullable Text tooltip() {
-		return providesTooltip() ? localize("tooltip") : null;
+	default @NotNull Text tooltip() {
+		return localize("tooltip");
 	}
 
 	default Function<ConfigEntryBuilder, List<AbstractConfigListEntry>> buildConfigEntries() {
