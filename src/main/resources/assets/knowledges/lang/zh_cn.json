@@ -9,11 +9,14 @@
   "config.knowledges.general.scalar": "缩放",
   "config.knowledges.general.scalar.tooltip": "§7缩放所有组件的大小",
 
-  "config.knowledges.general.info_title_enabled": "显示准心处标题",
-  "config.knowledges.general.info_title_enabled.tooltip": "§7决定是否显示准心右侧的信息",
+  "config.knowledges.general.info_texts_right_enabled": "准心右侧文本",
+  "config.knowledges.general.info_texts_right_enabled.tooltip": "§7显示准心右侧的扩展信息",
 
-  "config.knowledges.general.info_subtitle_enabled": "显示准心处副标题",
-  "config.knowledges.general.info_subtitle_enabled.tooltip": "§7决定是否显示准心左侧的信息",
+  "config.knowledges.general.info_texts_left_enabled": "准心左侧文本",
+  "config.knowledges.general.info_texts_left_enabled.tooltip": "§7显示准心左侧的扩展信息",
+
+  "config.knowledges.general.info_subtitles_enabled": "副标题",
+  "config.knowledges.general.info_subtitles_enabled.tooltip": "§7显示位于准心文本上方或下方的描述性文本",
 
   "config.knowledges.category.components": "组件设置",
 
@@ -23,9 +26,47 @@
   "knowledge.knowledges.info.block.name": "方块信息",
   "knowledge.knowledges.info.block.tooltip": "§7显示你正看着的方块的信息",
 
+  "knowledge.knowledges.info.block.harvest.unbreakable": "不可破坏",
+  "knowledge.knowledges.info.block.harvest.pickaxe": "镐",
+  "knowledge.knowledges.info.block.harvest.axe": "斧",
+  "knowledge.knowledges.info.block.harvest.hoe": "锄",
+  "knowledge.knowledges.info.block.harvest.shovel": "锹",
+
+  "knowledge.knowledges.info.block.mining_level": "挖掘等级 %d",
+  "knowledge.knowledges.info.block.mining_level.1": "石制",
+  "knowledge.knowledges.info.block.mining_level.2": "铁制",
+  "knowledge.knowledges.info.block.mining_level.3": "钻石",
+  "knowledge.knowledges.info.block.mining_level.4": "下界合金",
+
+  "knowledge.knowledges.info.block.harvest_and_mining_level": "%s，%s",
+
   "knowledge.knowledges.info.entity.name": "实体信息",
   "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
 
   "knowledge.knowledges.armor_durability.name": "装备耐久",
-  "knowledge.knowledges.armor_durability.tooltip": "§7显示你的装备耐久"
+  "knowledge.knowledges.armor_durability.tooltip": "§7在屏幕角落处显示你的装备耐久",
+
+  "instrument.knowledges.harp": "竖琴",
+  "instrument.knowledges.basedrum": "底鼓",
+  "instrument.knowledges.snare": "小军鼓",
+  "instrument.knowledges.hat": "镲",
+  "instrument.knowledges.bass": "贝斯",
+  "instrument.knowledges.flute": "长笛",
+  "instrument.knowledges.bell": "铃铛",
+  "instrument.knowledges.guitar": "吉他",
+  "instrument.knowledges.chime": "风铃",
+  "instrument.knowledges.xylophone": "木琴",
+  "instrument.knowledges.iron_xylophone": "颤音琴",
+  "instrument.knowledges.cow_bell": "牛铃",
+  "instrument.knowledges.didgeridoo": "迪吉里杜管",
+  "instrument.knowledges.bit": "芯片",
+  "instrument.knowledges.banjo": "班卓琴",
+  "instrument.knowledges.pling": "电钢琴",
+  "instrument.knowledges.zombie": "僵尸",
+  "instrument.knowledges.Skeleton": "骷髅",
+  "instrument.knowledges.creeper": "苦力怕",
+  "instrument.knowledges.dragon": "末影龙",
+  "instrument.knowledges.wither_skeleton": "凋灵骷髅",
+  "instrument.knowledges.piglin": "猪灵",
+  "instrument.knowledges.custom_head": "自定义"
 }

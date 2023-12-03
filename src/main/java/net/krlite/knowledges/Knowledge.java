@@ -9,20 +9,45 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public interface Knowledge {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
-	@NotNull Text name();
+	@NotNull String id();
+
+	boolean provideTooltip();
+
+	default @NotNull Text name() {
+		return localize("name");
+	};
 
 	default @Nullable Text tooltip() {
-		return null;
+		return provideTooltip() ? localize("tooltip") : null;
+	}
+
+	default String localizationKey(String... paths) {
+		List<String> fullPaths = new ArrayList<>(List.of(id()));
+		fullPaths.addAll(List.of(paths));
+
+		return Knowledges.localizationKey("knowledge", fullPaths.toArray(String[]::new));
+	}
+
+	default MutableText localize(String... paths) {
+		return Knowledges.localize(localizationKey(paths));
 	}
 
 	default double scalar() {
@@ -52,12 +77,27 @@ public interface Knowledge {
 		}
 
 		@Nullable
+		public static Vec3d crosshairPos() {
+			HitResult hitResult = crosshairTarget();
+			return hitResult != null ? hitResult.getPos() : null;
+		}
+
+		@Nullable
+		public static BlockPos crosshairBlockPos() {
+			MinecraftClient client = MinecraftClient.getInstance();
+			if (client.world == null || client.player == null) return null;
+
+			HitResult hitResult = crosshairTarget();
+			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) hitResult).getBlockPos() : null;
+		}
+
+		@Nullable
 		public static BlockState crosshairBlock() {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return null;
 
 			HitResult hitResult = crosshairTarget();
-			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(((BlockHitResult) hitResult).getBlockPos()) : null;
+			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(crosshairBlockPos()) : null;
 		}
 
 		@Nullable

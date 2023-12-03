@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,33 +24,36 @@ public class EntityInfoComponent extends InfoComponent {
 		if (entity != null) {
 			MutableText entityName = entity.getDisplayName().copy();
 
-			Knowledges.Animations.title(entityName);
-			Knowledges.Animations.subtitle(Knowledges.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+			// Titles
+			titles: {
+				Animations.Texts.titleRight(entityName);
+				Animations.Texts.titleLeft(Knowledges.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+			}
 
 			if (entity.isInvulnerable()) {
-				Knowledges.Animations.ringColor(Palette.Minecraft.LIGHT_PURPLE);
-				Knowledges.Animations.ovalColor(Palette.Minecraft.LIGHT_PURPLE);
+				Animations.Ring.ringColor(Palette.Minecraft.LIGHT_PURPLE);
+				Animations.Ring.ovalColor(Palette.Minecraft.LIGHT_PURPLE);
 			} else {
 				switch (entity.getType().getSpawnGroup()) {
 					case MONSTER -> {
-						Knowledges.Animations.ringColor(Palette.Minecraft.RED);
-						Knowledges.Animations.ovalColor(Palette.Minecraft.RED);
+						Animations.Ring.ringColor(Palette.Minecraft.RED);
+						Animations.Ring.ovalColor(Palette.Minecraft.RED);
 					}
 					case WATER_CREATURE -> {
-						Knowledges.Animations.ringColor(Palette.Minecraft.AQUA);
-						Knowledges.Animations.ovalColor(Palette.Minecraft.WHITE);
+						Animations.Ring.ringColor(Palette.Minecraft.AQUA);
+						Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
 					}
 					case MISC -> {
-						Knowledges.Animations.ringColor(Palette.Minecraft.GRAY);
-						Knowledges.Animations.ovalColor(Palette.Minecraft.DARK_GRAY);
+						Animations.Ring.ringColor(Palette.Minecraft.GRAY);
+						Animations.Ring.ovalColor(Palette.Minecraft.DARK_GRAY);
 					}
 					case AMBIENT -> {
-						Knowledges.Animations.ringColor(Palette.Minecraft.WHITE);
-						Knowledges.Animations.ovalColor(Palette.Minecraft.WHITE);
+						Animations.Ring.ringColor(Palette.Minecraft.WHITE);
+						Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
 					}
 					default -> {
-						Knowledges.Animations.ringColor(Palette.Minecraft.GREEN);
-						Knowledges.Animations.ovalColor(Palette.Minecraft.WHITE);
+						Animations.Ring.ringColor(Palette.Minecraft.GREEN);
+						Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
 					}
 				}
 			}
@@ -57,13 +61,23 @@ public class EntityInfoComponent extends InfoComponent {
 			if (!entity.isInvulnerable() && entity instanceof LivingEntity livingEntity) {
 				double health = livingEntity.getHealth() / livingEntity.getMaxHealth();
 
-				Knowledges.Animations.ringRadians(Math.PI * 2 * health);
+				Animations.Ring.ringRadians(Math.PI * 2 * health);
+			}
+
+			// Left Above
+			subtitleLeftAbove: {
+				Animations.Texts.subtitleLeftAbove(Text.literal(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 		}
 	}
 
 	@Override
-	public String id() {
+	public @NotNull String infoId() {
 		return "entity";
+	}
+
+	@Override
+	public boolean provideTooltip() {
+		return true;
 	}
 }

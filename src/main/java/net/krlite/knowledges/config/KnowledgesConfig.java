@@ -2,12 +2,10 @@ package net.krlite.knowledges.config;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.krlite.equator.math.algebra.Theory;
-import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.pierced.annotation.Silent;
+import net.krlite.pierced.annotation.Table;
 import net.krlite.pierced.config.Pierced;
-import net.minecraft.text.MutableText;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -19,6 +17,7 @@ public class KnowledgesConfig extends Pierced {
 		load();
 	}
 
+	@Table("global")
 	private double crosshairSafeAreaSizeScalar = 1;
 
 	public double crosshairSafeAreaSizeScalar() {
@@ -30,6 +29,7 @@ public class KnowledgesConfig extends Pierced {
 		save();
 	}
 
+	@Table("global")
 	private double scalar = 1;
 
 	public double scalar() {
@@ -41,23 +41,36 @@ public class KnowledgesConfig extends Pierced {
 		save();
 	}
 
-	private boolean	infoTitleEnabled = true;
+	@Table("info")
+	private boolean infoTextsRightEnabled = true;
 
-	public boolean infoTitleEnabled() {
-		return infoTitleEnabled;
+	public boolean infoTextsRightEnabled() {
+		return infoTextsRightEnabled;
 	}
 
-	public void infoTitleEnabled(boolean flag) {
-		infoTitleEnabled = flag;
+	public void infoTextsRightEnabled(boolean flag) {
+		infoTextsRightEnabled = flag;
 	}
 
-	private boolean	infoSubtitleEnabled = true;
+	@Table("info")
+	private boolean infoTextsLeftEnabled = true;
 
-	public boolean infoSubtitleEnabled() {
-		return infoSubtitleEnabled;
+	public boolean infoTextsLeftEnabled() {
+		return infoTextsLeftEnabled;
 	}
 
-	public void infoSubtitleEnabled(boolean flag) {
-		infoSubtitleEnabled = flag;
+	public void infoTextsLeftEnabled(boolean flag) {
+		infoTextsLeftEnabled = flag;
+	}
+
+	@Table("info")
+	private boolean infoSubtitlesEnabled = true;
+
+	public boolean infoSubtitlesEnabled() {
+		return infoSubtitlesEnabled;
+	}
+
+	public void infoSubtitlesEnabled(boolean flag) {
+		infoSubtitlesEnabled = flag;
 	}
 }

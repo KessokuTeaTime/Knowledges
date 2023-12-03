@@ -9,11 +9,14 @@
   "config.knowledges.general.scalar": "Scalar",
   "config.knowledges.general.scalar.tooltip": "§7The global scalar for the components",
 
-  "config.knowledges.general.info_title_enabled": "Display Hit Result Title",
-  "config.knowledges.general.info_title_enabled.tooltip": "§7Whether to display the informational text\nplaced against the right side of the cursor",
+  "config.knowledges.general.info_texts_right_enabled": "Display Right Sided Texts",
+  "config.knowledges.general.info_texts_right_enabled.tooltip": "§7Whether to display the texts placed\nagainst the right side of the cursor",
 
-  "config.knowledges.general.info_subtitle_enabled": "Display Hit Result Subtitle",
-  "config.knowledges.general.info_subtitle_enabled.tooltip": "§7Whether to display the informational text\nplaced against the left side of the cursor",
+  "config.knowledges.general.info_texts_left_enabled": "Display Left Sided Texts",
+  "config.knowledges.general.info_texts_left_enabled.tooltip": "§7Whether to display the texts placed\nagainst the left side of the cursor",
+
+  "config.knowledges.general.info_subtitles_enabled": "Display Subtitles",
+  "config.knowledges.general.info_subtitles_enabled.tooltip": "§7Whether to display the descriptive texts\nthat are above or below the cursor texts",
 
   "config.knowledges.category.components": "Components",
 
@@ -23,9 +26,47 @@
   "knowledge.knowledges.info.block.name": "Block Info",
   "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block\nyou are looking at",
 
+  "knowledge.knowledges.info.block.harvest.unbreakable": "Unbreakable",
+  "knowledge.knowledges.info.block.harvest.pickaxe": "Pickaxes",
+  "knowledge.knowledges.info.block.harvest.axe": "Axes",
+  "knowledge.knowledges.info.block.harvest.hoe": "Hoes",
+  "knowledge.knowledges.info.block.harvest.shovel": "Shovels",
+
+  "knowledge.knowledges.info.block.mining_level": "Mining Level %d",
+  "knowledge.knowledges.info.block.mining_level.1": "Stone",
+  "knowledge.knowledges.info.block.mining_level.2": "Iron",
+  "knowledge.knowledges.info.block.mining_level.3": "Diamond",
+  "knowledge.knowledges.info.block.mining_level.4": "Netherite",
+
+  "knowledge.knowledges.info.block.harvest_and_mining_level": "%s, %s",
+
   "knowledge.knowledges.info.entity.name": "Entity Info",
   "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity\nyou are looking at",
 
   "knowledge.knowledges.armor_durability.name": "Armor Durability",
-  "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor"
+  "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor\naround the screen corner",
+
+  "instrument.knowledges.harp": "Harp",
+  "instrument.knowledges.basedrum": "Bass Drum",
+  "instrument.knowledges.snare": "Snare",
+  "instrument.knowledges.hat": "Hat",
+  "instrument.knowledges.bass": "Bass",
+  "instrument.knowledges.flute": "Flute",
+  "instrument.knowledges.bell": "Bells",
+  "instrument.knowledges.guitar": "Guitar",
+  "instrument.knowledges.chime": "Chimes",
+  "instrument.knowledges.xylophone": "Xylophone",
+  "instrument.knowledges.iron_xylophone": "Vibraphone",
+  "instrument.knowledges.cow_bell": "Cow Bell",
+  "instrument.knowledges.didgeridoo": "Didgeridoo",
+  "instrument.knowledges.bit": "Bit",
+  "instrument.knowledges.banjo": "Banjo",
+  "instrument.knowledges.pling": "Pling",
+  "instrument.knowledges.zombie": "Zombie",
+  "instrument.knowledges.Skeleton": "Skeleton",
+  "instrument.knowledges.creeper": "Creeper",
+  "instrument.knowledges.dragon": "Dragon",
+  "instrument.knowledges.wither_skeleton": "Wither Skeleton",
+  "instrument.knowledges.piglin": "Piglin",
+  "instrument.knowledges.custom_head": "Custom"
 }

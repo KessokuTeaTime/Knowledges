@@ -87,12 +87,12 @@ public class ArmorDurabilityComponent implements Knowledge {
 	}
 
 	@Override
-	public @NotNull Text name() {
-		return Knowledges.localize("knowledge", "armor_durability", "name");
+	public @NotNull String id() {
+		return "armor_durability";
 	}
 
 	@Override
-	public @Nullable Text tooltip() {
-		return Knowledges.localize("knowledge", "armor_durability", "tooltip");
+	public boolean provideTooltip() {
+		return true;
 	}
 }

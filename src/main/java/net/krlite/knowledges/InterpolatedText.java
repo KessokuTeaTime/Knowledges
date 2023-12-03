@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class InterpolatedText {
     private final InterpolatedDouble width = new InterpolatedDouble(0, 0.02);
     private final Alignment alignment;
+    private final long delay;
 
     public enum Alignment {
         LEFT((letters, width) -> {
@@ -64,8 +65,13 @@ public class InterpolatedText {
         }
     }
 
-    public InterpolatedText(Alignment alignment) {
+    public InterpolatedText(Alignment alignment, long delay) {
         this.alignment = alignment;
+        this.delay = delay;
+    }
+
+    public InterpolatedText(Alignment alignment) {
+        this(alignment, 0);
     }
 
     protected static int widthOf(String string) {
@@ -99,16 +105,21 @@ public class InterpolatedText {
     }
 
     public void text(Text text) {
-        if (!text.getString().isEmpty()) {
-            if (!cache.equals(current)) {
-                last = cache;
-                cache = current;
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (!text.getString().isEmpty()) {
+                    if (!cache.equals(current)) {
+                        last = cache;
+                        cache = current;
+                    }
+
+                    current = text.getString();
+                    style = text.getStyle();
+                }
+
+                width.target(widthOf(text.getString()));
             }
-
-            current = text.getString();
-            style = text.getStyle();
-        }
-
-        width.target(widthOf(text.getString()));
+        }, delay);
     }
 }

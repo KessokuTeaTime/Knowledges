@@ -1,6 +1,6 @@
 package net.krlite.knowledges.mixin.client;
 
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.components.InfoComponent;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -17,11 +17,11 @@ public class ClientPlayerInteractionManagerMixin {
 
 	@Inject(method = "updateBlockBreakingProgress", at = @At("RETURN"))
 	private void updateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-		Knowledges.Animations.blockBreakingProgress(currentBreakingProgress);
+		InfoComponent.Animations.Ring.blockBreakingProgress(currentBreakingProgress);
 	}
 
 	@Inject(method = "cancelBlockBreaking", at = @At("RETURN"))
 	private void cancelBlockBreaking(CallbackInfo ci) {
-		Knowledges.Animations.blockBreakingProgress(0);
+		InfoComponent.Animations.Ring.blockBreakingProgress(0);
 	}
 }

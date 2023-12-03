@@ -8,7 +8,6 @@ import net.krlite.knowledges.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -19,14 +18,14 @@ public class CrosshairComponent implements Knowledge {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		Box box = crosshairSafeArea()
-						  .scaleCenter(Knowledges.Animations.focusingBlock())
-						  .scaleCenter(1 + 0.3 * Knowledges.Animations.mouseHolding());
+				.scaleCenter(InfoComponent.Animations.Ring.focusingBlock())
+				.scaleCenter(1 + 0.3 * InfoComponent.Animations.Ring.mouseHolding());
 
 		// Shadow
 		box.render(context, flat ->
 				flat.new Rectangle()
 						.colors(Palette.Minecraft.BLACK)
-						.opacityMultiplier(0.075 * Knowledges.Animations.ovalOpacity())
+						.opacityMultiplier(0.08 * InfoComponent.Animations.Ring.ovalOpacity())
 						.new Outlined(box.size())
 						.style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
 		);
@@ -34,36 +33,36 @@ public class CrosshairComponent implements Knowledge {
 		// Oval
 		box.render(context, flat ->
 				flat.new Oval()
-						.colorCenter(Knowledges.Animations.ovalColor())
+						.colorCenter(InfoComponent.Animations.Ring.ovalColor())
 						.mode(Flat.Oval.OvalMode.FILL)
 		);
 
 		// Ring
-		if (Theory.looseGreater(Knowledges.Animations.ringRadians(), 0)) {
+		if (Theory.looseGreater(InfoComponent.Animations.Ring.ringRadians(), 0)) {
 			box.render(context, flat ->
 					flat.new Oval()
-							.radians(Knowledges.Animations.ringRadians())
+							.radians(InfoComponent.Animations.Ring.ringRadians())
 							.mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
-							.opacityMultiplier(Knowledges.Animations.ovalOpacity())
+							.opacityMultiplier(InfoComponent.Animations.Ring.ovalOpacity())
 
-							.colorCenter(Knowledges.Animations.ringColor().opacity(0.3))
+							.colorCenter(InfoComponent.Animations.Ring.ringColor().opacity(0.4))
 
 							.addColor(0, Palette.TRANSPARENT)
 							.addColor(
-									Knowledges.Animations.ringRadians(),
-									Knowledges.Animations.ringColor()
+									InfoComponent.Animations.Ring.ringRadians(),
+									InfoComponent.Animations.Ring.ringColor()
 							)
 			);
 		}
 	}
 
 	@Override
-	public @NotNull Text name() {
-		return Knowledges.localize("knowledge", "crosshair", "name");
+	public @NotNull String id() {
+		return "crosshair";
 	}
 
 	@Override
-	public @Nullable Text tooltip() {
-		return Knowledges.localize("knowledge", "crosshair", "tooltip");
+	public boolean provideTooltip() {
+		return true;
 	}
 }

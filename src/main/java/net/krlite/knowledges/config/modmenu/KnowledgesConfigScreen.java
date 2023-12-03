@@ -55,21 +55,30 @@ public class KnowledgesConfigScreen {
 				.build());
 
 		general.addEntry(entryBuilder.startBooleanToggle(
-						Knowledges.localize("config", "general", "info_title_enabled"),
-						CONFIG.infoTitleEnabled()
+						Knowledges.localize("config", "general", "info_texts_right_enabled"),
+						CONFIG.infoTextsRightEnabled()
 				)
 				.setDefaultValue(true)
-				.setTooltip(Knowledges.localize("config", "general", "info_title_enabled", "tooltip"))
-				.setSaveConsumer(CONFIG::infoTitleEnabled)
+				.setTooltip(Knowledges.localize("config", "general", "info_texts_right_enabled", "tooltip"))
+				.setSaveConsumer(CONFIG::infoTextsRightEnabled)
 				.build());
 
 		general.addEntry(entryBuilder.startBooleanToggle(
-						Knowledges.localize("config", "general", "info_subtitle_enabled"),
-						CONFIG.infoSubtitleEnabled()
+						Knowledges.localize("config", "general", "info_texts_left_enabled"),
+						CONFIG.infoTextsLeftEnabled()
 				)
 				.setDefaultValue(true)
-				.setTooltip(Knowledges.localize("config", "general", "info_subtitle_enabled", "tooltip"))
-				.setSaveConsumer(CONFIG::infoSubtitleEnabled)
+				.setTooltip(Knowledges.localize("config", "general", "info_texts_left_enabled", "tooltip"))
+				.setSaveConsumer(CONFIG::infoTextsLeftEnabled)
+				.build());
+
+		general.addEntry(entryBuilder.startBooleanToggle(
+						Knowledges.localize("config", "general", "info_subtitles_enabled"),
+						CONFIG.infoSubtitlesEnabled()
+				)
+				.setDefaultValue(true)
+				.setTooltip(Knowledges.localize("config", "general", "info_subtitles_enabled", "tooltip"))
+				.setSaveConsumer(CONFIG::infoSubtitlesEnabled)
 				.build());
 
 		// Components
