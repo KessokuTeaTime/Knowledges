@@ -6,18 +6,32 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BannerBlockEntity;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BannerItem;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class BlockInfoComponent extends InfoComponent {
 	@Override
@@ -45,12 +59,7 @@ public class BlockInfoComponent extends InfoComponent {
 			ItemStack itemStack = player.getMainHandStack();
 
 			// Right Above
-			if (client.options.advancedItemTooltips && !itemStack.isEmpty()) subtitleRightAbove: {
-				if (itemStack.isOf(Items.NOTE_BLOCK)) {
-					Animations.Texts.subtitleRightAbove(Knowledges.getInstrumentName(blockState.getInstrument()));
-					break subtitleRightAbove;
-				}
-
+			if (client.options.advancedItemTooltips) subtitleRightAbove: {
 				Animations.Texts.subtitleRightAbove(Text.literal(Registries.BLOCK.getId(blockState.getBlock()).getPath()));
 			} else {
 				Animations.Texts.subtitleRightAbove(Text.empty());
@@ -58,65 +67,105 @@ public class BlockInfoComponent extends InfoComponent {
 
 			// Right Below
 			subtitleRightBelow: {
-				MutableText prefix = Text.empty(), postfix = Text.empty();
+				MutableText tool = Text.empty(), miningLevel = Text.empty();
+				boolean foundSemanticMiningLevel = false;
 
-				prefix: {
+				tool: {
 					if (hardness < 0) {
 						// Unbreakable
-						prefix = localize("harvest", "unbreakable");
-						break prefix;
+						tool = localize("tool", "unbreakable");
+						break tool;
 					}
 
 					if (blockState.isIn(BlockTags.PICKAXE_MINEABLE)) {
-						prefix = localize("harvest", "pickaxe");
-						break prefix;
+						tool = localize("tool", "pickaxe");
+						break tool;
 					}
 
 					if (blockState.isIn(BlockTags.AXE_MINEABLE)) {
-						prefix = localize("harvest", "axe");
-						break prefix;
+						tool = localize("tool", "axe");
+						break tool;
 					}
 
 					if (blockState.isIn(BlockTags.HOE_MINEABLE)) {
-						prefix = localize("harvest", "hoe");
-						break prefix;
+						tool = localize("tool", "hoe");
+						break tool;
 					}
 
 					if (blockState.isIn(BlockTags.SHOVEL_MINEABLE)) {
-						prefix = localize("harvest", "shovel");
-						break prefix;
+						tool = localize("tool", "shovel");
+						break tool;
 					}
 				}
 
-				postfix: {
+				miningLevel: {
 					int requiredLevel = MiningLevelManager.getRequiredMiningLevel(blockState);
-					System.out.println(requiredLevel);
-					if (requiredLevel <= 0) break postfix;
+					if (requiredLevel <= 0) break miningLevel;
 
-					String baseLocalizationKey = localizationKey("mining_level");
-					String levelLocalizationKey = localizationKey("mining_level", String.valueOf(requiredLevel));
-					MutableText localization = Knowledges.localize(levelLocalizationKey);
+					String localizationKey = localizationKey("mining_level");
+					String localizationKeyWithLevel = localizationKey("mining_level", String.valueOf(requiredLevel));
+					MutableText localizationWithLevel = Knowledges.localize(localizationKeyWithLevel);
 
-					postfix = localization.getString().equals(levelLocalizationKey) ? Text.translatable(baseLocalizationKey, requiredLevel) : localization;
+					foundSemanticMiningLevel = !localizationWithLevel.getString().equals(localizationKeyWithLevel);
+					miningLevel = foundSemanticMiningLevel ? localizationWithLevel : Text.translatable(localizationKey, requiredLevel);
 				}
 
-				if (prefix.equals(Text.empty()) && postfix.equals(Text.empty())) {
+				if (tool.equals(Text.empty()) && miningLevel.equals(Text.empty())) {
 					Animations.Texts.subtitleLeftBelow(Text.empty());
-				} else if (prefix.equals(Text.empty())) {
-					Animations.Texts.subtitleRightBelow(postfix);
-				} else if (postfix.equals(Text.empty())) {
-					Animations.Texts.subtitleRightBelow(prefix);
+				} else if (tool.equals(Text.empty())) {
+					Animations.Texts.subtitleRightBelow(miningLevel);
+				} else if (miningLevel.equals(Text.empty())) {
+					Animations.Texts.subtitleRightBelow(tool);
 				} else {
 					Animations.Texts.subtitleRightBelow(Text.translatable(
-							localizationKey("harvest_and_mining_level"),
-							prefix.getString(), postfix.getString()
+							foundSemanticMiningLevel ? localizationKey("harvest_and_mining_level_semantic") : localizationKey("harvest_and_mining_level"),
+							tool.getString(), miningLevel.getString()
 					));
 				}
 			}
 
 			// Left Above
-			subtitleLeftAbove: {
+			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
 				Animations.Texts.subtitleLeftAbove(Text.literal(Knowledges.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
+			} else {
+				Animations.Texts.subtitleLeftAbove(Text.empty());
+			}
+
+			// Left Below
+			subtitleLeftBelow: {
+				if (itemStack.isOf(Items.NOTE_BLOCK)) {
+					Animations.Texts.subtitleLeftBelow(Knowledges.getInstrumentName(blockState.getInstrument()));
+					break subtitleLeftBelow;
+				}
+
+				if (blockState.isIn(BlockTags.BANNERS)) {
+					var patterns = ((BannerBlockEntity) Objects.requireNonNull(Info.crosshairBlockEntity())).getPatterns();
+
+					if (patterns.size() > 1) {
+						// The first pattern is always the background color, so ignore it
+
+						patterns.get(1).getFirst().getKey()
+								.map(RegistryKey::getValue)
+								.map(Identifier::toShortTranslationKey)
+								.ifPresent(translationKey -> {
+									Text pattern = Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName());
+									if (patterns.size() > 2) {
+										Animations.Texts.subtitleLeftBelow(Text.translatable(
+												localizationKey("banner", "patterns"),
+												pattern.getString(), patterns.size() - 2
+												// Should be something like *<pattern> and <number> more*, so the argument
+												// is subtracted by 2.
+										));
+									} else {
+										Animations.Texts.subtitleLeftBelow(pattern);
+									}
+								});
+
+						break subtitleLeftBelow;
+					}
+				}
+
+				Animations.Texts.subtitleLeftBelow(Text.empty());
 			}
 		}
 	}

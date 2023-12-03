@@ -26,11 +26,11 @@
   "knowledge.knowledges.info.block.name": "Block Info",
   "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block\nyou are looking at",
 
-  "knowledge.knowledges.info.block.harvest.unbreakable": "Unbreakable",
-  "knowledge.knowledges.info.block.harvest.pickaxe": "Pickaxes",
-  "knowledge.knowledges.info.block.harvest.axe": "Axes",
-  "knowledge.knowledges.info.block.harvest.hoe": "Hoes",
-  "knowledge.knowledges.info.block.harvest.shovel": "Shovels",
+  "knowledge.knowledges.info.block.tool.unbreakable": "Unbreakable",
+  "knowledge.knowledges.info.block.tool.pickaxe": "Pickaxes",
+  "knowledge.knowledges.info.block.tool.axe": "Axes",
+  "knowledge.knowledges.info.block.tool.hoe": "Hoes",
+  "knowledge.knowledges.info.block.tool.shovel": "Shovels",
 
   "knowledge.knowledges.info.block.mining_level": "Mining Level %d",
   "knowledge.knowledges.info.block.mining_level.1": "Stone",
@@ -38,7 +38,10 @@
   "knowledge.knowledges.info.block.mining_level.3": "Diamond",
   "knowledge.knowledges.info.block.mining_level.4": "Netherite",
 
-  "knowledge.knowledges.info.block.harvest_and_mining_level": "%s, %s",
+  "knowledge.knowledges.info.block.harvest_and_mining_level_semantic": "%2$s %1$s",
+  "knowledge.knowledges.info.block.harvest_and_mining_level": "%1$s with %2$s",
+
+  "knowledge.knowledges.info.block.banner.patterns": "%s and %d More Patterns",
 
   "knowledge.knowledges.info.entity.name": "Entity Info",
   "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity\nyou are looking at",
@@ -47,7 +50,7 @@
   "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor\naround the screen corner",
 
   "instrument.knowledges.harp": "Harp",
-  "instrument.knowledges.basedrum": "Bass Drum",
+  "instrument.knowledges.basedrum": "Base Drum",
   "instrument.knowledges.snare": "Snare",
   "instrument.knowledges.hat": "Hat",
   "instrument.knowledges.bass": "Bass",

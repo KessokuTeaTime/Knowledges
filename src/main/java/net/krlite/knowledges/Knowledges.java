@@ -86,6 +86,7 @@ public class Knowledges implements ModInitializer {
 
 			if (nbtCompound != null && nbtCompound.contains("EntityTag", 10)) {
 				NbtCompound entityTagCompound = nbtCompound.getCompound("EntityTag");
+
 				paintingNamespace = PaintingEntity.readVariantFromNbt(entityTagCompound)
 						.flatMap(RegistryEntry::getKey)
 						.map(RegistryKey::getRegistry)
@@ -102,7 +103,7 @@ public class Knowledges implements ModInitializer {
 	}
 
 	public static MutableText getInstrumentName(Instrument instrument) {
-		return localize("instrument", instrument.name());
+		return localize("instrument", instrument.asString());
 	}
 
 	public static int knowledgesCount() {

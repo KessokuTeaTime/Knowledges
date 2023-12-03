@@ -2,7 +2,9 @@ package net.krlite.knowledges;
 
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
@@ -98,6 +100,15 @@ public interface Knowledge {
 
 			HitResult hitResult = crosshairTarget();
 			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(crosshairBlockPos()) : null;
+		}
+
+		@Nullable
+		public static BlockEntity crosshairBlockEntity() {
+			MinecraftClient client = MinecraftClient.getInstance();
+			if (client.world == null || client.player == null) return null;
+
+			HitResult hitResult = crosshairTarget();
+			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockEntity(crosshairBlockPos()) : null;
 		}
 
 		@Nullable
