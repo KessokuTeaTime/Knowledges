@@ -7,26 +7,17 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +39,7 @@ public class BlockInfoComponent extends InfoComponent {
 			// Titles
 			titles: {
 				Animations.Texts.titleRight(blockName);
-				Animations.Texts.titleLeft(Knowledges.getModName(Knowledges.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
+				Animations.Texts.titleLeft(Util.getModName(Util.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
 			}
 
 			Animations.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
@@ -126,7 +117,7 @@ public class BlockInfoComponent extends InfoComponent {
 
 			// Left Above
 			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
-				Animations.Texts.subtitleLeftAbove(Text.literal(Knowledges.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
+				Animations.Texts.subtitleLeftAbove(Text.literal(Util.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
 			} else {
 				Animations.Texts.subtitleLeftAbove(Text.empty());
 			}
@@ -134,7 +125,7 @@ public class BlockInfoComponent extends InfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				if (itemStack.isOf(Items.NOTE_BLOCK)) {
-					Animations.Texts.subtitleLeftBelow(Knowledges.getInstrumentName(blockState.getInstrument()));
+					Animations.Texts.subtitleLeftBelow(Util.getInstrumentName(blockState.getInstrument()));
 					break subtitleLeftBelow;
 				}
 

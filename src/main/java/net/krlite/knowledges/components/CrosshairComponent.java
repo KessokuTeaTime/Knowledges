@@ -4,15 +4,12 @@ import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.Knowledge;
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.api.Knowledge;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class CrosshairComponent implements Knowledge {
 	@Override

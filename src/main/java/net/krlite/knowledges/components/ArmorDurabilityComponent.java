@@ -1,22 +1,17 @@
 package net.krlite.knowledges.components;
 
 import net.krlite.equator.math.geometry.flat.Box;
-import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.equator.render.frame.FrameInfo;
-import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.equator.visual.color.base.ColorStandard;
-import net.krlite.knowledges.Knowledge;
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;

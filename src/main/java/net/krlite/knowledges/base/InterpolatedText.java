@@ -1,4 +1,4 @@
-package net.krlite.knowledges;
+package net.krlite.knowledges.base;
 
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.minecraft.client.MinecraftClient;

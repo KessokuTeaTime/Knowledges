@@ -2,13 +2,12 @@ package net.krlite.knowledges.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.render.frame.FrameInfo;
-import net.krlite.knowledges.Knowledge;
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.world.GameMode;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

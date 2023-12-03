@@ -1,5 +1,6 @@
 package net.krlite.knowledges;
 
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.api.KnowledgeContainer;
 import net.krlite.knowledges.components.ArmorDurabilityComponent;
 import net.krlite.knowledges.components.CrosshairComponent;

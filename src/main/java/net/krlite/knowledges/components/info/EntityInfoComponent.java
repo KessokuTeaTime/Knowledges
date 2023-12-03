@@ -1,31 +1,20 @@
 package net.krlite.knowledges.components.info;
 
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.decoration.DisplayEntity;
-import net.minecraft.entity.decoration.GlowItemFrameEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +30,7 @@ public class EntityInfoComponent extends InfoComponent {
 			// Titles
 			titles: {
 				Animations.Texts.titleRight(entityName);
-				Animations.Texts.titleLeft(Knowledges.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+				Animations.Texts.titleLeft(Util.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 
 			if (entity.getType() == EntityType.PAINTING
