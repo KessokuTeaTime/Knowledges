@@ -29,11 +29,22 @@ public abstract class KnowledgesHud {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) break render;
 
-			if (client.options.getPerspective().isFirstPerson()
-						&& ((client.interactionManager != null && client.interactionManager.getCurrentGameMode() != GameMode.SPECTATOR)
-									|| ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(Knowledge.Info.crosshairTarget()))
-						&& !(client.options.debugEnabled && !client.options.hudHidden && !client.player.hasReducedDebugInfo() && !client.options.getReducedDebugInfo().getValue())
-			) Knowledges.render(context, client, client.player, client.world);
+			boolean isFirstPerson = client.options.getPerspective().isFirstPerson();
+			boolean isSpectator = client.interactionManager != null && client.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR;
+			boolean shouldRenderSpectatorCrosshair = Knowledge.Info.crosshairTarget()
+					.map(hitResult -> ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(hitResult))
+					.orElse(false);
+			boolean isInDebugHud = client.options.debugEnabled
+					&& !client.options.hudHidden
+					&& !client.player.hasReducedDebugInfo()
+					&& !client.options.getReducedDebugInfo().getValue();
+
+			if (isFirstPerson
+						&& (!isSpectator || shouldRenderSpectatorCrosshair)
+						&& !isInDebugHud
+			) {
+				Knowledges.render(context, client, client.player, client.world);
+			}
 		}
 
 		context.getMatrices().pop();

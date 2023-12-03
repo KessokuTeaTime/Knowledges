@@ -6,17 +6,16 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.Instrument;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -37,9 +36,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.Optional;
 
 public interface Knowledge {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
@@ -84,57 +83,48 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			return crosshairBlock() != null || crosshairEntity() != null;
+			return crosshairBlockState().isPresent() || crosshairEntity().isPresent();
 		}
 
-		@Nullable
-		public static HitResult crosshairTarget() {
+		public static Optional<HitResult> crosshairTarget() {
+			return Optional.ofNullable(hasCrosshairTarget() ? MinecraftClient.getInstance().crosshairTarget : null);
+		}
+
+		public static Optional<Vec3d> crosshairPos() {
+			return crosshairTarget()
+					.map(HitResult::getPos);
+		}
+
+		public static Optional<BlockPos> crosshairBlockPos() {
+			return crosshairTarget()
+					.filter(hitResult -> hitResult.getType() == HitResult.Type.BLOCK)
+					.map(hitResult -> (BlockHitResult) hitResult)
+					.map(BlockHitResult::getBlockPos);
+		}
+
+		public static Optional<BlockState> crosshairBlockState() {
 			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.world == null || client.player == null) return null;
-
-			return client.crosshairTarget;
+			return crosshairBlockPos()
+					.map(blockPos -> client.world != null ? client.world.getBlockState(blockPos) : null);
 		}
 
-		@Nullable
-		public static Vec3d crosshairPos() {
-			HitResult hitResult = crosshairTarget();
-			return hitResult != null ? hitResult.getPos() : null;
-		}
-
-		@Nullable
-		public static BlockPos crosshairBlockPos() {
+		public static Optional<BlockEntity> crosshairBlockEntity() {
 			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.world == null || client.player == null) return null;
-
-			HitResult hitResult = crosshairTarget();
-			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? ((BlockHitResult) hitResult).getBlockPos() : null;
+			return crosshairBlockPos()
+					.map(blockPos -> client.world != null ? client.world.getBlockEntity(blockPos) : null);
 		}
 
-		@Nullable
-		public static BlockState crosshairBlock() {
-			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.world == null || client.player == null) return null;
-
-			HitResult hitResult = crosshairTarget();
-			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockState(crosshairBlockPos()) : null;
+		public static Optional<Entity> crosshairEntity() {
+			return crosshairTarget()
+					.filter(hitResult -> hitResult.getType() == HitResult.Type.ENTITY)
+					.map(hitResult -> (EntityHitResult) hitResult)
+					.map(EntityHitResult::getEntity);
 		}
 
-		@Nullable
-		public static BlockEntity crosshairBlockEntity() {
+		public static Optional<FluidState> crosshairFluidState() {
 			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.world == null || client.player == null) return null;
-
-			HitResult hitResult = crosshairTarget();
-			return hitResult != null && hitResult.getType() == HitResult.Type.BLOCK ? client.world.getBlockEntity(crosshairBlockPos()) : null;
-		}
-
-		@Nullable
-		public static Entity crosshairEntity() {
-			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.world == null || client.player == null) return null;
-
-			HitResult hitResult = crosshairTarget();
-			return hitResult != null && hitResult.getType() == HitResult.Type.ENTITY && hitResult instanceof EntityHitResult ? ((EntityHitResult) hitResult).getEntity() : null;
+			return crosshairBlockPos()
+					.map(blockPos -> client.world != null ? client.world.getFluidState(blockPos) : null);
 		}
 	}
 

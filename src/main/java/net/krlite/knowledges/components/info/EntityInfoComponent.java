@@ -22,9 +22,7 @@ public class EntityInfoComponent extends InfoComponent {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);
-		@Nullable Entity entity = Info.crosshairEntity();
-
-		if (entity != null) {
+		Info.crosshairEntity().ifPresent(entity -> {
 			MutableText entityName = entity.getDisplayName().copy();
 
 			// Titles
@@ -114,7 +112,7 @@ public class EntityInfoComponent extends InfoComponent {
 			subtitleLeftBelow: {
 				Animations.Texts.subtitleLeftBelow(Text.empty());
 			}
-		}
+		});
 	}
 
 	@Override
