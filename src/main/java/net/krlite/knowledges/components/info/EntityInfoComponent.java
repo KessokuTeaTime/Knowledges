@@ -22,8 +22,13 @@ public class EntityInfoComponent extends InfoComponent {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);
+
 		Info.crosshairEntity().ifPresent(entity -> {
 			MutableText entityName = entity.getDisplayName().copy();
+
+			String
+					namespace = Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace(),
+					path = Registries.ENTITY_TYPE.getId(entity.getType()).getPath();
 
 			// Titles
 			titles: {
@@ -31,38 +36,35 @@ public class EntityInfoComponent extends InfoComponent {
 				Animations.Texts.titleLeft(Util.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 
-			if (entity.getType() == EntityType.PAINTING
-					|| entity.getType() == EntityType.ITEM_FRAME
-					|| entity.getType() == EntityType.GLOW_ITEM_FRAME
-			) {
-				Animations.Ring.ringColor(Palette.Minecraft.WHITE);
-				Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
-			} else if (entity.isInvulnerable()) {
-				Animations.Ring.ringColor(Palette.Minecraft.LIGHT_PURPLE);
-				Animations.Ring.ovalColor(Palette.Minecraft.LIGHT_PURPLE);
-			} else {
-				switch (entity.getType().getSpawnGroup()) {
-					case MONSTER -> {
-						Animations.Ring.ringColor(Palette.Minecraft.RED);
-						Animations.Ring.ovalColor(Palette.Minecraft.RED);
-					}
-					case WATER_CREATURE -> {
-						Animations.Ring.ringColor(Palette.Minecraft.AQUA);
-						Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
-					}
-					case MISC -> {
-						Animations.Ring.ringColor(Palette.Minecraft.GRAY);
-						Animations.Ring.ovalColor(Palette.Minecraft.DARK_GRAY);
-					}
-					case AMBIENT -> {
-						Animations.Ring.ringColor(Palette.Minecraft.WHITE);
-						Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
-					}
-					default -> {
-						Animations.Ring.ringColor(Palette.Minecraft.GREEN);
-						Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
-					}
+			switch (entity.getType().getSpawnGroup()) {
+				case MONSTER -> {
+					Animations.Ring.ringColor(Palette.Minecraft.RED);
+					Animations.Ring.ovalColor(Palette.Minecraft.RED);
 				}
+				case WATER_CREATURE, UNDERGROUND_WATER_CREATURE -> {
+					Animations.Ring.ringColor(Palette.Minecraft.AQUA);
+					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+				}
+				case WATER_AMBIENT -> {
+					Animations.Ring.ringColor(Palette.Minecraft.BLUE);
+					Animations.Ring.ovalColor(Palette.Minecraft.BLUE);
+				}
+				case MISC -> {
+					Animations.Ring.ringColor(Palette.Minecraft.WHITE);
+					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+				}
+				case AMBIENT -> {
+					Animations.Ring.ringColor(Palette.Minecraft.YELLOW);
+					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+				}
+				default -> {
+					Animations.Ring.ringColor(Palette.Minecraft.GREEN);
+					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+				}
+			}
+
+			if (entity.isInvulnerable()) {
+				Animations.Ring.ovalColor(Palette.Minecraft.LIGHT_PURPLE);
 			}
 
 			if (!entity.isInvulnerable() && entity instanceof LivingEntity livingEntity) {
@@ -73,25 +75,7 @@ public class EntityInfoComponent extends InfoComponent {
 
 			// Right Above
 			if (client.options.advancedItemTooltips) subtitleRightAbove: {
-				if (entity.getType() == EntityType.PAINTING) {
-					((PaintingEntity) entity).getVariant().getKey().ifPresent((key) ->
-							Animations.Texts.subtitleRightAbove(
-									Text.translatable(key.getValue().toTranslationKey("painting", "title"))
-							));
-
-					break subtitleRightAbove;
-				}
-
-				if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
-					ItemStack heldItemStack = ((ItemFrameEntity) entity).getHeldItemStack();
-					if (!heldItemStack.isEmpty()) {
-						Animations.Texts.subtitleRightAbove(heldItemStack.getItem().getName());
-
-						break subtitleRightAbove;
-					}
-				}
-
-				Animations.Texts.subtitleRightAbove(Text.empty());
+				Animations.Texts.subtitleRightAbove(Text.literal(path));
 			} else {
 				Animations.Texts.subtitleRightAbove(Text.empty());
 			}
@@ -103,13 +87,31 @@ public class EntityInfoComponent extends InfoComponent {
 
 			// Left Above
 			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
-				Animations.Texts.subtitleLeftAbove(Text.literal(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+				Animations.Texts.subtitleLeftAbove(Text.literal(namespace));
 			} else {
 				Animations.Texts.subtitleLeftAbove(Text.empty());
 			}
 
 			// Left Below
 			subtitleLeftBelow: {
+				if (entity.getType() == EntityType.PAINTING) {
+					((PaintingEntity) entity).getVariant().getKey().ifPresent((key) ->
+							Animations.Texts.subtitleRightAbove(
+									Text.translatable(key.getValue().toTranslationKey("painting", "title"))
+							));
+
+					break subtitleLeftBelow;
+				}
+
+				if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
+					ItemStack heldItemStack = ((ItemFrameEntity) entity).getHeldItemStack();
+					if (!heldItemStack.isEmpty()) {
+						Animations.Texts.subtitleRightAbove(heldItemStack.getItem().getName());
+
+						break subtitleLeftBelow;
+					}
+				}
+
 				Animations.Texts.subtitleLeftBelow(Text.empty());
 			}
 		});

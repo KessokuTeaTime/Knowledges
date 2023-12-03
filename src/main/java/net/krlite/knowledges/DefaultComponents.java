@@ -6,22 +6,23 @@ import net.krlite.knowledges.components.ArmorDurabilityComponent;
 import net.krlite.knowledges.components.CrosshairComponent;
 import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.components.info.EntityInfoComponent;
+import net.krlite.knowledges.components.info.FluidInfoComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultComponents implements KnowledgeContainer {
 	@Override
-	public @NotNull ArrayList<Knowledge> register() {
-		final ArrayList<Knowledge> knowledges = new ArrayList<>();
+	public @NotNull List<Knowledge> register() {
+		return List.of(
+				new CrosshairComponent(),
 
-		knowledges.add(new CrosshairComponent());
+				new BlockInfoComponent(),
+				new EntityInfoComponent(),
+				new FluidInfoComponent(),
 
-		knowledges.add(new BlockInfoComponent());
-		knowledges.add(new EntityInfoComponent());
-
-		knowledges.add(new ArmorDurabilityComponent());
-
-		return knowledges;
+				new ArmorDurabilityComponent()
+		);
 	}
 }

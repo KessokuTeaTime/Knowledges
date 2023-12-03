@@ -35,10 +35,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public interface Knowledge {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
@@ -83,11 +80,11 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			return crosshairBlockState().isPresent() || crosshairEntity().isPresent();
+			return crosshairBlockPos().isPresent() || crosshairEntity().isPresent() || crosshairFluidState().isPresent();
 		}
 
 		public static Optional<HitResult> crosshairTarget() {
-			return Optional.ofNullable(hasCrosshairTarget() ? MinecraftClient.getInstance().crosshairTarget : null);
+			return Optional.ofNullable(MinecraftClient.getInstance().crosshairTarget);
 		}
 
 		public static Optional<Vec3d> crosshairPos() {
@@ -123,8 +120,14 @@ public interface Knowledge {
 
 		public static Optional<FluidState> crosshairFluidState() {
 			MinecraftClient client = MinecraftClient.getInstance();
-			return crosshairBlockPos()
-					.map(blockPos -> client.world != null ? client.world.getFluidState(blockPos) : null);
+			return crosshairTarget()
+					.filter(hitResult -> hitResult.getType() == HitResult.Type.MISS)
+					.flatMap(hitResult -> crosshairPos()
+							.flatMap(pos -> Optional.ofNullable(client.world)
+									.map(world -> world.getFluidState(new BlockPos((int) pos.getX(), (int) pos.getY(), (int) pos.getZ())))
+							)
+					)
+					.filter(fluidState -> !fluidState.isEmpty());
 		}
 	}
 

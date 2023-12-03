@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Knowledges implements ModInitializer {
 	public static final String NAME = "Knowledges", ID = "knowledges";
@@ -25,7 +26,7 @@ public class Knowledges implements ModInitializer {
 
 	public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
 	private static final KnowledgesBanList banList = new KnowledgesBanList();
-	private static final ArrayList<Knowledge> knowledges = new ArrayList<>();
+	private static final List<Knowledge> knowledges = new ArrayList<>();
 	private static int knowledgesCount = 0;
 
 	public static int knowledgesCount() {

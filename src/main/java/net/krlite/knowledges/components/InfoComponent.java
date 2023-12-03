@@ -96,7 +96,7 @@ public abstract class InfoComponent implements Knowledge {
 				// Right Below
 				renderText(
 						context,
-						textsRight.shift(-0.25 * scalar(), 10.2 * scalar()),
+						textsRight.shift(-0.25 * scalar(), 10.8 * scalar()),
 						Animations.Texts.subtitleRightBelow(),
 						Paragraph.Alignment.LEFT,
 						Palette.Minecraft.WHITE.opacity(0.2),
@@ -118,7 +118,7 @@ public abstract class InfoComponent implements Knowledge {
 				// Left Below
 				renderText(
 						context,
-						textsLeft.shift(0.25 * scalar(), 10.2 * scalar()),
+						textsLeft.shift(0.25 * scalar(), 10.8 * scalar()),
 						Animations.Texts.subtitleLeftBelow(),
 						Paragraph.Alignment.RIGHT,
 						Palette.Minecraft.WHITE.opacity(0.2),

@@ -24,6 +24,7 @@ public class BlockInfoComponent extends InfoComponent {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);
+
 		Info.crosshairBlockState().ifPresent(blockState -> {
 			MutableText blockName = blockState.getBlock().getName();
 
@@ -32,56 +33,49 @@ public class BlockInfoComponent extends InfoComponent {
 					.orElse(0F);
 			boolean harvestable = hardness >= 0 && player.canHarvest(blockState);
 
-			// Titles
-			titles: {
-				Animations.Texts.titleRight(blockName);
-				Animations.Texts.titleLeft(Util.getModName(Util.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
-			}
+			String
+					namespace = Util.getNamespace(blockState.getBlock().asItem().getDefaultStack()),
+					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
+			ItemStack itemStack = player.getMainHandStack();
 
 			Animations.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
 
 			Animations.Ring.ringRadians(Math.PI * 2 * Animations.Ring.blockBreakingProgress());
 			Animations.Ring.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Animations.Ring.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
 
-			ItemStack itemStack = player.getMainHandStack();
+			// Titles
+			titles: {
+				Animations.Texts.titleRight(blockName);
+				Animations.Texts.titleLeft(Util.getModName(namespace));
+			}
 
 			// Right Above
 			if (client.options.advancedItemTooltips) subtitleRightAbove: {
-				Animations.Texts.subtitleRightAbove(Text.literal(Registries.BLOCK.getId(blockState.getBlock()).getPath()));
+				Animations.Texts.subtitleRightAbove(Text.literal(path));
 			} else {
 				Animations.Texts.subtitleRightAbove(Text.empty());
 			}
 
 			// Right Below
 			subtitleRightBelow: {
-				MutableText tool = Text.empty(), miningLevel = Text.empty();
+				MutableText tool, miningLevel = null;
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
 					if (hardness < 0) {
 						// Unbreakable
 						tool = localize("tool", "unbreakable");
-						break tool;
-					}
-
-					if (blockState.isIn(BlockTags.PICKAXE_MINEABLE)) {
+					} else if (blockState.isIn(BlockTags.PICKAXE_MINEABLE)) {
 						tool = localize("tool", "pickaxe");
-						break tool;
-					}
-
-					if (blockState.isIn(BlockTags.AXE_MINEABLE)) {
+					} else if (blockState.isIn(BlockTags.AXE_MINEABLE)) {
 						tool = localize("tool", "axe");
-						break tool;
-					}
-
-					if (blockState.isIn(BlockTags.HOE_MINEABLE)) {
+					} else if (blockState.isIn(BlockTags.HOE_MINEABLE)) {
 						tool = localize("tool", "hoe");
-						break tool;
-					}
-
-					if (blockState.isIn(BlockTags.SHOVEL_MINEABLE)) {
+					} else if (blockState.isIn(BlockTags.SHOVEL_MINEABLE)) {
 						tool = localize("tool", "shovel");
-						break tool;
+					} else {
+						Animations.Texts.subtitleRightBelow(Text.empty());
+						break subtitleRightBelow;
 					}
 				}
 
@@ -97,11 +91,7 @@ public class BlockInfoComponent extends InfoComponent {
 					miningLevel = foundSemanticMiningLevel ? localizationWithLevel : Text.translatable(localizationKey, requiredLevel);
 				}
 
-				if (tool.equals(Text.empty()) && miningLevel.equals(Text.empty())) {
-					Animations.Texts.subtitleLeftBelow(Text.empty());
-				} else if (tool.equals(Text.empty())) {
-					Animations.Texts.subtitleRightBelow(miningLevel);
-				} else if (miningLevel.equals(Text.empty())) {
+				if (miningLevel == null) {
 					Animations.Texts.subtitleRightBelow(tool);
 				} else {
 					Animations.Texts.subtitleRightBelow(Text.translatable(
@@ -113,7 +103,7 @@ public class BlockInfoComponent extends InfoComponent {
 
 			// Left Above
 			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
-				Animations.Texts.subtitleLeftAbove(Text.literal(Util.getNamespace(blockState.getBlock().asItem().getDefaultStack())));
+				Animations.Texts.subtitleLeftAbove(Text.literal(namespace));
 			} else {
 				Animations.Texts.subtitleLeftAbove(Text.empty());
 			}
