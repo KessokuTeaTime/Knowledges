@@ -3,7 +3,6 @@ package net.krlite.knowledges.config;
 import net.fabricmc.loader.api.FabricLoader;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.apache.commons.io.FileUtils;
 
@@ -11,12 +10,12 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class KnowledgesBanList {
-	public KnowledgesBanList() {
+public class KnowledgesBanned {
+	public KnowledgesBanned() {
 		load();
 	}
 
-	private static final File storage = FabricLoader.getInstance().getConfigDir().resolve("knowledges_ban_list.txt").toFile();
+	private static final File storage = FabricLoader.getInstance().getConfigDir().resolve("knowledges_banned.txt").toFile();
 	private static final ArrayList<String> banned = new ArrayList<>();
 
 	private void load() {
@@ -42,8 +41,15 @@ public class KnowledgesBanList {
 		}
 	}
 
-	public void setBanned(Knowledge knowledge, boolean flag) {
-		Knowledges.getIdentifier(knowledge)
+	public boolean get(Knowledge knowledge) {
+		return Knowledges.identifier(knowledge)
+				.map(Identifier::toString)
+				.filter(banned::contains)
+				.isPresent();
+	}
+
+	public void set(Knowledge knowledge, boolean flag) {
+		Knowledges.identifier(knowledge)
 				.map(Identifier::toString)
 				.ifPresent(id -> {
 					if (flag) {
@@ -58,12 +64,5 @@ public class KnowledgesBanList {
 						}
 					}
 				});
-	}
-
-	public boolean isBanned(Knowledge knowledge) {
-		return Knowledges.getIdentifier(knowledge)
-				.map(Identifier::toString)
-				.filter(banned::contains)
-				.isPresent();
 	}
 }

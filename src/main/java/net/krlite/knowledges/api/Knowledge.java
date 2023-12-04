@@ -73,7 +73,7 @@ public interface Knowledge {
 	}
 
 	default MutableText localize(String... paths) {
-		return Knowledges.localize(localizationKey(paths));
+		return Text.translatable(localizationKey(paths));
 	}
 
 	default double scalar() {
@@ -93,9 +93,9 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			boolean blockPos = Knowledges.knowledgeState(Knowledges.getKnowledgeById("info.block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = Knowledges.knowledgeState(Knowledges.getKnowledgeById("info.entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = Knowledges.knowledgeState(Knowledges.getKnowledgeById("info.fluid").orElseThrow()) && crosshairFluidState().isPresent();
+			boolean blockPos = Knowledges.enabled(Knowledges.byId(Knowledges.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = Knowledges.enabled(Knowledges.byId(Knowledges.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = Knowledges.enabled(Knowledges.byId(Knowledges.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
 
 			return blockPos || entity || fluidState;
 		}

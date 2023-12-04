@@ -1,6 +1,7 @@
 package net.krlite.knowledges.config.modmenu;
 
 import me.shedaniel.clothconfig2.api.*;
+import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
@@ -11,14 +12,15 @@ import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
 public class KnowledgesConfigScreen {
-
-	public static final Function<Boolean, Text> YES_NO_TEXT_SUPPLIER =
+	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
 			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
     private final ConfigBuilder configBuilder = ConfigBuilder.create()
             .setTitle(Knowledges.localize("screen", "config", "title"))
@@ -83,7 +85,7 @@ public class KnowledgesConfigScreen {
                         .setDefaultValue(KnowledgesConfig.Default.INFO_TEXTS_RIGHT_ENABLED)
                         .setTooltip(localize("general", "info_texts_right_enabled", "tooltip"))
                         .setSaveConsumer(CONFIG::infoTextsRightEnabled)
-						.setYesNoTextSupplier(YES_NO_TEXT_SUPPLIER)
+						.setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER)
                         .build()
         );
 
@@ -95,7 +97,7 @@ public class KnowledgesConfigScreen {
                         .setDefaultValue(KnowledgesConfig.Default.INFO_TEXTS_LEFT_ENABLED)
                         .setTooltip(localize("general", "info_texts_left_enabled", "tooltip"))
                         .setSaveConsumer(CONFIG::infoTextsLeftEnabled)
-						.setYesNoTextSupplier(YES_NO_TEXT_SUPPLIER)
+						.setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER)
                         .build()
         );
 
@@ -107,7 +109,7 @@ public class KnowledgesConfigScreen {
                         .setDefaultValue(KnowledgesConfig.Default.INFO_SUBTITLES_ENABLED)
                         .setTooltip(localize("general", "info_subtitles_enabled", "tooltip"))
                         .setSaveConsumer(CONFIG::infoSubtitlesEnabled)
-						.setYesNoTextSupplier(YES_NO_TEXT_SUPPLIER)
+						.setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER)
                         .build()
         );
     }
@@ -118,9 +120,8 @@ public class KnowledgesConfigScreen {
         // Components
         List<Knowledge> defaultComponents = new ArrayList<>(), components = new ArrayList<>();
 
-        Knowledges.knowledgesMap().values().stream()
-                .flatMap(List::stream)
-                .collect(Collectors.groupingBy(Knowledges::isDefaultKnowledge))
+        Knowledges.knowledgesList().stream()
+                .collect(Collectors.groupingBy(Knowledges::inDefaultNamespace))
                 .forEach((isDefaultKnowledge, knowledges) -> {
                     if (isDefaultKnowledge) defaultComponents.addAll(knowledges);
                     else components.addAll(knowledges);
@@ -130,8 +131,12 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startSubCategory(
                         localize("components", "default"),
-                        defaultComponents.stream().map(this::buildComponentEntry).toList()
-                ).build()
+                        defaultComponents.stream()
+                                .map(this::componentEntry)
+                                .map(Supplier::get)
+                                .map(builder -> (AbstractConfigListEntry) builder.build())
+                                .toList()
+                ).setExpanded(true).build()
         );
 
         // Custom
@@ -139,24 +144,32 @@ public class KnowledgesConfigScreen {
             category.addEntry(
                     entryBuilder.startSubCategory(
                             localize("components", "custom"),
-                            components.stream().map(this::buildComponentEntry).toList()
-                    ).build()
+                            components.stream().map(this::componentEntry)
+                                    .map(Supplier::get)
+                                    .map(builder -> (AbstractConfigListEntry) builder.build())
+                                    .toList()
+                    ).setExpanded(true).build()
             );
         }
     }
 
-    private AbstractConfigListEntry buildComponentEntry(Knowledge knowledge) {
-        BooleanToggleBuilder booleanBuilder =
-                entryBuilder.startBooleanToggle(
-                                knowledge.name(),
-                                Knowledges.knowledgeState(knowledge)
-                        )
-                        .setDefaultValue(true)
-                        .setSaveConsumer(value -> Knowledges.knowledgeState(knowledge, value))
-						.setYesNoTextSupplier(YES_NO_TEXT_SUPPLIER);
+    private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge, boolean allowsTooltip) {
+        return () -> entryBuilder.startBooleanToggle(
+                        knowledge.name(),
+                        Knowledges.enabled(knowledge)
+                )
+                .setTooltipSupplier(() -> {
+                    if (allowsTooltip && knowledge.providesTooltip())
+                        return Optional.of(new Text[]{knowledge.tooltip()});
+                    else return Optional.empty();
+                })
+                .setDefaultValue(true)
+                .setSaveConsumer(value -> Knowledges.enabled(knowledge, value))
+                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+    }
 
-        if (knowledge.providesTooltip()) return booleanBuilder.setTooltip(knowledge.tooltip()).build();
-        else return booleanBuilder.build();
+    private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge) {
+        return componentEntry(knowledge, true);
     }
 
     private void initIndependentConfigPages() {
@@ -164,12 +177,16 @@ public class KnowledgesConfigScreen {
                 .flatMap(List::stream)
                 .filter(Knowledge::requestsConfigPage)
                 .toList();
-
+        
         components.forEach(knowledge -> {
             ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.localize("config", "category"));
 
-            if (knowledge.providesTooltip())
-                category.addEntry(entryBuilder.startTextDescription(knowledge.tooltip()).build());
+            category.addEntry(componentEntry(knowledge, false).get().build());
+            category.addEntry(
+                    entryBuilder.startTextDescription(knowledge.tooltip())
+                            .setRequirement(Requirement.isTrue(knowledge::providesTooltip))
+                            .build()
+            );
 
             knowledge.buildConfigEntries().apply(entryBuilder).forEach(category::addEntry);
         });

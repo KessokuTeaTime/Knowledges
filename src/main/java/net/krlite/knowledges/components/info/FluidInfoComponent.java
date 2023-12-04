@@ -3,18 +3,15 @@ package net.krlite.knowledges.components.info;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.KelpPlantBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -98,7 +95,7 @@ public class FluidInfoComponent extends InfoComponent {
                                 )
                                 .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_WATER)
                                 .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresWater)
-                                .setYesNoTextSupplier(KnowledgesConfigScreen.YES_NO_TEXT_SUPPLIER)
+                                .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
                                 .build(),
                         entryBuilder.startBooleanToggle(
                                         localize("config", "ignores_lava"),
@@ -106,7 +103,7 @@ public class FluidInfoComponent extends InfoComponent {
                                 )
                                 .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_LAVA)
                                 .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresLava)
-                                .setYesNoTextSupplier(KnowledgesConfigScreen.YES_NO_TEXT_SUPPLIER)
+                                .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
                                 .build()
                 );
     }
