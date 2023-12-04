@@ -18,25 +18,13 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public static class Default {
-		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1, CROSSHAIR_SAFE_AREA_SCALAR_MIN = 0, CROSSHAIR_SAFE_AREA_SCALAR_MAX = 3;
 		public static final double MAIN_SCALAR = 1, MAIN_SCALAR_MIN = 0, MAIN_SCALAR_MAX = 3;
-		public static boolean INFO_TEXTS_RIGHT_ENABLED = true;
-		public static boolean INFO_TEXTS_LEFT_ENABLED = true;
-		public static boolean INFO_SUBTITLES_ENABLED = true;
+		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1, CROSSHAIR_SAFE_AREA_SCALAR_MIN = 0, CROSSHAIR_SAFE_AREA_SCALAR_MAX = 3;
+		public static boolean CROSSHAIR_TEXTS_RIGHT_ENABLED = true;
+		public static boolean CROSSHAIR_TEXTS_LEFT_ENABLED = true;
+		public static boolean CROSSHAIR_SUBTITLES_ENABLED = true;
 		public static boolean INFO_FLUID_IGNORES_WATER = false;
 		public static boolean INFO_FLUID_IGNORES_LAVA = false;
-	}
-
-	@Table("global")
-	private double crosshairSafeAreaScalar = Default.CROSSHAIR_SAFE_AREA_SCALAR;
-
-	public double crosshairSafeAreaScalar() {
-		return crosshairSafeAreaScalar;
-	}
-
-	public void crosshairSafeAreaScalar(double scalar) {
-		crosshairSafeAreaScalar = Theory.clamp(scalar, Default.CROSSHAIR_SAFE_AREA_SCALAR_MIN, Default.CROSSHAIR_SAFE_AREA_SCALAR_MAX);
-		save();
 	}
 
 	@Table("global")
@@ -51,40 +39,52 @@ public class KnowledgesConfig extends Pierced {
 		save();
 	}
 
-	@Table("info")
-	private boolean infoTextsRightEnabled = Default.INFO_TEXTS_RIGHT_ENABLED;
+	@Table("global")
+	private double crosshairSafeAreaScalar = Default.CROSSHAIR_SAFE_AREA_SCALAR;
 
-	public boolean infoTextsRightEnabled() {
-		return infoTextsRightEnabled;
+	public double crosshairSafeAreaScalar() {
+		return crosshairSafeAreaScalar;
 	}
 
-	public void infoTextsRightEnabled(boolean flag) {
-		infoTextsRightEnabled = flag;
+	public void crosshairSafeAreaScalar(double scalar) {
+		crosshairSafeAreaScalar = Theory.clamp(scalar, Default.CROSSHAIR_SAFE_AREA_SCALAR_MIN, Default.CROSSHAIR_SAFE_AREA_SCALAR_MAX);
+		save();
 	}
 
-	@Table("info")
-	private boolean infoTextsLeftEnabled = Default.INFO_TEXTS_LEFT_ENABLED;
+	@Table("crosshair")
+	private boolean crosshairTextsRightEnabled = Default.CROSSHAIR_TEXTS_RIGHT_ENABLED;
 
-	public boolean infoTextsLeftEnabled() {
-		return infoTextsLeftEnabled;
+	public boolean crosshairTextsRightEnabled() {
+		return crosshairTextsRightEnabled;
 	}
 
-	public void infoTextsLeftEnabled(boolean flag) {
-		infoTextsLeftEnabled = flag;
+	public void crosshairTextsRightEnabled(boolean flag) {
+		crosshairTextsRightEnabled = flag;
 	}
 
-	@Table("info")
-	private boolean infoSubtitlesEnabled = Default.INFO_SUBTITLES_ENABLED;
+	@Table("crosshair")
+	private boolean crosshairTextsLeftEnabled = Default.CROSSHAIR_TEXTS_LEFT_ENABLED;
 
-	public boolean infoSubtitlesEnabled() {
-		return infoSubtitlesEnabled;
+	public boolean crosshairTextsLeftEnabled() {
+		return crosshairTextsLeftEnabled;
 	}
 
-	public void infoSubtitlesEnabled(boolean flag) {
-		infoSubtitlesEnabled = flag;
+	public void crosshairTextsLeftEnabled(boolean flag) {
+		crosshairTextsLeftEnabled = flag;
 	}
 
-	@Table("info")
+	@Table("crosshair")
+	private boolean crosshairSubtitlesEnabled = Default.CROSSHAIR_SUBTITLES_ENABLED;
+
+	public boolean crosshairSubtitlesEnabled() {
+		return crosshairSubtitlesEnabled;
+	}
+
+	public void crosshairSubtitlesEnabled(boolean flag) {
+		crosshairSubtitlesEnabled = flag;
+	}
+
+	@Table("info.fluid")
 	private boolean infoFluidIgnoresWater = Default.INFO_FLUID_IGNORES_WATER;
 
 	public boolean infoFluidIgnoresWater() {
@@ -95,7 +95,7 @@ public class KnowledgesConfig extends Pierced {
 		infoFluidIgnoresWater = flag;
 	}
 
-	@Table("info")
+	@Table("info.fluid")
 	private boolean infoFluidIgnoresLava = Default.INFO_FLUID_IGNORES_LAVA;
 
 	public boolean infoFluidIgnoresLava() {

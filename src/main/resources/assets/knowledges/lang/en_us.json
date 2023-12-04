@@ -6,20 +6,11 @@
 
   "config.knowledges.category.general": "General",
 
+  "config.knowledges.general.main_scalar": "Main Scalar",
+  "config.knowledges.general.main_scalar.tooltip": "§7The global scalar for all the components",
+
   "config.knowledges.general.crosshair_safe_area_scalar": "Crosshair Safe Area Scalar",
-  "config.knowledges.general.crosshair_safe_area_scalar.tooltip": "§7The local scalar for the crosshair safe\narea size",
-
-  "config.knowledges.general.main_scalar": "Scalar",
-  "config.knowledges.general.main_scalar.tooltip": "§7The global scalar for the components",
-
-  "config.knowledges.general.info_texts_right_enabled": "Display Right Sided Texts",
-  "config.knowledges.general.info_texts_right_enabled.tooltip": "§7Whether to display the texts placed\nagainst the right side of the cursor",
-
-  "config.knowledges.general.info_texts_left_enabled": "Display Left Sided Texts",
-  "config.knowledges.general.info_texts_left_enabled.tooltip": "§7Whether to display the texts placed\nagainst the left side of the cursor",
-
-  "config.knowledges.general.info_subtitles_enabled": "Display Subtitles",
-  "config.knowledges.general.info_subtitles_enabled.tooltip": "§7Whether to display the descriptive texts\nthat are above or below the cursor texts",
+  "config.knowledges.general.crosshair_safe_area_scalar.tooltip": "§7The local scalar for the crosshair safe area size",
 
   "config.knowledges.category.components": "Components",
 
@@ -27,10 +18,21 @@
   "config.knowledges.components.custom": "Third Party",
 
   "knowledge.knowledges.crosshair.name": "Crosshair",
-  "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block\nor an entity\n§cIf disabled, information such as §lblock\nbreaking progress §r§cand §lentity\nhealth §r§cwill not be displayed",
+  "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill not be displayed",
+
+  "knowledge.knowledges.crosshair.config.category": "Crosshair",
+
+  "knowledge.knowledges.crosshair.config.texts_right_enabled": "Display Right Sided Texts",
+  "knowledge.knowledges.crosshair.config.texts_right_enabled.tooltip": "§7Whether to display the texts placed against the right side of the cursor",
+
+  "knowledge.knowledges.crosshair.config.texts_left_enabled": "Display Left Sided Texts",
+  "knowledge.knowledges.crosshair.config.texts_left_enabled.tooltip": "§7Whether to display the texts placed against the left side of the cursor",
+
+  "knowledge.knowledges.crosshair.config.subtitles_enabled": "Display Subtitles",
+  "knowledge.knowledges.crosshair.config.subtitles_enabled.tooltip": "§7Whether to display the descriptive texts that are above or below the cursor texts",
 
   "knowledge.knowledges.info.block.name": "Block Info",
-  "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block\nyou are looking at",
+  "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block you are looking at",
 
   "knowledge.knowledges.info.block.tool.unbreakable": "Unbreakable",
   "knowledge.knowledges.info.block.tool.pickaxe": "Pickaxes",
@@ -51,10 +53,10 @@
   "knowledge.knowledges.info.block.banner.patterns": "%s and %d More Patterns",
 
   "knowledge.knowledges.info.entity.name": "Entity Info",
-  "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity\nyou are looking at",
+  "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity you are looking at",
 
   "knowledge.knowledges.info.fluid.name": "Fluid Info",
-  "knowledge.knowledges.info.fluid.tooltip": "§7Displays information about the fluid\nyou are looking at",
+  "knowledge.knowledges.info.fluid.tooltip": "§7Displays information about the fluid you are looking at",
 
   "knowledge.knowledges.info.fluid.level": "Fluid Level: %d",
 
@@ -64,7 +66,7 @@
   "knowledge.knowledges.info.fluid.config.ignores_lava": "Ignores Lava",
 
   "knowledge.knowledges.armor_durability.name": "Armor Durability",
-  "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor\naround the screen corner",
+  "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor around the screen corner",
 
   "instrument.knowledges.harp": "Harp",
   "instrument.knowledges.basedrum": "Base Drum",

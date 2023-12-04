@@ -1,15 +1,25 @@
 package net.krlite.knowledges.components;
 
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.config.KnowledgesConfig;
+import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+import static net.krlite.knowledges.Knowledges.CONFIG;
 
 public class CrosshairComponent implements Knowledge {
 	@Override
@@ -61,5 +71,42 @@ public class CrosshairComponent implements Knowledge {
 	@Override
 	public boolean providesTooltip() {
 		return true;
+	}
+
+	@Override
+	public boolean requestsConfigPage() {
+		return true;
+	}
+
+	@Override
+	public Function<ConfigEntryBuilder, List<Supplier<AbstractFieldBuilder<?, ?, ?>>>> buildConfigEntries() {
+		return entryBuilder -> List.of(
+				() -> entryBuilder.startBooleanToggle(
+								localize("config", "texts_right_enabled"),
+								CONFIG.crosshairTextsRightEnabled()
+						)
+						.setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_RIGHT_ENABLED)
+						.setTooltip(localize("config", "texts_right_enabled", "tooltip"))
+						.setSaveConsumer(CONFIG::crosshairTextsRightEnabled)
+						.setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+				
+				() -> entryBuilder.startBooleanToggle(
+								localize("config", "texts_left_enabled"),
+								CONFIG.crosshairTextsLeftEnabled()
+						)
+						.setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_LEFT_ENABLED)
+						.setTooltip(localize("config", "texts_left_enabled", "tooltip"))
+						.setSaveConsumer(CONFIG::crosshairTextsLeftEnabled)
+						.setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+				
+				() -> entryBuilder.startBooleanToggle(
+								localize("config", "subtitles_enabled"),
+								CONFIG.crosshairSubtitlesEnabled()
+						)
+						.setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_SUBTITLES_ENABLED)
+						.setTooltip(localize("config", "subtitles_enabled", "tooltip"))
+						.setSaveConsumer(CONFIG::crosshairSubtitlesEnabled)
+						.setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
+		);
 	}
 }

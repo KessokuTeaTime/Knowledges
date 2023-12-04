@@ -1,7 +1,7 @@
 package net.krlite.knowledges.components.info;
 
-import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
@@ -13,13 +13,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class FluidInfoComponent extends InfoComponent {
     @Override
@@ -40,32 +40,37 @@ public class FluidInfoComponent extends InfoComponent {
             Animations.Ring.ringColor(Palette.Minecraft.WHITE);
 
             // Titles
-            titles: {
+            titles:
+            {
                 Animations.Texts.titleRight(fluidName);
                 Animations.Texts.titleLeft(Util.getModName(namespace));
             }
 
             // Right Above
-            if (client.options.advancedItemTooltips) subtitleRightAbove: {
+            if (client.options.advancedItemTooltips) subtitleRightAbove:{
                 Animations.Texts.subtitleRightAbove(Text.literal(path));
-            } else {
+            }
+            else {
                 Animations.Texts.subtitleRightAbove(Text.empty());
             }
 
             // Right Below
-            subtitleRightBelow: {
+            subtitleRightBelow:
+            {
                 Animations.Texts.subtitleRightBelow(Text.empty());
             }
 
             // Left Above
-            if (client.options.advancedItemTooltips) subtitleLeftAbove: {
+            if (client.options.advancedItemTooltips) subtitleLeftAbove:{
                 Animations.Texts.subtitleLeftAbove(Text.literal(namespace));
-            } else {
+            }
+            else {
                 Animations.Texts.subtitleLeftAbove(Text.empty());
             }
 
             // Left Below
-            subtitleLeftBelow: {
+            subtitleLeftBelow:
+            {
                 int level = fluidState.getLevel();
                 Animations.Texts.subtitleLeftBelow(Text.translatable(localizationKey("level"), level));
             }
@@ -88,25 +93,23 @@ public class FluidInfoComponent extends InfoComponent {
     }
 
     @Override
-    public Function<ConfigEntryBuilder, List<AbstractConfigListEntry>> buildConfigEntries() {
-        return entryBuilder ->
-                List.of(
-                        entryBuilder.startBooleanToggle(
-                                        localize("config", "ignores_water"),
-                                        Knowledges.CONFIG.infoFluidIgnoresWater()
-                                )
-                                .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_WATER)
-                                .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresWater)
-                                .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
-                                .build(),
-                        entryBuilder.startBooleanToggle(
-                                        localize("config", "ignores_lava"),
-                                        Knowledges.CONFIG.infoFluidIgnoresLava()
-                                )
-                                .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_LAVA)
-                                .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresLava)
-                                .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
-                                .build()
-                );
+    public Function<ConfigEntryBuilder, List<Supplier<AbstractFieldBuilder<?, ?, ?>>>> buildConfigEntries() {
+        return entryBuilder -> List.of(
+                () -> entryBuilder.startBooleanToggle(
+                                localize("config", "ignores_water"),
+                                Knowledges.CONFIG.infoFluidIgnoresWater()
+                        )
+                        .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_WATER)
+                        .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresWater)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+
+                () -> entryBuilder.startBooleanToggle(
+                                localize("config", "ignores_lava"),
+                                Knowledges.CONFIG.infoFluidIgnoresLava()
+                        )
+                        .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_LAVA)
+                        .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresLava)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
+        );
     }
 }

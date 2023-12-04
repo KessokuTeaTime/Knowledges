@@ -22,6 +22,8 @@ import static net.krlite.knowledges.Knowledges.CONFIG;
 public class KnowledgesConfigScreen {
 	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
 			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
+
+    private final List<Knowledge> knowledgeModified = new ArrayList<>();
     private final ConfigBuilder configBuilder = ConfigBuilder.create()
             .setTitle(Knowledges.localize("screen", "config", "title"))
             .transparentBackground()
@@ -44,11 +46,46 @@ public class KnowledgesConfigScreen {
         return Knowledges.localize("config", paths);
     }
 
+    private void modifyKnowledgeEnabled(Knowledge knowledge, boolean enabled) {
+        if (!knowledgeModified.contains(knowledge) && Knowledges.enabled(knowledge) != enabled) {
+            Knowledges.enabled(knowledge, enabled);
+            knowledgeModified.add(knowledge);
+        }
+    }
+
+    private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge, boolean allowsTooltip) {
+        return () -> entryBuilder.startBooleanToggle(
+                        knowledge.name(),
+                        Knowledges.enabled(knowledge)
+                )
+                .setDefaultValue(true)
+                .setTooltipSupplier(() -> {
+                    if (allowsTooltip && knowledge.providesTooltip())
+                        return Optional.of(new Text[]{knowledge.tooltip()});
+                    else return Optional.empty();
+                })
+                .setSaveConsumer(value -> modifyKnowledgeEnabled(knowledge, value))
+                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+    }
+
     private void initGeneralEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "general"));
-        ;
 
         // General
+        category.addEntry(
+                entryBuilder.startIntSlider(
+                                localize("general", "main_scalar"),
+                                (int) (CONFIG.mainScalar() * 1000),
+                                (int) (KnowledgesConfig.Default.MAIN_SCALAR_MIN * 1000),
+                                (int) (KnowledgesConfig.Default.MAIN_SCALAR_MAX * 1000)
+                        )
+                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.MAIN_SCALAR))
+                        .setTooltip(localize("general", "main_scalar", "tooltip"))
+                        .setSaveConsumer(value -> CONFIG.mainScalar(value.floatValue() / 1000))
+                        .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
+                        .build()
+        );
+
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
@@ -60,56 +97,6 @@ public class KnowledgesConfigScreen {
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
                         .setSaveConsumer(value -> CONFIG.crosshairSafeAreaScalar(value.floatValue() / 1000))
                         .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startIntSlider(
-                                localize("general", "main_scalar"),
-                                (int) (CONFIG.mainScalar() * 1000),
-								(int) (KnowledgesConfig.Default.MAIN_SCALAR_MIN * 1000),
-								(int) (KnowledgesConfig.Default.MAIN_SCALAR_MAX * 1000)
-                        )
-                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.MAIN_SCALAR))
-                        .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> CONFIG.mainScalar(value.floatValue() / 1000))
-						.setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startBooleanToggle(
-                                localize("general", "info_texts_right_enabled"),
-                                CONFIG.infoTextsRightEnabled()
-                        )
-                        .setDefaultValue(KnowledgesConfig.Default.INFO_TEXTS_RIGHT_ENABLED)
-                        .setTooltip(localize("general", "info_texts_right_enabled", "tooltip"))
-                        .setSaveConsumer(CONFIG::infoTextsRightEnabled)
-						.setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER)
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startBooleanToggle(
-                                localize("general", "info_texts_left_enabled"),
-                                CONFIG.infoTextsLeftEnabled()
-                        )
-                        .setDefaultValue(KnowledgesConfig.Default.INFO_TEXTS_LEFT_ENABLED)
-                        .setTooltip(localize("general", "info_texts_left_enabled", "tooltip"))
-                        .setSaveConsumer(CONFIG::infoTextsLeftEnabled)
-						.setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER)
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startBooleanToggle(
-                                localize("general", "info_subtitles_enabled"),
-                                CONFIG.infoSubtitlesEnabled()
-                        )
-                        .setDefaultValue(KnowledgesConfig.Default.INFO_SUBTITLES_ENABLED)
-                        .setTooltip(localize("general", "info_subtitles_enabled", "tooltip"))
-                        .setSaveConsumer(CONFIG::infoSubtitlesEnabled)
-						.setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER)
                         .build()
         );
     }
@@ -144,28 +131,14 @@ public class KnowledgesConfigScreen {
             category.addEntry(
                     entryBuilder.startSubCategory(
                             localize("components", "custom"),
-                            components.stream().map(this::componentEntry)
+                            components.stream()
+                                    .map(this::componentEntry)
                                     .map(Supplier::get)
                                     .map(builder -> (AbstractConfigListEntry) builder.build())
                                     .toList()
                     ).setExpanded(true).build()
             );
         }
-    }
-
-    private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge, boolean allowsTooltip) {
-        return () -> entryBuilder.startBooleanToggle(
-                        knowledge.name(),
-                        Knowledges.enabled(knowledge)
-                )
-                .setTooltipSupplier(() -> {
-                    if (allowsTooltip && knowledge.providesTooltip())
-                        return Optional.of(new Text[]{knowledge.tooltip()});
-                    else return Optional.empty();
-                })
-                .setDefaultValue(true)
-                .setSaveConsumer(value -> Knowledges.enabled(knowledge, value))
-                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
     private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge) {
@@ -188,7 +161,10 @@ public class KnowledgesConfigScreen {
                             .build()
             );
 
-            knowledge.buildConfigEntries().apply(entryBuilder).forEach(category::addEntry);
+            knowledge.buildConfigEntries().apply(entryBuilder).stream()
+                    .map(Supplier::get)
+                    .map(AbstractFieldBuilder::build)
+                    .forEach(category::addEntry);
         });
     }
 }

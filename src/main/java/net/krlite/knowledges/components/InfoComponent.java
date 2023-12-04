@@ -48,7 +48,7 @@ public abstract class InfoComponent implements Knowledge {
 		// Titles
 		titles: {
 			// Right
-			if (Knowledges.CONFIG.infoTextsRightEnabled()) {
+			if (Knowledges.CONFIG.crosshairTextsRightEnabled()) {
 				renderText(
 						context,
 						textsRight,
@@ -59,7 +59,7 @@ public abstract class InfoComponent implements Knowledge {
 			}
 
 			// Left
-			if (Knowledges.CONFIG.infoTextsLeftEnabled()) {
+			if (Knowledges.CONFIG.crosshairTextsLeftEnabled()) {
 				renderText(
 						context,
 						textsLeft,
@@ -71,8 +71,8 @@ public abstract class InfoComponent implements Knowledge {
 		}
 
 		// Subtitles
-		if (Knowledges.CONFIG.infoSubtitlesEnabled()) subtitles: {
-			if (Knowledges.CONFIG.infoTextsRightEnabled()) {
+		if (Knowledges.CONFIG.crosshairSubtitlesEnabled()) subtitles: {
+			if (Knowledges.CONFIG.crosshairTextsRightEnabled()) {
 				// Right Above
 				renderText(
 						context,
@@ -94,7 +94,7 @@ public abstract class InfoComponent implements Knowledge {
 				);
 			}
 
-			if (Knowledges.CONFIG.infoTextsLeftEnabled()) {
+			if (Knowledges.CONFIG.crosshairTextsLeftEnabled()) {
 				// Left Above
 				renderText(
 						context,

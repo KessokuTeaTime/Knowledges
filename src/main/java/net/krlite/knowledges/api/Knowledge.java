@@ -2,6 +2,7 @@ package net.krlite.knowledges.api;
 
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -39,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public interface Knowledge {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
@@ -61,7 +63,7 @@ public interface Knowledge {
 		return localize("tooltip");
 	}
 
-	default Function<ConfigEntryBuilder, List<AbstractConfigListEntry>> buildConfigEntries() {
+	default Function<ConfigEntryBuilder, List<Supplier<AbstractFieldBuilder<?, ?, ?>>>> buildConfigEntries() {
 		return configEntryBuilder -> new ArrayList<>();
 	}
 
