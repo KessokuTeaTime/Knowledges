@@ -92,10 +92,10 @@ public class BlockInfoComponent extends InfoComponent {
 				}
 
 				if (miningLevel == null) {
-					Animations.Texts.subtitleRightBelow(tool);
+					Animations.Texts.subtitleRightBelow(Text.translatable(localizationKey("tool_only"), tool.getString()));
 				} else {
 					Animations.Texts.subtitleRightBelow(Text.translatable(
-							foundSemanticMiningLevel ? localizationKey("harvest_and_mining_level_semantic") : localizationKey("harvest_and_mining_level"),
+							foundSemanticMiningLevel ? localizationKey("tool_and_mining_level_semantic") : localizationKey("tool_and_mining_level"),
 							tool.getString(), miningLevel.getString()
 					));
 				}

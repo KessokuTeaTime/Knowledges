@@ -13,6 +13,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -65,7 +66,8 @@ public class FluidInfoComponent extends InfoComponent {
 
             // Left Below
             subtitleLeftBelow: {
-                Animations.Texts.subtitleLeftBelow(Text.empty());
+                int level = fluidState.getLevel();
+                Animations.Texts.subtitleLeftBelow(Text.translatable(localizationKey("level"), level));
             }
         });
     }
