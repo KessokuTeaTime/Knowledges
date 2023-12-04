@@ -93,8 +93,16 @@ public class Knowledges implements ModInitializer {
 		return Text.translatable(localizationKey(knowledge, paths));
 	}
 
+	public static <K, V> List<V> fastMerge(HashMap<K, List<V>> hashMap, K key, V defaultValue) {
+		return hashMap.merge(
+				key,
+				new ArrayList<>(List.of(defaultValue)),
+				(l1, l2) -> Stream.concat(l1.stream(), l2.stream()).toList()
+		);
+	}
+
 	private static void register(String namespace, Knowledge knowledge) {
-		knowledges.merge(namespace, new ArrayList<>(List.of(knowledge)), (l1, l2) -> Stream.concat(l1.stream(), l2.stream()).toList());
+		fastMerge(knowledges, namespace, knowledge);
 	}
 
 	@Override

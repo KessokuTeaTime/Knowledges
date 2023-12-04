@@ -6,11 +6,13 @@
   "mixins": [
   ],
   "client": [
-	"client.ClientPlayerInteractionManagerMixin",
-	"client.InGameHudInvoker",
-	"client.KnowledgesHud"
+    "client.ClientPlayerInteractionManagerMixin",
+    "client.InGameHudInvoker",
+    "client.KnowledgesHud",
+    "client.clothconfig.BooleanListEntryAccessor",
+    "client.clothconfig.BooleanListEntryMixin"
   ],
   "injectors": {
-	"defaultRequire": 0
+    "defaultRequire": 0
   }
 }

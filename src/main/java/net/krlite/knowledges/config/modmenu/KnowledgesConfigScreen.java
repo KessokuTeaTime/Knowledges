@@ -1,6 +1,7 @@
 package net.krlite.knowledges.config.modmenu;
 
 import me.shedaniel.clothconfig2.api.*;
+import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.Knowledges;
@@ -11,19 +12,24 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
 public class KnowledgesConfigScreen {
+    public static final HashMap<BooleanListEntry, Knowledge> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
+
+    public static final HashMap<Knowledge, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
+
 	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
 			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
 
-    private final List<Knowledge> knowledgeModified = new ArrayList<>();
     private final ConfigBuilder configBuilder = ConfigBuilder.create()
             .setTitle(Knowledges.localize("screen", "config", "title"))
             .transparentBackground()
@@ -31,6 +37,9 @@ public class KnowledgesConfigScreen {
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
+        SWITCH_KNOWLEDGE_MAP.clear();
+        KNOWLEDGE_SWITCHES_MAP.clear();
+
         configBuilder.setParentScreen(parent);
 
         initGeneralEntries();
@@ -46,13 +55,6 @@ public class KnowledgesConfigScreen {
         return Knowledges.localize("config", paths);
     }
 
-    private void modifyKnowledgeEnabled(Knowledge knowledge, boolean enabled) {
-        if (!knowledgeModified.contains(knowledge) && Knowledges.enabled(knowledge) != enabled) {
-            Knowledges.enabled(knowledge, enabled);
-            knowledgeModified.add(knowledge);
-        }
-    }
-
     private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge, boolean allowsTooltip) {
         return () -> entryBuilder.startBooleanToggle(
                         knowledge.name(),
@@ -64,7 +66,7 @@ public class KnowledgesConfigScreen {
                         return Optional.of(new Text[]{knowledge.tooltip()});
                     else return Optional.empty();
                 })
-                .setSaveConsumer(value -> modifyKnowledgeEnabled(knowledge, value))
+                .setSaveConsumer(value -> Knowledges.enabled(knowledge, value))
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
@@ -119,9 +121,13 @@ public class KnowledgesConfigScreen {
                 entryBuilder.startSubCategory(
                         localize("components", "default"),
                         defaultComponents.stream()
-                                .map(this::componentEntry)
-                                .map(Supplier::get)
-                                .map(builder -> (AbstractConfigListEntry) builder.build())
+                                .map(knowledge -> {
+                                    var built = componentEntry(knowledge).get().build();
+                                    SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
+                                    Knowledges.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+
+                                    return (AbstractConfigListEntry) built;
+                                })
                                 .toList()
                 ).setExpanded(true).build()
         );
@@ -132,9 +138,13 @@ public class KnowledgesConfigScreen {
                     entryBuilder.startSubCategory(
                             localize("components", "custom"),
                             components.stream()
-                                    .map(this::componentEntry)
-                                    .map(Supplier::get)
-                                    .map(builder -> (AbstractConfigListEntry) builder.build())
+                                    .map(knowledge -> {
+                                        var built = componentEntry(knowledge).get().build();
+                                        SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
+                                        Knowledges.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+
+                                        return (AbstractConfigListEntry) built;
+                                    })
                                     .toList()
                     ).setExpanded(true).build()
             );
@@ -154,7 +164,11 @@ public class KnowledgesConfigScreen {
         components.forEach(knowledge -> {
             ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.localize("config", "category"));
 
-            category.addEntry(componentEntry(knowledge, false).get().build());
+            var built = componentEntry(knowledge, false).get().build();
+            SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
+            Knowledges.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+
+            category.addEntry(built);
             category.addEntry(
                     entryBuilder.startTextDescription(knowledge.tooltip())
                             .setRequirement(Requirement.isTrue(knowledge::providesTooltip))
