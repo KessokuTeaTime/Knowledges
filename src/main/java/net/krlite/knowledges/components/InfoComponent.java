@@ -26,9 +26,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class InfoComponent implements Knowledge {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
@@ -146,11 +143,11 @@ public abstract class InfoComponent implements Knowledge {
 		renderText(context, box, text, alignment, color, 1);
 	}
 
-	public abstract @NotNull String infoId();
+	public abstract @NotNull String partialPath();
 
 	@Override
-	public @NotNull String id() {
-		return "info." + infoId();
+	public @NotNull String path() {
+		return "info." + partialPath();
 	}
 
 	public static class Animations {

@@ -2,14 +2,12 @@ package net.krlite.knowledges.config.modmenu;
 
 import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
-import net.krlite.knowledges.DefaultComponents;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,10 +118,11 @@ public class KnowledgesConfigScreen {
         // Components
         List<Knowledge> defaultComponents = new ArrayList<>(), components = new ArrayList<>();
 
-        Knowledges.knowledges().stream()
-                .collect(Collectors.groupingBy(DefaultComponents::contains))
-                .forEach((isDefaultComponent, knowledges) -> {
-                    if (isDefaultComponent) defaultComponents.addAll(knowledges);
+        Knowledges.knowledgesMap().values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.groupingBy(Knowledges::isDefaultKnowledge))
+                .forEach((isDefaultKnowledge, knowledges) -> {
+                    if (isDefaultKnowledge) defaultComponents.addAll(knowledges);
                     else components.addAll(knowledges);
                 });
 
@@ -161,8 +160,9 @@ public class KnowledgesConfigScreen {
     }
 
     private void initIndependentConfigPages() {
-        List<Knowledge> components = Knowledges.knowledges().stream()
-                .filter(Knowledge::requestsIndependentConfigPage)
+        List<Knowledge> components = Knowledges.knowledgesMap().values().stream()
+                .flatMap(List::stream)
+                .filter(Knowledge::requestsConfigPage)
                 .toList();
 
         components.forEach(knowledge -> {

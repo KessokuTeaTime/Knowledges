@@ -54,7 +54,7 @@ public class CrosshairComponent implements Knowledge {
 	}
 
 	@Override
-	public @NotNull String id() {
+	public @NotNull String path() {
 		return "crosshair";
 	}
 

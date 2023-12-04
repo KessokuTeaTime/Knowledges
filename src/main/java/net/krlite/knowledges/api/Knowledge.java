@@ -36,7 +36,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -44,17 +43,19 @@ import java.util.function.Function;
 public interface Knowledge {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
-	@NotNull String id();
+	@NotNull String path();
 
-	boolean providesTooltip();
-
-	default boolean requestsIndependentConfigPage() {
+	default boolean providesTooltip() {
 		return false;
-	};
+	}
+
+	default boolean requestsConfigPage() {
+		return false;
+	}
 
 	default @NotNull Text name() {
 		return localize("name");
-	};
+	}
 
 	default @NotNull Text tooltip() {
 		return localize("tooltip");
@@ -65,10 +66,10 @@ public interface Knowledge {
 	}
 
 	default String localizationKey(String... paths) {
-		List<String> fullPaths = new ArrayList<>(List.of(id()));
+		List<String> fullPaths = new ArrayList<>(List.of(path()));
 		fullPaths.addAll(List.of(paths));
 
-		return Knowledges.localizationKey("knowledge", fullPaths.toArray(String[]::new));
+		return Knowledges.localizationKey(this, fullPaths.toArray(String[]::new));
 	}
 
 	default MutableText localize(String... paths) {
@@ -92,9 +93,9 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			boolean blockPos = Knowledges.knowledgeState(Knowledges.knowledge("info.block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = Knowledges.knowledgeState(Knowledges.knowledge("info.entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = Knowledges.knowledgeState(Knowledges.knowledge("info.fluid").orElseThrow()) && crosshairFluidState().isPresent();
+			boolean blockPos = Knowledges.knowledgeState(Knowledges.getKnowledgeById("info.block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = Knowledges.knowledgeState(Knowledges.getKnowledgeById("info.entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = Knowledges.knowledgeState(Knowledges.getKnowledgeById("info.fluid").orElseThrow()) && crosshairFluidState().isPresent();
 
 			return blockPos || entity || fluidState;
 		}

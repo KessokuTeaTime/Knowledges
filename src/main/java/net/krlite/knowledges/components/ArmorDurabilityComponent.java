@@ -82,7 +82,7 @@ public class ArmorDurabilityComponent implements Knowledge {
 	}
 
 	@Override
-	public @NotNull String id() {
+	public @NotNull String path() {
 		return "armor_durability";
 	}
 

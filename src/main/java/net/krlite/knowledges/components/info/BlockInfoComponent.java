@@ -148,7 +148,7 @@ public class BlockInfoComponent extends InfoComponent {
 	}
 
 	@Override
-	public @NotNull String infoId() {
+	public @NotNull String partialPath() {
 		return "block";
 	}
 

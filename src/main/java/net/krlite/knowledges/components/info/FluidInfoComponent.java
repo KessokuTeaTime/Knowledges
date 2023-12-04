@@ -74,7 +74,7 @@ public class FluidInfoComponent extends InfoComponent {
     }
 
     @Override
-    public @NotNull String infoId() {
+    public @NotNull String partialPath() {
         return "fluid";
     }
 
@@ -84,7 +84,7 @@ public class FluidInfoComponent extends InfoComponent {
     }
 
     @Override
-    public boolean requestsIndependentConfigPage() {
+    public boolean requestsConfigPage() {
         return true;
     }
 
