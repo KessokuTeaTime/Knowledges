@@ -5,6 +5,7 @@ import net.krlite.knowledges.components.InfoComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,10 +13,15 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -84,8 +90,29 @@ public class EntityInfoComponent extends InfoComponent {
 
 			// Right Below
 			subtitleRightBelow: {
+				if (entity.getType() == EntityType.PAINTING) {
+					((PaintingEntity) entity).getVariant().getKey().ifPresent((key) ->
+							Animations.Texts.subtitleRightBelow(Text.translatable(
+									key.getValue().toTranslationKey("painting", "title")
+							)));
+
+					break subtitleRightBelow;
+				}
+
+				if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
+					if (!(entity instanceof ItemFrameEntity itemFrameEntity)) break subtitleRightBelow;
+					ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
+
+					if (!heldItemStack.isEmpty()) {
+						Animations.Texts.subtitleRightBelow(heldItemStack.getItem().getName());
+
+						break subtitleRightBelow;
+					}
+				}
+
 				if (entity.getType() == EntityType.VILLAGER) {
-					VillagerData villagerData = ((VillagerEntity) entity).getVillagerData();
+					if (!(entity instanceof VillagerEntity villagerEntity)) break subtitleRightBelow;
+					VillagerData villagerData = villagerEntity.getVillagerData();
 
 					Animations.Texts.subtitleRightBelow(Text.translatable(
 							localizationKey("villager", "profession_and_level"),
@@ -108,29 +135,60 @@ public class EntityInfoComponent extends InfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				if (entity.getType() == EntityType.PAINTING) {
-					((PaintingEntity) entity).getVariant().getKey().ifPresent((key) ->
-							Animations.Texts.subtitleRightAbove(Text.translatable(
-									key.getValue().toTranslationKey("painting", "title")
-							)));
-
-					break subtitleLeftBelow;
-				}
-
 				if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
-					ItemStack heldItemStack = ((ItemFrameEntity) entity).getHeldItemStack();
+					if (!(entity instanceof ItemFrameEntity itemFrameEntity)) break subtitleLeftBelow;
+					ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
+
 					if (!heldItemStack.isEmpty()) {
-						Animations.Texts.subtitleRightAbove(heldItemStack.getItem().getName());
+						// Enchanted Books
+						if (heldItemStack.getItem() instanceof EnchantedBookItem) {
+							NbtList enchantments = EnchantedBookItem.getEnchantmentNbt(heldItemStack);
+							int available = enchantments.size();
+
+							if (available > 0) {
+								NbtCompound firstEnchantment = enchantments.getCompound(0);
+
+								Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
+										.map(enchantment -> enchantment.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
+										.ifPresent(rawName -> {
+											Text name = Text.translatable(
+													localizationKey("enchanted_book", "enchantment"),
+													rawName.getString()
+											);
+
+											if (available > 2) {
+												Animations.Texts.subtitleLeftBelow(Text.translatable(
+														localizationKey("enchanted_book", "more_enchantments"),
+														name.getString(),
+														available - 1,
+														// Counts the rest of the enchantments. Use '%2$d' to reference.
+														available
+														// Counts all the enchantments. Use '%3$d' to reference.
+												));
+											} else if (available > 1) {
+												Animations.Texts.subtitleLeftBelow(Text.translatable(
+														localizationKey("enchanted_book", "one_more_enchantment"),
+														name.getString()
+												));
+											}else {
+												Animations.Texts.subtitleLeftBelow(name);
+											}
+										});
+
+								break subtitleLeftBelow;
+							}
+						}
 
 						break subtitleLeftBelow;
 					}
 				}
+
 				if (entity.getType() == EntityType.VILLAGER) {
-					VillagerEntity villager = ((VillagerEntity) entity);
+					if (!(entity instanceof VillagerEntity villagerEntity)) break subtitleLeftBelow;
 
 					Animations.Texts.subtitleLeftBelow(Text.translatable(
 							localizationKey("villager", "reputation"),
-							villager.getReputation(player)
+							villagerEntity.getReputation(player)
 					));
 
 					break subtitleLeftBelow;

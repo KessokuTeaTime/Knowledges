@@ -9,6 +9,7 @@ import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -92,7 +93,7 @@ public class BlockInfoComponent extends InfoComponent {
 				}
 
 				if (miningLevel == null) {
-					Animations.Texts.subtitleRightBelow(Text.translatable(localizationKey("tool_only"), tool.getString()));
+					Animations.Texts.subtitleRightBelow(Text.translatable(localizationKey("tool"), tool.getString()));
 				} else {
 					Animations.Texts.subtitleRightBelow(Text.translatable(
 							foundSemanticMiningLevel ? localizationKey("tool_and_mining_level_semantic") : localizationKey("tool_and_mining_level"),
@@ -116,7 +117,8 @@ public class BlockInfoComponent extends InfoComponent {
 				}
 
 				if (blockState.isIn(BlockTags.BANNERS) && Info.crosshairBlockEntity().isPresent()) {
-					var patterns = ((BannerBlockEntity) Info.crosshairBlockEntity().get()).getPatterns();
+					if (!(Info.crosshairBlockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) break subtitleLeftBelow;
+					var patterns = bannerBlockEntity.getPatterns();
 					int available = patterns.size() - 1;
 					// The first pattern is always the background color, so ignore it
 
@@ -125,23 +127,27 @@ public class BlockInfoComponent extends InfoComponent {
 								.map(RegistryKey::getValue)
 								.map(Identifier::toShortTranslationKey)
 								.ifPresent(translationKey -> {
-									Text pattern = Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName());
+									Text name = Text.translatable(
+											localizationKey("banner", "pattern"),
+											Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName()).getString()
+									);
+
 									if (available > 2) {
 										Animations.Texts.subtitleLeftBelow(Text.translatable(
 												localizationKey("banner", "more_patterns"),
-												pattern.getString(),
+												name.getString(),
 												available - 1,
-												// Represents the rest of the pattern. Use '%2$d' to reference.
+												// Counts the rest of the patterns. Use '%2$d' to reference.
 												available
-												// Represents the total number the pattern. Use '%3$d' to reference.
+												// Counts all the patterns. Use '%3$d' to reference.
 										));
 									} else if (available > 1) {
 										Animations.Texts.subtitleLeftBelow(Text.translatable(
 												localizationKey("banner", "one_more_pattern"),
-												pattern.getString()
+												name.getString()
 										));
 									}else {
-										Animations.Texts.subtitleLeftBelow(pattern);
+										Animations.Texts.subtitleLeftBelow(name);
 									}
 								});
 

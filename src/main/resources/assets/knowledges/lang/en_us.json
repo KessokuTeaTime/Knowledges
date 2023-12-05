@@ -48,8 +48,9 @@
 
   "knowledge.knowledges.info.block.tool_and_mining_level_semantic": "%2$s %1$s",
   "knowledge.knowledges.info.block.tool_and_mining_level": "%1$s §7with %2$s§r",
-  "knowledge.knowledges.info.block.tool_only": "%1$s",
+  "knowledge.knowledges.info.block.tool": "%1$s",
 
+  "knowledge.knowledges.info.block.banner.pattern": "§r%1$s",
   "knowledge.knowledges.info.block.banner.more_patterns": "%1$s §7and %2$d More Patterns§r",
   "knowledge.knowledges.info.block.banner.one_more_pattern": "%1$s §7and 1 More Pattern§r",
 
@@ -58,6 +59,10 @@
 
   "knowledge.knowledges.info.entity.villager.profession_and_level": "§7Level %2$d §r%1$s",
   "knowledge.knowledges.info.entity.villager.reputation": "Reputation: %1$d",
+
+  "knowledge.knowledges.info.entity.enchanted_book.enchantment": "§r%1$s",
+  "knowledge.knowledges.info.entity.enchanted_book.more_enchantments": "%1$s §7and %2$d More§r",
+  "knowledge.knowledges.info.entity.enchanted_book.one_more_enchantment": "%1$s §7and 1 More§r",
 
   "knowledge.knowledges.info.fluid.name": "Fluid Info",
   "knowledge.knowledges.info.fluid.tooltip": "§7Displays information about the fluid you are looking at",
