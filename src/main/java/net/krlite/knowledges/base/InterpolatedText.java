@@ -17,16 +17,28 @@ public class InterpolatedText {
     public enum Alignment {
         LEFT((letters, width) -> {
             ArrayList<Character> result = new ArrayList<>();
+            boolean wasFormatMark = false;
 
             ListIterator<Character> iterator = letters.listIterator(0);
             int currentWidth = 0;
             while (iterator.hasNext()) {
                 Character letter = iterator.next();
-                int letterWidth = widthOf(String.valueOf(letter));
 
-                if (currentWidth + letterWidth > width + 1) break;
+                processLetterWidth: {
+                    if (wasFormatMark) {
+                        wasFormatMark = false;
+                        break processLetterWidth;
+                    } else if (letter.equals('§')) {
+                        wasFormatMark = true;
+                        break processLetterWidth;
+                    }
 
-                currentWidth += letterWidth;
+                    int letterWidth = widthOf(String.valueOf(letter));
+                    if (currentWidth + letterWidth > width + 1) break;
+
+                    currentWidth += letterWidth;
+                }
+
                 result.add(letter);
             }
 
@@ -34,16 +46,28 @@ public class InterpolatedText {
         }),
         RIGHT((letters, width) -> {
             ArrayList<Character> result = new ArrayList<>();
+            boolean willHaveFormatMark = false;
 
             ListIterator<Character> iterator = letters.listIterator(letters.size());
             int currentWidth = 0;
             while (iterator.hasPrevious()) {
                 Character letter = iterator.previous();
-                int letterWidth = widthOf(String.valueOf(letter));
 
-                if (currentWidth + letterWidth > width + 1) break;
+                processLetterWidth: {
+                    if (willHaveFormatMark) {
+                        willHaveFormatMark = false;
+                        break processLetterWidth;
+                    } else if (iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals('§')) {
+                        willHaveFormatMark = true;
+                        break processLetterWidth;
+                    }
 
-                currentWidth += letterWidth;
+                    int letterWidth = widthOf(String.valueOf(letter));
+                    if (currentWidth + letterWidth > width + 1) break;
+
+                    currentWidth += letterWidth;
+                }
+
                 result.add(0, letter);
             }
 

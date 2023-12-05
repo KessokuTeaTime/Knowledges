@@ -10,11 +10,13 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,6 +84,18 @@ public class EntityInfoComponent extends InfoComponent {
 
 			// Right Below
 			subtitleRightBelow: {
+				if (entity.getType() == EntityType.VILLAGER) {
+					VillagerData villagerData = ((VillagerEntity) entity).getVillagerData();
+
+					Animations.Texts.subtitleRightBelow(Text.translatable(
+							localizationKey("villager", "profession_and_level"),
+							Text.translatable("entity.minecraft.villager." + villagerData.getProfession().id()).getString(),
+							villagerData.getLevel()
+					));
+
+					break subtitleRightBelow;
+				}
+
 				Animations.Texts.subtitleRightBelow(Text.empty());
 			}
 
@@ -96,9 +110,9 @@ public class EntityInfoComponent extends InfoComponent {
 			subtitleLeftBelow: {
 				if (entity.getType() == EntityType.PAINTING) {
 					((PaintingEntity) entity).getVariant().getKey().ifPresent((key) ->
-							Animations.Texts.subtitleRightAbove(
-									Text.translatable(key.getValue().toTranslationKey("painting", "title"))
-							));
+							Animations.Texts.subtitleRightAbove(Text.translatable(
+									key.getValue().toTranslationKey("painting", "title")
+							)));
 
 					break subtitleLeftBelow;
 				}
@@ -110,6 +124,16 @@ public class EntityInfoComponent extends InfoComponent {
 
 						break subtitleLeftBelow;
 					}
+				}
+				if (entity.getType() == EntityType.VILLAGER) {
+					VillagerEntity villager = ((VillagerEntity) entity);
+
+					Animations.Texts.subtitleLeftBelow(Text.translatable(
+							localizationKey("villager", "reputation"),
+							villager.getReputation(player)
+					));
+
+					break subtitleLeftBelow;
 				}
 
 				Animations.Texts.subtitleLeftBelow(Text.empty());

@@ -29,10 +29,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class InfoComponent implements Knowledge {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		if (!Info.hasCrosshairTarget()) {
-			reset();
-			return;
-		}
+		if (!Info.hasCrosshairTarget()) reset();
 
 		final Box textsRight = FrameInfo.scaled()
 				.leftCenter(crosshairSafeArea().rightCenter())

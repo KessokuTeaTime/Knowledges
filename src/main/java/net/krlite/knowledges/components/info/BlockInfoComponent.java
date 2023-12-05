@@ -117,23 +117,30 @@ public class BlockInfoComponent extends InfoComponent {
 
 				if (blockState.isIn(BlockTags.BANNERS) && Info.crosshairBlockEntity().isPresent()) {
 					var patterns = ((BannerBlockEntity) Info.crosshairBlockEntity().get()).getPatterns();
+					int available = patterns.size() - 1;
+					// The first pattern is always the background color, so ignore it
 
-					if (patterns.size() > 1) {
-						// The first pattern is always the background color, so ignore it
-
+					if (available > 0) {
 						patterns.get(1).getFirst().getKey()
 								.map(RegistryKey::getValue)
 								.map(Identifier::toShortTranslationKey)
 								.ifPresent(translationKey -> {
 									Text pattern = Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName());
-									if (patterns.size() > 2) {
+									if (available > 2) {
 										Animations.Texts.subtitleLeftBelow(Text.translatable(
-												localizationKey("banner", "patterns"),
-												pattern.getString(), patterns.size() - 2
-												// Should be something like *<pattern> and <number> more*, so the argument
-												// is subtracted by 2.
+												localizationKey("banner", "more_patterns"),
+												pattern.getString(),
+												available - 1,
+												// Represents the rest of the pattern. Use '%2$d' to reference.
+												available
+												// Represents the total number the pattern. Use '%3$d' to reference.
 										));
-									} else {
+									} else if (available > 1) {
+										Animations.Texts.subtitleLeftBelow(Text.translatable(
+												localizationKey("banner", "one_more_pattern"),
+												pattern.getString()
+										));
+									}else {
 										Animations.Texts.subtitleLeftBelow(pattern);
 									}
 								});
