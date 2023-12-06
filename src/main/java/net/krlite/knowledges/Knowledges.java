@@ -5,6 +5,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.api.KnowledgeProvider;
+import net.krlite.knowledges.base.InterpolatedText;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.config.KnowledgesBanned;
 import net.krlite.knowledges.config.KnowledgesConfig;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Knowledges implements ModInitializer {
