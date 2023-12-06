@@ -17,19 +17,19 @@ public class InterpolatedText {
     public enum Alignment {
         LEFT((letters, width) -> {
             ArrayList<Character> result = new ArrayList<>();
-            boolean wasFormatMark = false;
+            boolean metFormattingMark = false;
 
-            ListIterator<Character> iterator = letters.listIterator(0);
+            ListIterator<Character> iterator = letters.listIterator();
             int currentWidth = 0;
             while (iterator.hasNext()) {
                 Character letter = iterator.next();
 
                 processLetterWidth: {
-                    if (wasFormatMark) {
-                        wasFormatMark = false;
+                    if (metFormattingMark) {
+                        metFormattingMark = false;
                         break processLetterWidth;
                     } else if (letter.equals('§')) {
-                        wasFormatMark = true;
+                        metFormattingMark = true;
                         break processLetterWidth;
                     }
 
@@ -46,7 +46,7 @@ public class InterpolatedText {
         }),
         RIGHT((letters, width) -> {
             ArrayList<Character> result = new ArrayList<>();
-            boolean willHaveFormatMark = false;
+            boolean willMeetFormattingMark = false;
 
             ListIterator<Character> iterator = letters.listIterator(letters.size());
             int currentWidth = 0;
@@ -54,11 +54,11 @@ public class InterpolatedText {
                 Character letter = iterator.previous();
 
                 processLetterWidth: {
-                    if (willHaveFormatMark) {
-                        willHaveFormatMark = false;
+                    if (willMeetFormattingMark) {
+                        willMeetFormattingMark = false;
                         break processLetterWidth;
                     } else if (iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals('§')) {
-                        willHaveFormatMark = true;
+                        willMeetFormattingMark = true;
                         break processLetterWidth;
                     }
 
@@ -87,78 +87,6 @@ public class InterpolatedText {
                     .reduce(MutableText::append)
                     .orElse(Text.empty());
         }
-
-        private ArrayList<Character> peekFormattingMarks(ArrayList<Character> letters, int at, boolean rewind) {
-            if (at < 0 || at > letters.size()) return new ArrayList<>();
-            if ((rewind && at < 1) || (!rewind && at > letters.size() - 1)) return new ArrayList<>();
-
-            ListIterator<Character> iterator = letters.listIterator(at);
-            ArrayList<Character> result = new ArrayList<>();
-            final Character starting = '§';
-            boolean continuous = false;
-
-            if (!rewind) {
-                // From head to tail
-                while (iterator.hasNext()) {
-                    Character letter = iterator.next();
-                    boolean meeting = letter.equals(starting);
-
-                    if (!result.isEmpty()) {
-                        if (continuous) {
-                            // Inside a formatting mark
-                            result.add(letter);
-                            continuous = false;
-                        }
-
-                        else if (meeting) {
-                            // Meeting another '§'
-                            result.add(0, letter);
-                            continuous = true;
-                        }
-
-                        else break;
-                    }
-
-                    else if (meeting) {
-                        if (!continuous) {
-                            // Meeting the first '§'
-                            result.add(letter); // '§'
-                            continuous = true;
-                        }
-                    }
-                }
-            } else {
-                // From tail to head
-                while (iterator.hasPrevious()) {
-                    Character letter = iterator.previous();
-                    boolean willMeet = iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals(starting);
-
-                    if (!result.isEmpty()) {
-                        if (continuous) {
-                            // Inside a formatting mark
-                            result.add(0, letter); // Should always be '§'
-                            continuous = false;
-                        }
-
-                        else if (willMeet) {
-                            // Will meet another '§'
-                            result.add(0, letter);
-                            continuous = true;
-                        }
-
-                        else break;
-                    }
-
-                    else if (willMeet) {
-                        // Will meet the first '§'
-                        result.add(0, letter);
-                        continuous = true;
-                    }
-                }
-            }
-
-            return result;
-        }
     }
 
     public InterpolatedText(Alignment alignment) {
@@ -174,8 +102,8 @@ public class InterpolatedText {
 
     public MutableText text() {
         ArrayList<Character> letters = new ArrayList<>();
-
         final int maxLength = Math.max(last.length(), current.length());
+        
         for (int i = 0; i < maxLength; i++) {
             switch (alignment) {
                 case LEFT -> {
@@ -186,6 +114,17 @@ public class InterpolatedText {
                     if (i < maxLength - current.length()) letters.add(last.toCharArray()[i]);
                     else letters.add(current.toCharArray()[i + current.length() - maxLength]);
                 }
+            }
+        }
+        
+        switch (alignment) {
+            case LEFT -> {
+                if (last.length() > current.length()) {
+                    letters.addAll(current.length(), peekFormattingMarks(letters, current.length(), false));
+                }
+            }
+            case RIGHT -> {
+                // TODO: 2023/12/6  
             }
         }
 
@@ -204,5 +143,80 @@ public class InterpolatedText {
         }
 
         width.target(widthOf(text.getString()));
+    }
+    
+    private ArrayList<Character> peekFormattingMarks(ArrayList<Character> letters, int at, boolean rewind) {
+        if (at < 0 || at >= letters.size()) return new ArrayList<>();
+        if ((rewind && at < 1) || (!rewind && at >= letters.size() - 1)) return new ArrayList<>();
+
+        ArrayList<Character> result = new ArrayList<>();
+        final Character starting = '§';
+        boolean continuous = false;
+
+        if (!rewind) {
+            // From head to tail
+            ListIterator<Character> iterator = letters.listIterator(at);
+            
+            while (iterator.hasNext()) {
+                Character letter = iterator.next();
+                boolean meeting = letter.equals(starting);
+
+                if (!result.isEmpty()) {
+                    if (continuous) {
+                        // Inside a formatting mark
+                        result.add(letter);
+                        continuous = false;
+                    }
+
+                    else if (meeting) {
+                        // Meeting another '§'
+                        result.add(0, letter);
+                        continuous = true;
+                    }
+
+                    else break;
+                }
+
+                else if (meeting) {
+                    if (!continuous) {
+                        // Meeting the first '§'
+                        result.add(letter); // '§'
+                        continuous = true;
+                    }
+                }
+            }
+        } else {
+            // From tail to head
+            ListIterator<Character> iterator = letters.listIterator(at + 1);
+            
+            while (iterator.hasPrevious()) {
+                Character letter = iterator.previous();
+                boolean willMeet = iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals(starting);
+
+                if (!result.isEmpty()) {
+                    if (continuous) {
+                        // Inside a formatting mark
+                        result.add(0, letter); // Should always be '§'
+                        continuous = false;
+                    }
+
+                    else if (willMeet) {
+                        // Will meet another '§'
+                        result.add(0, letter);
+                        continuous = true;
+                    }
+
+                    else break;
+                }
+
+                else if (willMeet) {
+                    // Will meet the first '§'
+                    result.add(0, letter);
+                    continuous = true;
+                }
+            }
+        }
+
+        return result;
     }
 }
