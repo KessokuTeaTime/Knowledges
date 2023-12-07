@@ -47,25 +47,25 @@
   "knowledge.knowledges.info.block.mining_level.4": "下界合金",
 
   "knowledge.knowledges.info.block.tool_and_mining_level_semantic": "%2$s%1$s",
-  "knowledge.knowledges.info.block.tool_and_mining_level": "§7%2$s的%1$s",
+  "knowledge.knowledges.info.block.tool_and_mining_level": "§7%2$s的§r%1$s",
   "knowledge.knowledges.info.block.tool": "任意%1$s",
 
-  "knowledge.knowledges.info.block.banner.more_patterns": "%1$s§7等%3$d个样式",
-  "knowledge.knowledges.info.block.banner.one_more_pattern": "%1$s§7等2个样式",
+  "knowledge.knowledges.info.block.banner.more_patterns": "§r%1$s§7等%3$d个样式",
+  "knowledge.knowledges.info.block.banner.one_more_pattern": "§r%1$s§7等2个样式",
 
   "knowledge.knowledges.info.entity.name": "实体信息",
   "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
 
   "knowledge.knowledges.info.entity.villager.profession_and_level": "§7%2$d级§r%1$s",
-  "knowledge.knowledges.info.entity.villager.reputation": "好感度：%1$d",
+  "knowledge.knowledges.info.entity.villager.reputation": "§7好感度：§r%1$d",
 
-  "knowledge.knowledges.info.entity.enchanted_book.more_enchantments": "%1$s§7等%3$d个附魔",
-  "knowledge.knowledges.info.entity.enchanted_book.one_more_enchantment": "%1$s§7等2个附魔",
+  "knowledge.knowledges.info.entity.enchanted_book.more_enchantments": "§r%1$s§7等%3$d个附魔",
+  "knowledge.knowledges.info.entity.enchanted_book.one_more_enchantment": "§r%1$s§7等2个附魔",
 
   "knowledge.knowledges.info.fluid.name": "流体信息",
   "knowledge.knowledges.info.fluid.tooltip": "§7显示你正看着的流体的信息",
 
-  "knowledge.knowledges.info.fluid.level": "体积：%1$d",
+  "knowledge.knowledges.info.fluid.level": "§7体积：§r%1$d",
 
   "knowledge.knowledges.info.fluid.config.category": "流体信息",
 
