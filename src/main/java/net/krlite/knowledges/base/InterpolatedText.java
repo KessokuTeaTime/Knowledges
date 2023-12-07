@@ -11,79 +11,126 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class InterpolatedText {
-    private final InterpolatedDouble width = new InterpolatedDouble(0, 0.02);
-    private final Alignment alignment;
+    public static final char FORMATTING_SIGN = '§';
 
-    public enum Alignment {
-        LEFT((letters, width) -> {
-            ArrayList<Character> result = new ArrayList<>();
-            boolean metFormattingMark = false;
+    public static class StyledChar {
+        private final Character character;
+        private final List<Character> formattingMarks;
 
-            ListIterator<Character> iterator = letters.listIterator();
-            int currentWidth = 0;
-            while (iterator.hasNext()) {
-                Character letter = iterator.next();
+        public StyledChar(List<Character> letters, int at) {
+            this.character = letters.get(at);
+            this.formattingMarks = peekFormattingMarks(letters, at, true);
+        }
 
-                processLetterWidth: {
-                    if (metFormattingMark) {
-                        metFormattingMark = false;
-                        break processLetterWidth;
-                    } else if (letter.equals('§')) {
-                        metFormattingMark = true;
-                        break processLetterWidth;
-                    }
+        public int width() {
+            return widthOfString(String.valueOf(character));
+        }
 
-                    int letterWidth = widthOf(String.valueOf(letter));
-                    if (currentWidth + letterWidth > width + 1) break;
+        @Override
+        public String toString() {
+            return formattingMarks.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining()) + character + FORMATTING_SIGN + 'r';
+        }
 
-                    currentWidth += letterWidth;
+        public MutableText mutableText() {
+            return Text.literal(toString());
+        }
+
+        public static List<StyledChar> from(String stringUnCut) {
+            List<StyledChar> result = new ArrayList<>();
+            boolean inFormattingMark = false;
+
+            for (int i = 0; i < stringUnCut.length(); i++) {
+                char c = stringUnCut.toCharArray()[i];
+
+                if (inFormattingMark) {
+                    inFormattingMark = false;
+                    continue;
+                } else if (c == FORMATTING_SIGN) {
+                    inFormattingMark = true;
+                    continue;
                 }
 
+                result.add(new StyledChar(toCharacterList(stringUnCut), i));
+            }
+
+            return result;
+        }
+
+        public static String cut(String string) {
+            StringBuilder result = new StringBuilder();
+            boolean inFormattingMark = false;
+
+            for (int i = 0; i < string.length(); i++) {
+                char c = string.toCharArray()[i];
+
+                if (inFormattingMark) {
+                    inFormattingMark = false;
+                    continue;
+                } else if (c == FORMATTING_SIGN) {
+                    inFormattingMark = true;
+                    continue;
+                }
+
+                result.append(c);
+            }
+
+            return result.toString();
+        }
+
+        public static int widthOf(List<StyledChar> styledChars) {
+            return styledChars.stream()
+                    .mapToInt(StyledChar::width)
+                    .sum();
+        }
+    }
+
+    public enum Alignment {
+        LEFT((styledChars, width) -> {
+            List<StyledChar> result = new ArrayList<>();
+            ListIterator<StyledChar> iterator = styledChars.listIterator();
+            int currentWidth = 0;
+
+            while (iterator.hasNext()) {
+                StyledChar letter = iterator.next();
+                int letterWidth = letter.width();
+
+                if (currentWidth + letterWidth > width + 1) break;
+
+                currentWidth += letterWidth;
                 result.add(letter);
             }
 
             return result;
         }),
-        RIGHT((letters, width) -> {
-            ArrayList<Character> result = new ArrayList<>();
-            boolean willMeetFormattingMark = false;
-
-            ListIterator<Character> iterator = letters.listIterator(letters.size());
+        RIGHT((styledChars, width) -> {
+            List<StyledChar> result = new ArrayList<>();
+            ListIterator<StyledChar> iterator = styledChars.listIterator(styledChars.size());
             int currentWidth = 0;
+
             while (iterator.hasPrevious()) {
-                Character letter = iterator.previous();
+                StyledChar letter = iterator.previous();
+                int letterWidth = letter.width();
 
-                processLetterWidth: {
-                    if (willMeetFormattingMark) {
-                        willMeetFormattingMark = false;
-                        break processLetterWidth;
-                    } else if (iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals('§')) {
-                        willMeetFormattingMark = true;
-                        break processLetterWidth;
-                    }
+                if (currentWidth + letterWidth > width + 1) break;
 
-                    int letterWidth = widthOf(String.valueOf(letter));
-                    if (currentWidth + letterWidth > width + 1) break;
-
-                    currentWidth += letterWidth;
-                }
-
+                currentWidth += letterWidth;
                 result.add(0, letter);
             }
 
             return result;
         });
 
-        final BiFunction<ArrayList<Character>, Double, ArrayList<Character>> truncateFunction;
+        final BiFunction<List<StyledChar>, Double, List<StyledChar>> truncateFunction;
 
-        Alignment(BiFunction<ArrayList<Character>, Double, ArrayList<Character>> truncateFunction) {
+        Alignment(BiFunction<List<StyledChar>, Double, List<StyledChar>> truncateFunction) {
             this.truncateFunction = truncateFunction;
         }
 
-        public MutableText truncate(ArrayList<Character> letters, double width) {
-            return truncateFunction.apply(letters, width).stream()
-                    .map(String::valueOf)
-                    .map(Text::literal)
+        public MutableText truncate(List<StyledChar> styledChars, double width) {
+            return truncateFunction.apply(styledChars, width).stream()
+                    .map(StyledChar::mutableText)
                     .reduce(MutableText::append)
                     .orElse(Text.empty());
         }
@@ -93,97 +140,89 @@ public class InterpolatedText {
         this.alignment = alignment;
     }
 
-    protected static int widthOf(String string) {
-        return MinecraftClient.getInstance().textRenderer.getWidth(string);
-    }
-
-    private String last = "", current = "", cache = current;
+    private final InterpolatedDouble width = new InterpolatedDouble(0, 0.02);
+    private final Alignment alignment;
+    private List<StyledChar> last = new ArrayList<>(), current = new ArrayList<>(), cache = current;
     private Style style = Style.EMPTY;
 
     public MutableText text() {
-        ArrayList<Character> letters = new ArrayList<>();
-        final int maxLength = Math.max(last.length(), current.length());
+        ArrayList<StyledChar> styledChars = new ArrayList<>();
+        final int
+                lastSize = last.size(),
+                currentSize = current.size(),
+                maxSize = Math.max(lastSize, currentSize);
         
-        for (int i = 0; i < maxLength; i++) {
+        for (int i = 0; i < maxSize; i++) {
             switch (alignment) {
                 case LEFT -> {
-                    if (i < current.length()) letters.add(current.toCharArray()[i]);
-                    else letters.add(last.toCharArray()[i]);
+                    if (i < currentSize) styledChars.add(current.get(i));
+                    else styledChars.add(last.get(i));
                 }
                 case RIGHT -> {
-                    if (i < maxLength - current.length()) letters.add(last.toCharArray()[i]);
-                    else letters.add(current.toCharArray()[i + current.length() - maxLength]);
+                    if (i < maxSize - currentSize) styledChars.add(last.get(i));
+                    else styledChars.add(current.get(i + currentSize - maxSize));
                 }
-            }
-        }
-        
-        switch (alignment) {
-            case LEFT -> {
-                if (last.length() > current.length()) {
-                    letters.addAll(current.length(), peekFormattingMarks(letters, current.length(), false));
-                }
-            }
-            case RIGHT -> {
-                // TODO: 2023/12/6  
             }
         }
 
-        return alignment.truncate(letters, width.value()).setStyle(style);
+        return alignment.truncate(styledChars, width.value()).setStyle(style);
     }
 
     public void text(Text text) {
-        if (!text.getString().isEmpty()) {
+        String stringUnCut = text.getString();
+        String string = StyledChar.cut(stringUnCut);
+
+        if (!string.isEmpty()) {
             if (!cache.equals(current)) {
                 last = cache;
                 cache = current;
             }
 
-            current = text.getString();
+            current = StyledChar.from(stringUnCut);
             style = text.getStyle();
         }
 
-        width.target(widthOf(text.getString()));
+        width.target(widthOfString(string));
+    }
+
+    public static int widthOfString(String string) {
+        return MinecraftClient.getInstance().textRenderer.getWidth(string);
+    }
+
+    public static List<Character> toCharacterList(String string) {
+        List<Character> result = new ArrayList<>();
+        for (char c : string.toCharArray()) result.add(c);
+        return result;
     }
     
-    private ArrayList<Character> peekFormattingMarks(ArrayList<Character> letters, int at, boolean rewind) {
+    public static List<Character> peekFormattingMarks(List<Character> letters, int at, boolean findPrevious) {
         if (at < 0 || at >= letters.size()) return new ArrayList<>();
-        if ((rewind && at < 1) || (!rewind && at >= letters.size() - 1)) return new ArrayList<>();
+        if ((findPrevious && at < 1) || (!findPrevious && at >= letters.size() - 1)) return new ArrayList<>();
 
-        ArrayList<Character> result = new ArrayList<>();
-        final Character starting = '§';
+        List<Character> result = new ArrayList<>();
         boolean continuous = false;
 
-        if (!rewind) {
+        if (!findPrevious) {
             // From head to tail
             ListIterator<Character> iterator = letters.listIterator(at);
             
             while (iterator.hasNext()) {
                 Character letter = iterator.next();
-                boolean meeting = letter.equals(starting);
+                boolean meeting = letter.equals(FORMATTING_SIGN);
 
-                if (!result.isEmpty()) {
-                    if (continuous) {
-                        // Inside a formatting mark
-                        result.add(letter);
-                        continuous = false;
-                    }
-
-                    else if (meeting) {
-                        // Meeting another '§'
-                        result.add(0, letter);
-                        continuous = true;
-                    }
-
-                    else break;
+                if (continuous) {
+                    // Inside a formatting mark
+                    result.add(letter);
+                    continuous = false;
                 }
 
                 else if (meeting) {
-                    if (!continuous) {
-                        // Meeting the first '§'
-                        result.add(letter); // '§'
-                        continuous = true;
-                    }
+                    // Meeting '§'
+                    result.add(0, letter);
+                    continuous = true;
                 }
+
+                else break;
             }
         } else {
             // From tail to head
@@ -191,26 +230,16 @@ public class InterpolatedText {
             
             while (iterator.hasPrevious()) {
                 Character letter = iterator.previous();
-                boolean willMeet = iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals(starting);
+                boolean willMeet = iterator.hasPrevious() && letters.get(iterator.previousIndex()).equals(FORMATTING_SIGN);
 
-                if (!result.isEmpty()) {
-                    if (continuous) {
-                        // Inside a formatting mark
-                        result.add(0, letter); // Should always be '§'
-                        continuous = false;
-                    }
-
-                    else if (willMeet) {
-                        // Will meet another '§'
-                        result.add(0, letter);
-                        continuous = true;
-                    }
-
-                    else break;
+                if (continuous) {
+                    // Inside a formatting mark
+                    result.add(0, letter); // Should always be '§'
+                    continuous = false;
                 }
 
                 else if (willMeet) {
-                    // Will meet the first '§'
+                    // Will meet '§'
                     result.add(0, letter);
                     continuous = true;
                 }
