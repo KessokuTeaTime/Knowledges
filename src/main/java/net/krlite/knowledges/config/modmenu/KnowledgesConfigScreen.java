@@ -4,6 +4,7 @@ import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import net.krlite.knowledges.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
@@ -18,7 +19,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
@@ -109,8 +109,8 @@ public class KnowledgesConfigScreen {
         // Components
         List<Knowledge> defaultComponents = new ArrayList<>(), components = new ArrayList<>();
 
-        Knowledges.knowledgesList().stream()
-                .collect(Collectors.groupingBy(Knowledges::inDefaultNamespace))
+        Knowledges.MANAGER.asList().stream()
+                .collect(Collectors.groupingBy(Knowledges.MANAGER::isInDefaultNamespace))
                 .forEach((isDefaultKnowledge, knowledges) -> {
                     if (isDefaultKnowledge) defaultComponents.addAll(knowledges);
                     else components.addAll(knowledges);
@@ -124,7 +124,7 @@ public class KnowledgesConfigScreen {
                                 .map(knowledge -> {
                                     var built = componentEntry(knowledge).get().build();
                                     SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                    Knowledges.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+                                    Helper.List.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
                                     return (AbstractConfigListEntry) built;
                                 })
@@ -141,7 +141,7 @@ public class KnowledgesConfigScreen {
                                     .map(knowledge -> {
                                         var built = componentEntry(knowledge).get().build();
                                         SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                        Knowledges.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+                                        Helper.List.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
                                         return (AbstractConfigListEntry) built;
                                     })
@@ -156,7 +156,7 @@ public class KnowledgesConfigScreen {
     }
 
     private void initIndependentConfigPages() {
-        List<Knowledge> components = Knowledges.knowledgesMap().values().stream()
+        List<Knowledge> components = Knowledges.MANAGER.asMap().values().stream()
                 .flatMap(List::stream)
                 .filter(Knowledge::requestsConfigPage)
                 .toList();
@@ -166,7 +166,7 @@ public class KnowledgesConfigScreen {
 
             var built = componentEntry(knowledge, false).get().build();
             SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-            Knowledges.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+            Helper.List.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
             category.addEntry(built);
             category.addEntry(

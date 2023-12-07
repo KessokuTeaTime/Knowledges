@@ -15,6 +15,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
+import net.krlite.knowledges.Helper;
 import net.krlite.knowledges.base.InterpolatedText;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.Knowledges;
@@ -243,7 +244,7 @@ public abstract class InfoComponent implements Knowledge {
 			}
 
 			public static AccurateColor ringColor() {
-				return RING_COLOR.value().opacity(0.5 * Knowledges.mapToPower(ringRadians() / (2 * Math.PI), 2, 0.15));
+				return RING_COLOR.value().opacity(0.5 * Helper.Math.mapToPower(ringRadians() / (2 * Math.PI), 2, 0.15));
 			}
 
 			public static void ringColor(AccurateColor color) {

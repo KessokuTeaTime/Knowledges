@@ -4,8 +4,8 @@ import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.knowledges.Helper;
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -64,7 +64,7 @@ public class ArmorDurabilityComponent implements Knowledge {
 			} else {
 				double health = (double) itemStack.getDamage() / itemStack.getMaxDamage();
 				color = AccurateColor.fromARGB(itemStack.getItemBarColor())
-								.opacity(Knowledges.mapToPower(health, 2, 0.15));
+								.opacity(Helper.Math.mapToPower(health, 2, 0.15));
 			}
 
 			box.render(context, flat ->

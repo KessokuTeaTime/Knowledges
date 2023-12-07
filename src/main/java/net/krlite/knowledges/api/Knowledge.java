@@ -95,9 +95,9 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			boolean blockPos = Knowledges.enabled(Knowledges.byId(Knowledges.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = Knowledges.enabled(Knowledges.byId(Knowledges.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = Knowledges.enabled(Knowledges.byId(Knowledges.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
+			boolean blockPos = Knowledges.MANAGER.isEnabled(Knowledges.MANAGER.byId(Knowledges.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = Knowledges.MANAGER.isEnabled(Knowledges.MANAGER.byId(Knowledges.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = Knowledges.MANAGER.isEnabled(Knowledges.MANAGER.byId(Knowledges.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
 
 			return blockPos || entity || fluidState;
 		}
