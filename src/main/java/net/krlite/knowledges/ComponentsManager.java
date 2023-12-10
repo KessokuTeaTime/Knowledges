@@ -1,13 +1,14 @@
 package net.krlite.knowledges;
 
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.config.DisabledComponents;
+import net.krlite.knowledges.base.Helper;
+import net.krlite.knowledges.config.DisabledComponentsConfig;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
 
 public class ComponentsManager {
-    private final DisabledComponents disabled = new DisabledComponents();
+    private final DisabledComponentsConfig disabled = new DisabledComponentsConfig();
     private final HashMap<String, List<Knowledge>> components = new HashMap<>();
 
     public Map<String, List<Knowledge>> asMap() {

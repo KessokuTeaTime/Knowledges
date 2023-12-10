@@ -10,7 +10,7 @@ import net.krlite.pierced.config.Pierced;
 import java.io.File;
 
 public class KnowledgesConfig extends Pierced {
-	private static final @Silent File file = FabricLoader.getInstance().getConfigDir().resolve(Knowledges.ID + ".toml").toFile();
+	private static final @Silent File file = Knowledges.CONFIG_PATH.resolve("config.toml").toFile();
 
 	public KnowledgesConfig() {
 		super(KnowledgesConfig.class, file);

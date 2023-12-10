@@ -15,7 +15,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
-import net.krlite.knowledges.Helper;
+import net.krlite.knowledges.base.Helper;
 import net.krlite.knowledges.base.InterpolatedText;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.Knowledges;

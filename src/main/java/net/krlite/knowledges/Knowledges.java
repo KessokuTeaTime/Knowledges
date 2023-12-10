@@ -17,9 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
+
 public class Knowledges implements ModInitializer {
 	public static final String NAME = "Knowledges", ID = "knowledges";
 	public static final Logger LOGGER = LoggerFactory.getLogger(ID);
+	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(Knowledges.ID);
 
 	public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
 	public static final ComponentsManager MANAGER = new ComponentsManager();

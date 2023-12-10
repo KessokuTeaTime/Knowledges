@@ -1,4 +1,4 @@
-package net.krlite.knowledges;
+package net.krlite.knowledges.base;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package net.krlite.knowledges;
+package net.krlite.knowledges.impl;
 
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.api.ComponentsProvider;
