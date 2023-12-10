@@ -1,7 +1,8 @@
 package net.krlite.knowledges.data;
 
 import net.krlite.knowledges.api.Data;
-import net.minecraft.util.Identifier;
+import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.components.info.BlockInfoComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class TestData implements Data<Integer, String> {
@@ -11,8 +12,8 @@ public class TestData implements Data<Integer, String> {
     }
 
     @Override
-    public @NotNull Identifier target() {
-        return new Identifier("abc");
+    public Class<? extends Knowledge> targetClass() {
+        return BlockInfoComponent.class;
     }
 
     @Override

@@ -93,9 +93,9 @@ public class FluidInfoComponent extends InfoComponent {
     }
 
     @Override
-    public Function<ConfigEntryBuilder, List<Supplier<AbstractFieldBuilder<?, ?, ?>>>> buildConfigEntries() {
+    public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
-                () -> entryBuilder.startBooleanToggle(
+                entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_water"),
                                 Knowledges.CONFIG.infoFluidIgnoresWater()
                         )
@@ -103,7 +103,7 @@ public class FluidInfoComponent extends InfoComponent {
                         .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresWater)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
 
-                () -> entryBuilder.startBooleanToggle(
+                entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_lava"),
                                 Knowledges.CONFIG.infoFluidIgnoresLava()
                         )

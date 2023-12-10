@@ -1,8 +1,8 @@
 package net.krlite.knowledges;
 
 import net.krlite.knowledges.api.Data;
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.disabled.DisabledDataConfig;
-import net.minecraft.util.Identifier;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +18,9 @@ public class DataManager extends Knowledges.Manager<Data<?, ?>> {
         return "knowledge_data";
     }
 
-    public Map<Identifier, List<Data<?, ?>>> asClassifiedMap() {
+    public Map<Knowledge, List<Data<?, ?>>> asClassifiedMap() {
         return Map.copyOf(asList().stream()
-                .collect(Collectors.groupingBy(Data::target)));
+                        .filter(data -> data.targetKnowledge().isPresent())
+                        .collect(Collectors.groupingBy(data -> data.targetKnowledge().get())));
     }
 }

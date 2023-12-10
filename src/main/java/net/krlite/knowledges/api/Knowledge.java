@@ -9,6 +9,7 @@ import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.ComponentsManager;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.core.LocalizableWithName;
 import net.krlite.knowledges.core.WithPath;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -43,38 +44,23 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface Knowledge extends WithPath {
+public interface Knowledge extends WithPath, LocalizableWithName {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
-
-	default boolean providesTooltip() {
-		return false;
-	}
 
 	default boolean requestsConfigPage() {
 		return false;
 	}
 
-	default @NotNull Text name() {
-		return localize("name");
-	}
-
-	default @NotNull Text tooltip() {
-		return localize("tooltip");
-	}
-
-	default Function<ConfigEntryBuilder, List<Supplier<AbstractFieldBuilder<?, ?, ?>>>> buildConfigEntries() {
+	default Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
 		return configEntryBuilder -> new ArrayList<>();
 	}
 
+	@Override
 	default String localizationKey(String... paths) {
 		List<String> fullPaths = new ArrayList<>(List.of(path()));
 		fullPaths.addAll(List.of(paths));
 
 		return Knowledges.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
-	}
-
-	default MutableText localize(String... paths) {
-		return Text.translatable(localizationKey(paths));
 	}
 
 	default double scalar() {

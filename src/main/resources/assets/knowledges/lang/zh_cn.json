@@ -14,8 +14,12 @@
 
   "config.knowledges.category.components": "组件",
 
-  "config.knowledges.components.default": "默认组件",
-  "config.knowledges.components.custom": "第三方组件",
+  "config.knowledges.components.default": "（默认）",
+
+  "config.knowledges.category.data": "数据",
+
+  "config.knowledges.data.default": "（默认）",
+  "config.knowledges.data.target_knowledge": "§8目标组件：§r%s",
 
   "knowledge.knowledges.crosshair.name": "准心",
   "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时被隐藏",

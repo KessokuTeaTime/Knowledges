@@ -4,6 +4,7 @@ import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
@@ -16,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
@@ -31,6 +31,8 @@ public class KnowledgesConfigScreen {
     private final ConfigBuilder configBuilder = ConfigBuilder.create()
             .setTitle(Knowledges.localize("screen", "config", "title"))
             .transparentBackground()
+            .setShouldTabsSmoothScroll(true)
+            .setShouldListSmoothScroll(true)
             .setSavingRunnable(CONFIG::save);
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
@@ -41,7 +43,10 @@ public class KnowledgesConfigScreen {
         configBuilder.setParentScreen(parent);
 
         initGeneralEntries();
+
         initComponentEntries();
+        initDataEntries();
+
         initIndependentConfigPages();
     }
 
@@ -49,23 +54,12 @@ public class KnowledgesConfigScreen {
         return configBuilder.build();
     }
 
-    public static MutableText localize(String... paths) {
-        return Knowledges.localize("config", paths);
+    public static String localizationKey(String... paths) {
+        return Knowledges.localizationKey("config", paths);
     }
 
-    private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge, boolean allowsTooltip) {
-        return () -> entryBuilder.startBooleanToggle(
-                        knowledge.name(),
-                        Knowledges.COMPONENTS.isEnabled(knowledge)
-                )
-                .setDefaultValue(true)
-                .setTooltipSupplier(() -> {
-                    if (allowsTooltip && knowledge.providesTooltip())
-                        return Optional.of(new Text[]{knowledge.tooltip()});
-                    else return Optional.empty();
-                })
-                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
-                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+    public static MutableText localize(String... paths) {
+        return Text.translatable(localizationKey(paths));
     }
 
     private void initGeneralEntries() {
@@ -101,29 +95,82 @@ public class KnowledgesConfigScreen {
         );
     }
 
+    private BooleanToggleBuilder componentEntry(Knowledge knowledge, boolean allowsTooltip) {
+        return entryBuilder.startBooleanToggle(
+                        knowledge.name(),
+                        Knowledges.COMPONENTS.isEnabled(knowledge)
+                )
+                .setDefaultValue(true)
+                .setTooltipSupplier(() -> {
+                    if (allowsTooltip && knowledge.providesTooltip())
+                        return Optional.of(new Text[]{ knowledge.tooltip() });
+                    else return Optional.empty();
+                })
+                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
+                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+    }
+
+    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
+        return entryBuilder.startBooleanToggle(
+                        data.name(),
+                        Knowledges.DATA.isEnabled(data)
+                )
+                .setDefaultValue(true)
+                .setTooltipSupplier(() -> data.targetKnowledge()
+                        .map(knowledge -> new Text[]{
+                                data.tooltip(),
+                                Text.translatable(
+                                        localizationKey("data", "target_knowledge"),
+                                        knowledge.name().getString()
+                                )
+                        }))
+                .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
+                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+    }
+
     private void initComponentEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "components"));
 
         if (!Knowledges.COMPONENTS.asMap().isEmpty()) {
-            category.addEntry(
-                    entryBuilder.startSubCategory(
-                            localize("components", "custom"),
-                            components.stream()
-                                    .map(knowledge -> {
-                                        var built = componentEntry(knowledge).get().build();
-                                        SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                        Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+            Knowledges.COMPONENTS.asMap().forEach((namespace, components) -> {
+                MutableText name = Knowledge.Util.getModName(namespace);
+                boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
+                if (isInDefaultNamespace) name.append(localize("components", "default"));
 
-                                        return (AbstractConfigListEntry) built;
-                                    })
-                                    .toList()
-                    ).setExpanded(true).build()
-            );
+                category.addEntry(entryBuilder.startSubCategory(
+                        name,
+                        components.stream()
+                                .map(knowledge -> {
+                                    var built = componentEntry(knowledge, true).build();
+                                    SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
+                                    Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+
+                                    return (AbstractConfigListEntry) built;
+                                })
+                                .toList()
+                ).setExpanded(isInDefaultNamespace).build());
+            });
         }
     }
 
-    private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge) {
-        return componentEntry(knowledge, true);
+    private void initDataEntries() {
+        ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "data"));
+
+        if (!Knowledges.DATA.asMap().isEmpty()) {
+            Knowledges.DATA.asMap().forEach((namespace, components) -> {
+                MutableText name = Knowledge.Util.getModName(namespace);
+                boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
+                if (isInDefaultNamespace) name.append(localize("data", "default"));
+
+                category.addEntry(entryBuilder.startSubCategory(
+                        name,
+                        components.stream()
+                                .map(this::dataEntry)
+                                .map(builder -> (AbstractConfigListEntry) builder.build())
+                                .toList()
+                ).setExpanded(isInDefaultNamespace).build());
+            });
+        }
     }
 
     private void initIndependentConfigPages() {
@@ -135,7 +182,7 @@ public class KnowledgesConfigScreen {
         components.forEach(knowledge -> {
             ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.localize("config", "category"));
 
-            var built = componentEntry(knowledge, false).get().build();
+            var built = componentEntry(knowledge, false).build();
             SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
             Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
@@ -147,7 +194,6 @@ public class KnowledgesConfigScreen {
             );
 
             knowledge.buildConfigEntries().apply(entryBuilder).stream()
-                    .map(Supplier::get)
                     .map(AbstractFieldBuilder::build)
                     .forEach(category::addEntry);
         });

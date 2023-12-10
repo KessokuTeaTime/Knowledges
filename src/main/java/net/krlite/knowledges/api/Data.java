@@ -1,44 +1,31 @@
 package net.krlite.knowledges.api;
 
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.core.LocalizableWithName;
 import net.krlite.knowledges.core.WithPath;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public interface Data<P, R> extends WithPath {
-    default boolean block(P param) {
+public interface Data<P, R> extends WithPath, LocalizableWithName {
+    default boolean blocks(P param) {
         return false;
     }
 
     R get(P param);
 
-    @NotNull Identifier target();
+    Class<? extends Knowledge> targetClass();
 
-    default boolean providesTooltip() {
-        return false;
+    default Optional<Knowledge> targetKnowledge() {
+        return Knowledges.COMPONENTS.byClass(targetClass());
     }
 
-    default @NotNull Text name() {
-        return localize("name");
-    }
-
-    default @NotNull Text tooltip() {
-        return localize("tooltip");
-    }
-
+    @Override
     default String localizationKey(String... paths) {
         List<String> fullPaths = new ArrayList<>(List.of(path()));
         fullPaths.addAll(List.of(paths));
 
         return Knowledges.DATA.localizationKey(this, fullPaths.toArray(String[]::new));
-    }
-
-    default MutableText localize(String... paths) {
-        return Text.translatable(localizationKey(paths));
     }
 }
