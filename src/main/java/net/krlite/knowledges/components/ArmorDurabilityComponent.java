@@ -4,7 +4,7 @@ import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.base.Helper;
+import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.api.Knowledge;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

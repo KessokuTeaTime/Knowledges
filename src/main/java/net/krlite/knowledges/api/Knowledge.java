@@ -7,7 +7,9 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
+import net.krlite.knowledges.ComponentsManager;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.core.WithPath;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.Instrument;
@@ -41,10 +43,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface Knowledge {
+public interface Knowledge extends WithPath {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
-
-	@NotNull String path();
 
 	default boolean providesTooltip() {
 		return false;
@@ -70,7 +70,7 @@ public interface Knowledge {
 		List<String> fullPaths = new ArrayList<>(List.of(path()));
 		fullPaths.addAll(List.of(paths));
 
-		return Knowledges.localizationKey(this, fullPaths.toArray(String[]::new));
+		return Knowledges.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
 	}
 
 	default MutableText localize(String... paths) {

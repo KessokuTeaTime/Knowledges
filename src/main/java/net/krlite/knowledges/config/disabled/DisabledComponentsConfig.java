@@ -1,10 +1,10 @@
-package net.krlite.knowledges.config;
+package net.krlite.knowledges.config.disabled;
 
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.minecraft.util.Identifier;
 
-public class DisabledComponentsConfig extends SimpleDisabledConfig {
+public class DisabledComponentsConfig extends SimpleDisabledConfig<Knowledge> {
 	public DisabledComponentsConfig() {
 		super("disabled_components");
 	}

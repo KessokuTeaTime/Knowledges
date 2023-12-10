@@ -3,23 +3,29 @@ package net.krlite.knowledges;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.Data;
-import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.api.entrypoints.ComponentProvider;
 import net.krlite.knowledges.api.entrypoints.DataProvider;
+import net.krlite.knowledges.core.util.Helper;
+import net.krlite.knowledges.core.WithPath;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
+import net.krlite.knowledges.config.disabled.SimpleDisabledConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class Knowledges implements ModInitializer {
 	public static final String NAME = "Knowledges", ID = "knowledges";
@@ -34,26 +40,8 @@ public class Knowledges implements ModInitializer {
 		return category + "." + ID + "." + String.join(".", paths);
 	}
 
-	public static String localizationKey(Knowledge knowledge, String... paths) {
-		String namespace = COMPONENTS.namespace(knowledge).orElse(ID);
-		return "knowledge." + namespace + "." + String.join(".", paths);
-	}
-
-	public static String localizationKey(Data<?, ?> data, String... paths) {
-		String namespace = DATA.namespace(data).orElse(ID);
-		return "knowledge_data." + namespace + "." + String.join(".", paths);
-	}
-
 	public static MutableText localize(String category, String... paths) {
 		return Text.translatable(localizationKey(category, paths));
-	}
-
-	public static MutableText localize(Knowledge knowledge, String... paths) {
-		return Text.translatable(localizationKey(knowledge, paths));
-	}
-
-	public static MutableText localize(Data<?, ?> data, String... paths) {
-		return Text.translatable(localizationKey(data, paths));
 	}
 
 	@Override
@@ -144,5 +132,70 @@ public class Knowledges implements ModInitializer {
 		COMPONENTS.asList().forEach(knowledge -> {
 			if (COMPONENTS.isEnabled(knowledge)) knowledge.render(context, client, player, world);
 		});
+	}
+
+	static abstract class Manager<T extends WithPath> {
+		private final HashMap<String, List<T>> map = new HashMap<>();
+		private final SimpleDisabledConfig<T> disabled;
+
+		Manager(SimpleDisabledConfig<T> disabled) {
+			this.disabled = disabled;
+		}
+
+		public Map<String, List<T>> asMap() {
+			return Map.copyOf(map);
+		}
+
+		public List<T> asList() {
+			return asMap().values().stream()
+					.flatMap(List::stream)
+					.toList();
+		}
+
+		public Optional<T> byId(String namespace, String... paths) {
+			return Optional.ofNullable(asMap().get(namespace))
+					.flatMap(list -> list.stream()
+							.filter(t -> t.path().equals(String.join(".", paths)))
+							.findAny());
+		}
+
+		public Optional<String> namespace(T t) {
+			return asMap().entrySet().stream()
+					.filter(entry -> entry.getValue().contains(t))
+					.findAny()
+					.map(Map.Entry::getKey);
+		}
+
+		public Optional<Identifier> identifier(T t) {
+			return namespace(t)
+					.map(namespace -> new Identifier(namespace, t.path()));
+		}
+
+		protected abstract String localizationPrefix();
+
+		public String localizationKey(T t, String... paths) {
+			String namespace = namespace(t).orElse(Knowledges.ID);
+			return localizationPrefix() + "." + namespace + "." + String.join(".", paths);
+		}
+
+		public boolean isInNamespace(T t, String namespace) {
+			return namespace(t).equals(Optional.of(namespace));
+		}
+
+		public boolean isInDefaultNamespace(T t) {
+			return isInNamespace(t, Knowledges.ID);
+		}
+
+		public boolean isEnabled(T t) {
+			return !disabled.get(t);
+		}
+
+		public void setEnabled(T t, boolean enabled) {
+			disabled.set(t, !enabled);
+		}
+
+		void register(String namespace, T t) {
+			Helper.Map.fastMerge(map, namespace, t);
+		}
 	}
 }

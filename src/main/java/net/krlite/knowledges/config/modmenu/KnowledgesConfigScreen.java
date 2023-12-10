@@ -4,7 +4,7 @@ import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
-import net.krlite.knowledges.base.Helper;
+import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
@@ -12,13 +12,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
@@ -106,34 +104,7 @@ public class KnowledgesConfigScreen {
     private void initComponentEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "components"));
 
-        // Components
-        List<Knowledge> defaultComponents = new ArrayList<>(), components = new ArrayList<>();
-
-        Knowledges.COMPONENTS.asList().stream()
-                .collect(Collectors.groupingBy(Knowledges.COMPONENTS::isInDefaultNamespace))
-                .forEach((isDefaultKnowledge, knowledges) -> {
-                    if (isDefaultKnowledge) defaultComponents.addAll(knowledges);
-                    else components.addAll(knowledges);
-                });
-
-        // Default
-        category.addEntry(
-                entryBuilder.startSubCategory(
-                        localize("components", "default"),
-                        defaultComponents.stream()
-                                .map(knowledge -> {
-                                    var built = componentEntry(knowledge).get().build();
-                                    SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                    Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
-
-                                    return (AbstractConfigListEntry) built;
-                                })
-                                .toList()
-                ).setExpanded(true).build()
-        );
-
-        // Custom
-        if (!components.isEmpty()) {
+        if (!Knowledges.COMPONENTS.asMap().isEmpty()) {
             category.addEntry(
                     entryBuilder.startSubCategory(
                             localize("components", "custom"),

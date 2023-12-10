@@ -1,11 +1,10 @@
-package net.krlite.knowledges.config;
+package net.krlite.knowledges.config.disabled;
 
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Data;
-import net.krlite.knowledges.api.Knowledge;
 import net.minecraft.util.Identifier;
 
-public class DisabledDataConfig extends SimpleDisabledConfig {
+public class DisabledDataConfig extends SimpleDisabledConfig<Data<?, ?>> {
     public DisabledDataConfig() {
         super("disabled_data");
     }

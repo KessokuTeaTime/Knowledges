@@ -1,4 +1,4 @@
-package net.krlite.knowledges.config;
+package net.krlite.knowledges.config.disabled;
 
 import net.krlite.knowledges.Knowledges;
 import org.apache.commons.io.FileUtils;
@@ -7,7 +7,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public abstract class SimpleDisabledConfig {
+public abstract class SimpleDisabledConfig<T> {
     private final File file;
     protected static final ArrayList<String> disabled = new ArrayList<>();
 
@@ -43,6 +43,8 @@ public abstract class SimpleDisabledConfig {
         return disabled.contains(key);
     }
 
+    public abstract boolean get(T t);
+
     protected void set(String key, boolean flag) {
         if (flag) {
             if (!disabled.contains(key)) {
@@ -56,4 +58,6 @@ public abstract class SimpleDisabledConfig {
             }
         }
     }
+
+    public abstract void set(T t, boolean flag);
 }
