@@ -58,7 +58,7 @@ public class KnowledgesConfigScreen {
     private Supplier<BooleanToggleBuilder> componentEntry(Knowledge knowledge, boolean allowsTooltip) {
         return () -> entryBuilder.startBooleanToggle(
                         knowledge.name(),
-                        Knowledges.enabled(knowledge)
+                        Knowledges.COMPONENTS.isEnabled(knowledge)
                 )
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> {
@@ -66,7 +66,7 @@ public class KnowledgesConfigScreen {
                         return Optional.of(new Text[]{knowledge.tooltip()});
                     else return Optional.empty();
                 })
-                .setSaveConsumer(value -> Knowledges.enabled(knowledge, value))
+                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
@@ -109,8 +109,8 @@ public class KnowledgesConfigScreen {
         // Components
         List<Knowledge> defaultComponents = new ArrayList<>(), components = new ArrayList<>();
 
-        Knowledges.MANAGER.asList().stream()
-                .collect(Collectors.groupingBy(Knowledges.MANAGER::isInDefaultNamespace))
+        Knowledges.COMPONENTS.asList().stream()
+                .collect(Collectors.groupingBy(Knowledges.COMPONENTS::isInDefaultNamespace))
                 .forEach((isDefaultKnowledge, knowledges) -> {
                     if (isDefaultKnowledge) defaultComponents.addAll(knowledges);
                     else components.addAll(knowledges);
@@ -124,7 +124,7 @@ public class KnowledgesConfigScreen {
                                 .map(knowledge -> {
                                     var built = componentEntry(knowledge).get().build();
                                     SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                    Helper.List.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+                                    Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
                                     return (AbstractConfigListEntry) built;
                                 })
@@ -141,7 +141,7 @@ public class KnowledgesConfigScreen {
                                     .map(knowledge -> {
                                         var built = componentEntry(knowledge).get().build();
                                         SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                        Helper.List.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+                                        Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
                                         return (AbstractConfigListEntry) built;
                                     })
@@ -156,7 +156,7 @@ public class KnowledgesConfigScreen {
     }
 
     private void initIndependentConfigPages() {
-        List<Knowledge> components = Knowledges.MANAGER.asMap().values().stream()
+        List<Knowledge> components = Knowledges.COMPONENTS.asMap().values().stream()
                 .flatMap(List::stream)
                 .filter(Knowledge::requestsConfigPage)
                 .toList();
@@ -166,7 +166,7 @@ public class KnowledgesConfigScreen {
 
             var built = componentEntry(knowledge, false).get().build();
             SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-            Helper.List.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+            Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
 
             category.addEntry(built);
             category.addEntry(

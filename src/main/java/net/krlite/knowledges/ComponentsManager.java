@@ -9,10 +9,10 @@ import java.util.*;
 
 public class ComponentsManager {
     private final DisabledComponentsConfig disabled = new DisabledComponentsConfig();
-    private final HashMap<String, List<Knowledge>> components = new HashMap<>();
+    private final HashMap<String, List<Knowledge>> map = new HashMap<>();
 
     public Map<String, List<Knowledge>> asMap() {
-        return Map.copyOf(components);
+        return java.util.Map.copyOf(map);
     }
 
     public List<Knowledge> asList() {
@@ -32,7 +32,7 @@ public class ComponentsManager {
         return asMap().entrySet().stream()
                 .filter(entry -> entry.getValue().contains(component))
                 .findAny()
-                .map(Map.Entry::getKey);
+                .map(java.util.Map.Entry::getKey);
     }
 
     public Optional<Identifier> identifier(Knowledge component) {
@@ -57,6 +57,6 @@ public class ComponentsManager {
     }
 
     void register(String namespace, Knowledge component) {
-        Helper.List.fastMerge(components, namespace, component);
+        Helper.Map.fastMerge(map, namespace, component);
     }
 }

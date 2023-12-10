@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.stream.Stream;
 
 public class Helper {
-    public static class List {
+    public static class Map {
         public static <K, V> java.util.List<V> fastMerge(HashMap<K, java.util.List<V>> hashMap, K key, V defaultValue) {
             return hashMap.merge(
                     key,

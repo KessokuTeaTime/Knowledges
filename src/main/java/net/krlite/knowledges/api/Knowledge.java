@@ -1,6 +1,5 @@
 package net.krlite.knowledges.api;
 
-import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.fabricmc.loader.api.FabricLoader;
@@ -95,9 +94,9 @@ public interface Knowledge {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			boolean blockPos = Knowledges.MANAGER.isEnabled(Knowledges.MANAGER.byId(Knowledges.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = Knowledges.MANAGER.isEnabled(Knowledges.MANAGER.byId(Knowledges.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = Knowledges.MANAGER.isEnabled(Knowledges.MANAGER.byId(Knowledges.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
+			boolean blockPos = Knowledges.COMPONENTS.isEnabled(Knowledges.COMPONENTS.byId(Knowledges.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = Knowledges.COMPONENTS.isEnabled(Knowledges.COMPONENTS.byId(Knowledges.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = Knowledges.COMPONENTS.isEnabled(Knowledges.COMPONENTS.byId(Knowledges.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
 
 			return blockPos || entity || fluidState;
 		}
