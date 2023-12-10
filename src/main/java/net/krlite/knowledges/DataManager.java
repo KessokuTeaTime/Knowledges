@@ -13,20 +13,20 @@ import java.util.stream.Collectors;
 
 public class DataManager {
     private final DisabledDataConfig disabled = new DisabledDataConfig();
-    private final HashMap<String, HashMap<Class<? extends Data<?, ?>>, List<Data<?, ?>>>> map = new HashMap<>();
+    private final HashMap<String, HashMap<Identifier, List<Data<?, ?>>>> map = new HashMap<>();
 
-    public Map<String, HashMap<Class<? extends Data<?, ?>>, List<Data<?, ?>>>> asMap() {
+    public Map<String, HashMap<Identifier, List<Data<?, ?>>>> asMap() {
         return Map.copyOf(map);
     }
 
-    public <C extends Data<?, ?>> HashMap<Class<C>, List<C>> asClassifiedMap() {
+    public HashMap<Identifier, List<Data<?, ?>>> asClassifiedMap() {
         return asMap().values().stream()
                 .flatMap(map -> map.entrySet().stream())
                 .collect(Collectors.groupingBy(Map.Entry::getKey))
                 .entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> (Class<C>) entry.getKey(),
-                        entry -> (List<C>) entry.getValue().stream()
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().stream()
                                 .map(Map.Entry::getValue)
                                 .flatMap(List::stream)
                                 .toList(),
@@ -51,7 +51,8 @@ public class DataManager {
 
     public Optional<String> namespace(Data<?, ?> data) {
         return asMap().entrySet().stream()
-                .filter(entry -> entry.getValue().containsValue(data))
+                .filter(entry -> entry.getValue().values().stream()
+                        .anyMatch(list -> list.contains(data)))
                 .findAny()
                 .map(Map.Entry::getKey);
     }
@@ -79,6 +80,6 @@ public class DataManager {
 
     <C extends Data<?, ?>> void register(String namespace, C data) {
         if (!asMap().containsKey(namespace)) map.put(namespace, new HashMap<>());
-        Helper.Map.fastMerge(map.get(namespace), (Class<C>) data.getClass(), data);
+        Helper.Map.fastMerge(map.get(namespace), data.target(), data);
     }
 }

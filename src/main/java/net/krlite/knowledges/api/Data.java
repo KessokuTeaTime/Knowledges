@@ -3,6 +3,7 @@ package net.krlite.knowledges.api;
 import net.krlite.knowledges.Knowledges;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public interface Data<P, R> {
     }
 
     R get(P param);
+
+    @NotNull Identifier target();
 
     @NotNull String path();
 
