@@ -1,7 +1,6 @@
 package net.krlite.knowledges.config.disabled;
 
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.api.Data;
 import net.minecraft.util.Identifier;
 
 public class DisabledDataConfig extends SimpleDisabledConfig<Data<?, ?>> {
