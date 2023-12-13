@@ -9,5 +9,4 @@ pluginManagement {
     }
 }
 include 'Api'
-include 'Api'
 
