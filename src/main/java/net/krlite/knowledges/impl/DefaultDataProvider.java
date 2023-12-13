@@ -1,6 +1,5 @@
 package net.krlite.knowledges.impl;
 
-import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.api.entrypoints.DataProvider;
 import net.krlite.knowledges.data.TestData;
 import org.jetbrains.annotations.NotNull;

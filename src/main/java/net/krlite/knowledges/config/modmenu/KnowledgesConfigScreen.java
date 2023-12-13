@@ -4,7 +4,6 @@ import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
-import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
@@ -43,10 +42,7 @@ public class KnowledgesConfigScreen {
         configBuilder.setParentScreen(parent);
 
         initGeneralEntries();
-
         initComponentEntries();
-        initDataEntries();
-
         initIndependentConfigPages();
     }
 
@@ -110,24 +106,6 @@ public class KnowledgesConfigScreen {
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
-        return entryBuilder.startBooleanToggle(
-                        data.name(),
-                        Knowledges.DATA.isEnabled(data)
-                )
-                .setDefaultValue(true)
-                .setTooltipSupplier(() -> data.targetKnowledge()
-                        .map(knowledge -> new Text[]{
-                                data.tooltip(),
-                                Text.translatable(
-                                        localizationKey("data", "target_knowledge"),
-                                        knowledge.name().getString()
-                                )
-                        }))
-                .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
-                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
-    }
-
     private void initComponentEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "components"));
 
@@ -147,26 +125,6 @@ public class KnowledgesConfigScreen {
 
                                     return (AbstractConfigListEntry) built;
                                 })
-                                .toList()
-                ).setExpanded(isInDefaultNamespace).build());
-            });
-        }
-    }
-
-    private void initDataEntries() {
-        ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "data"));
-
-        if (!Knowledges.DATA.asMap().isEmpty()) {
-            Knowledges.DATA.asMap().forEach((namespace, components) -> {
-                MutableText name = Knowledge.Util.getModName(namespace);
-                boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
-                if (isInDefaultNamespace) name.append(localize("data", "default"));
-
-                category.addEntry(entryBuilder.startSubCategory(
-                        name,
-                        components.stream()
-                                .map(this::dataEntry)
-                                .map(builder -> (AbstractConfigListEntry) builder.build())
                                 .toList()
                 ).setExpanded(isInDefaultNamespace).build());
             });
