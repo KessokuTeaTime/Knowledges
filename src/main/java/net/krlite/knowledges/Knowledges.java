@@ -34,7 +34,6 @@ public class Knowledges implements ModInitializer {
 
     public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
     public static final ComponentsManager COMPONENTS = new ComponentsManager();
-    public static final DataManager DATA = new DataManager();
 
     public static String localizationKey(String category, String... paths) {
         return category + "." + ID + "." + String.join(".", paths);
