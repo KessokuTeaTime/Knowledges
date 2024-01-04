@@ -4,13 +4,13 @@
   "version": "${version}",
 
   "name": "Knowledges",
-  "description": "What You See is Knowledge!",
+  "description": "What you see is knowledge!",
   "authors": [
     "KrLite"
   ],
   "contact": {
     "homepage": "https://github.com/KrLite",
-    "sources": "https://github.com/KrLite/Knowledges"
+    "sources": "https://github.com/KrLite/Mod.Knowledges"
   },
 
   "license": "GPL-3.0",
