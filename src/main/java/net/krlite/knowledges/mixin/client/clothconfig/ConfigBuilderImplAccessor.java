@@ -9,6 +9,6 @@ import java.util.Map;
 
 @Mixin(ConfigBuilderImpl.class)
 public interface ConfigBuilderImplAccessor {
-    @Accessor
+    @Accessor(remap = false)
     Map<String, ConfigCategory> getCategoryMap();
 }

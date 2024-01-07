@@ -63,6 +63,8 @@ public class KnowledgesConfigScreen {
     }
 
     private void initGeneralEntries() {
+        configBuilder.getOrCreateCategorySeparator(localize("separator", "global"));
+
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "general"));
 
         // General

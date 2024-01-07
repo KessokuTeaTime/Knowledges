@@ -7,6 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ClothConfigTabButton.class)
 public interface ClothConfigTabButtonAccessor {
-    @Accessor
+    @Accessor(remap = false)
     ClothConfigScreen getScreen();
 }

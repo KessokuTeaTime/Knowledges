@@ -21,6 +21,9 @@
   "config.knowledges.data.default": "（默认）",
   "config.knowledges.data.target_knowledge": "§8目标组件：§r%s",
 
+  "config.knowledges.separator.global": " 全局：",
+  "config.knowledges.separator.components": " 组件：",
+
   "knowledge.knowledges.crosshair.name": "准心",
   "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时被隐藏",
 

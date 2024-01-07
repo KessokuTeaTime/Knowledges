@@ -21,6 +21,9 @@
   "config.knowledges.data.default": " (Default)",
   "config.knowledges.data.target_knowledge": "§8Targeting: §r%s",
 
+  "config.knowledges.separator.global": " Global:",
+  "config.knowledges.separator.components": " Components:",
+
   "knowledge.knowledges.crosshair.name": "Crosshair",
   "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill not be displayed",
 
