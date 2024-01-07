@@ -9,8 +9,9 @@
     "KrLite"
   ],
   "contact": {
-    "homepage": "https://github.com/KrLite",
-    "sources": "https://github.com/KrLite/Mod.Knowledges"
+    "homepage": "https://modrinth.com/mod/knowledges",
+    "sources": "https://github.com/KrLite/Mod.Knowledges",
+    "issues": "https://github.com/KrLite/Mod.Knowledges/issues"
   },
 
   "license": "GPL-3.0",
