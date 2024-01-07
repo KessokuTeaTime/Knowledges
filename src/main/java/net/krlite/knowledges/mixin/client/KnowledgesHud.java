@@ -34,7 +34,7 @@ public abstract class KnowledgesHud {
 			boolean shouldRenderSpectatorCrosshair = Knowledge.Info.crosshairTarget()
 					.map(hitResult -> ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(hitResult))
 					.orElse(false);
-			boolean isInDebugHud = client.options.debugEnabled
+			boolean isInDebugHud = client.getDebugHud().shouldShowDebugHud()
 					&& !client.options.hudHidden
 					&& !client.player.hasReducedDebugInfo()
 					&& !client.options.getReducedDebugInfo().getValue();
