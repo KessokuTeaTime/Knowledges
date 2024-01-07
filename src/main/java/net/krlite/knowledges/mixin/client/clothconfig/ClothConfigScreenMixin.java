@@ -1,11 +1,14 @@
 package net.krlite.knowledges.mixin.client.clothconfig;
 
 import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.gui.AbstractTabbedConfigScreen;
 import me.shedaniel.clothconfig2.gui.ClothConfigScreen;
 import me.shedaniel.clothconfig2.gui.ClothConfigTabButton;
 import net.krlite.knowledges.config.modmenu.impl.ClothConfigTabButtonSeparator;
 import net.krlite.knowledges.config.modmenu.impl.ConfigCategorySeparator;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(ClothConfigScreen.class)
-public abstract class ClothConfigScreenMixin {
+public abstract class ClothConfigScreenMixin extends AbstractTabbedConfigScreen {
     @Shadow(remap = false)
     @Final
     private List<Pair<Text, Integer>> tabs;
@@ -34,11 +37,29 @@ public abstract class ClothConfigScreenMixin {
     @Final
     private Map<String, ConfigCategory> categoryMap;
 
-    @Shadow(remap = false)
-    protected abstract void init();
-
     @Unique
     private ClothConfigScreen screen;
+
+    protected ClothConfigScreenMixin(Screen parent, Text title, Identifier backgroundLocation) {
+        super(parent, title, backgroundLocation);
+    }
+
+    @Inject(
+            method = "<init>",
+            at = @At("RETURN")
+    )
+    private void initSelectedCategoryIndex(CallbackInfo ci) {
+        int index = 0;
+
+        for (Iterator<Pair<Text, Integer>> var3 = tabs.iterator(); var3.hasNext(); ++index) {
+            Pair<Text, Integer> tab = var3.next();
+            ConfigCategory category = categoryMap.get(tab.getLeft().getString());
+            if (!(category instanceof ConfigCategorySeparator)) {
+                selectedCategoryIndex = index;
+                break;
+            }
+        }
+    }
 
     @Redirect(
             method = "init",
@@ -49,7 +70,7 @@ public abstract class ClothConfigScreenMixin {
             ),
             remap = false
     )
-    private <E> boolean omit(List<E> instance, E e) {
+    private <E> boolean omitAddCategoryTabs(List<E> instance, E e) {
         // Do nothing
         screen = ((ClothConfigTabButtonAccessor) e).getScreen();
         return false;
