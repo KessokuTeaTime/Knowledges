@@ -7,7 +7,6 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
-import net.krlite.knowledges.ComponentsManager;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.core.LocalizableWithName;
 import net.krlite.knowledges.core.WithPath;
@@ -42,7 +41,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public interface Knowledge extends WithPath, LocalizableWithName {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
