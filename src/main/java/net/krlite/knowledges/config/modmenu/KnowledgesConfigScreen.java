@@ -45,6 +45,7 @@ public class KnowledgesConfigScreen {
         initGeneralEntries();
         initComponentEntries();
         initDataEntries();
+
         initIndependentConfigPages();
     }
 
@@ -176,6 +177,10 @@ public class KnowledgesConfigScreen {
                 .flatMap(List::stream)
                 .filter(Knowledge::requestsConfigPage)
                 .toList();
+
+        if (!components.isEmpty()) {
+
+        }
         
         components.forEach(knowledge -> {
             ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.localize("config", "category"));

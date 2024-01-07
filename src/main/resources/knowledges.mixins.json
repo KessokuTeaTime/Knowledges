@@ -10,7 +10,10 @@
     "client.InGameHudInvoker",
     "client.KnowledgesHud",
     "client.clothconfig.BooleanListEntryAccessor",
-    "client.clothconfig.BooleanListEntryMixin"
+    "client.clothconfig.BooleanListEntryMixin",
+    "client.clothconfig.ClothConfigScreenMixin",
+    "client.clothconfig.ClothConfigTabButtonAccessor",
+    "client.clothconfig.ConfigBuilderImplAccessor"
   ],
   "injectors": {
     "defaultRequire": 0
