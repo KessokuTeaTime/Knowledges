@@ -15,6 +15,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
+import net.krlite.knowledges.LinkedDataEnum;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.animation.InterpolatedText;
 import net.krlite.knowledges.api.Knowledge;
@@ -25,9 +26,32 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public abstract class InfoComponent implements Knowledge {
+	public enum InfoData implements LinkedDataEnum {
+		;
+
+		final Identifier target;
+
+		InfoData(Identifier target) {
+			this.target = target;
+		}
+
+		@Override
+		public Identifier target() {
+			return target;
+		}
+	}
+
+	@Override
+	public Optional<Class<? extends Enum<?>>> linkedDataBuilders() {
+		return Optional.of(InfoData.class);
+	}
+
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) reset();
