@@ -8,25 +8,25 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ConfigCategorySeparator implements ConfigCategory {
     private final ConfigBuilder builder;
-    private final Text categoryKey, separator;
+    private final Text categoryKey;
     private @Nullable Supplier<Optional<StringVisitable[]>> description = Optional::empty;
 
-    public ConfigCategorySeparator(ConfigBuilder builder, Text categoryKey, Text separator) {
+    public ConfigCategorySeparator(ConfigBuilder builder, Text categoryKey) {
         this.builder = builder;
         this.categoryKey = categoryKey;
-        this.separator = separator;
     }
 
     @Override
     public List<Object> getEntries() {
         // Not supported
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -70,9 +70,5 @@ public class ConfigCategorySeparator implements ConfigCategory {
     @Override
     public Text getCategoryKey() {
         return this.categoryKey;
-    }
-
-    public Text getSeparator() {
-        return this.separator;
     }
 }

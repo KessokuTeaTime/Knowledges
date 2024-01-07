@@ -5,6 +5,7 @@ import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.api.Data;
+import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
@@ -28,7 +29,7 @@ public class KnowledgesConfigScreen {
 	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
 			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
 
-    private final ConfigBuilder configBuilder = ConfigBuilder.create()
+    private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
             .setTitle(Knowledges.localize("screen", "config", "title"))
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
@@ -179,7 +180,7 @@ public class KnowledgesConfigScreen {
                 .toList();
 
         if (!components.isEmpty()) {
-
+            configBuilder.getOrCreateCategorySeparator(localize("separator", "components"));
         }
         
         components.forEach(knowledge -> {

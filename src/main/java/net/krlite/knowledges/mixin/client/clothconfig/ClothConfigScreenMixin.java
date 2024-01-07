@@ -22,19 +22,20 @@ import java.util.Map;
 
 @Mixin(ClothConfigScreen.class)
 public abstract class ClothConfigScreenMixin {
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private List<Pair<Text, Integer>> tabs;
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private List<ClothConfigTabButton> tabButtons;
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private Map<String, ConfigCategory> categoryMap;
 
-    @Shadow protected abstract void init();
+    @Shadow(remap = false)
+    protected abstract void init();
 
     @Unique
     private ClothConfigScreen screen;
@@ -45,7 +46,8 @@ public abstract class ClothConfigScreenMixin {
                     value = "INVOKE",
                     target = "Ljava/util/List;add(Ljava/lang/Object;)Z",
                     ordinal = 5
-            )
+            ),
+            remap = false
     )
     private <E> boolean omit(List<E> instance, E e) {
         // Do nothing
@@ -59,7 +61,8 @@ public abstract class ClothConfigScreenMixin {
                     value = "INVOKE",
                     target = "Ljava/util/List;addAll(Ljava/util/Collection;)Z",
                     ordinal = 1
-            )
+            ),
+            remap = false
     )
     private void addCategoryTabs(CallbackInfo ci) {
         int index = 0;
@@ -69,7 +72,7 @@ public abstract class ClothConfigScreenMixin {
             ConfigCategory category = categoryMap.get(tab.getLeft().getString());
 
             if (category instanceof ConfigCategorySeparator) {
-                tabButtons.add(new ClothConfigTabButtonSeparator(screen, index, -100, 43, tab.getRight(), 20, ((ConfigCategorySeparator) category).getSeparator(), category.getDescription()));
+                tabButtons.add(new ClothConfigTabButtonSeparator(screen, index, -100, 43, tab.getRight(), 20, tab.getLeft(), category.getDescription()));
             } else {
                 tabButtons.add(new ClothConfigTabButton(screen, index, -100, 43, tab.getRight(), 20, tab.getLeft(), category.getDescription()));
             }

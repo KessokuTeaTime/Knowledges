@@ -12,13 +12,13 @@ public class KnowledgesConfigBuilder extends ConfigBuilderImpl {
         return ((ConfigBuilderImplAccessor) this).getCategoryMap();
     }
 
-    public ConfigCategory getOrCreateCategorySeparator(Text categoryKey, Text separator) {
+    public ConfigCategory getOrCreateCategorySeparator(Text categoryKey) {
         if (getCategoryMap().containsKey(categoryKey.getString())) {
             ConfigCategory category = getCategoryMap().get(categoryKey.getString());
             if (category instanceof ConfigCategorySeparator) return category;
             else throw new RuntimeException("Desired class " + ConfigCategorySeparator.class.getName() + ", but found " + category.getClass().getName() + "!");
         } else {
-            return getCategoryMap().computeIfAbsent(categoryKey.getString(), (key) -> new ConfigCategorySeparator(this, categoryKey, separator));
+            return getCategoryMap().computeIfAbsent(categoryKey.getString(), (key) -> new ConfigCategorySeparator(this, categoryKey));
         }
     }
 }
