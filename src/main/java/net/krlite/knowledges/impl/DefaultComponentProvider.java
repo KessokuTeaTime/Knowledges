@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DefaultComponentProvider implements ComponentProvider {
 	@Override
-	public @NotNull List<Class<? extends Knowledge>> provide() {
+	public @NotNull List<Class<? extends Knowledge<?>>> provide() {
 		return List.of(
 				CrosshairComponent.class,
 

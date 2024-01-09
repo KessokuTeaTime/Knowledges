@@ -4,6 +4,7 @@ import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.knowledges.core.Target;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.api.Knowledge;
 import net.minecraft.client.MinecraftClient;
@@ -17,7 +18,15 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 import org.spongepowered.asm.mixin.Unique;
 
-public class ArmorDurabilityComponent implements Knowledge {
+public class ArmorDurabilityComponent implements Knowledge<ArmorDurabilityComponent.ArmorDurabilityTarget> {
+	public enum ArmorDurabilityTarget implements Target {
+	}
+
+	@Override
+	public Class<ArmorDurabilityTarget> targets() {
+		return ArmorDurabilityTarget.class;
+	}
+
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		ItemStack

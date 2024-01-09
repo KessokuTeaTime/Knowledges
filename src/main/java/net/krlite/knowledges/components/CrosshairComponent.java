@@ -9,6 +9,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
+import net.krlite.knowledges.core.Target;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -21,7 +22,15 @@ import java.util.function.Supplier;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
-public class CrosshairComponent implements Knowledge {
+public class CrosshairComponent implements Knowledge<CrosshairComponent.CrosshairTarget> {
+    public enum CrosshairTarget implements Target {
+    }
+
+    @Override
+    public Class<CrosshairTarget> targets() {
+        return CrosshairTarget.class;
+    }
+
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
         Box box = crosshairSafeArea()

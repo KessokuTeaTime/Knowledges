@@ -10,5 +10,5 @@ public interface ComponentProvider {
 	 * Provides the {@link Knowledge} classes that are going to be instanced during runtime.
 	 * @return	The ready to be instanced classes with interface {@link Knowledge} implemented.
 	 */
-	@NotNull List<Class<? extends Knowledge>> provide();
+	@NotNull List<Class<? extends Knowledge<?>>> provide();
 }
