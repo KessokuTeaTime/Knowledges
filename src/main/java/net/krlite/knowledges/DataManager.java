@@ -18,6 +18,12 @@ public class DataManager extends Knowledges.Manager<Data<?, ?>> {
         return "knowledge_data";
     }
 
+    @Override
+    void register(String namespace, Data<?, ?> data) {
+        super.register(namespace, data);
+        data.registerListener();
+    }
+
     public Map<Knowledge<?>, List<Data<?, ?>>> asClassifiedMap() {
         return Map.copyOf(asList().stream()
                 .filter(data -> data.knowledge().isPresent())

@@ -1,4 +1,4 @@
-package net.krlite.knowledges.core;
+package net.krlite.knowledges.core.localization;
 
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;

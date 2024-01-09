@@ -1,4 +1,4 @@
-package net.krlite.knowledges.core;
+package net.krlite.knowledges.core.path;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -42,10 +42,6 @@
   "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block you are looking at",
 
   "knowledge.knowledges.info.block.tool.unbreakable": "Unbreakable",
-  "knowledge.knowledges.info.block.tool.pickaxe": "Pickaxes",
-  "knowledge.knowledges.info.block.tool.axe": "Axes",
-  "knowledge.knowledges.info.block.tool.hoe": "Hoes",
-  "knowledge.knowledges.info.block.tool.shovel": "Shovels",
 
   "knowledge.knowledges.info.block.mining_level": "Mining Level %1$d",
   "knowledge.knowledges.info.block.mining_level.1": "Stone",
@@ -106,5 +102,12 @@
   "instrument.knowledges.dragon": "Dragon",
   "instrument.knowledges.wither_skeleton": "Wither Skeleton",
   "instrument.knowledges.piglin": "Piglin",
-  "instrument.knowledges.custom_head": "Custom"
+  "instrument.knowledges.custom_head": "Custom",
+
+  "knowledge_data.knowledges.info.block.tool.name": "Mineable Tool",
+
+  "knowledge_date.knowledges.info.block.tool.pickaxe": "Pickaxes",
+  "knowledge_date.knowledges.info.block.tool.axe": "Axes",
+  "knowledge_date.knowledges.info.block.tool.hoe": "Hoes",
+  "knowledge_date.knowledges.info.block.tool.shovel": "Shovels"
 }

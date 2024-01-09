@@ -16,6 +16,7 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.core.Target;
+import net.krlite.knowledges.core.path.WithPartialPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.animation.InterpolatedText;
 import net.krlite.knowledges.api.Knowledge;
@@ -28,9 +29,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
-public abstract class InfoComponent<T extends Enum<T> & Target> implements Knowledge<T> {
+public abstract class InfoComponent<T extends Enum<T> & Target> implements Knowledge<T>, WithPartialPath {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) reset();
@@ -144,11 +143,9 @@ public abstract class InfoComponent<T extends Enum<T> & Target> implements Knowl
 		renderText(context, box, text, alignment, color, 1);
 	}
 
-	public abstract @NotNull String partialPath();
-
 	@Override
-	public @NotNull String path() {
-		return "info." + partialPath();
+	public @NotNull String currentPath() {
+		return "info";
 	}
 
 	public static class Animations {

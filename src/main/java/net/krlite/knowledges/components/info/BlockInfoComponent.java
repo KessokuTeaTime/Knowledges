@@ -6,10 +6,10 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.core.DataEvent;
 import net.krlite.knowledges.core.Target;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -25,26 +25,31 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockInfoTarget> {
 	public enum BlockInfoTarget implements Target {
-		TEST {
+		MINEABLE_TOOL {
 			@Override
 			public <E extends DataEvent> Event<E> event() {
-				return (Event<E>) TestEvent.EVENT;
+				return (Event<E>) MineableToolEvent.EVENT;
 			}
 		};
 
-		public interface TestEvent extends DataEvent {
-			Event<TestEvent> EVENT = EventFactory.createArrayBacked(
-					TestEvent.class,
-					listeners -> flag -> {
-						for (TestEvent listener : listeners) {
-							listener.test(flag);
+		public interface MineableToolEvent extends DataEvent {
+			Event<MineableToolEvent> EVENT = EventFactory.createArrayBacked(
+					MineableToolEvent.class,
+					listeners -> level -> {
+						for (MineableToolEvent listener : listeners) {
+							Optional<MutableText> tool = listener.mineableTool(level);
+							if (tool.isPresent()) return tool;
 						}
+
+						return Optional.empty();
 					}
 			);
 
-			void test(boolean flag);
+			Optional<MutableText> mineableTool(BlockState blockState);
 		}
 	}
 
@@ -94,17 +99,13 @@ public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockIn
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
+					Optional<MutableText> data = BlockInfoTarget.MineableToolEvent.EVENT.invoker().mineableTool(blockState);
+
 					if (hardness < 0) {
 						// Unbreakable
 						tool = localize("tool", "unbreakable");
-					} else if (blockState.isIn(BlockTags.PICKAXE_MINEABLE)) {
-						tool = localize("tool", "pickaxe");
-					} else if (blockState.isIn(BlockTags.AXE_MINEABLE)) {
-						tool = localize("tool", "axe");
-					} else if (blockState.isIn(BlockTags.HOE_MINEABLE)) {
-						tool = localize("tool", "hoe");
-					} else if (blockState.isIn(BlockTags.SHOVEL_MINEABLE)) {
-						tool = localize("tool", "shovel");
+					} else if (data.isPresent()) {
+						tool = data.get();
 					} else {
 						Animations.Texts.subtitleRightBelow(Text.empty());
 						break subtitleRightBelow;

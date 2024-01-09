@@ -2,19 +2,18 @@ package net.krlite.knowledges.api;
 
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.core.DataEvent;
-import net.krlite.knowledges.core.LocalizableWithName;
+import net.krlite.knowledges.core.localization.LocalizableWithName;
 import net.krlite.knowledges.core.Target;
-import net.krlite.knowledges.core.WithPath;
+import net.krlite.knowledges.core.path.WithPath;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public interface Data<T extends Enum<T> & Target, E extends DataEvent> extends WithPath, LocalizableWithName, Target.Consumer<T> {
     E listener();
 
-    default void register() {
+    default void registerListener() {
         target().event().register(listener());
     }
 

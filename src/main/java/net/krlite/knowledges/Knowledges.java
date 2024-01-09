@@ -6,7 +6,7 @@ import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoints.ComponentProvider;
 import net.krlite.knowledges.api.entrypoints.DataProvider;
 import net.krlite.knowledges.core.util.Helper;
-import net.krlite.knowledges.core.WithPath;
+import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.disabled.SimpleDisabledConfig;
@@ -134,8 +134,6 @@ public class Knowledges implements ModInitializer {
                     COMPONENTS.asList().size() + DATA.asList().size() <= 1 ? "It makes" : "They make"
             ));
         }
-
-        DATA.asList().forEach(d -> System.out.println(d.knowledge()));
     }
 
     static abstract class Manager<T extends WithPath> {
