@@ -23,6 +23,7 @@ import java.util.function.Function;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
+@SuppressWarnings("UnstableApiUsage")
 public class KnowledgesConfigScreen {
     public static final HashMap<BooleanListEntry, Knowledge> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
 
