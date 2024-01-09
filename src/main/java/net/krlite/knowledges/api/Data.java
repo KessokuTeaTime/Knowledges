@@ -1,22 +1,20 @@
 package net.krlite.knowledges.api;
 
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.core.DataEvent;
+import net.krlite.knowledges.core.DataCallback;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
-import net.krlite.knowledges.core.UseEvent;
+import net.krlite.knowledges.core.HasEvent;
 import net.krlite.knowledges.core.path.WithPath;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public interface Data<T extends Enum<T> & UseEvent, E extends DataEvent<T>> extends WithPath, LocalizableWithName, UseEvent.Target<T> {
-    E listener();
+public interface Data<T extends Enum<T> & HasEvent, C extends DataCallback<T>> extends WithPath, LocalizableWithName, HasEvent.HasSource<T> {
+    C listener();
 
     default void registerListener() {
-        if (Knowledges.DATA.isEnabled(this)) {
-            target().event().register(listener());
-        }
+        source().event().register();
     }
 
     Class<? extends Knowledge> knowledgeClass();

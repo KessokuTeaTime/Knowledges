@@ -125,7 +125,7 @@ public class KnowledgesConfigScreen {
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
                                         Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
-                                        Helper.Text.withFormatting(data.listener().target().name(), Formatting.GRAY)
+                                        Helper.Text.withFormatting(data.listener().source().name(), Formatting.GRAY)
                                 )
                         }))
                 .setSaveConsumer(value -> {

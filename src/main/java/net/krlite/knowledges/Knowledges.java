@@ -145,8 +145,13 @@ public class Knowledges implements ModInitializer {
 
         protected abstract String localizationPrefix();
 
+        protected void postRegister(T t) {
+
+        }
+
         void register(String namespace, T t) {
             Helper.Map.fastMerge(map, namespace, t);
+            postRegister(t);
         }
 
         public void regenerate(Class<? extends T> tClass) {
@@ -161,6 +166,8 @@ public class Knowledges implements ModInitializer {
                 ArrayList<T> list = new ArrayList<>(map.get(namespace.get()));
                 list.set(list.indexOf(original.get()), t);
                 map.replace(namespace.get(), list);
+
+                postRegister(t);
             } catch (Throwable throwable) {
                 throw new RuntimeException(throwable);
             }

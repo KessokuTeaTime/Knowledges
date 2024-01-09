@@ -7,8 +7,8 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.AbstractInfoComponent;
-import net.krlite.knowledges.core.DataEvent;
-import net.krlite.knowledges.core.UseEvent;
+import net.krlite.knowledges.core.DataCallback;
+import net.krlite.knowledges.core.HasEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -24,23 +24,23 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class BlockInfoComponent extends AbstractInfoComponent {
-	public enum BlockInfoCallbacks implements UseEvent {
+	public enum BlockInfoEvent implements HasEvent {
 		MINEABLE_TOOL {
 			@Override
-			public <E extends DataEvent<?>> Event<E> event() {
-				return (Event<E>) MineableToolEvent.EVENT;
+			public <C extends DataCallback<?>> Event<C> event() {
+				return (Event<C>) MineableToolCallback.EVENT;
 			}
 		},
 		BLOCK_INFO {
 			@Override
-			public <E extends DataEvent<?>> Event<E> event() {
-				return (Event<E>) BlockInfoEvent.EVENT;
+			public <C extends DataCallback<?>> Event<C> event() {
+				return (Event<C>) BlockInfoCallback.EVENT;
 			}
 		};
 
-		public interface MineableToolEvent extends DataEvent<BlockInfoCallbacks> {
-			Event<MineableToolEvent> EVENT = EventFactory.createArrayBacked(
-					MineableToolEvent.class,
+		public interface MineableToolCallback extends DataCallback<BlockInfoEvent> {
+			Event<MineableToolCallback> EVENT = EventFactory.createArrayBacked(
+					MineableToolCallback.class,
 					listeners -> blockState -> Arrays.stream(listeners)
 							.map(event -> event.mineableTool(blockState))
 							.filter(Optional::isPresent)
@@ -51,14 +51,14 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			Optional<MutableText> mineableTool(BlockState blockState);
 
 			@Override
-			default BlockInfoCallbacks target() {
+			default BlockInfoEvent source() {
 				return MINEABLE_TOOL;
 			}
 		}
 
-		public interface BlockInfoEvent extends DataEvent<BlockInfoCallbacks> {
-			Event<BlockInfoEvent> EVENT = EventFactory.createArrayBacked(
-					BlockInfoEvent.class,
+		public interface BlockInfoCallback extends DataCallback<BlockInfoEvent> {
+			Event<BlockInfoCallback> EVENT = EventFactory.createArrayBacked(
+					BlockInfoCallback.class,
 					listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
 							.map(event -> event.blockInfo(blockState, mainHandStack))
 							.filter(Optional::isPresent)
@@ -69,7 +69,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			Optional<MutableText> blockInfo(BlockState blockState, ItemStack mainHandStack);
 
 			@Override
-			default BlockInfoCallbacks target() {
+			default BlockInfoEvent source() {
 				return BLOCK_INFO;
 			}
 		}
@@ -116,7 +116,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
-					Optional<MutableText> data = BlockInfoCallbacks.MineableToolEvent.EVENT.invoker().mineableTool(blockState);
+					Optional<MutableText> data = BlockInfoEvent.MineableToolCallback.EVENT.invoker().mineableTool(blockState);
 
 					if (hardness < 0) {
 						// Unbreakable
@@ -161,7 +161,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animations.Texts.subtitleLeftBelow(
-						BlockInfoCallbacks.BlockInfoEvent.EVENT.invoker().blockInfo(blockState, itemStack).orElse(Text.empty())
+						BlockInfoEvent.BlockInfoCallback.EVENT.invoker().blockInfo(blockState, itemStack).orElse(Text.empty())
 				);
 			}
 		});

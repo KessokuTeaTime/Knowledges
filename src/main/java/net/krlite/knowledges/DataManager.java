@@ -19,8 +19,7 @@ public class DataManager extends Knowledges.Manager<Data<?, ?>> {
     }
 
     @Override
-    void register(String namespace, Data<?, ?> data) {
-        super.register(namespace, data);
+    protected void postRegister(Data<?, ?> data) {
         data.registerListener();
     }
 

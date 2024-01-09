@@ -9,17 +9,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public abstract class AbstractBlockInfoData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoCallbacks.BlockInfoEvent> {
+public abstract class AbstractBlockInfoData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoEvent.BlockInfoCallback> {
     public abstract Optional<MutableText> fetchInfo(BlockState blockState, ItemStack mainHandStack);
 
     @Override
-    public BlockInfoComponent.BlockInfoCallbacks.BlockInfoEvent listener() {
+    public BlockInfoComponent.BlockInfoEvent.BlockInfoCallback listener() {
         return this::fetchInfo;
     }
 
     @Override
-    public BlockInfoComponent.BlockInfoCallbacks target() {
-        return BlockInfoComponent.BlockInfoCallbacks.BLOCK_INFO;
+    public BlockInfoComponent.BlockInfoEvent source() {
+        return BlockInfoComponent.BlockInfoEvent.BLOCK_INFO;
     }
 
     @Override
