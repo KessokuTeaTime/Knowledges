@@ -31,12 +31,12 @@ public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockIn
 	public enum BlockInfoTarget implements Target {
 		MINEABLE_TOOL {
 			@Override
-			public <E extends DataEvent> Event<E> event() {
+			public <E extends DataEvent<?>> Event<E> event() {
 				return (Event<E>) MineableToolEvent.EVENT;
 			}
 		};
 
-		public interface MineableToolEvent extends DataEvent {
+		public interface MineableToolEvent extends DataEvent<BlockInfoTarget> {
 			Event<MineableToolEvent> EVENT = EventFactory.createArrayBacked(
 					MineableToolEvent.class,
 					listeners -> level -> {
@@ -50,6 +50,11 @@ public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockIn
 			);
 
 			Optional<MutableText> mineableTool(BlockState blockState);
+
+			@Override
+			default BlockInfoTarget target() {
+				return MINEABLE_TOOL;
+			}
 		}
 	}
 
@@ -125,11 +130,11 @@ public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockIn
 				}
 
 				if (miningLevel == null) {
-					Animations.Texts.subtitleRightBelow(Text.translatable(localizationKey("tool"), tool.getString()));
+					Animations.Texts.subtitleRightBelow(Text.translatable(localizationKey("tool"), tool));
 				} else {
 					Animations.Texts.subtitleRightBelow(Text.translatable(
 							foundSemanticMiningLevel ? localizationKey("tool_and_mining_level_semantic") : localizationKey("tool_and_mining_level"),
-							tool.getString(), miningLevel.getString()
+							tool, miningLevel
 					));
 				}
 			}

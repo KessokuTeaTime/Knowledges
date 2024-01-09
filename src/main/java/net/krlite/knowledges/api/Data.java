@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public interface Data<T extends Enum<T> & Target, E extends DataEvent> extends WithPath, LocalizableWithName, Target.Consumer<T> {
+public interface Data<T extends Enum<T> & Target, E extends DataEvent<T>> extends WithPath, LocalizableWithName, Target.Consumer<T> {
     E listener();
 
     default void registerListener() {

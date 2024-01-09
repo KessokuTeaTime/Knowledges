@@ -13,6 +13,7 @@ import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.HashMap;
 import java.util.List;
@@ -122,8 +123,9 @@ public class KnowledgesConfigScreen {
                         .map(knowledge -> new Text[]{
                                 data.tooltip(),
                                 Text.translatable(
-                                        localizationKey("data", "target_knowledge"),
-                                        knowledge.name().getString()
+                                        localizationKey("data", "footnote"),
+                                        Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
+                                        Helper.Text.withFormatting(data.listener().target().name(), Formatting.GRAY)
                                 )
                         }))
                 .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
