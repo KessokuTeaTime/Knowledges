@@ -28,8 +28,8 @@ public class KnowledgesConfigScreen {
 
     public static final HashMap<Knowledge, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
 
-	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
-			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
+    public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
+            flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
 
     private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
             .setTitle(Knowledges.localize("screen", "config", "title"))
@@ -52,16 +52,16 @@ public class KnowledgesConfigScreen {
         initIndependentConfigPages();
     }
 
-    public Screen build() {
-        return configBuilder.build();
-    }
-
     public static String localizationKey(String... paths) {
         return Knowledges.localizationKey("config", paths);
     }
 
     public static MutableText localize(String... paths) {
         return Text.translatable(localizationKey(paths));
+    }
+
+    public Screen build() {
+        return configBuilder.build();
     }
 
     private void initGeneralEntries() {
@@ -107,7 +107,7 @@ public class KnowledgesConfigScreen {
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> {
                     if (allowsTooltip && knowledge.providesTooltip())
-                        return Optional.of(new Text[]{ knowledge.tooltip() });
+                        return Optional.of(new Text[]{knowledge.tooltip()});
                     else return Optional.empty();
                 })
                 .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
@@ -169,11 +169,17 @@ public class KnowledgesConfigScreen {
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
-                map.forEach((component, data) -> {
-                    entries.add(entryBuilder.startTextDescription(Text.translatable(
-                            localizationKey("data", "classifier"),
-                            Helper.Text.withFormatting(component.name(), Formatting.GRAY)
-                    )).build());
+                map.forEach((knowledge, data) -> {
+                    entries.add(
+                            entryBuilder.startTextDescription(Text.translatable(
+                                            localizationKey("data", "classifier"),
+                                            Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY)
+                                    ))
+                                    .setTooltipSupplier(() -> !knowledge.providesTooltip() ? Optional.empty() : Optional.of(
+                                            new Text[]{knowledge.tooltip()}
+                                    ))
+                                    .build()
+                    );
                     entries.addAll(
                             data.stream()
                                     .map(this::dataEntry)
@@ -197,7 +203,7 @@ public class KnowledgesConfigScreen {
         if (!components.isEmpty()) {
             configBuilder.getOrCreateCategorySeparator(localize("separator", "components"));
         }
-        
+
         components.forEach(knowledge -> {
             ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.localize("config", "category"));
 
