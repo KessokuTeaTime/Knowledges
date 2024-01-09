@@ -11,9 +11,9 @@ import java.util.Optional;
 public class MineableToolData extends AbstractBlockInfoComponentData<BlockInfoComponent.MineableToolCallback> {
     @Override
     public BlockInfoComponent.MineableToolCallback callback() {
-        if (shouldProvideNothing()) return blockState -> Optional.empty();
-
         return blockState -> {
+            if (shouldProvideNothing()) return Optional.empty();
+
             MutableText tool = null;
 
             if (blockState.isIn(BlockTags.PICKAXE_MINEABLE)) {

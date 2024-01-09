@@ -14,9 +14,7 @@ public abstract class AbstractBlockInfoData extends AbstractBlockInfoComponentDa
 
     @Override
     public BlockInfoComponent.BlockInfoCallback callback() {
-        if (shouldProvideNothing()) return _ -> Optional.empty();
-
-        return this::fetchInfo;
+        return (blockState, mainHandStack) -> shouldProvideNothing() ? Optional.empty() : fetchInfo(blockState, mainHandStack);
     }
 
     @Override
