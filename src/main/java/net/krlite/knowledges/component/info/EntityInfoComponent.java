@@ -1,28 +1,19 @@
-package net.krlite.knowledges.components.info;
+package net.krlite.knowledges.component.info;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.components.AbstractInfoComponent;
+import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package net.krlite.knowledges.components;
+package net.krlite.knowledges.component;
 
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;

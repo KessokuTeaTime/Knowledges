@@ -1,6 +1,6 @@
 package net.krlite.knowledges.data.info.entity;
 
-import net.krlite.knowledges.components.info.EntityInfoComponent;
+import net.krlite.knowledges.component.info.EntityInfoComponent;
 import net.krlite.knowledges.data.info.AbstractEntityInfoComponentData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

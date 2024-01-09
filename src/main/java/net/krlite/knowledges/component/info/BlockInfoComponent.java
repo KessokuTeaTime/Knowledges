@@ -1,4 +1,4 @@
-package net.krlite.knowledges.components.info;
+package net.krlite.knowledges.component.info;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.components.AbstractInfoComponent;
+import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;

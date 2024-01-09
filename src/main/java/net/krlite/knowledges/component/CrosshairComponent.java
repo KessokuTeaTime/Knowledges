@@ -1,4 +1,4 @@
-package net.krlite.knowledges.components;
+package net.krlite.knowledges.component;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;

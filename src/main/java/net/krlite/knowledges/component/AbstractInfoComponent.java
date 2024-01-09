@@ -1,4 +1,4 @@
-package net.krlite.knowledges.components;
+package net.krlite.knowledges.component;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.krlite.equator.input.Mouse;

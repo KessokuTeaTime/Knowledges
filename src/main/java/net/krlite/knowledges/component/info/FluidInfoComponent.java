@@ -1,10 +1,10 @@
-package net.krlite.knowledges.components.info;
+package net.krlite.knowledges.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.components.AbstractInfoComponent;
+import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.block.BlockState;

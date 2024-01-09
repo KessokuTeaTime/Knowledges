@@ -1,12 +1,12 @@
 package net.krlite.knowledges.impl;
 
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.api.entrypoints.ComponentProvider;
-import net.krlite.knowledges.components.ArmorDurabilityComponent;
-import net.krlite.knowledges.components.CrosshairComponent;
-import net.krlite.knowledges.components.info.BlockInfoComponent;
-import net.krlite.knowledges.components.info.EntityInfoComponent;
-import net.krlite.knowledges.components.info.FluidInfoComponent;
+import net.krlite.knowledges.api.entrypoint.ComponentProvider;
+import net.krlite.knowledges.component.ArmorDurabilityComponent;
+import net.krlite.knowledges.component.CrosshairComponent;
+import net.krlite.knowledges.component.info.BlockInfoComponent;
+import net.krlite.knowledges.component.info.EntityInfoComponent;
+import net.krlite.knowledges.component.info.FluidInfoComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
