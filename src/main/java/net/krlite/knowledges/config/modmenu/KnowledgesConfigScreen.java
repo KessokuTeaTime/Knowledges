@@ -22,9 +22,9 @@ import java.util.function.Function;
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
 public class KnowledgesConfigScreen {
-    public static final HashMap<BooleanListEntry, Knowledge> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
+    public static final HashMap<BooleanListEntry, Knowledge<?>> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
 
-    public static final HashMap<Knowledge, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
+    public static final HashMap<Knowledge<?>, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
 
 	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
 			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
@@ -97,7 +97,7 @@ public class KnowledgesConfigScreen {
         );
     }
 
-    private BooleanToggleBuilder componentEntry(Knowledge knowledge, boolean allowsTooltip) {
+    private BooleanToggleBuilder componentEntry(Knowledge<?> knowledge, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
                         knowledge.name(),
                         Knowledges.COMPONENTS.isEnabled(knowledge)
@@ -112,7 +112,7 @@ public class KnowledgesConfigScreen {
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
+    private BooleanToggleBuilder dataEntry(Data<?, ?, ?> data) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
                         Knowledges.DATA.isEnabled(data)
@@ -176,7 +176,7 @@ public class KnowledgesConfigScreen {
     }
 
     private void initIndependentConfigPages() {
-        List<Knowledge> components = Knowledges.COMPONENTS.asMap().values().stream()
+        List<Knowledge<?>> components = Knowledges.COMPONENTS.asMap().values().stream()
                 .flatMap(List::stream)
                 .filter(Knowledge::requestsConfigPage)
                 .toList();

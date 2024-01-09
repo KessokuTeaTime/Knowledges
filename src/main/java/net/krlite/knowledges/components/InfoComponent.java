@@ -30,16 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public abstract class InfoComponent implements Knowledge<InfoComponent.InfoTarget> {
-	public enum InfoTarget implements Target {
-		TEST;
-	}
-
-	@Override
-	public Class<InfoTarget> targets() {
-		return InfoTarget.class;
-	}
-
+public abstract class InfoComponent<T extends Enum<T> & Target> implements Knowledge<T> {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) reset();

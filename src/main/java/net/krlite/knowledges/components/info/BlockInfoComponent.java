@@ -5,6 +5,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
+import net.krlite.knowledges.core.Target;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -21,7 +22,16 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockInfoComponent extends InfoComponent {
+public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockInfoTarget> {
+	public enum BlockInfoTarget implements Target {
+		TEST;
+	}
+
+	@Override
+	public Class<BlockInfoTarget> targets() {
+		return BlockInfoTarget.class;
+	}
+
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);

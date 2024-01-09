@@ -7,6 +7,7 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
+import net.krlite.knowledges.core.Target;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -21,7 +22,16 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class FluidInfoComponent extends InfoComponent {
+public class FluidInfoComponent extends InfoComponent<FluidInfoComponent.FluidInfoTarget> {
+    public enum FluidInfoTarget implements Target {
+        TEST;
+    }
+
+    @Override
+    public Class<FluidInfoTarget> targets() {
+        return FluidInfoTarget.class;
+    }
+
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
         super.render(context, client, player, world);

@@ -2,11 +2,11 @@ package net.krlite.knowledges.components.info;
 
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.components.InfoComponent;
+import net.krlite.knowledges.core.Target;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
@@ -18,15 +18,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class EntityInfoComponent extends InfoComponent {
+public class EntityInfoComponent extends InfoComponent<EntityInfoComponent.EntityInfoTarget> {
+	public enum EntityInfoTarget implements Target {
+		TEST;
+	}
+
+	@Override
+	public Class<EntityInfoTarget> targets() {
+		return EntityInfoTarget.class;
+	}
+
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);
