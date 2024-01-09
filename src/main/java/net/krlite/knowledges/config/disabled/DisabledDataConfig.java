@@ -9,6 +9,7 @@ public class DisabledDataConfig extends AbstractDisabledConfig<Data<?>> {
         super("disabled_data");
     }
 
+    @Override
     public boolean get(Data<?> data) {
         return Knowledges.DATA.identifier(data)
                 .map(Identifier::toString)
@@ -16,6 +17,7 @@ public class DisabledDataConfig extends AbstractDisabledConfig<Data<?>> {
                 .isPresent();
     }
 
+    @Override
     public void set(Data<?> data, boolean flag) {
         Knowledges.DATA.identifier(data)
                 .map(Identifier::toString)

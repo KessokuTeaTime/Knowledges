@@ -1,9 +1,9 @@
 package net.krlite.knowledges.api;
 
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.core.DataCallback;
+import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
-import net.krlite.knowledges.core.DataCallbackContainer;
+import net.krlite.knowledges.core.datacallback.DataCallbackContainer;
 import net.krlite.knowledges.core.path.WithPath;
 
 import java.util.ArrayList;

@@ -9,6 +9,7 @@ public class DisabledComponentsConfig extends AbstractDisabledConfig<Knowledge> 
 		super("disabled_components");
 	}
 
+	@Override
 	public boolean get(Knowledge knowledge) {
 		return Knowledges.COMPONENTS.identifier(knowledge)
 				.map(Identifier::toString)
@@ -16,6 +17,7 @@ public class DisabledComponentsConfig extends AbstractDisabledConfig<Knowledge> 
 				.isPresent();
 	}
 
+	@Override
 	public void set(Knowledge knowledge, boolean flag) {
 		Knowledges.COMPONENTS.identifier(knowledge)
 				.map(Identifier::toString)

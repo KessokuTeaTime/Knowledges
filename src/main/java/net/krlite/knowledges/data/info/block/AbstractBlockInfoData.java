@@ -1,6 +1,5 @@
 package net.krlite.knowledges.data.info.block;
 
-import net.fabricmc.fabric.api.event.Event;
 import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.data.info.AbstractBlockInfoComponentData;
 import net.minecraft.block.BlockState;

@@ -7,7 +7,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.AbstractInfoComponent;
-import net.krlite.knowledges.core.DataCallback;
+import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

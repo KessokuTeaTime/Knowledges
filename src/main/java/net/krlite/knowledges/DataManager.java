@@ -3,6 +3,7 @@ package net.krlite.knowledges;
 import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.disabled.DisabledDataConfig;
+import net.krlite.knowledges.core.datacallback.DataCallback;
 
 import java.util.List;
 import java.util.Map;
