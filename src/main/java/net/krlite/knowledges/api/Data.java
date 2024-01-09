@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Data<C extends DataCallback<C>> extends WithPath, LocalizableWithName, DataCallbackContainer<C> {
+    default boolean shouldProvideNothing() {
+        return !Knowledges.DATA.isEnabled(this);
+    }
+
     default void registerListener() {
         callback().event().register(callback());
     }
