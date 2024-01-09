@@ -8,6 +8,7 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.core.DataEvent;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
 import net.krlite.knowledges.core.Target;
 import net.krlite.knowledges.core.path.WithPath;

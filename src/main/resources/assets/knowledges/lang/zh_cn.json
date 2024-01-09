@@ -77,9 +77,6 @@
   "knowledge.knowledges.info.block.tool_and_mining_level": "§7%2$s的§r%1$s",
   "knowledge.knowledges.info.block.tool": "任意%1$s",
 
-  "knowledge.knowledges.info.block.banner.more_patterns": "§r%1$s§7等%3$d个样式",
-  "knowledge.knowledges.info.block.banner.one_more_pattern": "§r%1$s§7等2个样式",
-
   "knowledge.knowledges.info.entity.name": "实体信息",
   "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
 
@@ -108,5 +105,8 @@
   "knowledge_data.knowledges.info.block.tool.pickaxe": "镐",
   "knowledge_data.knowledges.info.block.tool.axe": "斧",
   "knowledge_data.knowledges.info.block.tool.hoe": "锄",
-  "knowledge_data.knowledges.info.block.tool.shovel": "锹"
+  "knowledge_data.knowledges.info.block.tool.shovel": "锹",
+
+  "knowledge_data.knowledges.info.block_block_info.banner.more_patterns": "§r%1$s§7等%3$d个样式",
+  "knowledge_data.knowledges.info.block_block_info.banner.one_more_pattern": "§r%1$s§7等2个样式"
 }

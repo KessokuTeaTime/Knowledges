@@ -6,7 +6,8 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.components.InfoComponent;
+import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.components.AbstractInfoComponent;
 import net.krlite.knowledges.core.DataEvent;
 import net.krlite.knowledges.core.Target;
 import net.minecraft.block.BlockState;
@@ -25,35 +26,67 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Optional;
 
-public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockInfoTarget> {
+public class BlockInfoComponent extends AbstractInfoComponent<BlockInfoComponent.BlockInfoTarget> {
 	public enum BlockInfoTarget implements Target {
 		MINEABLE_TOOL {
 			@Override
-			public <E extends DataEvent<?>> Event<E> event() {
+			public <E extends DataEvent<?, ?>> Event<E> event() {
 				return (Event<E>) MineableToolEvent.EVENT;
+			}
+		},
+		BLOCK_INFO {
+			@Override
+			public <E extends DataEvent<?, ?>> Event<E> event() {
+				return (Event<E>) BlockInfoEvent.EVENT;
 			}
 		};
 
-		public interface MineableToolEvent extends DataEvent<BlockInfoTarget> {
+		public interface MineableToolEvent extends DataEvent<BlockInfoTarget, Optional<MutableText>> {
 			Event<MineableToolEvent> EVENT = EventFactory.createArrayBacked(
 					MineableToolEvent.class,
-					listeners -> level -> {
-						for (MineableToolEvent listener : listeners) {
-							Optional<MutableText> tool = listener.mineableTool(level);
-							if (tool.isPresent()) return tool;
-						}
-
-						return Optional.empty();
-					}
+					listeners -> blockState -> Arrays.stream(listeners)
+							.map(event -> event.mineableTool(blockState))
+							.filter(Optional::isPresent)
+							.findFirst()
+							.orElse(Optional.empty())
 			);
 
 			Optional<MutableText> mineableTool(BlockState blockState);
 
 			@Override
+			default Optional<MutableText> fallback() {
+				return Optional.empty();
+			}
+
+			@Override
 			default BlockInfoTarget target() {
 				return MINEABLE_TOOL;
+			}
+		}
+
+		public interface BlockInfoEvent extends DataEvent<BlockInfoTarget, Optional<MutableText>> {
+			Event<BlockInfoEvent> EVENT = EventFactory.createArrayBacked(
+					BlockInfoEvent.class,
+					listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
+							.map(event -> event.blockInfo(blockState, mainHandStack))
+							.filter(Optional::isPresent)
+							.findFirst()
+							.orElse(Optional.empty())
+			);
+
+			Optional<MutableText> blockInfo(BlockState blockState, ItemStack mainHandStack);
+
+			@Override
+			default Optional<MutableText> fallback() {
+				return Optional.empty();
+			}
+
+			@Override
+			default BlockInfoTarget target() {
+				return BLOCK_INFO;
 			}
 		}
 	}
@@ -148,51 +181,9 @@ public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockIn
 
 			// Left Below
 			subtitleLeftBelow: {
-				if (itemStack.isOf(Items.NOTE_BLOCK)) {
-					Animations.Texts.subtitleLeftBelow(Util.getInstrumentName(blockState.getInstrument()));
-					break subtitleLeftBelow;
-				}
-
-				if (blockState.isIn(BlockTags.BANNERS) && Info.crosshairBlockEntity().isPresent()) {
-					if (!(Info.crosshairBlockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) break subtitleLeftBelow;
-					var patterns = bannerBlockEntity.getPatterns();
-					int available = patterns.size() - 1;
-					// The first pattern is always the background color, so ignore it
-
-					if (available > 0) {
-						patterns.get(1).getFirst().getKey()
-								.map(RegistryKey::getValue)
-								.map(Identifier::toShortTranslationKey)
-								.ifPresent(translationKey -> {
-									Text name = Text.translatable(
-											localizationKey("banner", "pattern"),
-											Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName()).getString()
-									);
-
-									if (available > 2) {
-										Animations.Texts.subtitleLeftBelow(Text.translatable(
-												localizationKey("banner", "more_patterns"),
-												name.getString(),
-												available - 1,
-												// Counts the rest of the patterns. Use '%2$d' to reference.
-												available
-												// Counts all the patterns. Use '%3$d' to reference.
-										));
-									} else if (available > 1) {
-										Animations.Texts.subtitleLeftBelow(Text.translatable(
-												localizationKey("banner", "one_more_pattern"),
-												name.getString()
-										));
-									}else {
-										Animations.Texts.subtitleLeftBelow(name);
-									}
-								});
-
-						break subtitleLeftBelow;
-					}
-				}
-
-				Animations.Texts.subtitleLeftBelow(Text.empty());
+				Animations.Texts.subtitleLeftBelow(
+						BlockInfoTarget.BlockInfoEvent.EVENT.invoker().blockInfo(blockState, itemStack).orElse(Text.empty())
+				);
 			}
 		});
 	}

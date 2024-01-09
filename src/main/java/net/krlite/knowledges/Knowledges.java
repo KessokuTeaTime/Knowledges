@@ -7,9 +7,9 @@ import net.krlite.knowledges.api.entrypoints.ComponentProvider;
 import net.krlite.knowledges.api.entrypoints.DataProvider;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.path.WithPath;
-import net.krlite.knowledges.components.InfoComponent;
+import net.krlite.knowledges.components.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
-import net.krlite.knowledges.config.disabled.SimpleDisabledConfig;
+import net.krlite.knowledges.config.disabled.AbstractDisabledConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -55,7 +55,7 @@ public class Knowledges implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        InfoComponent.Animations.registerEvents();
+        AbstractInfoComponent.Animations.registerEvents();
 
         // Components
         FabricLoader.getInstance().getEntrypointContainers(ID, ComponentProvider.class).forEach(entrypoint -> {
@@ -138,9 +138,9 @@ public class Knowledges implements ModInitializer {
 
     static abstract class Manager<T extends WithPath> {
         private final HashMap<String, List<T>> map = new HashMap<>();
-        private final SimpleDisabledConfig<T> disabled;
+        private final AbstractDisabledConfig<T> disabled;
 
-        Manager(SimpleDisabledConfig<T> disabled) {
+        Manager(AbstractDisabledConfig<T> disabled) {
             this.disabled = disabled;
         }
 

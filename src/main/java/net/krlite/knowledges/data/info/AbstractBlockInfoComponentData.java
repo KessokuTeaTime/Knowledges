@@ -5,9 +5,14 @@ import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.core.DataEvent;
 import net.krlite.knowledges.core.path.WithPartialPath;
+import net.minecraft.text.MutableText;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class BlockInfoData<E extends DataEvent<BlockInfoComponent.BlockInfoTarget>> implements Data<BlockInfoComponent.BlockInfoTarget, E>, WithPartialPath {
+import java.util.Optional;
+
+public abstract class AbstractBlockInfoComponentData<E extends DataEvent<BlockInfoComponent.BlockInfoTarget, Optional<MutableText>>> implements
+        Data<BlockInfoComponent.BlockInfoTarget, Optional<MutableText>, E>,
+        WithPartialPath {
     @Override
     public Class<? extends Knowledge<?>> knowledgeClass() {
         return BlockInfoComponent.class;

@@ -1,14 +1,14 @@
 package net.krlite.knowledges.data.info.block;
 
 import net.krlite.knowledges.components.info.BlockInfoComponent;
-import net.krlite.knowledges.data.info.BlockInfoData;
+import net.krlite.knowledges.data.info.AbstractBlockInfoComponentData;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.MutableText;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class MineableToolData extends BlockInfoData<BlockInfoComponent.BlockInfoTarget.MineableToolEvent> {
+public class MineableToolData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoTarget.MineableToolEvent> {
     @Override
     public BlockInfoComponent.BlockInfoTarget.MineableToolEvent listener() {
         return blockState -> {

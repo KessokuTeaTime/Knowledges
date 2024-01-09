@@ -7,11 +7,11 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public abstract class SimpleDisabledConfig<T> {
+public abstract class AbstractDisabledConfig<T> {
     private final File file;
     protected static final ArrayList<String> disabled = new ArrayList<>();
 
-    protected SimpleDisabledConfig(String fileName) {
+    protected AbstractDisabledConfig(String fileName) {
         this.file = Knowledges.CONFIG_PATH.resolve(fileName + ".txt").toFile();
         load();
     }

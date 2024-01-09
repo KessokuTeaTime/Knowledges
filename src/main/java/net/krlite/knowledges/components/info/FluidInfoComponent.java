@@ -5,7 +5,7 @@ import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.components.InfoComponent;
+import net.krlite.knowledges.components.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.core.Target;
@@ -21,9 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-public class FluidInfoComponent extends InfoComponent<FluidInfoComponent.FluidInfoTarget> {
+public class FluidInfoComponent extends AbstractInfoComponent<FluidInfoComponent.FluidInfoTarget> {
     public enum FluidInfoTarget implements Target {
         ;
 

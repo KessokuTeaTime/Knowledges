@@ -77,10 +77,6 @@
   "knowledge.knowledges.info.block.tool_and_mining_level": "%1$s §7with %2$s",
   "knowledge.knowledges.info.block.tool": "%1$s",
 
-  "knowledge.knowledges.info.block.banner.pattern": "%1$s",
-  "knowledge.knowledges.info.block.banner.more_patterns": "§r%1$s §7and %2$d More",
-  "knowledge.knowledges.info.block.banner.one_more_pattern":"§r%1$s §7and 1 More",
-
   "knowledge.knowledges.info.entity.name": "Entity Info",
   "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity you are looking at",
 
@@ -110,5 +106,9 @@
   "knowledge_data.knowledges.info.block.tool.pickaxe": "Pickaxes",
   "knowledge_data.knowledges.info.block.tool.axe": "Axes",
   "knowledge_data.knowledges.info.block.tool.hoe": "Hoes",
-  "knowledge_data.knowledges.info.block.tool.shovel": "Shovels"
+  "knowledge_data.knowledges.info.block.tool.shovel": "Shovels",
+
+  "knowledge_data.knowledges.info.block_block_info.banner.pattern": "%1$s",
+  "knowledge_data.knowledges.info.block_block_info.banner.more_patterns": "§r%1$s §7and %2$d More",
+  "knowledge_data.knowledges.info.block_block_info.banner.one_more_pattern":"§r%1$s §7and 1 More"
 }

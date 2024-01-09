@@ -29,7 +29,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class InfoComponent<T extends Enum<T> & Target> implements Knowledge<T>, WithPartialPath {
+public abstract class AbstractInfoComponent<T extends Enum<T> & Target> implements Knowledge<T>, WithPartialPath {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) reset();
