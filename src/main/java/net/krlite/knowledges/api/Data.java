@@ -3,18 +3,16 @@ package net.krlite.knowledges.api;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.core.DataCallback;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
-import net.krlite.knowledges.core.HasEvent;
+import net.krlite.knowledges.core.DataCallbackContainer;
 import net.krlite.knowledges.core.path.WithPath;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public interface Data<T extends Enum<T> & HasEvent, C extends DataCallback<T>> extends WithPath, LocalizableWithName, HasEvent.HasSource<T> {
-    C listener();
-
+public interface Data<C extends DataCallback<C>> extends WithPath, LocalizableWithName, DataCallbackContainer<C> {
     default void registerListener() {
-        source().event().register();
+        callback().event().register(callback());
     }
 
     Class<? extends Knowledge> knowledgeClass();

@@ -8,7 +8,6 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.AbstractInfoComponent;
 import net.krlite.knowledges.core.DataCallback;
-import net.krlite.knowledges.core.HasEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -24,54 +23,49 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class BlockInfoComponent extends AbstractInfoComponent {
-	public enum BlockInfoEvent implements HasEvent {
-		MINEABLE_TOOL {
-			@Override
-			public <C extends DataCallback<?>> Event<C> event() {
-				return (Event<C>) MineableToolCallback.EVENT;
-			}
-		},
-		BLOCK_INFO {
-			@Override
-			public <C extends DataCallback<?>> Event<C> event() {
-				return (Event<C>) BlockInfoCallback.EVENT;
-			}
-		};
+	public interface MineableToolCallback extends DataCallback<MineableToolCallback> {
+		Event<MineableToolCallback> EVENT = EventFactory.createArrayBacked(
+				MineableToolCallback.class,
+				listeners -> blockState -> Arrays.stream(listeners)
+						.map(event -> event.mineableTool(blockState))
+						.filter(Optional::isPresent)
+						.findFirst()
+						.orElse(Optional.empty())
+		);
 
-		public interface MineableToolCallback extends DataCallback<BlockInfoEvent> {
-			Event<MineableToolCallback> EVENT = EventFactory.createArrayBacked(
-					MineableToolCallback.class,
-					listeners -> blockState -> Arrays.stream(listeners)
-							.map(event -> event.mineableTool(blockState))
-							.filter(Optional::isPresent)
-							.findFirst()
-							.orElse(Optional.empty())
-			);
+		Optional<MutableText> mineableTool(BlockState blockState);
 
-			Optional<MutableText> mineableTool(BlockState blockState);
-
-			@Override
-			default BlockInfoEvent source() {
-				return MINEABLE_TOOL;
-			}
+		@Override
+		default Event<MineableToolCallback> event() {
+			return EVENT;
 		}
 
-		public interface BlockInfoCallback extends DataCallback<BlockInfoEvent> {
-			Event<BlockInfoCallback> EVENT = EventFactory.createArrayBacked(
-					BlockInfoCallback.class,
-					listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
-							.map(event -> event.blockInfo(blockState, mainHandStack))
-							.filter(Optional::isPresent)
-							.findFirst()
-							.orElse(Optional.empty())
-			);
+		@Override
+		default String name() {
+			return "Mineable Tool";
+		}
+	}
 
-			Optional<MutableText> blockInfo(BlockState blockState, ItemStack mainHandStack);
+	public interface BlockInfoCallback extends DataCallback<BlockInfoCallback> {
+		Event<BlockInfoCallback> EVENT = EventFactory.createArrayBacked(
+				BlockInfoCallback.class,
+				listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
+						.map(event -> event.blockInfo(blockState, mainHandStack))
+						.filter(Optional::isPresent)
+						.findFirst()
+						.orElse(Optional.empty())
+		);
 
-			@Override
-			default BlockInfoEvent source() {
-				return BLOCK_INFO;
-			}
+		Optional<MutableText> blockInfo(BlockState blockState, ItemStack mainHandStack);
+
+		@Override
+		default Event<BlockInfoCallback> event() {
+			return EVENT;
+		}
+
+		@Override
+		default String name() {
+			return "Block Info";
 		}
 	}
 
@@ -116,7 +110,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
-					Optional<MutableText> data = BlockInfoEvent.MineableToolCallback.EVENT.invoker().mineableTool(blockState);
+					Optional<MutableText> data = MineableToolCallback.EVENT.invoker().mineableTool(blockState);
 
 					if (hardness < 0) {
 						// Unbreakable
@@ -161,7 +155,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animations.Texts.subtitleLeftBelow(
-						BlockInfoEvent.BlockInfoCallback.EVENT.invoker().blockInfo(blockState, itemStack).orElse(Text.empty())
+						BlockInfoCallback.EVENT.invoker().blockInfo(blockState, itemStack).orElse(Text.empty())
 				);
 			}
 		});

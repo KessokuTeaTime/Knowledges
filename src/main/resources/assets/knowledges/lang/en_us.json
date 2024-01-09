@@ -19,7 +19,7 @@
   "config.knowledges.category.data": "Data",
 
   "config.knowledges.data.default": " (Default)",
-  "config.knowledges.data.footnote": "§8Knowledge: %1$s\n§8Event: %2$s",
+  "config.knowledges.data.footnote": "§8Knowledge: %1$s\n§8Data Callback: %2$s",
 
   "config.knowledges.separator.global": " Global:",
   "config.knowledges.separator.components": " Components:",

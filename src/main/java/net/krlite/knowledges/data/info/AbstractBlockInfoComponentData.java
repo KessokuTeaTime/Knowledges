@@ -7,9 +7,7 @@ import net.krlite.knowledges.core.DataCallback;
 import net.krlite.knowledges.core.path.WithPartialPath;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractBlockInfoComponentData<C extends DataCallback<BlockInfoComponent.BlockInfoEvent>> implements
-        Data<BlockInfoComponent.BlockInfoEvent, C>,
-        WithPartialPath {
+public abstract class AbstractBlockInfoComponentData<C extends DataCallback<C>> implements Data<C>, WithPartialPath {
     @Override
     public Class<? extends Knowledge> knowledgeClass() {
         return BlockInfoComponent.class;

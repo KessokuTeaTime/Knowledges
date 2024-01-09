@@ -113,7 +113,7 @@ public class KnowledgesConfigScreen {
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
+    private BooleanToggleBuilder dataEntry(Data<?> data) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
                         Knowledges.DATA.isEnabled(data)
@@ -125,13 +125,10 @@ public class KnowledgesConfigScreen {
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
                                         Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
-                                        Helper.Text.withFormatting(data.listener().source().name(), Formatting.GRAY)
+                                        Helper.Text.withFormatting(data.callback().name(), Formatting.GRAY)
                                 )
                         }))
-                .setSaveConsumer(value -> {
-                    Knowledges.DATA.setEnabled(data, value);
-                    Knowledges.DATA.regenerate((Class<? extends Data<?, ?>>) data.getClass());
-                })
+                .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 

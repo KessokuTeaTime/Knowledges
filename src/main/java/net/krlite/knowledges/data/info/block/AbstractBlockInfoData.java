@@ -1,5 +1,6 @@
 package net.krlite.knowledges.data.info.block;
 
+import net.fabricmc.fabric.api.event.Event;
 import net.krlite.knowledges.components.info.BlockInfoComponent;
 import net.krlite.knowledges.data.info.AbstractBlockInfoComponentData;
 import net.minecraft.block.BlockState;
@@ -9,17 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public abstract class AbstractBlockInfoData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoEvent.BlockInfoCallback> {
+public abstract class AbstractBlockInfoData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoCallback> {
     public abstract Optional<MutableText> fetchInfo(BlockState blockState, ItemStack mainHandStack);
 
     @Override
-    public BlockInfoComponent.BlockInfoEvent.BlockInfoCallback listener() {
+    public BlockInfoComponent.BlockInfoCallback callback() {
         return this::fetchInfo;
-    }
-
-    @Override
-    public BlockInfoComponent.BlockInfoEvent source() {
-        return BlockInfoComponent.BlockInfoEvent.BLOCK_INFO;
     }
 
     @Override

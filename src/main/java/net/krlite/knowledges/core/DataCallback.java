@@ -1,4 +1,9 @@
 package net.krlite.knowledges.core;
 
-public interface DataCallback<T extends Enum<T> & HasEvent> extends HasEvent.HasSource<T> {
+import net.fabricmc.fabric.api.event.Event;
+
+public interface DataCallback<C> {
+    Event<C> event();
+
+    String name();
 }

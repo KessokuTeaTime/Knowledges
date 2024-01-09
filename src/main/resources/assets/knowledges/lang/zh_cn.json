@@ -19,7 +19,7 @@
   "config.knowledges.category.data": "数据",
 
   "config.knowledges.data.default": "（默认）",
-  "config.knowledges.data.footnote": "§8目标组件：%1$s\n§8数据事件：%2$s",
+  "config.knowledges.data.footnote": "§8目标组件：%1$s\n§8数据回调：%2$s",
 
   "config.knowledges.separator.global": " 全局：",
   "config.knowledges.separator.components": " 组件：",
