@@ -15,6 +15,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -139,7 +140,7 @@ public class KnowledgesConfigScreen {
             Knowledges.COMPONENTS.asMap().forEach((namespace, components) -> {
                 MutableText name = Knowledge.Util.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
-                if (isInDefaultNamespace) name.append(localize("components", "default"));
+                if (isInDefaultNamespace) name.append(localize("components", "suffix", "default"));
 
                 category.addEntry(entryBuilder.startSubCategory(
                         name,
@@ -160,19 +161,29 @@ public class KnowledgesConfigScreen {
     private void initDataEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "data"));
 
-        if (!Knowledges.DATA.asMap().isEmpty()) {
-            Knowledges.DATA.asMap().forEach((namespace, components) -> {
+        if (!Knowledges.DATA.asClassifiedMap().isEmpty()) {
+            Knowledges.DATA.asClassifiedMap().forEach((namespace, map) -> {
                 MutableText name = Knowledge.Util.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
-                if (isInDefaultNamespace) name.append(localize("data", "default"));
+                if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
 
-                category.addEntry(entryBuilder.startSubCategory(
-                        name,
-                        components.stream()
-                                .map(this::dataEntry)
-                                .map(builder -> (AbstractConfigListEntry) builder.build())
-                                .toList()
-                ).setExpanded(isInDefaultNamespace).build());
+                map.forEach((component, data) -> {
+                    ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
+
+                    entries.add(entryBuilder.startTextDescription(Text.translatable(
+                            localizationKey("data", "classifier"),
+                            Helper.Text.withFormatting(component.name(), Formatting.GRAY)
+                    )).build());
+                    entries.addAll(
+                            data.stream()
+                                    .map(this::dataEntry)
+                                    .map(builder -> (AbstractConfigListEntry) builder.build())
+                                    .toList()
+                    );
+
+                    category.addEntry(entryBuilder.startSubCategory(name, entries)
+                            .setExpanded(isInDefaultNamespace).build());
+                });
             });
         }
     }

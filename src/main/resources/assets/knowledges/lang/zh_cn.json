@@ -14,12 +14,14 @@
 
   "config.knowledges.category.components": "组件",
 
-  "config.knowledges.components.default": "（默认）",
+  "config.knowledges.components.suffix.default": "（默认）",
 
   "config.knowledges.category.data": "数据",
 
-  "config.knowledges.data.default": "（默认）",
+  "config.knowledges.data.classifier": "§8- 目标组件：%s",
   "config.knowledges.data.footnote": "§8目标组件：%1$s\n§8数据回调：%2$s",
+
+  "config.knowledges.data.suffix.default": "（默认）",
 
   "config.knowledges.separator.global": " 全局：",
   "config.knowledges.separator.components": " 组件：",
@@ -100,12 +102,18 @@
   "knowledge.knowledges.armor_durability.tooltip": "§7在屏幕角落处显示你的装备耐久",
 
   "knowledge_data.knowledges.info.block.tool.name": "挖掘工具",
-  "knowledge_data.knowledges.info.block.tool.tooltip": "提供目前方块的基础挖掘工具信息。",
+  "knowledge_data.knowledges.info.block.tool.tooltip": "提供当前方块的基础挖掘工具信息",
 
   "knowledge_data.knowledges.info.block.tool.pickaxe": "镐",
   "knowledge_data.knowledges.info.block.tool.axe": "斧",
   "knowledge_data.knowledges.info.block.tool.hoe": "锄",
   "knowledge_data.knowledges.info.block.tool.shovel": "锹",
+
+  "knowledge_data.knowledges.info.block.block_info.note_block.name": "音符盒",
+  "knowledge_data.knowledges.info.block.block_info.note_block.tooltip": "在手持音符盒时提供当前方块的音色信息",
+
+  "knowledge_data.knowledges.info.block.block_info.banner.name": "旗帜",
+  "knowledge_data.knowledges.info.block.block_info.banner.tooltip": "提供旗帜的详细信息",
 
   "knowledge_data.knowledges.info.block.block_info.banner.more_patterns": "§r%1$s§7等%3$d个样式",
   "knowledge_data.knowledges.info.block.block_info.banner.one_more_pattern": "§r%1$s§7等2个样式"

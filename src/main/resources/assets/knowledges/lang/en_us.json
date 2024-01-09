@@ -14,12 +14,14 @@
 
   "config.knowledges.category.components": "Components",
 
-  "config.knowledges.components.default": " (Default)",
+  "config.knowledges.components.suffix.default": " (Default)",
 
   "config.knowledges.category.data": "Data",
 
-  "config.knowledges.data.default": " (Default)",
+  "config.knowledges.data.classifier": "§8- Knowledge: %s",
   "config.knowledges.data.footnote": "§8Knowledge: %1$s\n§8Data Callback: %2$s",
+
+  "config.knowledges.data.suffix.default": " (Default)",
 
   "config.knowledges.separator.global": " Global:",
   "config.knowledges.separator.components": " Components:",
@@ -101,12 +103,18 @@
   "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor around the screen corner",
 
   "knowledge_data.knowledges.info.block.tool.name": "Mineable Tool",
-  "knowledge_data.knowledges.info.block.tool.tooltip": "Provides basic information about the mineable tool for the block.",
+  "knowledge_data.knowledges.info.block.tool.tooltip": "Provides basic information about the mineable tool for the current block",
 
   "knowledge_data.knowledges.info.block.tool.pickaxe": "Pickaxes",
   "knowledge_data.knowledges.info.block.tool.axe": "Axes",
   "knowledge_data.knowledges.info.block.tool.hoe": "Hoes",
   "knowledge_data.knowledges.info.block.tool.shovel": "Shovels",
+
+  "knowledge_data.knowledges.info.block.block_info.note_block.name": "Note Block",
+  "knowledge_data.knowledges.info.block.block_info.note_block.tooltip": "Provides information about note blocks' timbre for the current block when holding in main hand",
+
+  "knowledge_data.knowledges.info.block.block_info.banner.name": "Banner",
+  "knowledge_data.knowledges.info.block.block_info.banner.tooltip": "Provides information about banners",
 
   "knowledge_data.knowledges.info.block.block_info.banner.pattern": "%1$s",
   "knowledge_data.knowledges.info.block.block_info.banner.more_patterns": "§r%1$s §7and %2$d More",
