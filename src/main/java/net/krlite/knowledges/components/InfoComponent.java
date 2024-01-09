@@ -15,6 +15,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
+import net.krlite.knowledges.core.Target;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.animation.InterpolatedText;
 import net.krlite.knowledges.api.Knowledge;
@@ -27,7 +28,18 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class InfoComponent implements Knowledge {
+import java.util.Optional;
+
+public abstract class InfoComponent implements Knowledge<InfoComponent.InfoTarget> {
+	public enum InfoTarget implements Target {
+		TEST;
+	}
+
+	@Override
+	public Class<InfoTarget> targets() {
+		return InfoTarget.class;
+	}
+
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) reset();

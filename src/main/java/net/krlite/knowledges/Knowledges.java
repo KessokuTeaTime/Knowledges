@@ -134,6 +134,8 @@ public class Knowledges implements ModInitializer {
                     COMPONENTS.asList().size() + DATA.asList().size() <= 1 ? "It makes" : "They make"
             ));
         }
+
+        DATA.asList().forEach(d -> System.out.println(d.targetKnowledge()));
     }
 
     static abstract class Manager<T extends WithPath> {
