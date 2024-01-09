@@ -2,6 +2,7 @@ package net.krlite.knowledges.components;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
@@ -24,6 +25,12 @@ import static net.krlite.knowledges.Knowledges.CONFIG;
 
 public class CrosshairComponent implements Knowledge<CrosshairComponent.CrosshairTarget> {
     public enum CrosshairTarget implements Target {
+        ;
+
+        @Override
+        public Event<?> event() {
+            return null;
+        }
     }
 
     @Override

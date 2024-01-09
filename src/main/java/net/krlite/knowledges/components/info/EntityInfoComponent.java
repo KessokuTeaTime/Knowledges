@@ -1,5 +1,6 @@
 package net.krlite.knowledges.components.info;
 
+import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.components.InfoComponent;
 import net.krlite.knowledges.core.Target;
@@ -25,7 +26,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class EntityInfoComponent extends InfoComponent<EntityInfoComponent.EntityInfoTarget> {
 	public enum EntityInfoTarget implements Target {
-		TEST;
+		;
+
+		@Override
+		public Event<?> event() {
+			return null;
+		}
 	}
 
 	@Override

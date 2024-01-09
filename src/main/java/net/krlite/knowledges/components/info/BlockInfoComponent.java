@@ -1,16 +1,19 @@
 package net.krlite.knowledges.components.info;
 
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.components.InfoComponent;
+import net.krlite.knowledges.core.DataEvent;
 import net.krlite.knowledges.core.Target;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -24,7 +27,25 @@ import org.jetbrains.annotations.NotNull;
 
 public class BlockInfoComponent extends InfoComponent<BlockInfoComponent.BlockInfoTarget> {
 	public enum BlockInfoTarget implements Target {
-		TEST;
+		TEST {
+			@Override
+			public <E extends DataEvent> Event<E> event() {
+				return (Event<E>) TestEvent.EVENT;
+			}
+		};
+
+		public interface TestEvent extends DataEvent {
+			Event<TestEvent> EVENT = EventFactory.createArrayBacked(
+					TestEvent.class,
+					listeners -> flag -> {
+						for (TestEvent listener : listeners) {
+							listener.test(flag);
+						}
+					}
+			);
+
+			void test(boolean flag);
+		}
 	}
 
 	@Override

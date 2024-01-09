@@ -112,13 +112,13 @@ public class KnowledgesConfigScreen {
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?, ?, ?> data) {
+    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
                         Knowledges.DATA.isEnabled(data)
                 )
                 .setDefaultValue(true)
-                .setTooltipSupplier(() -> data.targetKnowledge()
+                .setTooltipSupplier(() -> data.knowledge()
                         .map(knowledge -> new Text[]{
                                 data.tooltip(),
                                 Text.translatable(

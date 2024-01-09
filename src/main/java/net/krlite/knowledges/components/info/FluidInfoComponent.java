@@ -2,6 +2,7 @@ package net.krlite.knowledges.components.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.InfoComponent;
@@ -24,7 +25,12 @@ import java.util.function.Supplier;
 
 public class FluidInfoComponent extends InfoComponent<FluidInfoComponent.FluidInfoTarget> {
     public enum FluidInfoTarget implements Target {
-        TEST;
+        ;
+
+        @Override
+        public Event<?> event() {
+            return null;
+        }
     }
 
     @Override

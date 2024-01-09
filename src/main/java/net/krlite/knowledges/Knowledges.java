@@ -135,7 +135,7 @@ public class Knowledges implements ModInitializer {
             ));
         }
 
-        DATA.asList().forEach(d -> System.out.println(d.targetKnowledge()));
+        DATA.asList().forEach(d -> System.out.println(d.knowledge()));
     }
 
     static abstract class Manager<T extends WithPath> {

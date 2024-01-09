@@ -5,12 +5,10 @@ import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.components.info.BlockInfoComponent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
-public class TestData implements Data<BlockInfoComponent.BlockInfoTarget, Integer, String> {
+public class TestData implements Data<BlockInfoComponent.BlockInfoTarget, BlockInfoComponent.BlockInfoTarget.TestEvent> {
     @Override
-    public Optional<String> get(Integer param) {
-        return Optional.ofNullable(String.valueOf(param));
+    public BlockInfoComponent.BlockInfoTarget.TestEvent listener() {
+        return flag -> System.out.println("Test data output: " + flag);
     }
 
     @Override
@@ -19,7 +17,7 @@ public class TestData implements Data<BlockInfoComponent.BlockInfoTarget, Intege
     }
 
     @Override
-    public Class<? extends Knowledge<?>> targetClass() {
+    public Class<? extends Knowledge<?>> knowledgeClass() {
         return BlockInfoComponent.class;
     }
 

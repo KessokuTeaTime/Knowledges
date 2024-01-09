@@ -1,5 +1,6 @@
 package net.krlite.knowledges.components;
 
+import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.color.AccurateColor;
@@ -20,6 +21,12 @@ import org.spongepowered.asm.mixin.Unique;
 
 public class ArmorDurabilityComponent implements Knowledge<ArmorDurabilityComponent.ArmorDurabilityTarget> {
 	public enum ArmorDurabilityTarget implements Target {
+		;
+
+		@Override
+		public Event<?> event() {
+			return null;
+		}
 	}
 
 	@Override
