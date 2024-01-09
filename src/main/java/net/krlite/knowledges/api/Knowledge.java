@@ -8,9 +8,7 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.core.DataEvent;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
-import net.krlite.knowledges.core.Target;
 import net.krlite.knowledges.core.path.WithPath;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -44,7 +42,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Function;
 
-public interface Knowledge<T extends Enum<T> & Target> extends WithPath, LocalizableWithName, Target.Provider<T> {
+public interface Knowledge extends WithPath, LocalizableWithName {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
 	default boolean requestsConfigPage() {

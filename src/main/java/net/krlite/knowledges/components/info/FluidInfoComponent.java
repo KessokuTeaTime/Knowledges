@@ -2,13 +2,11 @@ package net.krlite.knowledges.components.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
-import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.components.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
-import net.krlite.knowledges.core.Target;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -22,21 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
-public class FluidInfoComponent extends AbstractInfoComponent<FluidInfoComponent.FluidInfoTarget> {
-    public enum FluidInfoTarget implements Target {
-        ;
-
-        @Override
-        public Event<?> event() {
-            return null;
-        }
-    }
-
-    @Override
-    public Class<FluidInfoTarget> targets() {
-        return FluidInfoTarget.class;
-    }
-
+public class FluidInfoComponent extends AbstractInfoComponent {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
         super.render(context, client, player, world);

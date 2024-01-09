@@ -24,7 +24,7 @@ public class DataManager extends Knowledges.Manager<Data<?, ?>> {
         data.registerListener();
     }
 
-    public Map<Knowledge<?>, List<Data<?, ?>>> asClassifiedMap() {
+    public Map<Knowledge, List<Data<?, ?>>> asClassifiedMap() {
         return Map.copyOf(asList().stream()
                 .filter(data -> data.knowledge().isPresent())
                 .collect(Collectors.groupingBy(data -> data.knowledge().get())));

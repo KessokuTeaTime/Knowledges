@@ -1,9 +1,7 @@
 package net.krlite.knowledges.components.info;
 
-import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.components.AbstractInfoComponent;
-import net.krlite.knowledges.core.Target;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -24,21 +22,7 @@ import net.minecraft.text.Text;
 import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
 
-public class EntityInfoComponent extends AbstractInfoComponent<EntityInfoComponent.EntityInfoTarget> {
-	public enum EntityInfoTarget implements Target {
-		;
-
-		@Override
-		public Event<?> event() {
-			return null;
-		}
-	}
-
-	@Override
-	public Class<EntityInfoTarget> targets() {
-		return EntityInfoTarget.class;
-	}
-
+public class EntityInfoComponent extends AbstractInfoComponent {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);

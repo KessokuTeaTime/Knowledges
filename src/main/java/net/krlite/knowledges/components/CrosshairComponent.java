@@ -2,7 +2,6 @@ package net.krlite.knowledges.components;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
-import net.fabricmc.fabric.api.event.Event;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
@@ -10,7 +9,6 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
-import net.krlite.knowledges.core.Target;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -22,21 +20,7 @@ import java.util.function.Function;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
-public class CrosshairComponent implements Knowledge<CrosshairComponent.CrosshairTarget> {
-    public enum CrosshairTarget implements Target {
-        ;
-
-        @Override
-        public Event<?> event() {
-            return null;
-        }
-    }
-
-    @Override
-    public Class<CrosshairTarget> targets() {
-        return CrosshairTarget.class;
-    }
-
+public class CrosshairComponent implements Knowledge {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
         Box box = crosshairSafeArea()

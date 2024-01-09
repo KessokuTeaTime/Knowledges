@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class MineableToolData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoTarget.MineableToolEvent> {
+public class MineableToolData extends AbstractBlockInfoComponentData<BlockInfoComponent.BlockInfoCallbacks.MineableToolEvent> {
     @Override
-    public BlockInfoComponent.BlockInfoTarget.MineableToolEvent listener() {
+    public BlockInfoComponent.BlockInfoCallbacks.MineableToolEvent listener() {
         return blockState -> {
             MutableText tool = null;
 
@@ -29,8 +29,8 @@ public class MineableToolData extends AbstractBlockInfoComponentData<BlockInfoCo
     }
 
     @Override
-    public BlockInfoComponent.BlockInfoTarget target() {
-        return BlockInfoComponent.BlockInfoTarget.MINEABLE_TOOL;
+    public BlockInfoComponent.BlockInfoCallbacks target() {
+        return BlockInfoComponent.BlockInfoCallbacks.MINEABLE_TOOL;
     }
 
     @Override

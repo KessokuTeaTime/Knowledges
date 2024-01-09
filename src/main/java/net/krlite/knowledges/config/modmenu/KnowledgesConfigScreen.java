@@ -178,7 +178,7 @@ public class KnowledgesConfigScreen {
     }
 
     private void initIndependentConfigPages() {
-        List<Knowledge<?>> components = Knowledges.COMPONENTS.asMap().values().stream()
+        List<Knowledge> components = Knowledges.COMPONENTS.asMap().values().stream()
                 .flatMap(List::stream)
                 .filter(Knowledge::requestsConfigPage)
                 .toList();

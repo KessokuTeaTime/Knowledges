@@ -15,7 +15,6 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
-import net.krlite.knowledges.core.Target;
 import net.krlite.knowledges.core.path.WithPartialPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.animation.InterpolatedText;
@@ -29,7 +28,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractInfoComponent<T extends Enum<T> & Target> implements Knowledge<T>, WithPartialPath {
+public abstract class AbstractInfoComponent implements Knowledge, WithPartialPath {
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		if (!Info.hasCrosshairTarget()) reset();
