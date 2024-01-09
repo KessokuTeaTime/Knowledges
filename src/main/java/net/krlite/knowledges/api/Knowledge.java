@@ -8,7 +8,6 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.LinkedDataEnum;
 import net.krlite.knowledges.core.LocalizableWithName;
 import net.krlite.knowledges.core.WithPath;
 import net.minecraft.block.BlockState;
@@ -44,10 +43,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public interface Knowledge extends WithPath, LocalizableWithName {
-	default Optional<Class<? extends Enum<?>>> linkedDataBuilders() {
-		return Optional.empty();
-	}
-
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
 	default boolean requestsConfigPage() {
