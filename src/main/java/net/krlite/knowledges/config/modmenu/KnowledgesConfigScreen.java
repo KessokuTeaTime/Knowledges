@@ -113,7 +113,7 @@ public class KnowledgesConfigScreen {
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?, ?, ?> data) {
+    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
                         Knowledges.DATA.isEnabled(data)

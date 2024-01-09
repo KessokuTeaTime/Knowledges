@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public abstract class AbstractBlockInfoComponentData<E extends DataEvent<BlockInfoComponent.BlockInfoTarget, Optional<MutableText>>> implements
-        Data<BlockInfoComponent.BlockInfoTarget, Optional<MutableText>, E>,
+public abstract class AbstractBlockInfoComponentData<E extends DataEvent<BlockInfoComponent.BlockInfoTarget>> implements
+        Data<BlockInfoComponent.BlockInfoTarget, E>,
         WithPartialPath {
     @Override
     public Class<? extends Knowledge<?>> knowledgeClass() {

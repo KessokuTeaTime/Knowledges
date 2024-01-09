@@ -33,18 +33,18 @@ public class BlockInfoComponent extends AbstractInfoComponent<BlockInfoComponent
 	public enum BlockInfoTarget implements Target {
 		MINEABLE_TOOL {
 			@Override
-			public <E extends DataEvent<?, ?>> Event<E> event() {
+			public <E extends DataEvent<?>> Event<E> event() {
 				return (Event<E>) MineableToolEvent.EVENT;
 			}
 		},
 		BLOCK_INFO {
 			@Override
-			public <E extends DataEvent<?, ?>> Event<E> event() {
+			public <E extends DataEvent<?>> Event<E> event() {
 				return (Event<E>) BlockInfoEvent.EVENT;
 			}
 		};
 
-		public interface MineableToolEvent extends DataEvent<BlockInfoTarget, Optional<MutableText>> {
+		public interface MineableToolEvent extends DataEvent<BlockInfoTarget> {
 			Event<MineableToolEvent> EVENT = EventFactory.createArrayBacked(
 					MineableToolEvent.class,
 					listeners -> blockState -> Arrays.stream(listeners)
@@ -57,17 +57,12 @@ public class BlockInfoComponent extends AbstractInfoComponent<BlockInfoComponent
 			Optional<MutableText> mineableTool(BlockState blockState);
 
 			@Override
-			default Optional<MutableText> fallback() {
-				return Optional.empty();
-			}
-
-			@Override
 			default BlockInfoTarget target() {
 				return MINEABLE_TOOL;
 			}
 		}
 
-		public interface BlockInfoEvent extends DataEvent<BlockInfoTarget, Optional<MutableText>> {
+		public interface BlockInfoEvent extends DataEvent<BlockInfoTarget> {
 			Event<BlockInfoEvent> EVENT = EventFactory.createArrayBacked(
 					BlockInfoEvent.class,
 					listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
@@ -78,11 +73,6 @@ public class BlockInfoComponent extends AbstractInfoComponent<BlockInfoComponent
 			);
 
 			Optional<MutableText> blockInfo(BlockState blockState, ItemStack mainHandStack);
-
-			@Override
-			default Optional<MutableText> fallback() {
-				return Optional.empty();
-			}
 
 			@Override
 			default BlockInfoTarget target() {

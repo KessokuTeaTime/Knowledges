@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DefaultDataProvider implements DataProvider {
     @Override
-    public @NotNull List<Class<? extends Data<?, ?, ?>>> provide() {
+    public @NotNull List<Class<? extends Data<?, ?>>> provide() {
         return List.of(
                 MineableToolData.class,
                 NoteBlockData.class,
