@@ -32,6 +32,6 @@ public class MineableToolData extends AbstractBlockInfoComponentData<BlockInfoCo
 
     @Override
     public @NotNull String partialPath() {
-        return "tool";
+        return "mineable_tool";
     }
 }

@@ -27,7 +27,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		Event<MineableToolCallback> EVENT = EventFactory.createArrayBacked(
 				MineableToolCallback.class,
 				listeners -> blockState -> Arrays.stream(listeners)
-						.map(event -> event.mineableTool(blockState))
+						.map(listener -> listener.mineableTool(blockState))
 						.filter(Optional::isPresent)
 						.findFirst()
 						.orElse(Optional.empty())
@@ -46,26 +46,26 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		}
 	}
 
-	public interface BlockInfoCallback extends DataCallback<BlockInfoCallback> {
-		Event<BlockInfoCallback> EVENT = EventFactory.createArrayBacked(
-				BlockInfoCallback.class,
+	public interface BlockInformationCallback extends DataCallback<BlockInformationCallback> {
+		Event<BlockInformationCallback> EVENT = EventFactory.createArrayBacked(
+				BlockInformationCallback.class,
 				listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
-						.map(event -> event.blockInfo(blockState, mainHandStack))
+						.map(listener -> listener.blockInformation(blockState, mainHandStack))
 						.filter(Optional::isPresent)
 						.findFirst()
 						.orElse(Optional.empty())
 		);
 
-		Optional<MutableText> blockInfo(BlockState blockState, ItemStack mainHandStack);
+		Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player);
 
 		@Override
-		default Event<BlockInfoCallback> event() {
+		default Event<BlockInformationCallback> event() {
 			return EVENT;
 		}
 
 		@Override
 		default String name() {
-			return "Block Info";
+			return "Block Information";
 		}
 	}
 
@@ -155,7 +155,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animations.Texts.subtitleLeftBelow(
-						BlockInfoCallback.EVENT.invoker().blockInfo(blockState, itemStack).orElse(Text.empty())
+						BlockInformationCallback.EVENT.invoker().blockInformation(blockState, player).orElse(Text.empty())
 				);
 			}
 		});

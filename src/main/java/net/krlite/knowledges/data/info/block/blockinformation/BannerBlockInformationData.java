@@ -1,9 +1,10 @@
-package net.krlite.knowledges.data.info.block.blockinfo;
+package net.krlite.knowledges.data.info.block.blockinformation;
 
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.data.info.block.AbstractBlockInfoData;
+import net.krlite.knowledges.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BannerBlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.BlockTags;
@@ -14,9 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class BannerData extends AbstractBlockInfoData {
+public class BannerBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(BlockState blockState, ItemStack mainHandStack) {
+    public Optional<MutableText> fetchInfo(BlockState blockState, PlayerEntity player) {
         if (blockState.isIn(BlockTags.BANNERS) && Knowledge.Info.crosshairBlockEntity().isPresent()) {
             if (!(Knowledge.Info.crosshairBlockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
 
@@ -28,28 +29,28 @@ public class BannerData extends AbstractBlockInfoData {
                 return patterns.get(1).getFirst().getKey()
                         .map(RegistryKey::getValue)
                         .map(Identifier::toShortTranslationKey)
-                        .flatMap(translationKey -> {
+                        .map(translationKey -> {
                             MutableText name = Text.translatable(
                                     localizationKey("pattern"),
                                     Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName()).getString()
                             );
 
                             if (available > 2) {
-                                return Optional.of(Text.translatable(
+                                return Text.translatable(
                                         localizationKey("more_patterns"),
                                         name.getString(),
                                         available - 1,
                                         // Counts the rest of the patterns. Use '%2$d' to reference.
                                         available
                                         // Counts all the patterns. Use '%3$d' to reference.
-                                ));
+                                );
                             } else if (available > 1) {
-                                return Optional.of(Text.translatable(
+                                return Text.translatable(
                                         localizationKey("one_more_pattern"),
                                         name.getString()
-                                ));
+                                );
                             } else {
-                                return Optional.of(name);
+                                return name;
                             }
                         });
             }

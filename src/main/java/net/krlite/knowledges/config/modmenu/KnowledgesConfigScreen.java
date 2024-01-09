@@ -167,9 +167,9 @@ public class KnowledgesConfigScreen {
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
                 if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
 
-                map.forEach((component, data) -> {
-                    ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
+                ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
+                map.forEach((component, data) -> {
                     entries.add(entryBuilder.startTextDescription(Text.translatable(
                             localizationKey("data", "classifier"),
                             Helper.Text.withFormatting(component.name(), Formatting.GRAY)
@@ -180,10 +180,10 @@ public class KnowledgesConfigScreen {
                                     .map(builder -> (AbstractConfigListEntry) builder.build())
                                     .toList()
                     );
-
-                    category.addEntry(entryBuilder.startSubCategory(name, entries)
-                            .setExpanded(isInDefaultNamespace).build());
                 });
+
+                category.addEntry(entryBuilder.startSubCategory(name, entries)
+                        .setExpanded(isInDefaultNamespace).build());
             });
         }
     }

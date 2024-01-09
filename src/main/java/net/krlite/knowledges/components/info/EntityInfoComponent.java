@@ -1,15 +1,18 @@
 package net.krlite.knowledges.components.info;
 
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.components.AbstractInfoComponent;
+import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnchantedBookItem;
@@ -22,7 +25,56 @@ import net.minecraft.text.Text;
 import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public class EntityInfoComponent extends AbstractInfoComponent {
+	public interface EntityInformationCallback extends DataCallback<EntityInformationCallback> {
+		Event<EntityInformationCallback> EVENT = EventFactory.createArrayBacked(
+				EntityInformationCallback.class,
+				listeners -> (entity, player) -> Arrays.stream(listeners)
+						.map(listener -> listener.entityInformation(entity, player))
+						.filter(Optional::isPresent)
+						.findFirst()
+						.orElse(Optional.empty())
+		);
+
+		Optional<MutableText> entityInformation(Entity entity, PlayerEntity player);
+
+		@Override
+		default Event<EntityInformationCallback> event() {
+			return EVENT;
+		}
+
+		@Override
+		default String name() {
+			return "Entity Information";
+		}
+	}
+
+	public interface EntityDescriptionCallback extends DataCallback<EntityDescriptionCallback> {
+		Event<EntityDescriptionCallback> EVENT = EventFactory.createArrayBacked(
+				EntityDescriptionCallback.class,
+				listeners -> (entity, player) -> Arrays.stream(listeners)
+						.map(listener -> listener.entityDescription(entity, player))
+						.filter(Optional::isPresent)
+						.findFirst()
+						.orElse(Optional.empty())
+		);
+
+		Optional<MutableText> entityDescription(Entity entity, PlayerEntity player);
+
+		@Override
+		default Event<EntityDescriptionCallback> event() {
+			return EVENT;
+		}
+
+		@Override
+		default String name() {
+			return "Entity Description";
+		}
+	}
+
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
 		super.render(context, client, player, world);
@@ -86,40 +138,9 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 
 			// Right Below
 			subtitleRightBelow: {
-				if (entity.getType() == EntityType.PAINTING) {
-					((PaintingEntity) entity).getVariant().getKey().ifPresent((key) ->
-							Animations.Texts.subtitleRightBelow(Text.translatable(
-									key.getValue().toTranslationKey("painting", "title")
-							)));
-
-					break subtitleRightBelow;
-				}
-
-				if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
-					if (!(entity instanceof ItemFrameEntity itemFrameEntity)) break subtitleRightBelow;
-					ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
-
-					if (!heldItemStack.isEmpty()) {
-						Animations.Texts.subtitleRightBelow(heldItemStack.getItem().getName());
-
-						break subtitleRightBelow;
-					}
-				}
-
-				if (entity.getType() == EntityType.VILLAGER) {
-					if (!(entity instanceof VillagerEntity villagerEntity)) break subtitleRightBelow;
-					VillagerData villagerData = villagerEntity.getVillagerData();
-
-					Animations.Texts.subtitleRightBelow(Text.translatable(
-							localizationKey("villager", "profession_and_level"),
-							Text.translatable("entity.minecraft.villager." + villagerData.getProfession().id()).getString(),
-							villagerData.getLevel()
-					));
-
-					break subtitleRightBelow;
-				}
-
-				Animations.Texts.subtitleRightBelow(Text.empty());
+				Animations.Texts.subtitleRightBelow(
+						EntityInformationCallback.EVENT.invoker().entityInformation(entity, player).orElse(Text.empty())
+				);
 			}
 
 			// Left Above
@@ -131,66 +152,9 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
-					if (!(entity instanceof ItemFrameEntity itemFrameEntity)) break subtitleLeftBelow;
-					ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
-
-					if (!heldItemStack.isEmpty()) {
-						// Enchanted Books
-						if (heldItemStack.getItem() instanceof EnchantedBookItem) {
-							NbtList enchantments = EnchantedBookItem.getEnchantmentNbt(heldItemStack);
-							int available = enchantments.size();
-
-							if (available > 0) {
-								NbtCompound firstEnchantment = enchantments.getCompound(0);
-
-								Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
-										.map(enchantment -> enchantment.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
-										.ifPresent(rawName -> {
-											Text name = Text.translatable(
-													localizationKey("enchanted_book", "enchantment"),
-													rawName.getString()
-											);
-
-											if (available > 2) {
-												Animations.Texts.subtitleLeftBelow(Text.translatable(
-														localizationKey("enchanted_book", "more_enchantments"),
-														name.getString(),
-														available - 1,
-														// Counts the rest of the enchantments. Use '%2$d' to reference.
-														available
-														// Counts all the enchantments. Use '%3$d' to reference.
-												));
-											} else if (available > 1) {
-												Animations.Texts.subtitleLeftBelow(Text.translatable(
-														localizationKey("enchanted_book", "one_more_enchantment"),
-														name.getString()
-												));
-											}else {
-												Animations.Texts.subtitleLeftBelow(name);
-											}
-										});
-
-								break subtitleLeftBelow;
-							}
-						}
-
-						break subtitleLeftBelow;
-					}
-				}
-
-				if (entity.getType() == EntityType.VILLAGER) {
-					if (!(entity instanceof VillagerEntity villagerEntity)) break subtitleLeftBelow;
-
-					Animations.Texts.subtitleLeftBelow(Text.translatable(
-							localizationKey("villager", "reputation"),
-							villagerEntity.getReputation(player)
-					));
-
-					break subtitleLeftBelow;
-				}
-
-				Animations.Texts.subtitleLeftBelow(Text.empty());
+				Animations.Texts.subtitleLeftBelow(
+						EntityDescriptionCallback.EVENT.invoker().entityDescription(entity, player).orElse(Text.empty())
+				);
 			}
 		});
 	}

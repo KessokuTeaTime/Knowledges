@@ -1,10 +1,10 @@
-package net.krlite.knowledges.data.info.block.blockinfo;
+package net.krlite.knowledges.data.info.block.blockinformation;
 
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.data.info.block.AbstractBlockInfoData;
-import net.minecraft.block.Block;
+import net.krlite.knowledges.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -13,10 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class NoteBlockData extends AbstractBlockInfoData {
+public class NoteBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(BlockState blockState, ItemStack mainHandStack) {
-        if (mainHandStack.isOf(Items.NOTE_BLOCK)) {
+    public Optional<MutableText> fetchInfo(BlockState blockState, PlayerEntity player) {
+        if (player.getMainHandStack().isOf(Items.NOTE_BLOCK)) {
             return Optional.of(Knowledge.Util.getInstrumentName(blockState.getInstrument()));
         }
 

@@ -82,12 +82,6 @@
   "knowledge.knowledges.info.entity.name": "实体信息",
   "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
 
-  "knowledge.knowledges.info.entity.villager.profession_and_level": "§7%2$d级§r%1$s",
-  "knowledge.knowledges.info.entity.villager.reputation": "§7好感度：§r%1$d",
-
-  "knowledge.knowledges.info.entity.enchanted_book.more_enchantments": "§r%1$s§7等%3$d个附魔",
-  "knowledge.knowledges.info.entity.enchanted_book.one_more_enchantment": "§r%1$s§7等2个附魔",
-
   "knowledge.knowledges.info.fluid.name": "流体信息",
   "knowledge.knowledges.info.fluid.tooltip": "§7显示你正看着的流体的信息",
 
@@ -101,20 +95,42 @@
   "knowledge.knowledges.armor_durability.name": "装备耐久",
   "knowledge.knowledges.armor_durability.tooltip": "§7在屏幕角落处显示你的装备耐久",
 
-  "knowledge_data.knowledges.info.block.tool.name": "挖掘工具",
-  "knowledge_data.knowledges.info.block.tool.tooltip": "提供当前方块的基础挖掘工具信息",
+  "knowledge_data.knowledges.info.block.mineable_tool.name": "挖掘工具",
+  "knowledge_data.knowledges.info.block.mineable_tool.tooltip": "提供关于方块的最合适挖掘工具的信息",
 
-  "knowledge_data.knowledges.info.block.tool.pickaxe": "镐",
-  "knowledge_data.knowledges.info.block.tool.axe": "斧",
-  "knowledge_data.knowledges.info.block.tool.hoe": "锄",
-  "knowledge_data.knowledges.info.block.tool.shovel": "锹",
+  "knowledge_data.knowledges.info.block.mineable_tool.pickaxe": "镐",
+  "knowledge_data.knowledges.info.block.mineable_tool.axe": "斧",
+  "knowledge_data.knowledges.info.block.mineable_tool.hoe": "锄",
+  "knowledge_data.knowledges.info.block.mineable_tool.shovel": "锹",
 
-  "knowledge_data.knowledges.info.block.block_info.note_block.name": "音符盒",
-  "knowledge_data.knowledges.info.block.block_info.note_block.tooltip": "在手持音符盒时提供当前方块的音色信息",
+  "knowledge_data.knowledges.info.block.block_information.note_block.name": "音符盒信息",
+  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "在手持音符盒时提供当前方块的音色信息",
 
-  "knowledge_data.knowledges.info.block.block_info.banner.name": "旗帜",
-  "knowledge_data.knowledges.info.block.block_info.banner.tooltip": "提供旗帜的详细信息",
+  "knowledge_data.knowledges.info.block.block_information.banner.name": "旗帜信息",
+  "knowledge_data.knowledges.info.block.block_information.banner.tooltip": "提供有关旗帜的信息",
 
-  "knowledge_data.knowledges.info.block.block_info.banner.more_patterns": "§r%1$s§7等%3$d个样式",
-  "knowledge_data.knowledges.info.block.block_info.banner.one_more_pattern": "§r%1$s§7等2个样式"
+  "knowledge_data.knowledges.info.block.block_information.banner.more_patterns": "§r%1$s§7等%3$d个样式",
+  "knowledge_data.knowledges.info.block.block_information.banner.one_more_pattern": "§r%1$s§7等2个样式",
+
+  "knowledge_data.knowledges.info.entity.entity_information.painting.name": "画作信息",
+  "knowledge_data.knowledges.info.entity.entity_information.painting.tooltip": "提供有关画作的信息",
+
+  "knowledge_data.knowledges.info.entity.entity_information.item_frame.name": "物品展示框信息",
+  "knowledge_data.knowledges.info.entity.entity_information.item_frame.tooltip": "提供有关物品展示框内的物品的信息",
+
+  "knowledge_data.knowledges.info.entity.entity_information.villager.name": "村民信息",
+  "knowledge_data.knowledges.info.entity.entity_information.villager.tooltip": "提供有关村民的基础信息",
+
+  "knowledge_data.knowledges.info.entity.entity_information.villager.profession_and_level": "§7%2$d级§r%1$s",
+
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.name": "物品展示框详细信息",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.tooltip": "提供有关物品展示框内的物品属性的详细信息",
+
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.more_enchantments": "§r%1$s§7等%3$d个附魔",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.one_more_enchantment": "§r%1$s§7等2个附魔",
+
+  "knowledge_data.knowledges.info.entity.entity_description.villager.name": "村民详细信息",
+  "knowledge_data.knowledges.info.entity.entity_description.villager.tooltip": "提供有关村民属性的详细信息",
+
+  "knowledge_data.knowledges.info.entity.entity_description.villager.reputation": "§7好感度：§r%1$d"
 }
