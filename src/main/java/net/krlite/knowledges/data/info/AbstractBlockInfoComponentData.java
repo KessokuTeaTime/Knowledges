@@ -11,7 +11,7 @@ public abstract class AbstractBlockInfoComponentData<E extends DataEvent<BlockIn
         Data<BlockInfoComponent.BlockInfoCallbacks, E>,
         WithPartialPath {
     @Override
-    public Class<? extends Knowledge<?>> knowledgeClass() {
+    public Class<? extends Knowledge> knowledgeClass() {
         return BlockInfoComponent.class;
     }
 

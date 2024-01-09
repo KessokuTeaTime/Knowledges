@@ -23,9 +23,9 @@ import java.util.function.Function;
 import static net.krlite.knowledges.Knowledges.CONFIG;
 
 public class KnowledgesConfigScreen {
-    public static final HashMap<BooleanListEntry, Knowledge<?>> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
+    public static final HashMap<BooleanListEntry, Knowledge> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
 
-    public static final HashMap<Knowledge<?>, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
+    public static final HashMap<Knowledge, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
 
 	public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
 			flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
@@ -98,7 +98,7 @@ public class KnowledgesConfigScreen {
         );
     }
 
-    private BooleanToggleBuilder componentEntry(Knowledge<?> knowledge, boolean allowsTooltip) {
+    private BooleanToggleBuilder componentEntry(Knowledge knowledge, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
                         knowledge.name(),
                         Knowledges.COMPONENTS.isEnabled(knowledge)
@@ -128,7 +128,10 @@ public class KnowledgesConfigScreen {
                                         Helper.Text.withFormatting(data.listener().target().name(), Formatting.GRAY)
                                 )
                         }))
-                .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
+                .setSaveConsumer(value -> {
+                    Knowledges.DATA.setEnabled(data, value);
+                    Knowledges.DATA.regenerate((Class<? extends Data<?, ?>>) data.getClass());
+                })
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 

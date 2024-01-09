@@ -14,7 +14,9 @@ public interface Data<T extends Enum<T> & UseEvent, E extends DataEvent<T>> exte
     E listener();
 
     default void registerListener() {
-        target().event().register(listener());
+        if (Knowledges.DATA.isEnabled(this)) {
+            target().event().register(listener());
+        }
     }
 
     Class<? extends Knowledge> knowledgeClass();

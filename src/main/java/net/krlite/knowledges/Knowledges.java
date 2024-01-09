@@ -22,10 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class Knowledges implements ModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
@@ -74,6 +71,7 @@ public class Knowledges implements ModInitializer {
             ));
 
             classes.stream()
+                    .distinct()
                     .map(clazz -> {
                         try {
                             return clazz.getDeclaredConstructor().newInstance();
@@ -104,6 +102,7 @@ public class Knowledges implements ModInitializer {
             ));
 
             classes.stream()
+                    .distinct()
                     .map(clazz -> {
                         try {
                             return clazz.getDeclaredConstructor().newInstance();
@@ -142,6 +141,29 @@ public class Knowledges implements ModInitializer {
 
         Manager(AbstractDisabledConfig<T> disabled) {
             this.disabled = disabled;
+        }
+
+        protected abstract String localizationPrefix();
+
+        void register(String namespace, T t) {
+            Helper.Map.fastMerge(map, namespace, t);
+        }
+
+        public void regenerate(Class<? extends T> tClass) {
+            Optional<T> original = byClass(tClass);
+            if (original.isEmpty()) return;
+
+            try {
+                Optional<String> namespace = namespace(original.get());
+                if (namespace.isEmpty()) return;
+
+                T t = tClass.getDeclaredConstructor().newInstance();
+                ArrayList<T> list = new ArrayList<>(map.get(namespace.get()));
+                list.set(list.indexOf(original.get()), t);
+                map.replace(namespace.get(), list);
+            } catch (Throwable throwable) {
+                throw new RuntimeException(throwable);
+            }
         }
 
         public Map<String, List<T>> asMap() {
@@ -183,8 +205,6 @@ public class Knowledges implements ModInitializer {
                     .map(namespace -> new Identifier(namespace, t.path()));
         }
 
-        protected abstract String localizationPrefix();
-
         public String localizationKey(T t, String... paths) {
             String namespace = namespace(t).orElse(Knowledges.ID);
             return localizationPrefix() + "." + namespace + "." + String.join(".", paths);
@@ -204,10 +224,6 @@ public class Knowledges implements ModInitializer {
 
         public void setEnabled(T t, boolean enabled) {
             disabled.set(t, !enabled);
-        }
-
-        void register(String namespace, T t) {
-            Helper.Map.fastMerge(map, namespace, t);
         }
     }
 }

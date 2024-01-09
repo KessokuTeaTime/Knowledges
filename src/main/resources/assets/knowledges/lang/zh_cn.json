@@ -107,6 +107,6 @@
   "knowledge_data.knowledges.info.block.tool.hoe": "锄",
   "knowledge_data.knowledges.info.block.tool.shovel": "锹",
 
-  "knowledge_data.knowledges.info.block_block_info.banner.more_patterns": "§r%1$s§7等%3$d个样式",
-  "knowledge_data.knowledges.info.block_block_info.banner.one_more_pattern": "§r%1$s§7等2个样式"
+  "knowledge_data.knowledges.info.block.block_info.banner.more_patterns": "§r%1$s§7等%3$d个样式",
+  "knowledge_data.knowledges.info.block.block_info.banner.one_more_pattern": "§r%1$s§7等2个样式"
 }
