@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class NoteBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(BlockState blockState, PlayerEntity player) {
+    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
         if (player.getMainHandStack().isOf(Items.NOTE_BLOCK)) {
             return Optional.of(Knowledge.Util.getInstrumentName(blockState.getInstrument()));
         }

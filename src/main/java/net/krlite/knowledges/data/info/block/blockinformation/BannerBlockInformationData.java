@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class BannerBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(BlockState blockState, PlayerEntity player) {
+    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
         if (blockState.isIn(BlockTags.BANNERS) && Knowledge.Info.crosshairBlockEntity().isPresent()) {
             if (!(Knowledge.Info.crosshairBlockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
 
