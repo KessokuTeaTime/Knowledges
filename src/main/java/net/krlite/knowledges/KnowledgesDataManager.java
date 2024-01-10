@@ -22,17 +22,17 @@ public class KnowledgesDataManager extends Knowledges.Manager<Data<?, ?>> {
 
     public Map<Class<DataSource<?, ?>>, List<Data<?, ?>>> asSourceClassifiedMap() {
         return asList().stream()
-                .collect(Collectors.groupingBy(Data::source));
+                .collect(Collectors.groupingBy(data -> (Class<DataSource<?, ?>>) data.source()));
     }
 
-    public <K extends Knowledge, S extends DataSource<K, S>> List<Data<K, S>> fromSource(DataSource<K, S> source) {
-        return asSourceClassifiedMap().getOrDefault(source, new ArrayList<>()).stream()
+    public <K extends Knowledge, S extends DataSource<K, S>> List<Data<K, S>> fromSource(Class<? extends DataSource<K, S>> sourceClass) {
+        return asSourceClassifiedMap().getOrDefault(sourceClass, new ArrayList<>()).stream()
                 .map(data -> (Data<K, S>) data)
                 .collect(Collectors.toList());
     }
 
-    public <K extends Knowledge, S extends DataSource<K, S>> List<S> availableListenersFromSource(DataSource<K, S> source) {
-        return fromSource(source).stream()
+    public <K extends Knowledge, S extends DataSource<K, S>> List<S> availableListenersFromSource(Class<? extends DataSource<K, S>> sourceClass) {
+        return fromSource(sourceClass).stream()
                 .filter(this::isEnabled)
                 .map(data -> (S) data)
                 .collect(Collectors.toList());

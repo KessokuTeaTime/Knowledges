@@ -35,11 +35,6 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		}
 
 		@Override
-		default MineableToolDataSource invoker() {
-			return blockState -> function().apply(listeners()).mineableTool(blockState);
-		}
-
-		@Override
 		default Class<BlockInfoComponent> target() {
 			return BlockInfoComponent.class;
 		}
