@@ -115,7 +115,7 @@ public class KnowledgesConfigScreen {
                 .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?> data) {
+    private BooleanToggleBuilder dataEntry(Data<?, ?> data) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
                         Knowledges.DATA.isEnabled(data)
@@ -162,8 +162,8 @@ public class KnowledgesConfigScreen {
     private void initDataEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "data"));
 
-        if (!Knowledges.DATA.asClassifiedMap().isEmpty()) {
-            Knowledges.DATA.asClassifiedMap().forEach((namespace, map) -> {
+        if (!Knowledges.DATA.asSourceClassifiedMap().isEmpty()) {
+            Knowledges.DATA.asSourceClassifiedMap().forEach((namespace, map) -> {
                 MutableText name = Knowledge.Util.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
                 if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));

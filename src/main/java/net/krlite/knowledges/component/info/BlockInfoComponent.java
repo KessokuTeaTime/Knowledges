@@ -1,13 +1,11 @@
 package net.krlite.knowledges.component.info;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.api.DataSource;
 import net.krlite.knowledges.component.AbstractInfoComponent;
-import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -19,53 +17,54 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class BlockInfoComponent extends AbstractInfoComponent {
-	public interface MineableToolCallback extends DataCallback<MineableToolCallback> {
-		Event<MineableToolCallback> EVENT = EventFactory.createArrayBacked(
-				MineableToolCallback.class,
-				listeners -> blockState -> Arrays.stream(listeners)
-						.map(listener -> listener.mineableTool(blockState))
-						.filter(Optional::isPresent)
-						.findFirst()
-						.orElse(Optional.empty())
-		);
-
+	public interface MineableToolDataSource extends DataSource<BlockInfoComponent, MineableToolDataSource>, DataSource.Functional<MineableToolDataSource> {
 		Optional<MutableText> mineableTool(BlockState blockState);
 
 		@Override
-		default Event<MineableToolCallback> event() {
-			return EVENT;
+		default Function<List<MineableToolDataSource>, MineableToolDataSource> function() {
+			return listeners -> blockState -> listeners.stream()
+					.map(listener -> listener.mineableTool(blockState))
+					.filter(Optional::isPresent)
+					.findFirst()
+					.orElse(Optional.empty());
 		}
 
 		@Override
-		default String name() {
-			return "Mineable Tool";
+		default MineableToolDataSource invoker() {
+			return blockState -> function().apply(listeners()).mineableTool(blockState);
+		}
+
+		@Override
+		default Class<BlockInfoComponent> target() {
+			return BlockInfoComponent.class;
 		}
 	}
 
-	public interface BlockInformationCallback extends DataCallback<BlockInformationCallback> {
-		Event<BlockInformationCallback> EVENT = EventFactory.createArrayBacked(
-				BlockInformationCallback.class,
-				listeners -> (blockState, mainHandStack) -> Arrays.stream(listeners)
-						.map(listener -> listener.blockInformation(blockState, mainHandStack))
-						.filter(Optional::isPresent)
-						.findFirst()
-						.orElse(Optional.empty())
-		);
-
+	public interface BlockInformationDataSource extends DataSource<BlockInfoComponent, BlockInformationDataSource>, DataSource.Functional<BlockInformationDataSource> {
 		Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player);
 
 		@Override
-		default Event<BlockInformationCallback> event() {
-			return EVENT;
+		default Function<List<BlockInformationDataSource>, BlockInformationDataSource> function() {
+			return listeners -> (blockState, player) -> listeners.stream()
+					.map(listener -> listener.blockInformation(blockState, player))
+					.filter(Optional::isPresent)
+					.findFirst()
+					.orElse(Optional.empty());
 		}
 
 		@Override
-		default String name() {
-			return "Block Information";
+		default BlockInformationDataSource invoker() {
+			return (blockState, player) -> function().apply(listeners()).blockInformation(blockState, player);
+		}
+
+		@Override
+		default Class<BlockInfoComponent> target() {
+			return BlockInfoComponent.class;
 		}
 	}
 
@@ -110,7 +109,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
-					Optional<MutableText> data = MineableToolCallback.EVENT.invoker().mineableTool(blockState);
+					Optional<MutableText> data = MineableToolDataSource.invoker().mineableTool(blockState);
 
 					if (hardness < 0) {
 						// Unbreakable
