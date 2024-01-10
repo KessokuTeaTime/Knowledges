@@ -65,7 +65,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 
 			@Override
 			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
-				return EntityInformationInvoker.INSTANCE;
+				return EntityDescriptionInvoker.INSTANCE;
 			}
 		}
 
