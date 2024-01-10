@@ -51,7 +51,7 @@
   "instrument.knowledges.custom_head": "自定义",
 
   "knowledge.knowledges.crosshair.name": "准心",
-  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时被隐藏",
+  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时不可见",
 
   "knowledge.knowledges.crosshair.config.category": "准心",
 
@@ -91,6 +91,7 @@
 
   "knowledge.knowledges.info.fluid.config.ignores_water": "忽略水",
   "knowledge.knowledges.info.fluid.config.ignores_lava": "忽略熔岩",
+  "knowledge.knowledges.info.fluid.config.ignores_other_fluids": "忽略其它液体",
 
   "knowledge.knowledges.armor_durability.name": "装备耐久",
   "knowledge.knowledges.armor_durability.tooltip": "§7在屏幕角落处显示你的装备耐久",

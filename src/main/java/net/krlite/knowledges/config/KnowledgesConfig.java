@@ -1,6 +1,5 @@
 package net.krlite.knowledges.config;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.pierced.annotation.Silent;
@@ -20,11 +19,13 @@ public class KnowledgesConfig extends Pierced {
 	public static class Default {
 		public static final double MAIN_SCALAR = 1, MAIN_SCALAR_MIN = 0, MAIN_SCALAR_MAX = 3;
 		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1, CROSSHAIR_SAFE_AREA_SCALAR_MIN = 0, CROSSHAIR_SAFE_AREA_SCALAR_MAX = 3;
-		public static boolean CROSSHAIR_TEXTS_RIGHT_ENABLED = true;
-		public static boolean CROSSHAIR_TEXTS_LEFT_ENABLED = true;
-		public static boolean CROSSHAIR_SUBTITLES_ENABLED = true;
-		public static boolean INFO_FLUID_IGNORES_WATER = false;
-		public static boolean INFO_FLUID_IGNORES_LAVA = false;
+		public static final boolean CROSSHAIR_TEXTS_RIGHT_ENABLED = true;
+		public static final boolean CROSSHAIR_TEXTS_LEFT_ENABLED = true;
+		public static final boolean CROSSHAIR_SUBTITLES_ENABLED = true;
+
+		public static final boolean INFO_FLUID_IGNORES_WATER = false;
+		public static final boolean INFO_FLUID_IGNORES_LAVA = false;
+		public static final boolean INFO_FLUID_IGNORES_OTHER_FLUIDS = false;
 	}
 
 	@Table("global")
@@ -104,5 +105,16 @@ public class KnowledgesConfig extends Pierced {
 
 	public void infoFluidIgnoresLava(boolean flag) {
 		infoFluidIgnoresLava = flag;
+	}
+
+	@Table("info.fluid")
+	private boolean infoFluidIgnoresOtherFluids = Default.INFO_FLUID_IGNORES_OTHER_FLUIDS;
+
+	public boolean infoFluidIgnoresOtherFluids() {
+		return infoFluidIgnoresOtherFluids;
+	}
+
+	public void infoFluidIgnoresOtherFluids(boolean flag) {
+		infoFluidIgnoresOtherFluids = flag;
 	}
 }

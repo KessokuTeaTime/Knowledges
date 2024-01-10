@@ -91,6 +91,7 @@
 
   "knowledge.knowledges.info.fluid.config.ignores_water": "Ignores Water",
   "knowledge.knowledges.info.fluid.config.ignores_lava": "Ignores Lava",
+  "knowledge.knowledges.info.fluid.config.ignores_other_fluids": "Ignores Other Fluids",
 
   "knowledge.knowledges.armor_durability.name": "Armor Durability",
   "knowledge.knowledges.armor_durability.tooltip": "§7Displays the durability of your armor around the screen corner",

@@ -108,7 +108,15 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                         )
                         .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_LAVA)
                         .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresLava)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+
+                entryBuilder.startBooleanToggle(
+                                localize("config", "ignores_other_fluids"),
+                                Knowledges.CONFIG.infoFluidIgnoresOtherFluids()
+                        )
+                        .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_OTHER_FLUIDS)
+                        .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresOtherFluids)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
-        );
+                );
     }
 }

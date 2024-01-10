@@ -131,8 +131,18 @@ public interface Knowledge extends WithPath, LocalizableWithName {
 							)
 					)
 					.filter(fluidState -> !fluidState.isEmpty())
-					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresWater() && (fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER)))
-					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresLava() && (fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA)));
+					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresWater() && (
+							fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER
+					)))
+					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresLava() && (
+							fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA
+					)))
+					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresOtherFluids() && (
+							fluidState.getFluid() != Fluids.WATER
+									&& fluidState.getFluid() != Fluids.LAVA
+									&& fluidState.getFluid() != Fluids.FLOWING_WATER
+									&& fluidState.getFluid() != Fluids.FLOWING_LAVA
+					)));
 		}
 	}
 
