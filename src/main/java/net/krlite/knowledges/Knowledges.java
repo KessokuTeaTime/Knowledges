@@ -3,8 +3,8 @@ package net.krlite.knowledges;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.entrypoint.ComponentProvider;
-import net.krlite.knowledges.api.entrypoint.DataProvider;
+import net.krlite.knowledges.api.entrypoint.KnowledgesComponentProvider;
+import net.krlite.knowledges.api.entrypoint.KnowledgesDataProvider;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.component.AbstractInfoComponent;
@@ -30,8 +30,8 @@ public class Knowledges implements ModInitializer {
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(Knowledges.ID);
 
     public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
-    public static final ComponentManager COMPONENTS = new ComponentManager();
-    public static final DataManager DATA = new DataManager();
+    public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
+    public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
 
     public static String localizationKey(String category, String... paths) {
         return category + "." + ID + "." + String.join(".", paths);
@@ -55,8 +55,8 @@ public class Knowledges implements ModInitializer {
         AbstractInfoComponent.Animations.registerEvents();
 
         // Components
-        FabricLoader.getInstance().getEntrypointContainers(ID, ComponentProvider.class).forEach(entrypoint -> {
-            ComponentProvider provider = entrypoint.getEntrypoint();
+        FabricLoader.getInstance().getEntrypointContainers(ID, KnowledgesComponentProvider.class).forEach(entrypoint -> {
+            KnowledgesComponentProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 
@@ -86,8 +86,8 @@ public class Knowledges implements ModInitializer {
         });
 
         // Data
-        FabricLoader.getInstance().getEntrypointContainers(ID + "_data", DataProvider.class).forEach(entrypoint -> {
-            DataProvider provider = entrypoint.getEntrypoint();
+        FabricLoader.getInstance().getEntrypointContainers(ID + "_data", KnowledgesDataProvider.class).forEach(entrypoint -> {
+            KnowledgesDataProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 
