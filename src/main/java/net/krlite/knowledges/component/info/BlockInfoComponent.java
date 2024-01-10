@@ -167,7 +167,8 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				boolean powered = Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
+				boolean powered = Knowledges.CONFIG.infoBlockShowPoweredStatus()
+						&& Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
 
 				Animations.Texts.subtitleLeftBelow(
 						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player)
