@@ -119,6 +119,11 @@
 
   "knowledge_data.knowledges.info.block.block_information.composter.level": "§7Level: §r%1$s §7/ %2$s",
 
+  "knowledge_data.knowledges.info.block.block_information.redstone_wire.name": "Redstone Wire Information",
+  "knowledge_data.knowledges.info.block.block_information.redstone_wire.tooltip": "Provides information about redstone wires' powers",
+
+  "knowledge_data.knowledges.info.block.block_information.redstone_wire.power": "§7Power: §r%1$s",
+
   "knowledge_data.knowledges.info.entity.entity_information.painting.name": "Painting Information",
   "knowledge_data.knowledges.info.entity.entity_information.painting.tooltip": "Provides information about paintings",
 

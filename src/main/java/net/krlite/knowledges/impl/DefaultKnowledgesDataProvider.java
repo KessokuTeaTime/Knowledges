@@ -6,6 +6,7 @@ import net.krlite.knowledges.data.info.block.MineableToolData;
 import net.krlite.knowledges.data.info.block.blockinformation.BannerBlockInformationData;
 import net.krlite.knowledges.data.info.block.blockinformation.ComposterBlockInformationData;
 import net.krlite.knowledges.data.info.block.blockinformation.NoteBlockInformationData;
+import net.krlite.knowledges.data.info.block.blockinformation.RedstoneWireBlockInformationData;
 import net.krlite.knowledges.data.info.entity.entitydescription.ItemFrameEntityDescriptionData;
 import net.krlite.knowledges.data.info.entity.entitydescription.VillagerEntityDescriptionData;
 import net.krlite.knowledges.data.info.entity.entityinformation.ItemFrameEntityInformationData;
@@ -23,6 +24,7 @@ public class DefaultKnowledgesDataProvider implements KnowledgesDataProvider {
                 NoteBlockInformationData.class,
                 BannerBlockInformationData.class,
                 ComposterBlockInformationData.class,
+                RedstoneWireBlockInformationData.class,
 
                 PaintingEntityInformationData.class,
                 ItemFrameEntityInformationData.class,
