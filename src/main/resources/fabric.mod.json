@@ -26,10 +26,10 @@
       "net.krlite.knowledges.config.modmenu.KnowledgesModMenuImpl"
     ],
     "knowledges": [
-      "net.krlite.knowledges.impl.DefaultComponentProvider"
+      "net.krlite.knowledges.impl.DefaultKnowledgesComponentProvider"
     ],
     "knowledges_data": [
-      "net.krlite.knowledges.impl.DefaultDataProvider"
+      "net.krlite.knowledges.impl.DefaultKnowledgesDataProvider"
     ]
   },
   "mixins": [

@@ -4,6 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public interface Provider<E> {
+public interface KnowledgesProvider<E> {
     @NotNull List<Class<? extends E>> provide();
 }

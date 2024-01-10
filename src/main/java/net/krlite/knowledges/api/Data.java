@@ -1,29 +1,14 @@
 package net.krlite.knowledges.api;
 
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.core.datacallback.DataCallback;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
-import net.krlite.knowledges.core.datacallback.DataCallbackContainer;
 import net.krlite.knowledges.core.path.WithPath;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public interface Data<C extends DataCallback<C>> extends WithPath, LocalizableWithName, DataCallbackContainer<C> {
-    default boolean shouldProvideNothing() {
-        return !Knowledges.DATA.isEnabled(this);
-    }
-
-    default void registerListener() {
-        callback().event().register(callback());
-    }
-
-    Class<? extends Knowledge> knowledgeClass();
-
-    default Optional<Knowledge> knowledge() {
-        return Knowledges.COMPONENTS.byClass(knowledgeClass());
-    }
+public interface Data<D extends S, S extends DataSource<? extends Knowledge>> extends WithPath, LocalizableWithName {
+    S source();
 
     @Override
     default String localizationKey(String... paths) {
