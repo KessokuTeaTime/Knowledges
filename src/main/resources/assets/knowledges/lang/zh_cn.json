@@ -53,8 +53,6 @@
   "knowledge.knowledges.crosshair.name": "准心",
   "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时不可见",
 
-  "knowledge.knowledges.crosshair.config.category": "准心",
-
   "knowledge.knowledges.crosshair.config.texts_right_enabled": "准心右侧文本",
   "knowledge.knowledges.crosshair.config.texts_right_enabled.tooltip": "§7显示准心右侧的扩展信息",
 
@@ -79,6 +77,11 @@
   "knowledge.knowledges.info.block.tool_and_mining_level": "§7%2$s的§r%1$s",
   "knowledge.knowledges.info.block.tool": "任意%1$s",
 
+  "knowledge.knowledges.info.block.powered": "已充能",
+
+  "knowledge.knowledges.info.block.config.show_powered_status": "显示充能状态",
+  "knowledge.knowledges.info.block.config.show_powered_status.tooltip": "§7显示方块是否被红石充能",
+
   "knowledge.knowledges.info.entity.name": "实体信息",
   "knowledge.knowledges.info.entity.tooltip": "§7显示你正看着的实体的信息",
 
@@ -86,8 +89,6 @@
   "knowledge.knowledges.info.fluid.tooltip": "§7显示你正看着的流体的信息",
 
   "knowledge.knowledges.info.fluid.level": "§7体积：§r%1$d",
-
-  "knowledge.knowledges.info.fluid.config.category": "流体信息",
 
   "knowledge.knowledges.info.fluid.config.ignores_water": "忽略水",
   "knowledge.knowledges.info.fluid.config.ignores_lava": "忽略熔岩",

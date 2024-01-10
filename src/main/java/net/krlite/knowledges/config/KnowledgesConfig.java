@@ -23,6 +23,8 @@ public class KnowledgesConfig extends Pierced {
 		public static final boolean CROSSHAIR_TEXTS_LEFT_ENABLED = true;
 		public static final boolean CROSSHAIR_SUBTITLES_ENABLED = true;
 
+		public static final boolean INFO_BLOCK_SHOW_POWERED_STATUS = true;
+
 		public static final boolean INFO_FLUID_IGNORES_WATER = false;
 		public static final boolean INFO_FLUID_IGNORES_LAVA = false;
 		public static final boolean INFO_FLUID_IGNORES_OTHER_FLUIDS = false;
@@ -83,6 +85,17 @@ public class KnowledgesConfig extends Pierced {
 
 	public void crosshairSubtitlesEnabled(boolean flag) {
 		crosshairSubtitlesEnabled = flag;
+	}
+
+	@Table("info.block")
+	private boolean infoBlockShowPoweredStatus = Default.INFO_BLOCK_SHOW_POWERED_STATUS;
+
+	public boolean infoBlockShowPoweredStatus() {
+		return infoBlockShowPoweredStatus;
+	}
+
+	public void infoBlockShowPoweredStatus(boolean flag) {
+		infoBlockShowPoweredStatus = flag;
 	}
 
 	@Table("info.fluid")

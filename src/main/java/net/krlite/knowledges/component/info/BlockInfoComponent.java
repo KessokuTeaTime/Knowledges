@@ -1,11 +1,14 @@
 package net.krlite.knowledges.component.info;
 
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.component.AbstractInfoComponent;
+import net.krlite.knowledges.config.KnowledgesConfig;
+import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
 import net.minecraft.block.BlockState;
@@ -15,6 +18,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -163,8 +167,11 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
+				boolean powered = Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
+
 				Animations.Texts.subtitleLeftBelow(
-						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player).orElse(Text.empty())
+						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player)
+								.orElse(powered ? localize("powered") : Text.empty())
 				);
 			}
 		});
@@ -178,5 +185,24 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 	@Override
 	public boolean providesTooltip() {
 		return true;
+	}
+
+	@Override
+	public boolean requestsConfigPage() {
+		return true;
+	}
+
+	@Override
+	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+		return entryBuilder -> List.of(
+				entryBuilder.startBooleanToggle(
+								localize("config", "show_powered_status"),
+								Knowledges.CONFIG.infoBlockShowPoweredStatus()
+						)
+						.setDefaultValue(KnowledgesConfig.Default.INFO_BLOCK_SHOW_POWERED_STATUS)
+						.setTooltip(localize("config", "show_powered_status", "tooltip"))
+						.setSaveConsumer(Knowledges.CONFIG::infoBlockShowPoweredStatus)
+						.setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
+		);
 	}
 }

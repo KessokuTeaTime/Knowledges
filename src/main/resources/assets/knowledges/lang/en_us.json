@@ -53,8 +53,6 @@
   "knowledge.knowledges.crosshair.name": "Crosshair",
   "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill not be displayed",
 
-  "knowledge.knowledges.crosshair.config.category": "Crosshair",
-
   "knowledge.knowledges.crosshair.config.texts_right_enabled": "Display Right Sided Texts",
   "knowledge.knowledges.crosshair.config.texts_right_enabled.tooltip": "§7Whether to display the texts placed against the right side of the cursor",
 
@@ -79,6 +77,11 @@
   "knowledge.knowledges.info.block.tool_and_mining_level": "%1$s §7with %2$s",
   "knowledge.knowledges.info.block.tool": "%1$s",
 
+  "knowledge.knowledges.info.block.powered": "Powered",
+
+  "knowledge.knowledges.info.block.config.show_powered_status": "Show Powered Status",
+  "knowledge.knowledges.info.block.config.show_powered_status.tooltip": "§7Whether to display if blocks are powered by redstone",
+
   "knowledge.knowledges.info.entity.name": "Entity Info",
   "knowledge.knowledges.info.entity.tooltip": "§7Displays information about the entity you are looking at",
 
@@ -86,8 +89,6 @@
   "knowledge.knowledges.info.fluid.tooltip": "§7Displays information about the fluid you are looking at",
 
   "knowledge.knowledges.info.fluid.level": "§7Volume: §r%1$d",
-
-  "knowledge.knowledges.info.fluid.config.category": "Fluid Info",
 
   "knowledge.knowledges.info.fluid.config.ignores_water": "Ignores Water",
   "knowledge.knowledges.info.fluid.config.ignores_lava": "Ignores Lava",

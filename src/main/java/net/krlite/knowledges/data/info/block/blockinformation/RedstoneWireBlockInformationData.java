@@ -3,7 +3,6 @@ package net.krlite.knowledges.data.info.block.blockinformation;
 import net.krlite.knowledges.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;

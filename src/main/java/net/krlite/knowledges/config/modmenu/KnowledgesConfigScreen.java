@@ -206,7 +206,7 @@ public class KnowledgesConfigScreen {
         }
 
         components.forEach(knowledge -> {
-            ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.localize("config", "category"));
+            ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.name());
 
             var built = componentEntry(knowledge, false).build();
             SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
