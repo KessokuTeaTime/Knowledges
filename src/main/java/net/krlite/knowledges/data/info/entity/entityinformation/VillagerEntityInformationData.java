@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class VillagerEntityInformationData extends AbstractEntityInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(Entity entity, PlayerEntity player) {
+    public Optional<MutableText> entityInformation(Entity entity, PlayerEntity player) {
         if (entity.getType() == EntityType.VILLAGER) {
             if (!(entity instanceof VillagerEntity villagerEntity)) return Optional.empty();
             VillagerData villagerData = villagerEntity.getVillagerData();

@@ -29,11 +29,6 @@ public class MineableToolData extends AbstractBlockInfoComponentData implements 
     }
 
     @Override
-    public DataInvoker<BlockInfoComponent, ?> dataInvoker() {
-        return BlockInfoComponent.MineableToolInvoker.Protocol.super.dataInvoker();
-    }
-
-    @Override
     public @NotNull String partialPath() {
         return "mineable_tool";
     }

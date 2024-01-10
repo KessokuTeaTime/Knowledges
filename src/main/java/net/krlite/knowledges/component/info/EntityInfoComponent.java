@@ -1,10 +1,9 @@
 package net.krlite.knowledges.component.info;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.component.AbstractInfoComponent;
-import net.krlite.knowledges.core.datacallback.DataCallback;
+import net.krlite.knowledges.core.data.DataInvoker;
+import net.krlite.knowledges.core.data.DataProtocol;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -16,53 +15,62 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class EntityInfoComponent extends AbstractInfoComponent {
-	public interface EntityInformationCallback extends DataCallback<EntityInformationCallback> {
-		Event<EntityInformationCallback> EVENT = EventFactory.createArrayBacked(
-				EntityInformationCallback.class,
-				listeners -> (entity, player) -> Arrays.stream(listeners)
-						.map(listener -> listener.entityInformation(entity, player))
+	public interface EntityInformationInvoker extends DataInvoker<EntityInfoComponent, EntityInfoComponent.EntityInformationInvoker.Protocol> {
+		EntityInformationInvoker INSTANCE = new EntityInformationInvoker() {
+			@Override
+			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
+				return protocols -> (entity, player) -> protocols.stream()
+						.map(protocol -> protocol.entityInformation(entity, player))
 						.filter(Optional::isPresent)
 						.findFirst()
-						.orElse(Optional.empty())
-		);
+						.orElse(Optional.empty());
+			}
+		};
 
-		Optional<MutableText> entityInformation(Entity entity, PlayerEntity player);
+		interface Protocol extends DataProtocol<EntityInfoComponent> {
+			Optional<MutableText> entityInformation(Entity entity, PlayerEntity player);
 
-		@Override
-		default Event<EntityInformationCallback> event() {
-			return EVENT;
+			@Override
+			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
+				return EntityInformationInvoker.INSTANCE;
+			}
 		}
 
 		@Override
-		default String name() {
-			return "Entity Information";
+		default @NotNull Class<EntityInfoComponent> targetKnowledge() {
+			return EntityInfoComponent.class;
 		}
 	}
 
-	public interface EntityDescriptionCallback extends DataCallback<EntityDescriptionCallback> {
-		Event<EntityDescriptionCallback> EVENT = EventFactory.createArrayBacked(
-				EntityDescriptionCallback.class,
-				listeners -> (entity, player) -> Arrays.stream(listeners)
-						.map(listener -> listener.entityDescription(entity, player))
+	public interface EntityDescriptionInvoker extends DataInvoker<EntityInfoComponent, EntityInfoComponent.EntityDescriptionInvoker.Protocol> {
+		EntityDescriptionInvoker INSTANCE = new EntityDescriptionInvoker() {
+			@Override
+			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
+				return protocols -> (entity, player) -> protocols.stream()
+						.map(protocol -> protocol.entityDescription(entity, player))
 						.filter(Optional::isPresent)
 						.findFirst()
-						.orElse(Optional.empty())
-		);
+						.orElse(Optional.empty());
+			}
+		};
 
-		Optional<MutableText> entityDescription(Entity entity, PlayerEntity player);
+		interface Protocol extends DataProtocol<EntityInfoComponent> {
+			Optional<MutableText> entityDescription(Entity entity, PlayerEntity player);
 
-		@Override
-		default Event<EntityDescriptionCallback> event() {
-			return EVENT;
+			@Override
+			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
+				return EntityInformationInvoker.INSTANCE;
+			}
 		}
 
 		@Override
-		default String name() {
-			return "Entity Description";
+		default @NotNull Class<EntityInfoComponent> targetKnowledge() {
+			return EntityInfoComponent.class;
 		}
 	}
 
@@ -130,7 +138,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			// Right Below
 			subtitleRightBelow: {
 				Animations.Texts.subtitleRightBelow(
-						EntityInformationCallback.EVENT.invoker().entityInformation(entity, player).orElse(Text.empty())
+						EntityInformationInvoker.INSTANCE.invoker().entityInformation(entity, player).orElse(Text.empty())
 				);
 			}
 
@@ -144,7 +152,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animations.Texts.subtitleLeftBelow(
-						EntityDescriptionCallback.EVENT.invoker().entityDescription(entity, player).orElse(Text.empty())
+						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entity, player).orElse(Text.empty())
 				);
 			}
 		});

@@ -33,11 +33,6 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 						.findFirst()
 						.orElse(Optional.empty());
 			}
-
-			@Override
-			public @NotNull Protocol invoker(List<Protocol> protocols) {
-				return protocolStream().apply(protocols);
-			}
 		};
 
 		interface Protocol extends DataProtocol<BlockInfoComponent> {
@@ -64,11 +59,6 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 						.filter(Optional::isPresent)
 						.findFirst()
 						.orElse(Optional.empty());
-			}
-
-			@Override
-			public @NotNull BlockInformationInvoker.Protocol invoker(List<Protocol> protocols) {
-				return protocolStream().apply(protocols);
 			}
 		};
 
