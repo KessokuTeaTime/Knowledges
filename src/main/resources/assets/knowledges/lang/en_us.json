@@ -114,6 +114,11 @@
   "knowledge_data.knowledges.info.block.block_information.banner.more_patterns": "§r%1$s §7and %2$d More",
   "knowledge_data.knowledges.info.block.block_information.banner.one_more_pattern":"§r%1$s §7and 1 More",
 
+  "knowledge_data.knowledges.info.block.block_information.composter.name": "Composter Information",
+  "knowledge_data.knowledges.info.block.block_information.composter.tooltip": "Provides information about composters' composition levels",
+
+  "knowledge_data.knowledges.info.block.block_information.composter.level": "§7Level: §r%1$s §7/ %2$s",
+
   "knowledge_data.knowledges.info.entity.entity_information.painting.name": "Painting Information",
   "knowledge_data.knowledges.info.entity.entity_information.painting.tooltip": "Provides information about paintings",
 

@@ -26,6 +26,11 @@ public class PaintingEntityInformationData extends AbstractEntityInformationData
     }
 
     @Override
+    public boolean providesTooltip() {
+        return true;
+    }
+
+    @Override
     public @NotNull String partialPath() {
         return Registries.ITEM.getId(Items.PAINTING).getPath();
     }

@@ -28,6 +28,11 @@ public class VillagerEntityDescriptionData extends AbstractEntityDescriptionData
     }
 
     @Override
+    public boolean providesTooltip() {
+        return true;
+    }
+
+    @Override
     public @NotNull String partialPath() {
         return Registries.ENTITY_TYPE.getId(EntityType.VILLAGER).getPath();
     }

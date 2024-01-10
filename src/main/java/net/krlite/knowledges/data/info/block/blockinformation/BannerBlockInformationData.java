@@ -60,6 +60,11 @@ public class BannerBlockInformationData extends AbstractBlockInformationData {
     }
 
     @Override
+    public boolean providesTooltip() {
+        return true;
+    }
+
+    @Override
     public @NotNull String partialPath() {
         return "banner";
     }

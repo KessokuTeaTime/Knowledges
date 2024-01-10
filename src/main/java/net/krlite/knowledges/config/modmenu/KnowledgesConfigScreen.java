@@ -123,7 +123,7 @@ public class KnowledgesConfigScreen {
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> data.dataInvoker().targetKnowledge()
                         .map(knowledge -> new Text[]{
-                                data.tooltip(),
+                                data.providesTooltip() ? data.tooltip() : Text.empty(),
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
                                         Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),

@@ -29,6 +29,11 @@ public class MineableToolData extends AbstractBlockInfoComponentData implements 
     }
 
     @Override
+    public boolean providesTooltip() {
+        return true;
+    }
+
+    @Override
     public @NotNull String partialPath() {
         return "mineable_tool";
     }
