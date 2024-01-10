@@ -1,16 +1,17 @@
 package net.krlite.knowledges;
 
 import net.krlite.knowledges.api.Data;
-import net.krlite.knowledges.api.DataSource;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.disabled.DisabledDataConfig;
+import net.krlite.knowledges.core.data.DataInvoker;
+import net.krlite.knowledges.core.data.DataProtocol;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class KnowledgesDataManager extends Knowledges.Manager<Data<?, ?>> {
+public class KnowledgesDataManager extends Knowledges.Manager<Data<?>> {
     KnowledgesDataManager() {
         super(new DisabledDataConfig());
     }
@@ -20,21 +21,21 @@ public class KnowledgesDataManager extends Knowledges.Manager<Data<?, ?>> {
         return "knowledge_data";
     }
 
-    public Map<Class<DataSource<?, ?>>, List<Data<?, ?>>> asSourceClassifiedMap() {
+    public Map<? extends DataInvoker<?, ?>, List<Data<?>>> asDataInvokerClassifiedMap() {
         return asList().stream()
-                .collect(Collectors.groupingBy(data -> (Class<DataSource<?, ?>>) data.source()));
+                .collect(Collectors.groupingBy(data -> data.dataInvoker()));
     }
 
-    public <K extends Knowledge, S extends DataSource<K, S>> List<Data<K, S>> fromSource(Class<? extends DataSource<K, S>> sourceClass) {
-        return asSourceClassifiedMap().getOrDefault(sourceClass, new ArrayList<>()).stream()
-                .map(data -> (Data<K, S>) data)
+    public <K extends Knowledge> List<Data<K>> fromDataInvoker(DataInvoker<K, ?> dataInvoker) {
+        return asDataInvokerClassifiedMap().getOrDefault(dataInvoker, new ArrayList<>()).stream()
+                .map(data -> (Data<K>) data)
                 .collect(Collectors.toList());
     }
 
-    public <K extends Knowledge, S extends DataSource<K, S>> List<S> availableListenersFromSource(Class<? extends DataSource<K, S>> sourceClass) {
-        return fromSource(sourceClass).stream()
+    public <K extends Knowledge, P extends DataProtocol<K>> List<P> availableProtocols(DataInvoker<K, P> dataInvoker) {
+        return fromDataInvoker(dataInvoker).stream()
                 .filter(this::isEnabled)
-                .map(data -> (S) data)
+                .map(data -> (P) data)
                 .collect(Collectors.toList());
     }
 }

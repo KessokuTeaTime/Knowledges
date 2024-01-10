@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.api.DataSource;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DefaultKnowledgesDataProvider implements KnowledgesDataProvider {
     @Override
-    public @NotNull List<Class<? extends Data<?, ?>>> provide() {
+    public @NotNull List<Class<? extends Data<?>>> provide() {
         return List.of(
                 MineableToolData.class,
                 NoteBlockInformationData.class,
