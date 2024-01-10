@@ -12,9 +12,15 @@ public interface DataInvoker<K extends Knowledge, P extends DataProtocol<K>> {
 
     @NotNull Function<List<P>, P> protocolStream();
 
-    @NotNull P invoker(List<P> protocols);
+    default @NotNull P invoker(List<P> protocols) {
+        return protocolStream().apply(protocols);
+    }
 
     default @NotNull P invoker() {
         return invoker(Knowledges.DATA.availableProtocols(this));
+    }
+
+    default @NotNull String name() {
+        return "#" + getClass().getSimpleName();
     }
 }

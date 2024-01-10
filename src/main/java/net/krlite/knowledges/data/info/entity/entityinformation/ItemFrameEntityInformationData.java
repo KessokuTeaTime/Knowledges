@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class ItemFrameEntityInformationData extends AbstractEntityInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(Entity entity, PlayerEntity player) {
+    public Optional<MutableText> entityInformation(Entity entity, PlayerEntity player) {
         if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
             if (!(entity instanceof ItemFrameEntity itemFrameEntity)) return Optional.empty();
             ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class PaintingEntityInformationData extends AbstractEntityInformationData {
     @Override
-    public Optional<MutableText> fetchInfo(Entity entity, PlayerEntity player) {
+    public Optional<MutableText> entityInformation(Entity entity, PlayerEntity player) {
         if (entity.getType() == EntityType.PAINTING) {
             return ((PaintingEntity) entity).getVariant().getKey().map(key -> Text.translatable(
                     key.getValue().toTranslationKey("painting", "title")
