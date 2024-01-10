@@ -64,7 +64,7 @@ public class Knowledges implements ModInitializer {
             String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
 
             LOGGER.info(String.format(
-                    "Registering %d %s for %s.",
+                    "Registering %d %s for %s...",
                     classes.size(),
                     classes.size() <= 1 ? "knowledge" : "knowledges",
                     name
@@ -95,7 +95,7 @@ public class Knowledges implements ModInitializer {
             String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
 
             LOGGER.info(String.format(
-                    "Registering %d %s for %s.",
+                    "Registering %d %s for %s...",
                     classes.size(),
                     "data",
                     name
