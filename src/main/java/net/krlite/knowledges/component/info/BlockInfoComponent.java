@@ -5,6 +5,8 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
+import net.krlite.knowledges.core.data.DataInvoker;
+import net.krlite.knowledges.core.data.DataProtocol;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -21,43 +23,66 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class BlockInfoComponent extends AbstractInfoComponent {
-	public interface MineableToolDataSource extends DataSource<BlockInfoComponent, MineableToolDataSource>, DataSource.Functional<MineableToolDataSource> {
-		Optional<MutableText> mineableTool(BlockState blockState);
+	public interface MineableToolInvoker extends DataInvoker<BlockInfoComponent, MineableToolInvoker.Protocol> {
+		MineableToolInvoker INSTANCE = new MineableToolInvoker() {
+			@Override
+			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
+				return protocols -> blockState -> protocols.stream()
+						.map(protocol -> protocol.mineableTool(blockState))
+						.filter(Optional::isPresent)
+						.findFirst()
+						.orElse(Optional.empty());
+			}
 
-		@Override
-		default Function<List<MineableToolDataSource>, MineableToolDataSource> function() {
-			return listeners -> blockState -> listeners.stream()
-					.map(listener -> listener.mineableTool(blockState))
-					.filter(Optional::isPresent)
-					.findFirst()
-					.orElse(Optional.empty());
+			@Override
+			public @NotNull Protocol invoker(List<Protocol> protocols) {
+				return protocolStream().apply(protocols);
+			}
+		};
+
+		interface Protocol extends DataProtocol<BlockInfoComponent> {
+			Optional<MutableText> mineableTool(BlockState blockState);
+
+			@Override
+			default DataInvoker<BlockInfoComponent, ?> dataInvoker() {
+				return MineableToolInvoker.INSTANCE;
+			}
 		}
 
 		@Override
-		default Class<BlockInfoComponent> target() {
+		default @NotNull Class<BlockInfoComponent> targetKnowledge() {
 			return BlockInfoComponent.class;
 		}
 	}
 
-	public interface BlockInformationDataSource extends DataSource<BlockInfoComponent, BlockInformationDataSource>, DataSource.Functional<BlockInformationDataSource> {
-		Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player);
+	public interface BlockInformationInvoker extends DataInvoker<BlockInfoComponent, BlockInformationInvoker.Protocol> {
+		BlockInformationInvoker INSTANCE = new BlockInformationInvoker() {
+			@Override
+			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
+				return protocols -> (blockState, player) -> protocols.stream()
+						.map(protocol -> protocol.blockInformation(blockState, player))
+						.filter(Optional::isPresent)
+						.findFirst()
+						.orElse(Optional.empty());
+			}
 
-		@Override
-		default Function<List<BlockInformationDataSource>, BlockInformationDataSource> function() {
-			return listeners -> (blockState, player) -> listeners.stream()
-					.map(listener -> listener.blockInformation(blockState, player))
-					.filter(Optional::isPresent)
-					.findFirst()
-					.orElse(Optional.empty());
+			@Override
+			public @NotNull BlockInformationInvoker.Protocol invoker(List<Protocol> protocols) {
+				return protocolStream().apply(protocols);
+			}
+		};
+
+		interface Protocol extends DataProtocol<BlockInfoComponent> {
+			Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player);
+
+			@Override
+			default DataInvoker<BlockInfoComponent, ?> dataInvoker() {
+				return BlockInformationInvoker.INSTANCE;
+			}
 		}
 
 		@Override
-		default BlockInformationDataSource invoker() {
-			return (blockState, player) -> function().apply(listeners()).blockInformation(blockState, player);
-		}
-
-		@Override
-		default Class<BlockInfoComponent> target() {
+		default @NotNull Class<BlockInfoComponent> targetKnowledge() {
 			return BlockInfoComponent.class;
 		}
 	}
@@ -103,7 +128,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
-					Optional<MutableText> data = MineableToolDataSource.invoker().mineableTool(blockState);
+					Optional<MutableText> data = MineableToolInvoker.INSTANCE.invoker().mineableTool(blockState);
 
 					if (hardness < 0) {
 						// Unbreakable
@@ -148,7 +173,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animations.Texts.subtitleLeftBelow(
-						BlockInformationCallback.EVENT.invoker().blockInformation(blockState, player).orElse(Text.empty())
+						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player).orElse(Text.empty())
 				);
 			}
 		});
