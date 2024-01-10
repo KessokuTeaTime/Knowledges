@@ -1,7 +1,6 @@
 package net.krlite.knowledges.component.info;
 
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;

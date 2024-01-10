@@ -4,6 +4,7 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -26,6 +27,12 @@ public interface DataInvoker<K extends Knowledge, P extends DataProtocol<K>> {
     }
 
     default @NotNull String name() {
-        return "#" + getClass().getSimpleName();
+        String name = Arrays.stream(getClass().getInterfaces())
+                .filter(DataInvoker.class::isAssignableFrom)
+                .map(Class::getSimpleName)
+                .findAny()
+                .orElse("");
+
+        return "#" + name;
     }
 }
