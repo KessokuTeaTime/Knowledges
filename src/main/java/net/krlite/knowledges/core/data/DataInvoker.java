@@ -5,10 +5,15 @@ import net.krlite.knowledges.api.Knowledge;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public interface DataInvoker<K extends Knowledge, P extends DataProtocol<K>> {
-    @NotNull Class<K> targetKnowledge();
+    @NotNull Class<K> targetKnowledgeClass();
+
+    default Optional<Knowledge> targetKnowledge() {
+        return Knowledges.COMPONENTS.byClass(targetKnowledgeClass());
+    }
 
     @NotNull Function<List<P>, P> protocolStream();
 

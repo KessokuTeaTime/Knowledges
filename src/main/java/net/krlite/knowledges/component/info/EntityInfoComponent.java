@@ -1,6 +1,7 @@
 package net.krlite.knowledges.component.info;
 
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
@@ -42,7 +43,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		}
 
 		@Override
-		default @NotNull Class<EntityInfoComponent> targetKnowledge() {
+		default @NotNull Class<EntityInfoComponent> targetKnowledgeClass() {
 			return EntityInfoComponent.class;
 		}
 	}
@@ -69,7 +70,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		}
 
 		@Override
-		default @NotNull Class<EntityInfoComponent> targetKnowledge() {
+		default @NotNull Class<EntityInfoComponent> targetKnowledgeClass() {
 			return EntityInfoComponent.class;
 		}
 	}

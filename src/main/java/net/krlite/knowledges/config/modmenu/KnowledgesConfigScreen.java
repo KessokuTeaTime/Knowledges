@@ -121,13 +121,13 @@ public class KnowledgesConfigScreen {
                         Knowledges.DATA.isEnabled(data)
                 )
                 .setDefaultValue(true)
-                .setTooltipSupplier(() -> data.knowledge()
+                .setTooltipSupplier(() -> data.dataInvoker().targetKnowledge()
                         .map(knowledge -> new Text[]{
                                 data.tooltip(),
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
                                         Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
-                                        Helper.Text.withFormatting(data.callback().name(), Formatting.GRAY)
+                                        Helper.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
                                 )
                         }))
                 .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
@@ -162,8 +162,8 @@ public class KnowledgesConfigScreen {
     private void initDataEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "data"));
 
-        if (!Knowledges.DATA.asSourceClassifiedMap().isEmpty()) {
-            Knowledges.DATA.asSourceClassifiedMap().forEach((namespace, map) -> {
+        if (!Knowledges.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
+            Knowledges.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
                 MutableText name = Knowledge.Util.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
                 if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));

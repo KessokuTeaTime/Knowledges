@@ -38,4 +38,15 @@ public class KnowledgesDataManager extends Knowledges.Manager<Data<?>> {
                 .map(data -> (P) data)
                 .collect(Collectors.toList());
     }
+
+    public Map<String, Map<Knowledge, List<Data<?>>>> asNamespaceKnowledgeClassifiedMap() {
+        return Map.copyOf(asMap().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().stream()
+                                .filter(data -> data.dataInvoker().targetKnowledge().isPresent())
+                                .collect(Collectors.groupingBy(data -> data.dataInvoker().targetKnowledge().get()))
+                ))
+        );
+    }
 }

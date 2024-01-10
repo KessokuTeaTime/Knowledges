@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
@@ -45,7 +46,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		}
 
 		@Override
-		default @NotNull Class<BlockInfoComponent> targetKnowledge() {
+		default @NotNull Class<BlockInfoComponent> targetKnowledgeClass() {
 			return BlockInfoComponent.class;
 		}
 	}
@@ -72,7 +73,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		}
 
 		@Override
-		default @NotNull Class<BlockInfoComponent> targetKnowledge() {
+		default @NotNull Class<BlockInfoComponent> targetKnowledgeClass() {
 			return BlockInfoComponent.class;
 		}
 	}
