@@ -7,6 +7,7 @@ import net.krlite.knowledges.component.CrosshairComponent;
 import net.krlite.knowledges.component.info.BlockInfoComponent;
 import net.krlite.knowledges.component.info.EntityInfoComponent;
 import net.krlite.knowledges.component.info.FluidInfoComponent;
+import net.krlite.knowledges.component.info.InfoComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class DefaultKnowledgesComponentProvider implements KnowledgesComponentPr
 	public @NotNull List<Class<? extends Knowledge>> provide() {
 		return List.of(
 				CrosshairComponent.class,
+				InfoComponent.class,
 
 				BlockInfoComponent.class,
 				EntityInfoComponent.class,

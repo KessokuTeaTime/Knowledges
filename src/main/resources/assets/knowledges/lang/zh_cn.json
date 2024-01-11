@@ -56,7 +56,7 @@
   "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name": "准心",
-  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息会不再可见",
+  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息将不再可见",
 
   "knowledge.knowledges.crosshair.config.cursor_ring_outline": "准心圆形区域描线",
   "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "§7在准心的圆形区域外显示描线",
@@ -69,6 +69,9 @@
 
   "knowledge.knowledges.crosshair.config.subtitles": "副标题",
   "knowledge.knowledges.crosshair.config.subtitles.tooltip": "§7显示位于准心文本上方或下方的描述性文本",
+
+  "knowledge.knowledges.info.name": "信息",
+  "knowledge.knowledges.info.tooltip": "§7显示准心目标的信息\n§c如果禁用，则§l方块信息§r§c和§l实体信息§r§c等组件将不再起作用",
 
   "knowledge.knowledges.info.block.name": "方块信息",
   "knowledge.knowledges.info.block.tooltip": "§7显示你正看着的方块的信息",

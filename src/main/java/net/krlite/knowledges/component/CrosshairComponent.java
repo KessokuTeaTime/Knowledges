@@ -61,8 +61,13 @@ public class CrosshairComponent implements Knowledge {
 
         // Outline
         if (CONFIG.crosshairCursorRingOutline()) {
-            box.render(context, flat ->
-                    flat
+            box.render(context, flat -> flat.new Oval()
+                    .mode(Flat.Oval.OvalMode.FILL)
+                    .outline(Flat.Oval.VertexProvider.OUTER)
+                    .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
+                    .breadth(0.05)
+
+                    .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(1))
             );
         }
     }

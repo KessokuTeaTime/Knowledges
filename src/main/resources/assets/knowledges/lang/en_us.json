@@ -56,7 +56,7 @@
   "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name": "Crosshair",
-  "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill not be displayed",
+  "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill be invisible",
 
   "knowledge.knowledges.crosshair.config.cursor_ring_outline": "Cursor Ring Outline",
   "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "§7Whether to display an opaque ring outline around the cursor oval",
@@ -69,6 +69,9 @@
 
   "knowledge.knowledges.crosshair.config.subtitles": "Subtitles",
   "knowledge.knowledges.crosshair.config.subtitles.tooltip": "§7Whether to display the descriptive texts that are above or below the cursor texts",
+
+  "knowledge.knowledges.info.name": "Info",
+  "knowledge.knowledges.info.tooltip": "§7Displays information about the cursor target\n§cIf disabled, components such as §lBlock Info §r§cand §lEntity Info §r§cwill no longer work",
 
   "knowledge.knowledges.info.block.name": "Block Info",
   "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block you are looking at",
