@@ -5,6 +5,7 @@ import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
+import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
@@ -45,7 +46,7 @@ public class CrosshairComponent implements Knowledge {
         // Ring
         if (Theory.looseGreater(AbstractInfoComponent.Animations.Ring.ringRadians(), 0)) {
             box.render(context, flat -> flat.new Oval()
-                    .radians(AbstractInfoComponent.Animations.Ring.ringRadians())
+                    .arc(AbstractInfoComponent.Animations.Ring.ringRadians())
                     .mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
                     .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
 
@@ -62,12 +63,10 @@ public class CrosshairComponent implements Knowledge {
         // Outline
         if (CONFIG.crosshairCursorRingOutline()) {
             box.render(context, flat -> flat.new Oval()
-                    .mode(Flat.Oval.OvalMode.FILL)
-                    .outline(Flat.Oval.VertexProvider.OUTER)
+                    .outlineDynamic(Flat.Oval.VertexProvider.OUTER, 0.1 + 0.1 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress())
                     .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
-                    .breadth(0.05)
 
-                    .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(1))
+                    .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(0.3 + 0.7 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress()))
             );
         }
     }

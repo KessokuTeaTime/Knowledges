@@ -94,7 +94,6 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			String
 					namespace = Util.namespace(blockState.getBlock().asItem().getDefaultStack()),
 					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
-			ItemStack itemStack = player.getMainHandStack();
 
 			Animations.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
 
