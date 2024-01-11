@@ -166,7 +166,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				boolean powered = Knowledges.CONFIG.infoBlockShowPoweredStatus()
+				boolean powered = KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS.get()
 						&& Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
 
 				Animations.Texts.subtitleLeftBelow(
@@ -197,11 +197,11 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localize("config", "show_powered_status"),
-								Knowledges.CONFIG.infoBlockShowPoweredStatus()
+								KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS.get()
 						)
-						.setDefaultValue(KnowledgesConfig.Default.INFO_BLOCK_SHOW_POWERED_STATUS)
+						.setDefaultValue(KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS.defaultValue())
 						.setTooltip(localize("config", "show_powered_status", "tooltip"))
-						.setSaveConsumer(Knowledges.CONFIG::infoBlockShowPoweredStatus)
+						.setSaveConsumer(KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS::set)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

@@ -1,13 +1,12 @@
 package net.krlite.knowledges.api;
 
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
 import net.krlite.knowledges.core.path.WithPath;
@@ -40,8 +39,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface Knowledge extends WithPath, LocalizableWithName, WithIndependentConfigPage {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
@@ -55,11 +55,11 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 	}
 
 	default double scalar() {
-		return 0.5 + 0.5 * Knowledges.CONFIG.globalMainScalar();
+		return 0.5 + 0.5 * KnowledgesConfig.Global.MAIN_SCALAR.get();
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 16 + 8 * Knowledges.CONFIG.globalCrosshairSafeAreaScalar();
+		double size = 16 + 8 * KnowledgesConfig.Global.CROSSHAIR_SAFE_AREA_SCALAR.get();
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
 					   .center(Vector.ZERO)
@@ -124,13 +124,13 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 							)
 					)
 					.filter(fluidState -> !fluidState.isEmpty())
-					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresWater() && (
+					.filter(fluidState -> !(KnowledgesConfig.InfoFluid.IGNORES_WATER.get() && (
 							fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER
 					)))
-					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresLava() && (
+					.filter(fluidState -> !(KnowledgesConfig.InfoFluid.IGNORES_LAVA.get() && (
 							fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA
 					)))
-					.filter(fluidState -> !(Knowledges.CONFIG.infoFluidIgnoresOtherFluids() && (
+					.filter(fluidState -> !(KnowledgesConfig.InfoFluid.IGNORES_OTHER_FLUIDS.get() && (
 							fluidState.getFluid() != Fluids.WATER
 									&& fluidState.getFluid() != Fluids.LAVA
 									&& fluidState.getFluid() != Fluids.FLOWING_WATER

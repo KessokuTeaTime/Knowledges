@@ -92,26 +92,26 @@ public class FluidInfoComponent extends AbstractInfoComponent {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_water"),
-                                Knowledges.CONFIG.infoFluidIgnoresWater()
+                                KnowledgesConfig.InfoFluid.IGNORES_WATER.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_WATER)
-                        .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresWater)
+                        .setDefaultValue(KnowledgesConfig.InfoFluid.IGNORES_WATER.defaultValue())
+                        .setSaveConsumer(KnowledgesConfig.InfoFluid.IGNORES_WATER::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_lava"),
-                                Knowledges.CONFIG.infoFluidIgnoresLava()
+                                KnowledgesConfig.InfoFluid.IGNORES_LAVA.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_LAVA)
-                        .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresLava)
+                        .setDefaultValue(KnowledgesConfig.InfoFluid.IGNORES_LAVA.defaultValue())
+                        .setSaveConsumer(KnowledgesConfig.InfoFluid.IGNORES_LAVA::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_other_fluids"),
-                                Knowledges.CONFIG.infoFluidIgnoresOtherFluids()
+                                KnowledgesConfig.InfoFluid.IGNORES_OTHER_FLUIDS.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_OTHER_FLUIDS)
-                        .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresOtherFluids)
+                        .setDefaultValue(KnowledgesConfig.InfoFluid.IGNORES_OTHER_FLUIDS.defaultValue())
+                        .setSaveConsumer(KnowledgesConfig.InfoFluid.IGNORES_OTHER_FLUIDS::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED)
         );
     }

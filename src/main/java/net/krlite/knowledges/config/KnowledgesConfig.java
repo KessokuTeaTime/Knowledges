@@ -17,7 +17,6 @@ public class KnowledgesConfig extends Pierced {
 
 	KnowledgesConfig() {
 		super(KnowledgesConfig.class, file);
-		load();
 	}
 
 	public static void loadSelf() {

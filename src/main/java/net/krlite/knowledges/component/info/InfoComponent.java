@@ -9,6 +9,7 @@ import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
+import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -35,7 +36,7 @@ public class InfoComponent extends AbstractInfoComponent {
         // Titles
         titles: {
             // Right
-            if (Knowledges.CONFIG.crosshairTextsRightEnabled()) {
+            if (KnowledgesConfig.Crosshair.TEXTS_RIGHT.get()) {
                 renderText(
                         context,
                         textsRight,
@@ -46,7 +47,7 @@ public class InfoComponent extends AbstractInfoComponent {
             }
 
             // Left
-            if (Knowledges.CONFIG.crosshairTextsLeftEnabled()) {
+            if (KnowledgesConfig.Crosshair.TEXTS_LEFT.get()) {
                 renderText(
                         context,
                         textsLeft,
@@ -58,8 +59,8 @@ public class InfoComponent extends AbstractInfoComponent {
         }
 
         // Subtitles
-        if (Knowledges.CONFIG.crosshairSubtitlesEnabled()) subtitles: {
-            if (Knowledges.CONFIG.crosshairTextsRightEnabled()) {
+        if (KnowledgesConfig.Crosshair.SUBTITLES.get()) subtitles: {
+            if (KnowledgesConfig.Crosshair.TEXTS_RIGHT.get()) {
                 // Right Above
                 renderText(
                         context,
@@ -81,7 +82,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 );
             }
 
-            if (Knowledges.CONFIG.crosshairTextsLeftEnabled()) {
+            if (KnowledgesConfig.Crosshair.TEXTS_LEFT.get()) {
                 // Left Above
                 renderText(
                         context,
