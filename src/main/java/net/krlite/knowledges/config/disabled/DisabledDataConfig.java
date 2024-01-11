@@ -13,7 +13,7 @@ public class DisabledDataConfig extends AbstractDisabledConfig<Data<?>> {
     public boolean get(Data<?> data) {
         return Knowledges.DATA.identifier(data)
                 .map(Identifier::toString)
-                .filter(super::get)
+                .filter(this::get)
                 .isPresent();
     }
 
@@ -21,6 +21,6 @@ public class DisabledDataConfig extends AbstractDisabledConfig<Data<?>> {
     public void set(Data<?> data, boolean flag) {
         Knowledges.DATA.identifier(data)
                 .map(Identifier::toString)
-                .ifPresent(key -> super.set(key, flag));
+                .ifPresent(key -> set(key, flag));
     }
 }

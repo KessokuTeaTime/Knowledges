@@ -13,7 +13,7 @@ public class DisabledComponentsConfig extends AbstractDisabledConfig<Knowledge> 
 	public boolean get(Knowledge knowledge) {
 		return Knowledges.COMPONENTS.identifier(knowledge)
 				.map(Identifier::toString)
-				.filter(super::get)
+				.filter(this::get)
 				.isPresent();
 	}
 
@@ -21,6 +21,6 @@ public class DisabledComponentsConfig extends AbstractDisabledConfig<Knowledge> 
 	public void set(Knowledge knowledge, boolean flag) {
 		Knowledges.COMPONENTS.identifier(knowledge)
 				.map(Identifier::toString)
-				.ifPresent(key -> super.set(key, flag));
+				.ifPresent(key -> set(key, flag));
 	}
 }
