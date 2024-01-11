@@ -28,6 +28,9 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 public abstract class AbstractInfoComponent implements Knowledge, WithPartialPath {
 	@Override
 	public @NotNull String currentPath() {
@@ -102,19 +105,25 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 		}
 
 		public static class Ring {
-			private static final InterpolatedDouble BLOCK_BREAKING_PROGRESS = new InterpolatedDouble(0, 0.021);
+			private static final InterpolatedDouble BLOCK_BREAKING_PROGRESS = new InterpolatedDouble(0, 0.004);
 
 			public static double blockBreakingProgress() {
 				return BLOCK_BREAKING_PROGRESS.value();
 			}
 
+			public static void blockBreakingProgress(double progress, boolean reset) {
+				progress = Theory.clamp(progress, 0, 1);
+				BLOCK_BREAKING_PROGRESS.target(progress);
+				if (reset) BLOCK_BREAKING_PROGRESS.reset(progress);
+			}
+
 			public static void blockBreakingProgress(double progress) {
-				BLOCK_BREAKING_PROGRESS.target(Theory.clamp(progress, 0, 1));
+				blockBreakingProgress(progress, false);
 			}
 
 
 
-			private static final InterpolatedDouble RING_RADIANS = new InterpolatedDouble(0, 0.35);
+			private static final InterpolatedDouble RING_RADIANS = new InterpolatedDouble(0, 0.035);
 
 			private static final Interpolation<AccurateColor>
 					RING_COLOR = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT),
@@ -124,9 +133,14 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 				return RING_RADIANS.value();
 			}
 
-			public static void ringRadians(double radians) {
+			public static void ringRadians(double radians, boolean reset) {
 				radians = Theory.mod(radians, 2 * Math.PI);
 				RING_RADIANS.target(radians);
+				if (reset) RING_RADIANS.reset(radians);
+			}
+
+			public static void ringRadians(double radians) {
+				ringRadians(radians, false);
 			}
 
 			public static AccurateColor ringColor() {

@@ -63,10 +63,15 @@ public class CrosshairComponent implements Knowledge {
         // Outline
         if (CONFIG.crosshairCursorRingOutline()) {
             box.render(context, flat -> flat.new Oval()
+                    .mode(Flat.Oval.OvalMode.GRADIANT)
                     .outlineDynamic(Flat.Oval.VertexProvider.OUTER, 0.1 + 0.1 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress())
-                    .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
+                    .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity() * (0.4 + 0.6 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress()))
 
-                    .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(0.3 + 0.7 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress()))
+                    .addColor(-Math.PI / 2, AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5))
+                    .addColor(Math.PI / 2, AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5))
+                    .addColor(0, AbstractInfoComponent.Animations.Ring.ringColor().opacity(1))
+
+                    .offset(AbstractInfoComponent.Animations.Ring.ringRadians())
             );
         }
     }

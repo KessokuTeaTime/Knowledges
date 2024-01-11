@@ -41,7 +41,7 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsRight,
                         Animations.Texts.titleRight(),
                         Paragraph.Alignment.LEFT,
-                        informativeTint.opacity(0.4)
+                        informativeTint.opacity(0.6)
                 );
             }
 
@@ -52,7 +52,7 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsLeft,
                         Animations.Texts.titleLeft(),
                         Paragraph.Alignment.RIGHT,
-                        Palette.Minecraft.WHITE.opacity(0.4)
+                        Palette.Minecraft.WHITE.opacity(0.6)
                 );
             }
         }
@@ -66,7 +66,7 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsRight.shift(-0.25 * scalar(), -8 * scalar()),
                         Animations.Texts.subtitleRightAbove(),
                         Paragraph.Alignment.LEFT,
-                        informativeTint.opacity(0.2),
+                        informativeTint.opacity(0.4),
                         0.82
                 );
 
@@ -76,7 +76,7 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsRight.shift(-0.25 * scalar(), 10.8 * scalar()),
                         Animations.Texts.subtitleRightBelow(),
                         Paragraph.Alignment.LEFT,
-                        Palette.Minecraft.WHITE.opacity(0.2),
+                        Palette.Minecraft.WHITE.opacity(0.4),
                         0.82
                 );
             }
@@ -88,7 +88,7 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsLeft.shift(0.25 * scalar(), -8 * scalar()),
                         Animations.Texts.subtitleLeftAbove(),
                         Paragraph.Alignment.RIGHT,
-                        Palette.Minecraft.WHITE.opacity(0.2),
+                        Palette.Minecraft.WHITE.opacity(0.4),
                         0.82
                 );
 
@@ -98,7 +98,7 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsLeft.shift(0.25 * scalar(), 10.8 * scalar()),
                         Animations.Texts.subtitleLeftBelow(),
                         Paragraph.Alignment.RIGHT,
-                        Palette.Minecraft.WHITE.opacity(0.2),
+                        Palette.Minecraft.WHITE.opacity(0.4),
                         0.82
                 );
             }
@@ -122,11 +122,10 @@ public class InfoComponent extends AbstractInfoComponent {
         box
                 .translateTop(0.5)
                 .shiftTop(-MinecraftClient.getInstance().textRenderer.fontHeight / 2.0 * fontSizeMultiplier)
-                .render(context, flat ->
-                        flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * scalar()).append(text))
-                                .verticalAlignment(Section.Alignment.TOP)
-                                .horizontalAlignment(alignment)
-                                .color(color)
+                .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * scalar()).append(text))
+                        .verticalAlignment(Section.Alignment.TOP)
+                        .horizontalAlignment(alignment)
+                        .color(color)
                 );
     }
 

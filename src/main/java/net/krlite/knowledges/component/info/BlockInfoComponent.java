@@ -96,8 +96,6 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
 
 			Animations.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
-
-			Animations.Ring.ringRadians(Math.PI * 2 * Animations.Ring.blockBreakingProgress());
 			Animations.Ring.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Animations.Ring.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
 
 			// Titles
