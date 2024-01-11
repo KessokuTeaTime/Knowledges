@@ -37,8 +37,8 @@ public class InterpolatedText {
             return Text.literal(toString());
         }
 
-        public static List<StyledChar> from(String stringUnCut) {
-            List<StyledChar> result = new ArrayList<>();
+        public static ArrayList<StyledChar> from(String stringUnCut) {
+            ArrayList<StyledChar> result = new ArrayList<>();
             boolean inFormattingMark = false;
 
             for (int i = 0; i < stringUnCut.length(); i++) {
@@ -143,8 +143,8 @@ public class InterpolatedText {
     private final InterpolatedDouble width = new InterpolatedDouble(0, 0.02);
     private final Alignment alignment;
 
-    private final List<List<StyledChar>> current = new ArrayList<>();
-    private List<List<StyledChar>> last = new ArrayList<>(), cache = current;
+    private final ArrayList<ArrayList<StyledChar>> current = new ArrayList<>(List.of(new ArrayList<>()));
+    private List<List<StyledChar>> cache = List.copyOf(current), last = List.copyOf(cache);
 
     private Style style = Style.EMPTY;
 
@@ -190,8 +190,9 @@ public class InterpolatedText {
 
         if (!strings.isEmpty()) {
             if (!cache.equals(current)) {
-                last = cache;
-                cache = current;
+                last = List.copyOf(cache);
+                cache = List.copyOf(current);
+                System.out.println(last + ", " + cache + ", " + current);
             }
 
             for (int line = 0; line < Math.max(strings.size(), current.size()); line++) {
