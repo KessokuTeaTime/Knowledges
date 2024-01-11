@@ -54,6 +54,19 @@
   "instrument.knowledges.piglin": "Piglin",
   "instrument.knowledges.custom_head": "Custom",
 
+  "note_modifier.knowledges.sharps": "Sharps (♯)",
+  "note_modifier.knowledges.flats": "Flats (♭)",
+
+  "musical_alphabet.knowledges.numeric": "Numeric (%s)",
+  "musical_alphabet.knowledges.numeric.tooltip": "0~23",
+  "musical_alphabet.knowledges.solfege": "Solfege (%s)",
+  "musical_alphabet.knowledges.english": "English (%s)",
+  "musical_alphabet.knowledges.english_note_groups": "English with Note Groups (%s)",
+  "musical_alphabet.knowledges.germanic": "Germanic (%s)",
+  "musical_alphabet.knowledges.russian": "Russian (%s)",
+  "musical_alphabet.knowledges.japanese": "Japanese (%s)",
+  "musical_alphabet.knowledges.chinese": "Chinese (%s)",
+
   "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name": "Crosshair",
@@ -118,7 +131,13 @@
   "knowledge_data.knowledges.info.block.mineable_tool.shovel": "Shovels",
 
   "knowledge_data.knowledges.info.block.block_information.note_block.name": "Note Block Information",
-  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "Provides information about blocks' timbres when holding a note block in main hand, and information about note blocks' pitches in various of musical alphabets",
+  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "Provides information about note blocks' timbres and their pitches in various of musical alphabets",
+
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.note_modifiers": "Note Modifiers",
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.note_modifiers.tooltip": "How the black notes are presented",
+
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.musical_alphabet": "Musical Alphabet",
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.musical_alphabet.tooltip": "How the note names are presented",
 
   "knowledge_data.knowledges.info.block.block_information.banner.name": "Banner Information",
   "knowledge_data.knowledges.info.block.block_information.banner.tooltip": "Provides information about banners",

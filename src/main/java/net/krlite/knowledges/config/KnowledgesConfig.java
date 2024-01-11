@@ -1,6 +1,7 @@
 package net.krlite.knowledges.config;
 
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.data.info.block.blockinformation.NoteBlockInformationData;
 import net.krlite.pierced.annotation.Silent;
 import net.krlite.pierced.annotation.Table;
 import net.krlite.pierced.config.Pierced;
@@ -94,6 +95,19 @@ public class KnowledgesConfig extends Pierced {
 		}
 	}
 
+	public static class EnumSelector<E extends Enum<E>> extends WithDefault<E> {
+		private final Class<E> enumClass;
+
+		public EnumSelector(Class<E> enumClass, E defaultValue, Supplier<E> supplier, Consumer<E> consumer) {
+			super(defaultValue, supplier, consumer);
+			this.enumClass = enumClass;
+		}
+
+		public Class<E> enumClass() {
+			return enumClass;
+		}
+	}
+
 	public static class Global {
 		public static final Range<Double> MAIN_SCALAR = new Range<>(
 				1.0, 0.0, 3.0,
@@ -111,49 +125,66 @@ public class KnowledgesConfig extends Pierced {
 		public static class Crosshair {
 			public static final BooleanToggle CURSOR_RING_OUTLINE = new BooleanToggle(
 					true,
-					() -> KnowledgesConfig.crosshairCusrorRingOutline,
-					value -> KnowledgesConfig.crosshairCusrorRingOutline = value
+					() -> KnowledgesConfig.componentCrosshairCusrorRingOutline,
+					value -> KnowledgesConfig.componentCrosshairCusrorRingOutline = value
 			);
 			public static final BooleanToggle TEXTS_RIGHT = new BooleanToggle(
 					true,
-					() -> KnowledgesConfig.crosshairTextsRight,
-					value -> KnowledgesConfig.crosshairTextsRight = value
+					() -> KnowledgesConfig.componentCrosshairTextsRight,
+					value -> KnowledgesConfig.componentCrosshairTextsRight = value
 			);
 			public static final BooleanToggle TEXTS_LEFT = new BooleanToggle(
 					true,
-					() -> KnowledgesConfig.crosshairTextsLeft,
-					value -> KnowledgesConfig.crosshairTextsLeft = value
+					() -> KnowledgesConfig.componentCrosshairTextsLeft,
+					value -> KnowledgesConfig.componentCrosshairTextsLeft = value
 			);
 			public static final BooleanToggle SUBTITLES = new BooleanToggle(
 					true,
-					() -> KnowledgesConfig.crosshairSubtitles,
-					value -> KnowledgesConfig.crosshairSubtitles = value
+					() -> KnowledgesConfig.componentCrosshairSubtitles,
+					value -> KnowledgesConfig.componentCrosshairSubtitles = value
 			);
 		}
 
 		public static class InfoBlock {
 			public static final BooleanToggle SHOW_POWERED_STATUS = new BooleanToggle(
 					true,
-					() -> KnowledgesConfig.infoBlockShowPoweredStatus,
-					value -> KnowledgesConfig.infoBlockShowPoweredStatus = value
+					() -> KnowledgesConfig.componentInfoBlockShowPoweredStatus,
+					value -> KnowledgesConfig.componentInfoBlockShowPoweredStatus = value
 			);
 		}
 
 		public static class InfoFluid {
 			public static final BooleanToggle IGNORES_WATER = new BooleanToggle(
 					false,
-					() -> KnowledgesConfig.infoFluidIgnoresWater,
-					value -> KnowledgesConfig.infoFluidIgnoresWater = value
+					() -> KnowledgesConfig.componentInfoFluidIgnoresWater,
+					value -> KnowledgesConfig.componentInfoFluidIgnoresWater = value
 			);
 			public static final BooleanToggle IGNORES_LAVA = new BooleanToggle(
 					false,
-					() -> KnowledgesConfig.infoFluidIgnoresLava,
-					value -> KnowledgesConfig.infoFluidIgnoresLava = value
+					() -> KnowledgesConfig.componentInfoFluidIgnoresLava,
+					value -> KnowledgesConfig.componentInfoFluidIgnoresLava = value
 			);
 			public static final BooleanToggle IGNORES_OTHER_FLUIDS = new BooleanToggle(
 					false,
-					() -> KnowledgesConfig.infoFluidIgnoresOtherFluids,
-					value -> KnowledgesConfig.infoFluidIgnoresOtherFluids = value
+					() -> KnowledgesConfig.componentInfoFluidIgnoresOtherFluids,
+					value -> KnowledgesConfig.componentInfoFluidIgnoresOtherFluids = value
+			);
+		}
+	}
+
+	public static class Data {
+		public static class NoteBlockInformation {
+			public static final EnumSelector<NoteBlockInformationData.NoteModifier> NOTE_MODIFIER = new EnumSelector<>(
+					NoteBlockInformationData.NoteModifier.class,
+					NoteBlockInformationData.NoteModifier.SHARPS,
+					() -> KnowledgesConfig.dataNoteBlockInformationNoteModifier,
+					value -> KnowledgesConfig.dataNoteBlockInformationNoteModifier = value
+			);
+			public static final EnumSelector<NoteBlockInformationData.MusicalAlphabet> MUSICAL_ALPHABET = new EnumSelector<>(
+					NoteBlockInformationData.MusicalAlphabet.class,
+					NoteBlockInformationData.MusicalAlphabet.ENGLISH,
+					() -> KnowledgesConfig.dataNoteBlockInformationMusicalAlphabet,
+					value -> KnowledgesConfig.dataNoteBlockInformationMusicalAlphabet = value
 			);
 		}
 	}
@@ -161,14 +192,17 @@ public class KnowledgesConfig extends Pierced {
 	static double globalMainScalar = Global.MAIN_SCALAR.defaultValue();
 	static double globalCrosshairSafeAreaScalar = Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue();
 
-	@Table("component.crosshair") static boolean crosshairCusrorRingOutline = Component.Crosshair.CURSOR_RING_OUTLINE.defaultValue();
-	@Table("component.crosshair") static boolean crosshairTextsRight = Component.Crosshair.TEXTS_RIGHT.defaultValue();
-	@Table("component.crosshair") static boolean crosshairTextsLeft = Component.Crosshair.TEXTS_LEFT.defaultValue();
-	@Table("component.crosshair") static boolean crosshairSubtitles = Component.Crosshair.SUBTITLES.defaultValue();
+	@Table("component.crosshair") static boolean componentCrosshairCusrorRingOutline = Component.Crosshair.CURSOR_RING_OUTLINE.defaultValue();
+	@Table("component.crosshair") static boolean componentCrosshairTextsRight = Component.Crosshair.TEXTS_RIGHT.defaultValue();
+	@Table("component.crosshair") static boolean componentCrosshairTextsLeft = Component.Crosshair.TEXTS_LEFT.defaultValue();
+	@Table("component.crosshair") static boolean componentCrosshairSubtitles = Component.Crosshair.SUBTITLES.defaultValue();
 
-	@Table("component.info.block") static boolean infoBlockShowPoweredStatus = Component.InfoBlock.SHOW_POWERED_STATUS.defaultValue();
+	@Table("component.info.block") static boolean componentInfoBlockShowPoweredStatus = Component.InfoBlock.SHOW_POWERED_STATUS.defaultValue();
 
-	@Table("component.info.fluid") static boolean infoFluidIgnoresWater = Component.InfoFluid.IGNORES_WATER.defaultValue();
-	@Table("component.info.fluid") static boolean infoFluidIgnoresLava = Component.InfoFluid.IGNORES_LAVA.defaultValue();
-	@Table("component.info.fluid") static boolean infoFluidIgnoresOtherFluids = Component.InfoFluid.IGNORES_OTHER_FLUIDS.defaultValue();
+	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresWater = Component.InfoFluid.IGNORES_WATER.defaultValue();
+	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresLava = Component.InfoFluid.IGNORES_LAVA.defaultValue();
+	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresOtherFluids = Component.InfoFluid.IGNORES_OTHER_FLUIDS.defaultValue();
+
+	@Table("data.info.block.block_information.note_block") static NoteBlockInformationData.NoteModifier dataNoteBlockInformationNoteModifier = Data.NoteBlockInformation.NOTE_MODIFIER.defaultValue();
+	@Table("data.info.block.block_information.note_block") static NoteBlockInformationData.MusicalAlphabet dataNoteBlockInformationMusicalAlphabet = Data.NoteBlockInformation.MUSICAL_ALPHABET.defaultValue();
 }

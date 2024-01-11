@@ -54,6 +54,18 @@
   "instrument.knowledges.piglin": "猪灵",
   "instrument.knowledges.custom_head": "自定义",
 
+  "note_modifier.knowledges.sharps": "升号（♯）",
+  "note_modifier.knowledges.flats": "降号（♭）",
+
+  "musical_alphabet.knowledges.numeric": "数字（%s）",
+  "musical_alphabet.knowledges.solfege": "唱名（%s）",
+  "musical_alphabet.knowledges.english": "美式（%s）",
+  "musical_alphabet.knowledges.english_note_groups": "美式大小字组（%s）",
+  "musical_alphabet.knowledges.germanic": "德式（%s）",
+  "musical_alphabet.knowledges.russian": "俄式（%s）",
+  "musical_alphabet.knowledges.japanese": "日式（%s）",
+  "musical_alphabet.knowledges.chinese": "中国五声调式（%s）",
+
   "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name": "准心",
@@ -118,7 +130,13 @@
   "knowledge_data.knowledges.info.block.mineable_tool.shovel": "锹",
 
   "knowledge_data.knowledges.info.block.block_information.note_block.name": "音符盒信息",
-  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "在手持音符盒时提供有关当前方块音色的信息，并提供多种音名下有关音符盒当前音高的信息",
+  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "提供有关音符盒音色的信息，并在多种音名下提供有关音符盒音高的信息",
+
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.note_modifiers": "修饰符",
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.note_modifiers.tooltip": "如何展示黑键",
+
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.musical_alphabet": "音名",
+  "knowledge_data.knowledges.info.block.block_information.note_block.config.musical_alphabet.tooltip": "如何展示音符名称",
 
   "knowledge_data.knowledges.info.block.block_information.banner.name": "旗帜信息",
   "knowledge_data.knowledges.info.block.block_information.banner.tooltip": "提供有关旗帜的信息",
