@@ -18,7 +18,6 @@ public class ClientPlayerInteractionManagerMixin {
 	@Inject(method = "updateBlockBreakingProgress", at = @At("RETURN"))
 	private void updateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
 		boolean reset = currentBreakingProgress < AbstractInfoComponent.Animations.Ring.blockBreakingProgress();
-		if (reset) System.out.println(currentBreakingProgress + ", " + AbstractInfoComponent.Animations.Ring.blockBreakingProgress());
 
 		AbstractInfoComponent.Animations.Ring.blockBreakingProgress(currentBreakingProgress, reset);
 		AbstractInfoComponent.Animations.Ring.ringRadians(Math.PI * 2 * currentBreakingProgress, reset);

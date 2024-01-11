@@ -32,8 +32,6 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                     path = Registries.FLUID.getId(fluidState.getFluid()).getPath();
 
             Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
-
-            Animations.Ring.ringRadians(Math.PI * 2);
             Animations.Ring.ringColor(Palette.Minecraft.WHITE);
 
             // Titles

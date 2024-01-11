@@ -140,6 +140,7 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 			}
 
 			public static void ringRadians(double radians) {
+				System.out.println(radians);
 				ringRadians(radians, false);
 			}
 

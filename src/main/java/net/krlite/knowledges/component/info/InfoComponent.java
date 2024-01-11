@@ -20,6 +20,7 @@ public class InfoComponent extends AbstractInfoComponent {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
         if (!Info.hasCrosshairTarget()) reset();
+        System.out.println();
 
         final Box textsRight = FrameInfo.scaled()
                 .leftCenter(crosshairSafeArea().rightCenter())
