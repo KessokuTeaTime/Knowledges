@@ -60,7 +60,7 @@ public class CrosshairComponent implements Knowledge {
         }
 
         // Outline
-        if (KnowledgesConfig.Crosshair.CURSOR_RING_OUTLINE.get()) {
+        if (KnowledgesConfig.Component.Crosshair.CURSOR_RING_OUTLINE.get()) {
             AccurateColor
                     ovalColor = AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5),
                     ringColor = AbstractInfoComponent.Animations.Ring.ringColor().opacity(1);
@@ -103,38 +103,38 @@ public class CrosshairComponent implements Knowledge {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
                                 localize("config", "cursor_ring_outline"),
-                                KnowledgesConfig.Crosshair.CURSOR_RING_OUTLINE.get()
+                                KnowledgesConfig.Component.Crosshair.CURSOR_RING_OUTLINE.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Crosshair.CURSOR_RING_OUTLINE.defaultValue())
+                        .setDefaultValue(KnowledgesConfig.Component.Crosshair.CURSOR_RING_OUTLINE.defaultValue())
                         .setTooltip(localize("config", "cursor_ring_outline", "tooltip"))
-                        .setSaveConsumer(KnowledgesConfig.Crosshair.CURSOR_RING_OUTLINE::set)
+                        .setSaveConsumer(KnowledgesConfig.Component.Crosshair.CURSOR_RING_OUTLINE::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "texts_right"),
-                                KnowledgesConfig.Crosshair.TEXTS_RIGHT.get()
+                                KnowledgesConfig.Component.Crosshair.TEXTS_RIGHT.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Crosshair.TEXTS_RIGHT.defaultValue())
+                        .setDefaultValue(KnowledgesConfig.Component.Crosshair.TEXTS_RIGHT.defaultValue())
                         .setTooltip(localize("config", "texts_right", "tooltip"))
-                        .setSaveConsumer(KnowledgesConfig.Crosshair.TEXTS_RIGHT::set)
+                        .setSaveConsumer(KnowledgesConfig.Component.Crosshair.TEXTS_RIGHT::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "texts_left"),
-                                KnowledgesConfig.Crosshair.TEXTS_LEFT.get()
+                                KnowledgesConfig.Component.Crosshair.TEXTS_LEFT.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Crosshair.TEXTS_LEFT.defaultValue())
+                        .setDefaultValue(KnowledgesConfig.Component.Crosshair.TEXTS_LEFT.defaultValue())
                         .setTooltip(localize("config", "texts_left", "tooltip"))
-                        .setSaveConsumer(KnowledgesConfig.Crosshair.TEXTS_LEFT::set)
+                        .setSaveConsumer(KnowledgesConfig.Component.Crosshair.TEXTS_LEFT::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "subtitles"),
-                                KnowledgesConfig.Crosshair.SUBTITLES.get()
+                                KnowledgesConfig.Component.Crosshair.SUBTITLES.get()
                         )
-                        .setDefaultValue(KnowledgesConfig.Crosshair.SUBTITLES.defaultValue())
+                        .setDefaultValue(KnowledgesConfig.Component.Crosshair.SUBTITLES.defaultValue())
                         .setTooltip(localize("config", "subtitles", "tooltip"))
-                        .setSaveConsumer(KnowledgesConfig.Crosshair.SUBTITLES::set)
+                        .setSaveConsumer(KnowledgesConfig.Component.Crosshair.SUBTITLES::set)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
         );
     }

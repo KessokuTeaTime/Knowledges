@@ -124,13 +124,13 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 							)
 					)
 					.filter(fluidState -> !fluidState.isEmpty())
-					.filter(fluidState -> !(KnowledgesConfig.InfoFluid.IGNORES_WATER.get() && (
+					.filter(fluidState -> !(KnowledgesConfig.Component.InfoFluid.IGNORES_WATER.get() && (
 							fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER
 					)))
-					.filter(fluidState -> !(KnowledgesConfig.InfoFluid.IGNORES_LAVA.get() && (
+					.filter(fluidState -> !(KnowledgesConfig.Component.InfoFluid.IGNORES_LAVA.get() && (
 							fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA
 					)))
-					.filter(fluidState -> !(KnowledgesConfig.InfoFluid.IGNORES_OTHER_FLUIDS.get() && (
+					.filter(fluidState -> !(KnowledgesConfig.Component.InfoFluid.IGNORES_OTHER_FLUIDS.get() && (
 							fluidState.getFluid() != Fluids.WATER
 									&& fluidState.getFluid() != Fluids.LAVA
 									&& fluidState.getFluid() != Fluids.FLOWING_WATER

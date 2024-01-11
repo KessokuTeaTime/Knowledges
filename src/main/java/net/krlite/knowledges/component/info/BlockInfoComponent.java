@@ -5,7 +5,6 @@ import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
-import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
@@ -166,7 +165,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				boolean powered = KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS.get()
+				boolean powered = KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS.get()
 						&& Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
 
 				Animations.Texts.subtitleLeftBelow(
@@ -197,11 +196,11 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localize("config", "show_powered_status"),
-								KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS.get()
+								KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS.get()
 						)
-						.setDefaultValue(KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS.defaultValue())
+						.setDefaultValue(KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS.defaultValue())
 						.setTooltip(localize("config", "show_powered_status", "tooltip"))
-						.setSaveConsumer(KnowledgesConfig.InfoBlock.SHOW_POWERED_STATUS::set)
+						.setSaveConsumer(KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS::set)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

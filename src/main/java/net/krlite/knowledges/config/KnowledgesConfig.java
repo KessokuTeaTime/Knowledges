@@ -1,6 +1,5 @@
 package net.krlite.knowledges.config;
 
-import net.krlite.equator.math.algebra.Theory;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.pierced.annotation.Silent;
 import net.krlite.pierced.annotation.Table;
@@ -108,66 +107,68 @@ public class KnowledgesConfig extends Pierced {
 		);
 	}
 
-	public static class Crosshair {
-		public static final BooleanToggle CURSOR_RING_OUTLINE = new BooleanToggle(
-				true,
-				() -> KnowledgesConfig.crosshairCusrorRingOutline,
-				value -> KnowledgesConfig.crosshairCusrorRingOutline = value
-		);
-		public static final BooleanToggle TEXTS_RIGHT = new BooleanToggle(
-				true,
-				() -> KnowledgesConfig.crosshairTextsRight,
-				value -> KnowledgesConfig.crosshairTextsRight = value
-		);
-		public static final BooleanToggle TEXTS_LEFT = new BooleanToggle(
-				true,
-				() -> KnowledgesConfig.crosshairTextsLeft,
-				value -> KnowledgesConfig.crosshairTextsLeft = value
-		);
-		public static final BooleanToggle SUBTITLES = new BooleanToggle(
-				true,
-				() -> KnowledgesConfig.crosshairSubtitles,
-				value -> KnowledgesConfig.crosshairSubtitles = value
-		);
-	}
+	public static class Component {
+		public static class Crosshair {
+			public static final BooleanToggle CURSOR_RING_OUTLINE = new BooleanToggle(
+					true,
+					() -> KnowledgesConfig.crosshairCusrorRingOutline,
+					value -> KnowledgesConfig.crosshairCusrorRingOutline = value
+			);
+			public static final BooleanToggle TEXTS_RIGHT = new BooleanToggle(
+					true,
+					() -> KnowledgesConfig.crosshairTextsRight,
+					value -> KnowledgesConfig.crosshairTextsRight = value
+			);
+			public static final BooleanToggle TEXTS_LEFT = new BooleanToggle(
+					true,
+					() -> KnowledgesConfig.crosshairTextsLeft,
+					value -> KnowledgesConfig.crosshairTextsLeft = value
+			);
+			public static final BooleanToggle SUBTITLES = new BooleanToggle(
+					true,
+					() -> KnowledgesConfig.crosshairSubtitles,
+					value -> KnowledgesConfig.crosshairSubtitles = value
+			);
+		}
 
-	public static class InfoBlock {
-		public static final BooleanToggle SHOW_POWERED_STATUS = new BooleanToggle(
-				true,
-				() -> KnowledgesConfig.infoBlockShowPoweredStatus,
-				value -> KnowledgesConfig.infoBlockShowPoweredStatus = value
-		);
-	}
+		public static class InfoBlock {
+			public static final BooleanToggle SHOW_POWERED_STATUS = new BooleanToggle(
+					true,
+					() -> KnowledgesConfig.infoBlockShowPoweredStatus,
+					value -> KnowledgesConfig.infoBlockShowPoweredStatus = value
+			);
+		}
 
-	public static class InfoFluid {
-		public static final BooleanToggle IGNORES_WATER = new BooleanToggle(
-				false,
-				() -> KnowledgesConfig.infoFluidIgnoresWater,
-				value -> KnowledgesConfig.infoFluidIgnoresWater = value
-		);
-		public static final BooleanToggle IGNORES_LAVA = new BooleanToggle(
-				false,
-				() -> KnowledgesConfig.infoFluidIgnoresLava,
-				value -> KnowledgesConfig.infoFluidIgnoresLava = value
-		);
-		public static final BooleanToggle IGNORES_OTHER_FLUIDS = new BooleanToggle(
-				false,
-				() -> KnowledgesConfig.infoFluidIgnoresOtherFluids,
-				value -> KnowledgesConfig.infoFluidIgnoresOtherFluids = value
-		);
+		public static class InfoFluid {
+			public static final BooleanToggle IGNORES_WATER = new BooleanToggle(
+					false,
+					() -> KnowledgesConfig.infoFluidIgnoresWater,
+					value -> KnowledgesConfig.infoFluidIgnoresWater = value
+			);
+			public static final BooleanToggle IGNORES_LAVA = new BooleanToggle(
+					false,
+					() -> KnowledgesConfig.infoFluidIgnoresLava,
+					value -> KnowledgesConfig.infoFluidIgnoresLava = value
+			);
+			public static final BooleanToggle IGNORES_OTHER_FLUIDS = new BooleanToggle(
+					false,
+					() -> KnowledgesConfig.infoFluidIgnoresOtherFluids,
+					value -> KnowledgesConfig.infoFluidIgnoresOtherFluids = value
+			);
+		}
 	}
 
 	static double globalMainScalar = Global.MAIN_SCALAR.defaultValue();
 	static double globalCrosshairSafeAreaScalar = Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue();
 
-	@Table("crosshair") static boolean crosshairCusrorRingOutline = Crosshair.CURSOR_RING_OUTLINE.defaultValue();
-	@Table("crosshair") static boolean crosshairTextsRight = Crosshair.TEXTS_RIGHT.defaultValue();
-	@Table("crosshair") static boolean crosshairTextsLeft = Crosshair.TEXTS_LEFT.defaultValue();
-	@Table("crosshair") static boolean crosshairSubtitles = Crosshair.SUBTITLES.defaultValue();
+	@Table("component.crosshair") static boolean crosshairCusrorRingOutline = Component.Crosshair.CURSOR_RING_OUTLINE.defaultValue();
+	@Table("component.crosshair") static boolean crosshairTextsRight = Component.Crosshair.TEXTS_RIGHT.defaultValue();
+	@Table("component.crosshair") static boolean crosshairTextsLeft = Component.Crosshair.TEXTS_LEFT.defaultValue();
+	@Table("component.crosshair") static boolean crosshairSubtitles = Component.Crosshair.SUBTITLES.defaultValue();
 
-	@Table("info.block") static boolean infoBlockShowPoweredStatus = InfoBlock.SHOW_POWERED_STATUS.defaultValue();
+	@Table("component.info.block") static boolean infoBlockShowPoweredStatus = Component.InfoBlock.SHOW_POWERED_STATUS.defaultValue();
 
-	@Table("info.fluid") static boolean infoFluidIgnoresWater = InfoFluid.IGNORES_WATER.defaultValue();
-	@Table("info.fluid") static boolean infoFluidIgnoresLava = InfoFluid.IGNORES_LAVA.defaultValue();
-	@Table("info.fluid") static boolean infoFluidIgnoresOtherFluids = InfoFluid.IGNORES_OTHER_FLUIDS.defaultValue();
+	@Table("component.info.fluid") static boolean infoFluidIgnoresWater = Component.InfoFluid.IGNORES_WATER.defaultValue();
+	@Table("component.info.fluid") static boolean infoFluidIgnoresLava = Component.InfoFluid.IGNORES_LAVA.defaultValue();
+	@Table("component.info.fluid") static boolean infoFluidIgnoresOtherFluids = Component.InfoFluid.IGNORES_OTHER_FLUIDS.defaultValue();
 }
