@@ -132,7 +132,6 @@
 
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability": "§7耐久度：§r%1$s §7/ %2$s",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability.unbreakable": "不可破坏",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.description_and_durability": "%1$s，%2$s",
 
   "knowledge_data.knowledges.info.entity.entity_information.villager.name": "村民信息",
   "knowledge_data.knowledges.info.entity.entity_information.villager.tooltip": "提供有关村民的基础信息",

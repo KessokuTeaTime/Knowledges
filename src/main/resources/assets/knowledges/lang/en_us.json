@@ -141,11 +141,10 @@
 
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability": "§7Durability: §r%1$s §7/ %2$s",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability.unbreakable": "Unbreakable",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.description_and_durability": "%1$s, %2$s",
 
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment": "%1$s",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.more": "§r%1$s §7and %2$d More",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.one_more": "§r%1$s §7and 1 More",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.more": "§r%1$s §7and %2$d More Enchantments",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.one_more": "§r%1$s §7and 1 More Enchantment",
 
   "knowledge_data.knowledges.info.entity.entity_description.villager.name": "Villager Description",
   "knowledge_data.knowledges.info.entity.entity_description.villager.tooltip": "Provides descriptions about the properties of villagers",

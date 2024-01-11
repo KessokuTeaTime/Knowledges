@@ -81,10 +81,7 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                 }
 
                 if (durability != null && description != null) {
-                    return Optional.of(Text.translatable(
-                            localizationKey("description_and_durability"),
-                            description, durability
-                    ));
+                    return Optional.of(description.append("\n").append(durability));
                 } else {
                     if (durability != null) return Optional.of(durability);
                     if (description != null) return Optional.of(description);
