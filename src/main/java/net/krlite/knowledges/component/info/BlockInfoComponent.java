@@ -142,7 +142,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 					String localizationKey = localizationKey("mining_level");
 					String localizationKeyWithLevel = localizationKey("mining_level", String.valueOf(requiredLevel));
-					MutableText localizationWithLevel = Knowledges.localize(localizationKeyWithLevel);
+					MutableText localizationWithLevel = Text.translatable(localizationKeyWithLevel);
 
 					foundSemanticMiningLevel = !localizationWithLevel.getString().equals(localizationKeyWithLevel);
 					miningLevel = foundSemanticMiningLevel ? localizationWithLevel : Text.translatable(localizationKey, requiredLevel);
