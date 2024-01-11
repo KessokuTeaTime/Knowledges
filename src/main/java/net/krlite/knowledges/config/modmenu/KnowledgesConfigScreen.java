@@ -214,7 +214,7 @@ public class KnowledgesConfigScreen {
 
             category.addEntry(built);
             category.addEntry(
-                    entryBuilder.startTextDescription(knowledge.tooltip())
+                    entryBuilder.startTextDescription(((MutableText) knowledge.tooltip()).append("\n"))
                             .setRequirement(Requirement.isTrue(knowledge::providesTooltip))
                             .build()
             );

@@ -53,7 +53,7 @@
   "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name": "准心",
-  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时不可见",
+  "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息会不再可见",
 
   "knowledge.knowledges.crosshair.config.texts_right_enabled": "准心右侧文本",
   "knowledge.knowledges.crosshair.config.texts_right_enabled.tooltip": "§7显示准心右侧的扩展信息",
