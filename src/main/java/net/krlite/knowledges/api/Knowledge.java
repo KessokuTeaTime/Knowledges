@@ -62,11 +62,11 @@ public interface Knowledge extends WithPath, LocalizableWithName {
 	}
 
 	default double scalar() {
-		return 0.5 + 0.5 * Knowledges.CONFIG.mainScalar();
+		return 0.5 + 0.5 * Knowledges.CONFIG.globalMainScalar();
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 16 + 8 * Knowledges.CONFIG.crosshairSafeAreaScalar();
+		double size = 16 + 8 * Knowledges.CONFIG.globalCrosshairSafeAreaScalar();
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
 					   .center(Vector.ZERO)

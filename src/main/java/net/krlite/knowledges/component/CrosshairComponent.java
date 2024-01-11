@@ -81,31 +81,40 @@ public class CrosshairComponent implements Knowledge {
     public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
-                                localize("config", "texts_right_enabled"),
+                                localize("config", "cursor_ring_outline"),
+                                CONFIG.crosshairCursorRingOutline()
+                        )
+                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_CURSOR_RING_OUTLINE)
+                        .setTooltip(localize("config", "cursor_ring_outline", "tooltip"))
+                        .setSaveConsumer(CONFIG::crosshairCursorRingOutline)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER),
+
+                entryBuilder.startBooleanToggle(
+                                localize("config", "texts_right"),
                                 CONFIG.crosshairTextsRightEnabled()
                         )
-                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_RIGHT_ENABLED)
-                        .setTooltip(localize("config", "texts_right_enabled", "tooltip"))
+                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_RIGHT)
+                        .setTooltip(localize("config", "texts_right", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairTextsRightEnabled)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER),
 
                 entryBuilder.startBooleanToggle(
-                                localize("config", "texts_left_enabled"),
+                                localize("config", "texts_left"),
                                 CONFIG.crosshairTextsLeftEnabled()
                         )
-                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_LEFT_ENABLED)
-                        .setTooltip(localize("config", "texts_left_enabled", "tooltip"))
+                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_LEFT)
+                        .setTooltip(localize("config", "texts_left", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairTextsLeftEnabled)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER),
 
                 entryBuilder.startBooleanToggle(
-                                localize("config", "subtitles_enabled"),
+                                localize("config", "subtitles"),
                                 CONFIG.crosshairSubtitlesEnabled()
                         )
-                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_SUBTITLES_ENABLED)
-                        .setTooltip(localize("config", "subtitles_enabled", "tooltip"))
+                        .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_SUBTITLES)
+                        .setTooltip(localize("config", "subtitles", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairSubtitlesEnabled)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER)
         );
     }
 }

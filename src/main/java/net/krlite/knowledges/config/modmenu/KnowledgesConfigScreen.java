@@ -31,6 +31,8 @@ public class KnowledgesConfigScreen {
 
     public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
             flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
+    public static final Function<Boolean, Text> DISPLAYED_HIDDEN_SUPPLIER =
+            flag -> flag ? localize("text", "displayed") : localize("text", "hidden");
 
     private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
             .setTitle(Knowledges.localize("screen", "config", "title"))
@@ -74,13 +76,13 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "main_scalar"),
-                                (int) (CONFIG.mainScalar() * 1000),
-                                (int) (KnowledgesConfig.Default.MAIN_SCALAR_MIN * 1000),
-                                (int) (KnowledgesConfig.Default.MAIN_SCALAR_MAX * 1000)
+                                (int) (CONFIG.globalMainScalar() * 1000),
+                                (int) (KnowledgesConfig.Default.GLOBAL_MAIN_SCALAR_MIN * 1000),
+                                (int) (KnowledgesConfig.Default.GLOBAL_MAIN_SCALAR_MAX * 1000)
                         )
-                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.MAIN_SCALAR))
+                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.GLOBAL_MAIN_SCALAR))
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> CONFIG.mainScalar(value.floatValue() / 1000))
+                        .setSaveConsumer(value -> CONFIG.globalMainScalar(value.floatValue() / 1000))
                         .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
                         .build()
         );
@@ -88,13 +90,13 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
-                                (int) (CONFIG.crosshairSafeAreaScalar() * 1000),
-                                (int) (KnowledgesConfig.Default.CROSSHAIR_SAFE_AREA_SCALAR_MIN * 1000),
-                                (int) (KnowledgesConfig.Default.CROSSHAIR_SAFE_AREA_SCALAR_MAX * 1000)
+                                (int) (CONFIG.globalCrosshairSafeAreaScalar() * 1000),
+                                (int) (KnowledgesConfig.Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MIN * 1000),
+                                (int) (KnowledgesConfig.Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MAX * 1000)
                         )
-                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.CROSSHAIR_SAFE_AREA_SCALAR))
+                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR))
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
-                        .setSaveConsumer(value -> CONFIG.crosshairSafeAreaScalar(value.floatValue() / 1000))
+                        .setSaveConsumer(value -> CONFIG.globalCrosshairSafeAreaScalar(value.floatValue() / 1000))
                         .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
                         .build()
         );

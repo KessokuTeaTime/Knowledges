@@ -4,6 +4,9 @@
   "config.knowledges.text.enabled": "§aEnabled",
   "config.knowledges.text.disabled": "§cDisabled",
 
+  "config.knowledges.text.displayed": "§bDisplayed",
+  "config.knowledges.text.hidden": "§9Hidden",
+
   "config.knowledges.category.general": "General",
 
   "config.knowledges.general.main_scalar": "Main Scalar",
@@ -55,14 +58,17 @@
   "knowledge.knowledges.crosshair.name": "Crosshair",
   "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill not be displayed",
 
-  "knowledge.knowledges.crosshair.config.texts_right_enabled": "Display Right Sided Texts",
-  "knowledge.knowledges.crosshair.config.texts_right_enabled.tooltip": "§7Whether to display the texts placed against the right side of the cursor",
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline": "Cursor Ring Outline",
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "§7Whether to display an opaque ring outline around the cursor oval",
 
-  "knowledge.knowledges.crosshair.config.texts_left_enabled": "Display Left Sided Texts",
-  "knowledge.knowledges.crosshair.config.texts_left_enabled.tooltip": "§7Whether to display the texts placed against the left side of the cursor",
+  "knowledge.knowledges.crosshair.config.texts_right": "Right Sided Texts",
+  "knowledge.knowledges.crosshair.config.texts_right.tooltip": "§7Whether to display the texts placed against the right side of the cursor",
 
-  "knowledge.knowledges.crosshair.config.subtitles_enabled": "Display Subtitles",
-  "knowledge.knowledges.crosshair.config.subtitles_enabled.tooltip": "§7Whether to display the descriptive texts that are above or below the cursor texts",
+  "knowledge.knowledges.crosshair.config.texts_left": "Left Sided Texts",
+  "knowledge.knowledges.crosshair.config.texts_left.tooltip": "§7Whether to display the texts placed against the left side of the cursor",
+
+  "knowledge.knowledges.crosshair.config.subtitles": "Subtitles",
+  "knowledge.knowledges.crosshair.config.subtitles.tooltip": "§7Whether to display the descriptive texts that are above or below the cursor texts",
 
   "knowledge.knowledges.info.block.name": "Block Info",
   "knowledge.knowledges.info.block.tooltip": "§7Displays information about the block you are looking at",

@@ -1,8 +1,11 @@
 {
   "screen.knowledges.config.title": "知识库",
 
-  "config.knowledges.text.enabled": "§a开启",
-  "config.knowledges.text.disabled": "§c关闭",
+  "config.knowledges.text.enabled": "§a启用",
+  "config.knowledges.text.disabled": "§c禁用",
+
+  "config.knowledges.text.displayed": "§b显示",
+  "config.knowledges.text.hidden": "§9隐藏",
 
   "config.knowledges.category.general": "通用设置",
 
@@ -55,14 +58,17 @@
   "knowledge.knowledges.crosshair.name": "准心",
   "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息会不再可见",
 
-  "knowledge.knowledges.crosshair.config.texts_right_enabled": "准心右侧文本",
-  "knowledge.knowledges.crosshair.config.texts_right_enabled.tooltip": "§7显示准心右侧的扩展信息",
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline": "准心圆形区域描线",
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "§7在准心的圆形区域外显示描线",
 
-  "knowledge.knowledges.crosshair.config.texts_left_enabled": "准心左侧文本",
-  "knowledge.knowledges.crosshair.config.texts_left_enabled.tooltip": "§7显示准心左侧的扩展信息",
+  "knowledge.knowledges.crosshair.config.texts_right": "准心右侧文本",
+  "knowledge.knowledges.crosshair.config.texts_right.tooltip": "§7显示准心右侧的扩展信息",
 
-  "knowledge.knowledges.crosshair.config.subtitles_enabled": "副标题",
-  "knowledge.knowledges.crosshair.config.subtitles_enabled.tooltip": "§7显示位于准心文本上方或下方的描述性文本",
+  "knowledge.knowledges.crosshair.config.texts_left": "准心左侧文本",
+  "knowledge.knowledges.crosshair.config.texts_left.tooltip": "§7显示准心左侧的扩展信息",
+
+  "knowledge.knowledges.crosshair.config.subtitles": "副标题",
+  "knowledge.knowledges.crosshair.config.subtitles.tooltip": "§7显示位于准心文本上方或下方的描述性文本",
 
   "knowledge.knowledges.info.block.name": "方块信息",
   "knowledge.knowledges.info.block.tooltip": "§7显示你正看着的方块的信息",

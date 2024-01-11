@@ -17,11 +17,13 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	public static class Default {
-		public static final double MAIN_SCALAR = 1, MAIN_SCALAR_MIN = 0, MAIN_SCALAR_MAX = 3;
-		public static final double CROSSHAIR_SAFE_AREA_SCALAR = 1, CROSSHAIR_SAFE_AREA_SCALAR_MIN = 0, CROSSHAIR_SAFE_AREA_SCALAR_MAX = 3;
-		public static final boolean CROSSHAIR_TEXTS_RIGHT_ENABLED = true;
-		public static final boolean CROSSHAIR_TEXTS_LEFT_ENABLED = true;
-		public static final boolean CROSSHAIR_SUBTITLES_ENABLED = true;
+		public static final double GLOBAL_MAIN_SCALAR = 1, GLOBAL_MAIN_SCALAR_MIN = 0, GLOBAL_MAIN_SCALAR_MAX = 3;
+		public static final double GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR = 1, GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MIN = 0, GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MAX = 3;
+
+		public static final boolean CROSSHAIR_CURSOR_RING_OUTLINE = true;
+		public static final boolean CROSSHAIR_TEXTS_RIGHT = true;
+		public static final boolean CROSSHAIR_TEXTS_LEFT = true;
+		public static final boolean CROSSHAIR_SUBTITLES = true;
 
 		public static final boolean INFO_BLOCK_SHOW_POWERED_STATUS = true;
 
@@ -30,32 +32,39 @@ public class KnowledgesConfig extends Pierced {
 		public static final boolean INFO_FLUID_IGNORES_OTHER_FLUIDS = false;
 	}
 
-	@Table("global")
-	private double mainScalar = Default.MAIN_SCALAR;
+	private double globalMainScalar = Default.GLOBAL_MAIN_SCALAR;
 
-	public double mainScalar() {
-		return mainScalar;
+	public double globalMainScalar() {
+		return globalMainScalar;
 	}
 
-	public void mainScalar(double scalar) {
-		this.mainScalar = Theory.clamp(scalar, Default.MAIN_SCALAR_MIN, Default.MAIN_SCALAR_MAX);
-		save();
+	public void globalMainScalar(double scalar) {
+		this.globalMainScalar = Theory.clamp(scalar, Default.GLOBAL_MAIN_SCALAR_MIN, Default.GLOBAL_MAIN_SCALAR_MAX);
 	}
 
-	@Table("global")
-	private double crosshairSafeAreaScalar = Default.CROSSHAIR_SAFE_AREA_SCALAR;
+	private double globalCrosshairSafeAreaScalar = Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR;
 
-	public double crosshairSafeAreaScalar() {
-		return crosshairSafeAreaScalar;
+	public double globalCrosshairSafeAreaScalar() {
+		return globalCrosshairSafeAreaScalar;
 	}
 
-	public void crosshairSafeAreaScalar(double scalar) {
-		crosshairSafeAreaScalar = Theory.clamp(scalar, Default.CROSSHAIR_SAFE_AREA_SCALAR_MIN, Default.CROSSHAIR_SAFE_AREA_SCALAR_MAX);
-		save();
+	public void globalCrosshairSafeAreaScalar(double scalar) {
+		globalCrosshairSafeAreaScalar = Theory.clamp(scalar, Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MIN, Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MAX);
 	}
 
 	@Table("crosshair")
-	private boolean crosshairTextsRightEnabled = Default.CROSSHAIR_TEXTS_RIGHT_ENABLED;
+	private boolean crosshairCusrorRingOutline = Default.CROSSHAIR_CURSOR_RING_OUTLINE;
+
+	public boolean crosshairCursorRingOutline() {
+		return crosshairCusrorRingOutline;
+	}
+
+	public void crosshairCursorRingOutline(boolean flag) {
+		crosshairCusrorRingOutline = flag;
+	}
+
+	@Table("crosshair")
+	private boolean crosshairTextsRightEnabled = Default.CROSSHAIR_TEXTS_RIGHT;
 
 	public boolean crosshairTextsRightEnabled() {
 		return crosshairTextsRightEnabled;
@@ -66,7 +75,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	@Table("crosshair")
-	private boolean crosshairTextsLeftEnabled = Default.CROSSHAIR_TEXTS_LEFT_ENABLED;
+	private boolean crosshairTextsLeftEnabled = Default.CROSSHAIR_TEXTS_LEFT;
 
 	public boolean crosshairTextsLeftEnabled() {
 		return crosshairTextsLeftEnabled;
@@ -77,7 +86,7 @@ public class KnowledgesConfig extends Pierced {
 	}
 
 	@Table("crosshair")
-	private boolean crosshairSubtitlesEnabled = Default.CROSSHAIR_SUBTITLES_ENABLED;
+	private boolean crosshairSubtitlesEnabled = Default.CROSSHAIR_SUBTITLES;
 
 	public boolean crosshairSubtitlesEnabled() {
 		return crosshairSubtitlesEnabled;
