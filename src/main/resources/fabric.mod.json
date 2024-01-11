@@ -35,6 +35,7 @@
   "mixins": [
 	"knowledges.mixins.json"
   ],
+  "accessWidener": "knowledges.accesswidener",
 
   "depends": {
     "fabricloader": "*",

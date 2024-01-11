@@ -29,6 +29,10 @@ dependencies {
 	modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/knowledges.accesswidener")
+}
+
 configurations {
 	modApi.exclude group: 'net.fabricmc', module: 'fabric-loader'
 }

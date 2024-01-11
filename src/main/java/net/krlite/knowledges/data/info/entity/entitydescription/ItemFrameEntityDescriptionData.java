@@ -44,7 +44,7 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                 }
 
                 // Description: Enchantments
-                if (ItemStackInvoker.invokeIsSectionVisible(((ItemStackInvoker) heldItemStack).invokeGetHideFlags(), ItemStack.TooltipSection.ENCHANTMENTS)) {
+                if (ItemStackInvoker.invokeIsSectionVisible(heldItemStack.getHideFlags(), ItemStack.TooltipSection.ENCHANTMENTS)) {
                     NbtList enchantments = heldItemStack.getEnchantments();
                     int available = enchantments.size();
 

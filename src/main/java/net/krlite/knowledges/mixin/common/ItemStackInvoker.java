@@ -8,9 +8,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(ItemStack.class)
 public interface ItemStackInvoker {
     @Invoker
-    int invokeGetHideFlags();
-
-    @Invoker
     static boolean invokeIsSectionVisible(int flags, @NotNull ItemStack.TooltipSection tooltipSection) {
         throw new AssertionError();
     }
