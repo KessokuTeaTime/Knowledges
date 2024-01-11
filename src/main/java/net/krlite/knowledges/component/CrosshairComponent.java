@@ -6,6 +6,7 @@ import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
@@ -28,36 +29,40 @@ public class CrosshairComponent implements Knowledge {
                 .scaleCenter(1 + 0.3 * AbstractInfoComponent.Animations.Ring.mouseHolding());
 
         // Shadow
-        box.render(context, flat ->
-                flat.new Rectangle()
-                        .colors(Palette.Minecraft.BLACK)
-                        .opacityMultiplier(0.08 * AbstractInfoComponent.Animations.Ring.ovalOpacity())
-                        .new Outlined(box.size())
-                        .style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
+        box.render(context, flat -> flat.new Rectangle()
+                .colors(Palette.Minecraft.BLACK)
+                .opacityMultiplier(0.08 * AbstractInfoComponent.Animations.Ring.ovalOpacity())
+                .new Outlined(box.size())
+                .style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
         );
 
         // Oval
-        box.render(context, flat ->
-                flat.new Oval()
-                        .colorCenter(AbstractInfoComponent.Animations.Ring.ovalColor())
-                        .mode(Flat.Oval.OvalMode.FILL)
+        box.render(context, flat -> flat.new Oval()
+                .colorCenter(AbstractInfoComponent.Animations.Ring.ovalColor())
+                .mode(Flat.Oval.OvalMode.FILL)
         );
 
         // Ring
         if (Theory.looseGreater(AbstractInfoComponent.Animations.Ring.ringRadians(), 0)) {
+            box.render(context, flat -> flat.new Oval()
+                    .radians(AbstractInfoComponent.Animations.Ring.ringRadians())
+                    .mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
+                    .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
+
+                    .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(0.4))
+
+                    .addColor(0, Palette.TRANSPARENT)
+                    .addColor(
+                            AbstractInfoComponent.Animations.Ring.ringRadians(),
+                            AbstractInfoComponent.Animations.Ring.ringColor()
+                    )
+            );
+        }
+
+        // Outline
+        if (CONFIG.crosshairCursorRingOutline()) {
             box.render(context, flat ->
-                    flat.new Oval()
-                            .radians(AbstractInfoComponent.Animations.Ring.ringRadians())
-                            .mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
-                            .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
-
-                            .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(0.4))
-
-                            .addColor(0, Palette.TRANSPARENT)
-                            .addColor(
-                                    AbstractInfoComponent.Animations.Ring.ringRadians(),
-                                    AbstractInfoComponent.Animations.Ring.ringColor()
-                            )
+                    flat
             );
         }
     }

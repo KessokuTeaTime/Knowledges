@@ -23,8 +23,6 @@ import java.util.function.Function;
 public class FluidInfoComponent extends AbstractInfoComponent {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-        super.render(context, client, player, world);
-
         Info.crosshairFluidState().ifPresent(fluidState -> {
             BlockState blockState = fluidState.getBlockState();
             MutableText fluidName = blockState.getBlock().getName();

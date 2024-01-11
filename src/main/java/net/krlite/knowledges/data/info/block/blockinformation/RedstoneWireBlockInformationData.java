@@ -26,12 +26,12 @@ public class RedstoneWireBlockInformationData extends AbstractBlockInformationDa
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return Registries.BLOCK.getId(Blocks.REDSTONE_WIRE).getPath();
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return Registries.BLOCK.getId(Blocks.REDSTONE_WIRE).getPath();
+    public boolean providesTooltip() {
+        return true;
     }
 }

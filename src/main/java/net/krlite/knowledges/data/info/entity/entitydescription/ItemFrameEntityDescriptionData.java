@@ -94,12 +94,12 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return Registries.ITEM.getId(Items.ITEM_FRAME).getPath();
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return Registries.ITEM.getId(Items.ITEM_FRAME).getPath();
+    public boolean providesTooltip() {
+        return true;
     }
 }

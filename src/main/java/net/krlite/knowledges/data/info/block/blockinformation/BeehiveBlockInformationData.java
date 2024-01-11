@@ -41,12 +41,12 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return Registries.BLOCK.getId(Blocks.BEEHIVE).getPath();
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return Registries.BLOCK.getId(Blocks.BEEHIVE).getPath();
+    public boolean providesTooltip() {
+        return true;
     }
 }

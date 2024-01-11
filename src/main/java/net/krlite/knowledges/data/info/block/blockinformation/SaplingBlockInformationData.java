@@ -26,12 +26,12 @@ public class SaplingBlockInformationData extends AbstractBlockInformationData {
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return "sapling";
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return "sapling";
+    public boolean providesTooltip() {
+        return true;
     }
 }

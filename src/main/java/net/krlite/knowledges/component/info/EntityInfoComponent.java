@@ -76,8 +76,6 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		super.render(context, client, player, world);
-
 		Info.crosshairEntity().ifPresent(entity -> {
 			MutableText entityName = entity.getDisplayName().copy();
 

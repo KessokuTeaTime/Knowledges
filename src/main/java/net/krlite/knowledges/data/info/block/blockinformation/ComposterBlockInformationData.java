@@ -26,12 +26,12 @@ public class ComposterBlockInformationData extends AbstractBlockInformationData 
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return Registries.BLOCK.getId(Blocks.COMPOSTER).getPath();
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return Registries.BLOCK.getId(Blocks.COMPOSTER).getPath();
+    public boolean providesTooltip() {
+        return true;
     }
 }

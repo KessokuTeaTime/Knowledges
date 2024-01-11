@@ -2,10 +2,10 @@
   "screen.knowledges.config.title": "知识库",
 
   "config.knowledges.text.enabled": "§a启用",
-  "config.knowledges.text.disabled": "§c禁用",
+  "config.knowledges.text.disabled": "§c§m禁用",
 
   "config.knowledges.text.displayed": "§b显示",
-  "config.knowledges.text.hidden": "§9隐藏",
+  "config.knowledges.text.hidden": "§9§m隐藏",
 
   "config.knowledges.category.general": "通用设置",
 

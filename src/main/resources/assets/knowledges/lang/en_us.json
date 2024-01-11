@@ -2,10 +2,10 @@
   "screen.knowledges.config.title": "Knowledges",
 
   "config.knowledges.text.enabled": "§aEnabled",
-  "config.knowledges.text.disabled": "§cDisabled",
+  "config.knowledges.text.disabled": "§c§mDisabled",
 
   "config.knowledges.text.displayed": "§bDisplayed",
-  "config.knowledges.text.hidden": "§9Hidden",
+  "config.knowledges.text.hidden": "§9§mHidden",
 
   "config.knowledges.category.general": "General",
 

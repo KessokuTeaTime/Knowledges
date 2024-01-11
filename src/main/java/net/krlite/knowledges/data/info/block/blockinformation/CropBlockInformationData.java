@@ -26,12 +26,12 @@ public class CropBlockInformationData extends AbstractBlockInformationData {
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return "crop";
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return "crop";
+    public boolean providesTooltip() {
+        return true;
     }
 }

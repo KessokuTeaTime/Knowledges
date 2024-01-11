@@ -23,12 +23,12 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     }
 
     @Override
-    public boolean providesTooltip() {
-        return true;
+    public @NotNull String partialPath() {
+        return Registries.BLOCK.getId(Blocks.NOTE_BLOCK).getPath();
     }
 
     @Override
-    public @NotNull String partialPath() {
-        return Registries.BLOCK.getId(Blocks.NOTE_BLOCK).getPath();
+    public boolean providesTooltip() {
+        return true;
     }
 }
