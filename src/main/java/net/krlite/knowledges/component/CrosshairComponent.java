@@ -2,11 +2,13 @@ package net.krlite.knowledges.component;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
@@ -62,14 +64,22 @@ public class CrosshairComponent implements Knowledge {
 
         // Outline
         if (CONFIG.crosshairCursorRingOutline()) {
+            AccurateColor
+                    ovalColor = AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5),
+                    ringColor = AbstractInfoComponent.Animations.Ring.ringColor().opacity(1);
+
             box.render(context, flat -> flat.new Oval()
                     .mode(Flat.Oval.OvalMode.GRADIANT)
                     .outlineDynamic(Flat.Oval.VertexProvider.OUTER, 0.1 + 0.1 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress())
                     .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity() * (0.4 + 0.6 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress()))
 
-                    .addColor(-Math.PI / 2, AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5))
-                    .addColor(Math.PI / 2, AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5))
-                    .addColor(0, AbstractInfoComponent.Animations.Ring.ringColor().opacity(1))
+                    .addColor(-Math.PI / 2, ovalColor)
+                    .addColor(Math.PI / 2, ovalColor)
+                    .addColor(0, ovalColor.mix(
+                            ringColor,
+                            Curves.Circular.OUT.apply(0, 1, AbstractInfoComponent.Animations.Ring.blockBreakingProgress()),
+                            ColorStandard.MixMode.PIGMENT
+                    ))
 
                     .offset(AbstractInfoComponent.Animations.Ring.ringRadians())
             );

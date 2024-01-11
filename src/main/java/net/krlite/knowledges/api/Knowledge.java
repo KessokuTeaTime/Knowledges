@@ -224,7 +224,7 @@ public interface Knowledge extends WithPath, LocalizableWithName {
 
 			return Text.translatable(
 					Knowledges.localizationKey("util", "date_and_time"),
-					day, hour, minute
+					String.valueOf(day), String.format("%02d", hour), String.format("%02d", minute)
 			);
 		}
 	}
