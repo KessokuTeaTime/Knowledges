@@ -142,47 +142,70 @@ public class InterpolatedText {
 
     private final InterpolatedDouble width = new InterpolatedDouble(0, 0.02);
     private final Alignment alignment;
-    private List<StyledChar> last = new ArrayList<>(), current = new ArrayList<>(), cache = current;
+
+    private final List<List<StyledChar>> current = new ArrayList<>();
+    private List<List<StyledChar>> last = new ArrayList<>(), cache = current;
+
     private Style style = Style.EMPTY;
 
     public MutableText text() {
-        ArrayList<StyledChar> styledChars = new ArrayList<>();
-        final int
-                lastSize = last.size(),
-                currentSize = current.size(),
-                maxSize = Math.max(lastSize, currentSize);
-        
-        for (int i = 0; i < maxSize; i++) {
-            switch (alignment) {
-                case LEFT -> {
-                    if (i < currentSize) styledChars.add(current.get(i));
-                    else styledChars.add(last.get(i));
-                }
-                case RIGHT -> {
-                    if (i < maxSize - currentSize) styledChars.add(last.get(i));
-                    else styledChars.add(current.get(i + currentSize - maxSize));
+        ArrayList<ArrayList<StyledChar>> styledLines = new ArrayList<>();
+
+        for (int line = 0; line < Math.max(last.size(), current.size()); line++) {
+            List<StyledChar> lastLine = line < last.size() ? last.get(line) : new ArrayList<>();
+            List<StyledChar> currentLine = line < current.size() ? current.get(line) : new ArrayList<>();
+            ArrayList<StyledChar> styledLine = new ArrayList<>();
+
+            final int
+                    lastSize = lastLine.size(),
+                    currentSize = currentLine.size(),
+                    maxSize = Math.max(lastSize, currentSize);
+
+            for (int index = 0; index < maxSize; index++) {
+                switch (alignment) {
+                    case LEFT -> {
+                        if (index < currentSize) styledLine.add(currentLine.get(index));
+                        else styledLine.add(lastLine.get(index));
+                    }
+                    case RIGHT -> {
+                        if (index < maxSize - currentSize) styledLine.add(lastLine.get(index));
+                        else styledLine.add(currentLine.get(index + currentSize - maxSize));
+                    }
                 }
             }
+
+            styledLines.add(styledLine);
         }
 
-        return alignment.truncate(styledChars, width.value()).setStyle(style);
+        return styledLines.stream()
+                .map(line -> alignment.truncate(line, width.value()))
+                .map(line -> line.setStyle(style))
+                .reduce((p, n) -> p.append("\n").append(n))
+                .orElse(Text.empty());
     }
 
     public void text(Text text) {
-        String stringUnCut = text.getString();
-        String string = StyledChar.cut(stringUnCut);
+        List<String> stringsUnCut = Arrays.stream(text.getString().split("\n")).toList();
+        List<String> strings = stringsUnCut.stream().map(StyledChar::cut).toList();
 
-        if (!string.isEmpty()) {
+        if (!strings.isEmpty()) {
             if (!cache.equals(current)) {
                 last = cache;
                 cache = current;
             }
 
-            current = StyledChar.from(stringUnCut);
+            for (int line = 0; line < Math.max(strings.size(), current.size()); line++) {
+                if (line < current.size() && line < strings.size())
+                    current.set(line, StyledChar.from(stringsUnCut.get(line)));
+                else if (line < strings.size())
+                    current.add(StyledChar.from(stringsUnCut.get(line)));
+                else
+                    current.set(line, new ArrayList<>());
+            }
             style = text.getStyle();
         }
 
-        width.target(widthOfString(string));
+        width.target(strings.stream().map(InterpolatedText::widthOfString).max(Comparator.naturalOrder()).orElse(0));
     }
 
     public static int widthOfString(String string) {
@@ -224,7 +247,9 @@ public class InterpolatedText {
 
                 else break;
             }
-        } else {
+        }
+
+        else {
             // From tail to head
             ListIterator<Character> iterator = letters.listIterator(at + 1);
             

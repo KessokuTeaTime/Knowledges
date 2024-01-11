@@ -126,16 +126,20 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 		Animations.Texts.subtitleLeftAbove(Text.empty());
 		Animations.Texts.subtitleLeftBelow(Text.empty());
 
+		Animations.Ring.ringColor(Palette.Minecraft.WHITE);
 		Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
 	}
 
 	private void renderText(DrawContext context, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color, double fontSizeMultiplier) {
-		box.render(context, flat ->
-				flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * scalar()).append(text))
-						.verticalAlignment(Section.Alignment.CENTER)
-						.horizontalAlignment(alignment)
-						.color(color)
-		);
+		box
+				.translateTop(0.5)
+				.shiftTop(-MinecraftClient.getInstance().textRenderer.fontHeight / 2.0 * fontSizeMultiplier)
+				.render(context, flat ->
+						flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * scalar()).append(text))
+								.verticalAlignment(Section.Alignment.TOP)
+								.horizontalAlignment(alignment)
+								.color(color)
+				);
 	}
 
 	private void renderText(DrawContext context, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color) {
