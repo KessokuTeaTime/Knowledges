@@ -50,6 +50,8 @@
   "instrument.knowledges.piglin": "Piglin",
   "instrument.knowledges.custom_head": "Custom",
 
+  "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
+
   "knowledge.knowledges.crosshair.name": "Crosshair",
   "knowledge.knowledges.crosshair.tooltip": "§7Indicates if you are looking at a block or an entity\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill not be displayed",
 
@@ -140,7 +142,6 @@
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.tooltip": "Provides descriptions about the properties of the items inside item frames",
 
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability": "§7Durability: §r%1$s §7/ %2$s",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability.unbreakable": "Unbreakable",
 
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment": "%1$s",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.more": "§r%1$s §7and %2$d More Enchantments",

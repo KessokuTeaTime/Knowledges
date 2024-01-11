@@ -139,7 +139,7 @@ public class KnowledgesConfigScreen {
 
         if (!Knowledges.COMPONENTS.asMap().isEmpty()) {
             Knowledges.COMPONENTS.asMap().forEach((namespace, components) -> {
-                MutableText name = Knowledge.Util.getModName(namespace);
+                MutableText name = Knowledge.Util.modName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
                 if (isInDefaultNamespace) name.append(localize("components", "suffix", "default"));
 
@@ -164,7 +164,7 @@ public class KnowledgesConfigScreen {
 
         if (!Knowledges.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
             Knowledges.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
-                MutableText name = Knowledge.Util.getModName(namespace);
+                MutableText name = Knowledge.Util.modName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
                 if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
 

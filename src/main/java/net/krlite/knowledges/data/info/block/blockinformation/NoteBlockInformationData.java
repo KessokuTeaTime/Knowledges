@@ -5,7 +5,6 @@ import net.krlite.knowledges.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
@@ -17,7 +16,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
         if (player.getMainHandStack().isOf(Items.NOTE_BLOCK)) {
-            return Optional.of(Knowledge.Util.getInstrumentName(blockState.getInstrument()));
+            return Optional.of(Knowledge.Util.instrumentName(blockState.getInstrument()));
         }
 
         return Optional.empty();

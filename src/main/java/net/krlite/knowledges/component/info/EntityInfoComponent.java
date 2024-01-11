@@ -88,7 +88,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			// Titles
 			titles: {
 				Animations.Texts.titleRight(entityName);
-				Animations.Texts.titleLeft(Util.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+				Animations.Texts.titleLeft(Util.modName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 
 			switch (entity.getType().getSpawnGroup()) {

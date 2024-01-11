@@ -50,6 +50,8 @@
   "instrument.knowledges.piglin": "猪灵",
   "instrument.knowledges.custom_head": "自定义",
 
+  "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
+
   "knowledge.knowledges.crosshair.name": "准心",
   "knowledge.knowledges.crosshair.tooltip": "§7用于指示你是否正看着方块或实体\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等组件会同时不可见",
 
@@ -131,7 +133,6 @@
   "knowledge_data.knowledges.info.entity.entity_information.item_frame.tooltip": "提供有关物品展示框内的物品的信息",
 
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability": "§7耐久度：§r%1$s §7/ %2$s",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability.unbreakable": "不可破坏",
 
   "knowledge_data.knowledges.info.entity.entity_information.villager.name": "村民信息",
   "knowledge_data.knowledges.info.entity.entity_information.villager.tooltip": "提供有关村民的基础信息",

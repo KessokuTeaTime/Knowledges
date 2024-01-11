@@ -18,7 +18,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -95,7 +94,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			boolean harvestable = hardness >= 0 && player.canHarvest(blockState);
 
 			String
-					namespace = Util.getNamespace(blockState.getBlock().asItem().getDefaultStack()),
+					namespace = Util.namespace(blockState.getBlock().asItem().getDefaultStack()),
 					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
 			ItemStack itemStack = player.getMainHandStack();
 
@@ -107,7 +106,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Titles
 			titles: {
 				Animations.Texts.titleRight(blockName);
-				Animations.Texts.titleLeft(Util.getModName(namespace));
+				Animations.Texts.titleLeft(Util.modName(namespace));
 			}
 
 			// Right Above

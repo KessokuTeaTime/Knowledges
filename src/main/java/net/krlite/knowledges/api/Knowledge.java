@@ -147,14 +147,14 @@ public interface Knowledge extends WithPath, LocalizableWithName {
 	}
 
 	class Util {
-		public static MutableText getModName(String namespace) {
+		public static MutableText modName(String namespace) {
 			return Text.literal(FabricLoader.getInstance().getModContainer(namespace)
 					.map(ModContainer::getMetadata)
 					.map(ModMetadata::getName)
 					.orElse(""));
 		}
 
-		public static String getNamespace(ItemStack itemStack) {
+		public static String namespace(ItemStack itemStack) {
 			String namespace = Registries.ITEM.getId(itemStack.getItem()).getNamespace();
 
 			// Enchanted Book
@@ -209,8 +209,23 @@ public interface Knowledge extends WithPath, LocalizableWithName {
 			return namespace;
 		}
 
-		public static MutableText getInstrumentName(Instrument instrument) {
+		public static MutableText instrumentName(Instrument instrument) {
 			return Knowledges.localize("instrument", instrument.asString());
+		}
+
+		public static MutableText dateAndTime() {
+			if (MinecraftClient.getInstance().world == null) return Text.empty();
+
+			long time = MinecraftClient.getInstance().world.getTimeOfDay();
+			long day = time / 24000;
+			double percentage = (time % 24000) / 24000.0;
+
+			int hour = (int) (24 * percentage), minute = (int) (60 * ((percentage * 24) % 1));
+
+			return Text.translatable(
+					Knowledges.localizationKey("util", "date_and_time"),
+					day, hour, minute
+			);
 		}
 	}
 }

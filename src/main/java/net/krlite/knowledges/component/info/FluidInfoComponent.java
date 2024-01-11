@@ -42,7 +42,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
             titles:
             {
                 Animations.Texts.titleRight(fluidName);
-                Animations.Texts.titleLeft(Util.getModName(namespace));
+                Animations.Texts.titleLeft(Util.modName(namespace));
             }
 
             // Right Above

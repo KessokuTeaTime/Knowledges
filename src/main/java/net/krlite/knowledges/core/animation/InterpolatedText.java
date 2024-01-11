@@ -192,7 +192,6 @@ public class InterpolatedText {
             if (!cache.equals(current)) {
                 last = List.copyOf(cache);
                 cache = List.copyOf(current);
-                System.out.println(last + ", " + cache + ", " + current);
             }
 
             for (int line = 0; line < Math.max(strings.size(), current.size()); line++) {

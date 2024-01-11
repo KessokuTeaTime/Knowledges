@@ -1,5 +1,6 @@
 package net.krlite.knowledges.data.info.entity.entitydescription;
 
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.data.info.entity.AbstractEntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -7,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnchantedBookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -17,7 +17,9 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionData {
     @Override
@@ -27,7 +29,7 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
             ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
 
             if (!heldItemStack.isEmpty()) {
-                MutableText durability = null, description = null;
+                MutableText durability = null, enchantments = null, description = null;
 
                 // Durability
                 if (heldItemStack.isDamageable()) {
@@ -39,20 +41,18 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                                 maxDamage - damage, maxDamage
                         );
                     }
-                } else {
-                    durability = localize("durability", "unbreakable");
                 }
 
-                // Description: Enchantments
+                // Enchantments
                 if (ItemStackInvoker.invokeIsSectionVisible(heldItemStack.getHideFlags(), ItemStack.TooltipSection.ENCHANTMENTS)) {
-                    NbtList enchantments = heldItemStack.getEnchantments();
-                    int available = enchantments.size();
+                    NbtList enchantmentNbtList = heldItemStack.getEnchantments();
+                    int available = enchantmentNbtList.size();
 
                     if (available > 0) {
-                        NbtCompound firstEnchantment = enchantments.getCompound(0);
+                        NbtCompound firstEnchantment = enchantmentNbtList.getCompound(0);
 
-                        description = Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
-                                .map(enchantment -> enchantment.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
+                        enchantments = Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
+                                .map(enchantmentNbt -> enchantmentNbt.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
                                 .map(rawName -> {
                                     MutableText name = Text.translatable(
                                             localizationKey("enchantment"),
@@ -80,12 +80,14 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                     }
                 }
 
-                if (durability != null && description != null) {
-                    return Optional.of(description.append("\n").append(durability));
-                } else {
-                    if (durability != null) return Optional.of(durability);
-                    if (description != null) return Optional.of(description);
+                // Description
+                if (heldItemStack.isOf(Items.CLOCK)) {
+                    description = Knowledge.Util.dateAndTime();
                 }
+
+                return Stream.of(durability, enchantments, description)
+                        .filter(Objects::nonNull)
+                        .reduce((p, n) -> p.append("\n").append(n));
             }
         }
 
