@@ -83,8 +83,7 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 		}
 
 		public static Optional<Vec3d> crosshairPos() {
-			return crosshairTarget()
-					.map(HitResult::getPos);
+			return crosshairTarget().map(HitResult::getPos);
 		}
 
 		public static Optional<BlockPos> crosshairBlockPos() {
