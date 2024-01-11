@@ -7,10 +7,13 @@ import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
+import net.krlite.knowledges.core.localization.LocalizableWithName;
+import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
+import net.krlite.knowledges.manager.AbstractManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -90,8 +93,8 @@ public class KnowledgesConfigScreen {
         initComponentEntries();
         initDataEntries();
 
-        initComponentIndependentConfigPages();
-        initDataIndependentConfigPages();
+        initIndependentConfigPages(Knowledges.COMPONENTS, knowledge -> componentEntry(knowledge, false), "components");
+        initIndependentConfigPages(Knowledges.DATA, data -> dataEntry(data, false), "data");
     }
 
     public static String localizationKey(String... paths) {
@@ -147,16 +150,14 @@ public class KnowledgesConfigScreen {
                         Knowledges.COMPONENTS.isEnabled(knowledge)
                 )
                 .setDefaultValue(true)
-                .setTooltipSupplier(() -> {
-                    if (allowsTooltip && knowledge.providesTooltip())
-                        return Optional.of(new Text[]{knowledge.tooltip()});
-                    else return Optional.empty();
-                })
+                .setTooltipSupplier(() -> Optional.ofNullable(
+                        allowsTooltip && knowledge.providesTooltip() ? new Text[]{knowledge.tooltip()} : null
+                ))
                 .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
                 .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
-    private BooleanToggleBuilder dataEntry(Data<?> data) {
+    private BooleanToggleBuilder dataEntry(Data<?> data, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
                         Knowledges.DATA.isEnabled(data)
@@ -164,7 +165,7 @@ public class KnowledgesConfigScreen {
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> data.dataInvoker().targetKnowledge()
                         .map(knowledge -> new Text[]{
-                                data.providesTooltip() ? data.tooltip() : Text.empty(),
+                                (allowsTooltip && data.providesTooltip()) ? data.tooltip() : Text.empty(),
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
                                         Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
@@ -224,7 +225,7 @@ public class KnowledgesConfigScreen {
                     entries.addAll(
                             data.stream()
                                     .map(d -> {
-                                        var built = dataEntry(d).build();
+                                        var built = dataEntry(d, true).build();
                                         BooleanListEntrySyncHelper.DATA.register(knowledge, built);
 
                                         return (AbstractConfigListEntry) built;
@@ -239,59 +240,34 @@ public class KnowledgesConfigScreen {
         }
     }
 
-    private void initComponentIndependentConfigPages() {
-        List<Knowledge> components = Knowledges.COMPONENTS.asMap().values().stream()
+    private <T extends WithPath & WithIndependentConfigPage & LocalizableWithName> void initIndependentConfigPages(
+            AbstractManager<T> manager,
+            Function<T, BooleanToggleBuilder> builder,
+            String path
+    ) {
+        List<T> list = manager.asMap().values().stream()
                 .flatMap(List::stream)
                 .filter(WithIndependentConfigPage::requestsConfigPage)
                 .toList();
 
-        if (!components.isEmpty()) {
-            configBuilder.getOrCreateCategorySeparator(localize("separator", "components"));
+        if (!list.isEmpty()) {
+            configBuilder.getOrCreateCategorySeparator(localize("separator", path));
         }
 
-        components.forEach(c -> {
-            ConfigCategory category = configBuilder.getOrCreateCategory(c.name());
+        list.forEach(t -> {
+            ConfigCategory category = configBuilder.getOrCreateCategory(t.name());
 
-            var built = componentEntry(c, false).build();
-            BooleanListEntrySyncHelper.COMPONENTS.register(c, built);
+            var built = builder.apply(t).build();
+            BooleanListEntrySyncHelper.COMPONENTS.register(t, built);
 
             category.addEntry(built);
             category.addEntry(
-                    entryBuilder.startTextDescription(((MutableText) c.tooltip()).append("\n"))
-                            .setRequirement(Requirement.isTrue(c::providesTooltip))
+                    entryBuilder.startTextDescription(((MutableText) t.tooltip()).append("\n"))
+                            .setRequirement(Requirement.isTrue(t::providesTooltip))
                             .build()
             );
 
-            c.buildConfigEntries().apply(entryBuilder).stream()
-                    .map(AbstractFieldBuilder::build)
-                    .forEach(category::addEntry);
-        });
-    }
-
-    private void initDataIndependentConfigPages() {
-        List<Data<?>> data = Knowledges.DATA.asMap().values().stream()
-                .flatMap(List::stream)
-                .filter(WithIndependentConfigPage::requestsConfigPage)
-                .toList();
-
-        if (!data.isEmpty()) {
-            configBuilder.getOrCreateCategorySeparator(localize("separator", "data"));
-        }
-
-        data.forEach(d -> {
-            ConfigCategory category = configBuilder.getOrCreateCategory(d.name());
-
-            var built = dataEntry(d).build();
-            BooleanListEntrySyncHelper.DATA.register(d, built);
-
-            category.addEntry(built);
-            category.addEntry(
-                    entryBuilder.startTextDescription(((MutableText) d.tooltip()).append("\n"))
-                            .setRequirement(Requirement.isTrue(d::providesTooltip))
-                            .build()
-            );
-
-            d.buildConfigEntries().apply(entryBuilder).stream()
+            t.buildConfigEntries().apply(entryBuilder).stream()
                     .map(AbstractFieldBuilder::build)
                     .forEach(category::addEntry);
         });

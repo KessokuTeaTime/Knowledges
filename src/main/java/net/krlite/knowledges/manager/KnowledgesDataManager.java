@@ -1,4 +1,4 @@
-package net.krlite.knowledges;
+package net.krlite.knowledges.manager;
 
 import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.api.Knowledge;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class KnowledgesDataManager extends Knowledges.Manager<Data<?>> {
-    KnowledgesDataManager() {
+public class KnowledgesDataManager extends AbstractManager<Data<?>> {
+    public KnowledgesDataManager() {
         super(new DisabledDataConfig());
     }
 
