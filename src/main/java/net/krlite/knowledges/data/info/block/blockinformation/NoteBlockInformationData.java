@@ -19,6 +19,10 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
             return Optional.of(Knowledge.Util.instrumentName(blockState.getInstrument()));
         }
 
+        if (blockState.isOf(Blocks.NOTE_BLOCK)) {
+
+        }
+
         return Optional.empty();
     }
 

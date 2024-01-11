@@ -8,6 +8,7 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
 import net.krlite.knowledges.core.path.WithPath;
 import net.minecraft.block.BlockState;
@@ -42,16 +43,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Function;
 
-public interface Knowledge extends WithPath, LocalizableWithName {
+public interface Knowledge extends WithPath, LocalizableWithName, WithIndependentConfigPage {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
-
-	default boolean requestsConfigPage() {
-		return false;
-	}
-
-	default Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
-		return configEntryBuilder -> new ArrayList<>();
-	}
 
 	@Override
 	default String localizationKey(String... paths) {

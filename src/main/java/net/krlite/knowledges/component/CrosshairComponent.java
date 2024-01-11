@@ -9,7 +9,6 @@ import net.krlite.equator.render.renderer.Flat;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
-import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
@@ -111,7 +110,7 @@ public class CrosshairComponent implements Knowledge {
                         .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_CURSOR_RING_OUTLINE)
                         .setTooltip(localize("config", "cursor_ring_outline", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairCursorRingOutline)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "texts_right"),
@@ -120,7 +119,7 @@ public class CrosshairComponent implements Knowledge {
                         .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_RIGHT)
                         .setTooltip(localize("config", "texts_right", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairTextsRightEnabled)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "texts_left"),
@@ -129,7 +128,7 @@ public class CrosshairComponent implements Knowledge {
                         .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_TEXTS_LEFT)
                         .setTooltip(localize("config", "texts_left", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairTextsLeftEnabled)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "subtitles"),
@@ -138,7 +137,7 @@ public class CrosshairComponent implements Knowledge {
                         .setDefaultValue(KnowledgesConfig.Default.CROSSHAIR_SUBTITLES)
                         .setTooltip(localize("config", "subtitles", "tooltip"))
                         .setSaveConsumer(CONFIG::crosshairSubtitlesEnabled)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
         );
     }
 }

@@ -25,14 +25,25 @@ import static net.krlite.knowledges.Knowledges.CONFIG;
 
 @SuppressWarnings("UnstableApiUsage")
 public class KnowledgesConfigScreen {
+    public enum BooleanSupplier implements Function<Boolean, Text> {
+        ENABLED_DISABLED(flag -> flag ? localize("text", "enabled") : localize("text", "disabled")),
+        DISPLAYED_HIDDEN(flag -> flag ? localize("text", "displayed") : localize("text", "hidden"));
+
+        private final Function<Boolean, Text> supplier;
+
+        BooleanSupplier(Function<Boolean, Text> supplier) {
+            this.supplier = supplier;
+        }
+
+        @Override
+        public Text apply(Boolean flag) {
+            return supplier.apply(flag);
+        }
+    }
+    
     public static final HashMap<BooleanListEntry, Knowledge> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
 
     public static final HashMap<Knowledge, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
-
-    public static final Function<Boolean, Text> ENABLED_DISABLED_SUPPLIER =
-            flag -> flag ? localize("text", "enabled") : localize("text", "disabled");
-    public static final Function<Boolean, Text> DISPLAYED_HIDDEN_SUPPLIER =
-            flag -> flag ? localize("text", "displayed") : localize("text", "hidden");
 
     private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
             .setTitle(Knowledges.localize("screen", "config", "title"))
@@ -114,7 +125,7 @@ public class KnowledgesConfigScreen {
                     else return Optional.empty();
                 })
                 .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
-                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+                .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
     private BooleanToggleBuilder dataEntry(Data<?> data) {
@@ -133,7 +144,7 @@ public class KnowledgesConfigScreen {
                                 )
                         }))
                 .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
-                .setYesNoTextSupplier(ENABLED_DISABLED_SUPPLIER);
+                .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
     private void initComponentEntries() {

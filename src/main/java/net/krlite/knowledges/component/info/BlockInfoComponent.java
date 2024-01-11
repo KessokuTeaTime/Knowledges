@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -203,7 +202,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 						.setDefaultValue(KnowledgesConfig.Default.INFO_BLOCK_SHOW_POWERED_STATUS)
 						.setTooltip(localize("config", "show_powered_status", "tooltip"))
 						.setSaveConsumer(Knowledges.CONFIG::infoBlockShowPoweredStatus)
-						.setYesNoTextSupplier(KnowledgesConfigScreen.DISPLAYED_HIDDEN_SUPPLIER)
+						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}
 }

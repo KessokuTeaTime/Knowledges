@@ -116,8 +116,8 @@
   "knowledge_data.knowledges.info.block.mineable_tool.hoe": "锄",
   "knowledge_data.knowledges.info.block.mineable_tool.shovel": "锹",
 
-  "knowledge_data.knowledges.info.block.block_information.note_block.name": "音色信息",
-  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "在手持音符盒时提供有关当前方块音色的信息",
+  "knowledge_data.knowledges.info.block.block_information.note_block.name": "音符盒信息",
+  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "在手持音符盒时提供有关当前方块音色的信息，并提供多种音名下有关音符盒当前音高的信息",
 
   "knowledge_data.knowledges.info.block.block_information.banner.name": "旗帜信息",
   "knowledge_data.knowledges.info.block.block_information.banner.tooltip": "提供有关旗帜的信息",

@@ -117,7 +117,7 @@
   "knowledge_data.knowledges.info.block.mineable_tool.shovel": "Shovels",
 
   "knowledge_data.knowledges.info.block.block_information.note_block.name": "Note Block Information",
-  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "Provides information about note blocks' timbre for the current block when holding in main hand",
+  "knowledge_data.knowledges.info.block.block_information.note_block.tooltip": "Provides information about blocks' timbres when holding a note block in main hand, and information about note blocks' pitches in various of musical alphabets",
 
   "knowledge_data.knowledges.info.block.block_information.banner.name": "Banner Information",
   "knowledge_data.knowledges.info.block.block_information.banner.tooltip": "Provides information about banners",

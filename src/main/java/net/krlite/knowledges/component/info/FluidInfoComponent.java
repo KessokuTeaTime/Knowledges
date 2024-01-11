@@ -96,7 +96,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                         )
                         .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_WATER)
                         .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresWater)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_lava"),
@@ -104,7 +104,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                         )
                         .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_LAVA)
                         .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresLava)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER),
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_other_fluids"),
@@ -112,7 +112,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                         )
                         .setDefaultValue(KnowledgesConfig.Default.INFO_FLUID_IGNORES_OTHER_FLUIDS)
                         .setSaveConsumer(Knowledges.CONFIG::infoFluidIgnoresOtherFluids)
-                        .setYesNoTextSupplier(KnowledgesConfigScreen.ENABLED_DISABLED_SUPPLIER)
+                        .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED)
         );
     }
 }
