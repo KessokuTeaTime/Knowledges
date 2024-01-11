@@ -26,7 +26,6 @@ public class Knowledges implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
     public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(Knowledges.ID);
 
-    public static final KnowledgesConfig CONFIG = new KnowledgesConfig();
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
     public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
 

@@ -22,7 +22,7 @@ import net.minecraft.util.Formatting;
 import java.util.*;
 import java.util.function.Function;
 
-import static net.krlite.knowledges.Knowledges.CONFIG;
+import net.krlite.knowledges.config.KnowledgesConfig.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class KnowledgesConfigScreen {
@@ -81,7 +81,7 @@ public class KnowledgesConfigScreen {
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
-            .setSavingRunnable(CONFIG::save);
+            .setSavingRunnable(KnowledgesConfig::saveSelf);
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
@@ -118,13 +118,13 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "main_scalar"),
-                                (int) (CONFIG.globalMainScalar() * 1000),
-                                (int) (KnowledgesConfig.Default.GLOBAL_MAIN_SCALAR_MIN * 1000),
-                                (int) (KnowledgesConfig.Default.GLOBAL_MAIN_SCALAR_MAX * 1000)
+                                (int) (Global.MAIN_SCALAR.get() * 1000),
+                                (int) (Global.MAIN_SCALAR.min() * 1000),
+                                (int) (Global.MAIN_SCALAR.max() * 1000)
                         )
-                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.GLOBAL_MAIN_SCALAR))
+                        .setDefaultValue((int) (1000 * Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue()))
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> CONFIG.globalMainScalar(value.floatValue() / 1000))
+                        .setSaveConsumer(value -> Global.MAIN_SCALAR.set(value.floatValue() / 1000.0))
                         .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
                         .build()
         );
@@ -132,13 +132,13 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
-                                (int) (CONFIG.globalCrosshairSafeAreaScalar() * 1000),
-                                (int) (KnowledgesConfig.Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MIN * 1000),
-                                (int) (KnowledgesConfig.Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR_MAX * 1000)
+                                (int) (Global.CROSSHAIR_SAFE_AREA_SCALAR.get() * 1000),
+                                (int) (Global.CROSSHAIR_SAFE_AREA_SCALAR.min() * 1000),
+                                (int) (Global.CROSSHAIR_SAFE_AREA_SCALAR.max() * 1000)
                         )
-                        .setDefaultValue((int) (1000 * KnowledgesConfig.Default.GLOBAL_CROSSHAIR_SAFE_AREA_SCALAR))
+                        .setDefaultValue((int) (1000 * Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue()))
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
-                        .setSaveConsumer(value -> CONFIG.globalCrosshairSafeAreaScalar(value.floatValue() / 1000))
+                        .setSaveConsumer(value -> Global.CROSSHAIR_SAFE_AREA_SCALAR.set(value.floatValue() / 1000.0))
                         .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
                         .build()
         );
