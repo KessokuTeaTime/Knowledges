@@ -142,8 +142,8 @@
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.name": "物品展示框详细信息",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.tooltip": "提供有关物品展示框内的物品属性的详细信息",
 
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.more_enchantments": "§r%1$s§7等%3$d个附魔",
-  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.one_more_enchantment": "§r%1$s§7等2个附魔",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.more": "§r%1$s§7等%3$d个附魔",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchantment.one_more": "§r%1$s§7等2个附魔",
 
   "knowledge_data.knowledges.info.entity.entity_description.villager.name": "村民详细信息",
   "knowledge_data.knowledges.info.entity.entity_description.villager.tooltip": "提供有关村民属性的详细信息",
