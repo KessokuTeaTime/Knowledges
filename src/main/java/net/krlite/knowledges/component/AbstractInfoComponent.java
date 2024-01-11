@@ -105,6 +105,26 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 		}
 
 		public static class Ring {
+			private static float rawBlockBreakingProgress = 0;
+
+			public static float rawBlockBreakingProgress() {
+				return rawBlockBreakingProgress;
+			}
+
+			public static void rawBlockBreakingProgress(float progress) {
+				rawBlockBreakingProgress = progress;
+			}
+
+			private static boolean cancelledBlockBreaking = false;
+
+			public static boolean cancelledBlockBreaking() {
+				return cancelledBlockBreaking;
+			}
+
+			public static void cancelledBlockBreaking(boolean flag) {
+				cancelledBlockBreaking = flag;
+			}
+
 			private static final InterpolatedDouble BLOCK_BREAKING_PROGRESS = new InterpolatedDouble(0, 0.004);
 
 			public static double blockBreakingProgress() {
@@ -140,7 +160,6 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 			}
 
 			public static void ringRadians(double radians) {
-				System.out.println(radians);
 				ringRadians(radians, false);
 			}
 

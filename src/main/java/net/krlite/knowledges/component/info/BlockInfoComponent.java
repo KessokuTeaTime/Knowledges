@@ -95,8 +95,14 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 					namespace = Util.namespace(blockState.getBlock().asItem().getDefaultStack()),
 					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
 
+			boolean resetBlockBreakingProgress = !Animations.Ring.cancelledBlockBreaking() && Animations.Ring.rawBlockBreakingProgress() < Animations.Ring.blockBreakingProgress();
+			Animations.Ring.blockBreakingProgress(Animations.Ring.rawBlockBreakingProgress(), resetBlockBreakingProgress);
+			Animations.Ring.ringRadians(Math.PI * 2 * Animations.Ring.rawBlockBreakingProgress(), resetBlockBreakingProgress);
+
 			Animations.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
 			Animations.Ring.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Animations.Ring.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
+
+
 
 			// Titles
 			titles: {

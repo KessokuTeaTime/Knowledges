@@ -17,15 +17,13 @@ public class ClientPlayerInteractionManagerMixin {
 
 	@Inject(method = "updateBlockBreakingProgress", at = @At("RETURN"))
 	private void updateBlockBreakingProgress(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
-		boolean reset = currentBreakingProgress < AbstractInfoComponent.Animations.Ring.blockBreakingProgress();
-
-		AbstractInfoComponent.Animations.Ring.blockBreakingProgress(currentBreakingProgress, reset);
-		AbstractInfoComponent.Animations.Ring.ringRadians(Math.PI * 2 * currentBreakingProgress, reset);
+		AbstractInfoComponent.Animations.Ring.rawBlockBreakingProgress(currentBreakingProgress);
+		AbstractInfoComponent.Animations.Ring.cancelledBlockBreaking(false);
 	}
 
 	@Inject(method = "cancelBlockBreaking", at = @At("RETURN"))
 	private void cancelBlockBreaking(CallbackInfo ci) {
-		AbstractInfoComponent.Animations.Ring.blockBreakingProgress(0);
-		AbstractInfoComponent.Animations.Ring.ringRadians(0);
+		AbstractInfoComponent.Animations.Ring.rawBlockBreakingProgress(0);
+		AbstractInfoComponent.Animations.Ring.cancelledBlockBreaking(true);
 	}
 }
