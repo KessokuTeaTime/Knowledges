@@ -127,6 +127,24 @@
 
   "knowledge_data.knowledges.info.block.block_information.redstone_wire.power": "§7Power: §r%1$s",
 
+  "knowledge_data.knowledges.info.block.block_information.crop.name": "Crop Information",
+  "knowledge_data.knowledges.info.block.block_information.crop.tooltip": "Provides information about crops' ages",
+
+  "knowledge_data.knowledges.info.block.block_information.crop.mature": "Mature",
+  "knowledge_data.knowledges.info.block.block_information.crop.age": "§7Age: §r%1$s §7/ %2$s",
+
+  "knowledge_data.knowledges.info.block.block_information.sapling.name": "Sapling Information",
+  "knowledge_data.knowledges.info.block.block_information.sapling.tooltip": "Provides information about saplings' stages",
+
+  "knowledge_data.knowledges.info.block.block_information.sapling.stage": "§7Stage: §r%1$s",
+
+  "knowledge_data.knowledges.info.block.block_information.beehive.name": "Beehive and Bee Nest Information",
+  "knowledge_data.knowledges.info.block.block_information.beehive.tooltip": "Provides information about beehives and bee nests",
+
+  "knowledge_data.knowledges.info.block.block_information.beehive.honey_level": "§7Honey Level: §r%1$s §7/ %2$s",
+  "knowledge_data.knowledges.info.block.block_information.beehive.bee_count": "§7Bee Count: §r%1$s",
+  "knowledge_data.knowledges.info.block.block_information.beehive.bee_count.empty": "No Bees",
+
   "knowledge_data.knowledges.info.entity.entity_information.painting.name": "Painting Information",
   "knowledge_data.knowledges.info.entity.entity_information.painting.tooltip": "Provides information about paintings",
 

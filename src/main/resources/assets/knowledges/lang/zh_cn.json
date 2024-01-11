@@ -126,6 +126,24 @@
 
   "knowledge_data.knowledges.info.block.block_information.redstone_wire.power": "§7信号强度：§r%1$s",
 
+  "knowledge_data.knowledges.info.block.block_information.crop.name": "作物信息",
+  "knowledge_data.knowledges.info.block.block_information.crop.tooltip": "提供有关作物年龄的信息",
+
+  "knowledge_data.knowledges.info.block.block_information.crop.mature": "已成熟",
+  "knowledge_data.knowledges.info.block.block_information.crop.age": "§7年龄：§r%1$s §7/ %2$s",
+
+  "knowledge_data.knowledges.info.block.block_information.sapling.name": "树苗信息",
+  "knowledge_data.knowledges.info.block.block_information.sapling.tooltip": "提供有关树苗生长阶段的信息",
+
+  "knowledge_data.knowledges.info.block.block_information.sapling.stage": "§7生长阶段：§r%1$s",
+
+  "knowledge_data.knowledges.info.block.block_information.beehive.name": "蜂巢与蜂箱信息",
+  "knowledge_data.knowledges.info.block.block_information.beehive.tooltip": "提供有关蜂巢与蜂箱的信息",
+
+  "knowledge_data.knowledges.info.block.block_information.beehive.honey_level": "§7蜂蜜体积：§r%1$s §7/ %2$s",
+  "knowledge_data.knowledges.info.block.block_information.beehive.bee_count": "§7蜜蜂数量：§r%1$s",
+  "knowledge_data.knowledges.info.block.block_information.beehive.bee_count.empty": "没有蜜蜂",
+
   "knowledge_data.knowledges.info.entity.entity_information.painting.name": "画作信息",
   "knowledge_data.knowledges.info.entity.entity_information.painting.tooltip": "提供有关画作的信息",
 

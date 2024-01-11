@@ -1,6 +1,7 @@
 package net.krlite.knowledges.data.info.entity.entitydescription;
 
 import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.data.info.entity.AbstractEntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -29,14 +30,14 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
             ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
 
             if (!heldItemStack.isEmpty()) {
-                MutableText durability = null, enchantments = null, description = null;
+                MutableText durabilityText = null, enchantmentText = null, descriptionText = null;
 
                 // Durability
                 if (heldItemStack.isDamageable()) {
                     if (heldItemStack.isDamaged()) {
                         int damage = heldItemStack.getDamage(), maxDamage = heldItemStack.getMaxDamage();
 
-                        durability = Text.translatable(
+                        durabilityText = Text.translatable(
                                 localizationKey("durability"),
                                 maxDamage - damage, maxDamage
                         );
@@ -45,14 +46,14 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
 
                 // Enchantments
                 if (ItemStackInvoker.invokeIsSectionVisible(heldItemStack.getHideFlags(), ItemStack.TooltipSection.ENCHANTMENTS)) {
-                    NbtList enchantmentNbtList = heldItemStack.getEnchantments();
-                    int available = enchantmentNbtList.size();
+                    NbtList enchantments = heldItemStack.getEnchantments();
+                    int available = enchantments.size();
 
                     if (available > 0) {
-                        NbtCompound firstEnchantment = enchantmentNbtList.getCompound(0);
+                        NbtCompound firstEnchantment = enchantments.getCompound(0);
 
-                        enchantments = Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
-                                .map(enchantmentNbt -> enchantmentNbt.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
+                        enchantmentText = Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
+                                .map(enchantment -> enchantment.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
                                 .map(rawName -> {
                                     MutableText name = Text.translatable(
                                             localizationKey("enchantment"),
@@ -82,12 +83,10 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
 
                 // Description
                 if (heldItemStack.isOf(Items.CLOCK)) {
-                    description = Knowledge.Util.dateAndTime();
+                    descriptionText = Knowledge.Util.dateAndTime();
                 }
 
-                return Stream.of(durability, enchantments, description)
-                        .filter(Objects::nonNull)
-                        .reduce((p, n) -> p.append("\n").append(n));
+                return Helper.Text.combineToMultiline(durabilityText, enchantmentText, descriptionText);
             }
         }
 
