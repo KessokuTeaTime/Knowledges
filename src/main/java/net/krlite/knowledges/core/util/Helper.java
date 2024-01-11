@@ -14,10 +14,10 @@ import java.util.stream.Stream;
 
 public class Helper {
     public static class Map {
-        public static <K, V> java.util.List<V> fastMerge(HashMap<K, java.util.List<V>> hashMap, K key, V defaultValue) {
+        public static <K, V> java.util.List<V> fastMerge(HashMap<K, java.util.List<V>> hashMap, K key, V value) {
             return hashMap.merge(
                     key,
-                    new ArrayList<>(java.util.List.of(defaultValue)),
+                    new ArrayList<>(java.util.List.of(value)),
                     (l1, l2) -> Stream.concat(l1.stream(), l2.stream()).toList()
             );
         }

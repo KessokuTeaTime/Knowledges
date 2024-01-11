@@ -11,6 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -21,9 +24,12 @@ public abstract class BooleanListEntryMixin {
 
     @Unique
     private void updateOthers() {
-        Optional.ofNullable(KnowledgesConfigScreen.SWITCH_KNOWLEDGE_MAP.get(this))
-                .map(KnowledgesConfigScreen.KNOWLEDGE_SWITCHES_MAP::get)
-                .ifPresent(entries -> entries.forEach(entry -> ((BooleanListEntryAccessor) entry).getBool().set(getValue())));
+        Arrays.stream(KnowledgesConfigScreen.BooleanListEntrySyncHelper.values())
+                .filter(helper -> helper.object(this).isPresent())
+                .map(helper -> helper.entries(helper.object(this).get()))
+                .flatMap(List::stream)
+                .map(entry -> (BooleanListEntryAccessor) entry)
+                .forEach(entry -> entry.getBool().set(getValue()));
     }
 
     @Inject(method = "lambda$new$0", at = @At("TAIL"))

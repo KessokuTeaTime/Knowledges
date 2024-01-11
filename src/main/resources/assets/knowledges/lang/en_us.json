@@ -28,6 +28,7 @@
 
   "config.knowledges.separator.global": " Global:",
   "config.knowledges.separator.components": " Components:",
+  "config.knowledges.separator.data": " Data:",
 
   "instrument.knowledges.harp": "Harp",
   "instrument.knowledges.basedrum": "Base Drum",

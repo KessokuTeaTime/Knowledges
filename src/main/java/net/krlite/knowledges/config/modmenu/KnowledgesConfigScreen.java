@@ -6,6 +6,7 @@ import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
+import net.krlite.knowledges.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
@@ -15,10 +16,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 import static net.krlite.knowledges.Knowledges.CONFIG;
@@ -40,10 +38,40 @@ public class KnowledgesConfigScreen {
             return supplier.apply(flag);
         }
     }
-    
-    public static final HashMap<BooleanListEntry, Knowledge> SWITCH_KNOWLEDGE_MAP = new HashMap<>();
 
-    public static final HashMap<Knowledge, List<BooleanListEntry>> KNOWLEDGE_SWITCHES_MAP = new HashMap<>();
+    public enum BooleanListEntrySyncHelper {
+        COMPONENTS(), DATA();
+
+        private final HashMap<BooleanListEntry, Object> ENTRY_INDEXED;
+        private final HashMap<Object, List<BooleanListEntry>> OBJECT_INDEXED;
+
+        BooleanListEntrySyncHelper() {
+            ENTRY_INDEXED = new HashMap<>();
+            OBJECT_INDEXED = new HashMap<>();
+        }
+
+        public static void clearAll() {
+            Arrays.stream(values()).forEach(BooleanListEntrySyncHelper::clear);
+        }
+
+        public void clear() {
+            ENTRY_INDEXED.clear();
+            OBJECT_INDEXED.clear();
+        }
+
+        public Optional<Object> object(Object entry) {
+            return Optional.ofNullable(ENTRY_INDEXED.getOrDefault(entry, null));
+        }
+
+        public List<BooleanListEntry> entries(Object object) {
+            return OBJECT_INDEXED.getOrDefault(object, new ArrayList<>());
+        }
+
+        public void register(Object object, BooleanListEntry entry) {
+            ENTRY_INDEXED.put(entry, object);
+            Helper.Map.fastMerge(OBJECT_INDEXED, object, entry);
+        }
+    }
 
     private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
             .setTitle(Knowledges.localize("screen", "config", "title"))
@@ -54,8 +82,7 @@ public class KnowledgesConfigScreen {
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
-        SWITCH_KNOWLEDGE_MAP.clear();
-        KNOWLEDGE_SWITCHES_MAP.clear();
+        BooleanListEntrySyncHelper.clearAll();
 
         configBuilder.setParentScreen(parent);
 
@@ -63,7 +90,8 @@ public class KnowledgesConfigScreen {
         initComponentEntries();
         initDataEntries();
 
-        initIndependentConfigPages();
+        initComponentIndependentConfigPages();
+        initDataIndependentConfigPages();
     }
 
     public static String localizationKey(String... paths) {
@@ -159,10 +187,9 @@ public class KnowledgesConfigScreen {
                 category.addEntry(entryBuilder.startSubCategory(
                         name,
                         components.stream()
-                                .map(knowledge -> {
-                                    var built = componentEntry(knowledge, true).build();
-                                    SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-                                    Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+                                .map(c -> {
+                                    var built = componentEntry(c, true).build();
+                                    BooleanListEntrySyncHelper.COMPONENTS.register(c, built);
 
                                     return (AbstractConfigListEntry) built;
                                 })
@@ -196,8 +223,12 @@ public class KnowledgesConfigScreen {
                     );
                     entries.addAll(
                             data.stream()
-                                    .map(this::dataEntry)
-                                    .map(builder -> (AbstractConfigListEntry) builder.build())
+                                    .map(d -> {
+                                        var built = dataEntry(d).build();
+                                        BooleanListEntrySyncHelper.DATA.register(knowledge, built);
+
+                                        return (AbstractConfigListEntry) built;
+                                    })
                                     .toList()
                     );
                 });
@@ -208,31 +239,59 @@ public class KnowledgesConfigScreen {
         }
     }
 
-    private void initIndependentConfigPages() {
+    private void initComponentIndependentConfigPages() {
         List<Knowledge> components = Knowledges.COMPONENTS.asMap().values().stream()
                 .flatMap(List::stream)
-                .filter(Knowledge::requestsConfigPage)
+                .filter(WithIndependentConfigPage::requestsConfigPage)
                 .toList();
 
         if (!components.isEmpty()) {
             configBuilder.getOrCreateCategorySeparator(localize("separator", "components"));
         }
 
-        components.forEach(knowledge -> {
-            ConfigCategory category = configBuilder.getOrCreateCategory(knowledge.name());
+        components.forEach(c -> {
+            ConfigCategory category = configBuilder.getOrCreateCategory(c.name());
 
-            var built = componentEntry(knowledge, false).build();
-            SWITCH_KNOWLEDGE_MAP.put(built, knowledge);
-            Helper.Map.fastMerge(KNOWLEDGE_SWITCHES_MAP, knowledge, built);
+            var built = componentEntry(c, false).build();
+            BooleanListEntrySyncHelper.COMPONENTS.register(c, built);
 
             category.addEntry(built);
             category.addEntry(
-                    entryBuilder.startTextDescription(((MutableText) knowledge.tooltip()).append("\n"))
-                            .setRequirement(Requirement.isTrue(knowledge::providesTooltip))
+                    entryBuilder.startTextDescription(((MutableText) c.tooltip()).append("\n"))
+                            .setRequirement(Requirement.isTrue(c::providesTooltip))
                             .build()
             );
 
-            knowledge.buildConfigEntries().apply(entryBuilder).stream()
+            c.buildConfigEntries().apply(entryBuilder).stream()
+                    .map(AbstractFieldBuilder::build)
+                    .forEach(category::addEntry);
+        });
+    }
+
+    private void initDataIndependentConfigPages() {
+        List<Data<?>> data = Knowledges.DATA.asMap().values().stream()
+                .flatMap(List::stream)
+                .filter(WithIndependentConfigPage::requestsConfigPage)
+                .toList();
+
+        if (!data.isEmpty()) {
+            configBuilder.getOrCreateCategorySeparator(localize("separator", "data"));
+        }
+
+        data.forEach(d -> {
+            ConfigCategory category = configBuilder.getOrCreateCategory(d.name());
+
+            var built = dataEntry(d).build();
+            BooleanListEntrySyncHelper.DATA.register(d, built);
+
+            category.addEntry(built);
+            category.addEntry(
+                    entryBuilder.startTextDescription(((MutableText) d.tooltip()).append("\n"))
+                            .setRequirement(Requirement.isTrue(d::providesTooltip))
+                            .build()
+            );
+
+            d.buildConfigEntries().apply(entryBuilder).stream()
                     .map(AbstractFieldBuilder::build)
                     .forEach(category::addEntry);
         });
