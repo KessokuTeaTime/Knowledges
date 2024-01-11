@@ -4,6 +4,7 @@
   "package": "net.krlite.knowledges.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "common.ItemStackInvoker"
   ],
   "client": [
     "client.ClientPlayerInteractionManagerMixin",

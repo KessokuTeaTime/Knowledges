@@ -1,6 +1,7 @@
 package net.krlite.knowledges.data.info.entity.entitydescription;
 
 import net.krlite.knowledges.data.info.entity.AbstractEntityDescriptionData;
+import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -26,25 +27,41 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
             ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
 
             if (!heldItemStack.isEmpty()) {
-                // Enchanted Books
-                if (heldItemStack.getItem() instanceof EnchantedBookItem) {
-                    NbtList enchantments = EnchantedBookItem.getEnchantmentNbt(heldItemStack);
+                MutableText durability = null, description = null;
+
+                // Durability
+                if (heldItemStack.isDamageable()) {
+                    if (heldItemStack.isDamaged()) {
+                        int damage = heldItemStack.getDamage(), maxDamage = heldItemStack.getMaxDamage();
+
+                        durability = Text.translatable(
+                                localizationKey("durability"),
+                                maxDamage - damage, maxDamage
+                        );
+                    }
+                } else {
+                    durability = localize("durability", "unbreakable");
+                }
+
+                // Description: Enchantments
+                if (ItemStackInvoker.invokeIsSectionVisible(((ItemStackInvoker) heldItemStack).invokeGetHideFlags(), ItemStack.TooltipSection.ENCHANTMENTS)) {
+                    NbtList enchantments = heldItemStack.getEnchantments();
                     int available = enchantments.size();
 
                     if (available > 0) {
                         NbtCompound firstEnchantment = enchantments.getCompound(0);
 
-                        return Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
+                        description = Registries.ENCHANTMENT.getOrEmpty(EnchantmentHelper.getIdFromNbt(firstEnchantment))
                                 .map(enchantment -> enchantment.getName(EnchantmentHelper.getLevelFromNbt(firstEnchantment)))
                                 .map(rawName -> {
                                     MutableText name = Text.translatable(
-                                            localizationKey("enchanted_book", "enchantment"),
+                                            localizationKey("enchantment"),
                                             rawName.getString()
                                     );
 
                                     if (available > 2) {
                                         return Text.translatable(
-                                                localizationKey("enchanted_book", "more_enchantments"),
+                                                localizationKey("enchantment", "more"),
                                                 name.getString(),
                                                 available - 1,
                                                 // Counts the rest of the enchantments. Use '%2$d' to reference.
@@ -53,16 +70,24 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                                         );
                                     } else if (available > 1) {
                                         return Text.translatable(
-                                                localizationKey("enchanted_book", "one_more_enchantment"),
+                                                localizationKey("enchantment", "one_more"),
                                                 name.getString()
                                         );
                                     } else {
                                         return name;
                                     }
-                                });
+                                }).orElse(null);
                     }
+                }
 
-                    return Optional.empty();
+                if (durability != null && description != null) {
+                    return Optional.of(Text.translatable(
+                            localizationKey("description_and_durability"),
+                            description, durability
+                    ));
+                } else {
+                    if (durability != null) return Optional.of(durability);
+                    if (description != null) return Optional.of(description);
                 }
             }
         }

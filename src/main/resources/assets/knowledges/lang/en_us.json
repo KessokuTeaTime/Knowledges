@@ -139,6 +139,10 @@
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.name": "Item Frame Description",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.tooltip": "Provides descriptions about the properties of the items inside item frames",
 
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability": "§7Durability: §r%1$s §7/ %2$s",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.durability.unbreakable": "Unbreakable",
+  "knowledge_data.knowledges.info.entity.entity_description.item_frame.description_and_durability": "%1$s, %2$s",
+
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.enchantment": "%1$s",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.more_enchantments": "§r%1$s §7and %2$d More",
   "knowledge_data.knowledges.info.entity.entity_description.item_frame.enchanted_book.one_more_enchantment": "§r%1$s §7and 1 More",
