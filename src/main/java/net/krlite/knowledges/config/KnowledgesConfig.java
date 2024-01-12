@@ -7,6 +7,7 @@ import net.krlite.pierced.annotation.Table;
 import net.krlite.pierced.config.Pierced;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -19,11 +20,20 @@ public class KnowledgesConfig extends Pierced {
 		super(KnowledgesConfig.class, file);
 	}
 
-	public static void loadSelf() {
+	static {
+		try {
+			String name = Component.Crosshair.class.getField("TEXTS_LEFT").getDeclaringClass().getName();
+			System.out.println(name.replace(KnowledgesConfig.class.getName(), "").replace("$", ""));
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void loadStatic() {
 		self.load();
 	}
 
-	public static void saveSelf() {
+	public static void saveStatic() {
 		self.save();
 	}
 
@@ -36,6 +46,54 @@ public class KnowledgesConfig extends Pierced {
 			this.defaultValue = defaultValue;
 			this.supplier = supplier;
 			this.consumer = consumer;
+		}
+
+		public WithDefault(V defaultValue, Class<?> declearingClass, String fieldNameUpperSnakeCase) {
+			// Auto bind
+			Field target;
+			String className = toUpperCamelCase(declearingClass.getName()
+					.replace(KnowledgesConfig.class.getName(), "")
+					.split("\\$"));
+			String targetFieldName = decapitalize(className + toUpperCamelCase(fieldNameUpperSnakeCase.split("_")));
+
+			try {
+				target = KnowledgesConfig.class.getDeclaredField(targetFieldName);
+			} catch (NoSuchFieldException e) {
+				throw new RuntimeException(e);
+			}
+
+			this.defaultValue = defaultValue;
+			this.supplier = () -> {
+				try {
+					return (V) target.get(KnowledgesConfig.class);
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e);
+				}
+			};
+			this.consumer = value -> {
+				try {
+					target.set(KnowledgesConfig.class, value);
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e);
+				}
+			};
+        }
+
+		protected static String toUpperCamelCase(String[] strings) {
+			StringBuilder builder = new StringBuilder();
+			for (String string : strings) {
+				if (!string.isEmpty()) {
+					builder
+							.append(String.valueOf(string.charAt(0)).toUpperCase())
+							.append(string.substring(1).toLowerCase());
+				}
+			}
+			return builder.toString();
+		}
+
+		protected static String decapitalize(String string) {
+			if (string.isEmpty()) return string;
+			return String.valueOf(string.charAt(0)).toLowerCase() + string.substring(1);
 		}
 
 		public V defaultValue() {
@@ -63,6 +121,12 @@ public class KnowledgesConfig extends Pierced {
 				this.minValue = minValue;
 				this.maxValue = maxValue;
 			}
+		}
+
+		public Range(V defaultValue, V minValue, V maxValue, Class<?> declearingClass, String fieldName) {
+			super(defaultValue, declearingClass, fieldName);
+			this.minValue = minValue;
+			this.maxValue = maxValue;
 		}
 
 		public V min() {
@@ -110,14 +174,12 @@ public class KnowledgesConfig extends Pierced {
 
 	public static class Global {
 		public static final Range<Double> MAIN_SCALAR = new Range<>(
-				1.0, 0.0, 3.0,
-				() -> KnowledgesConfig.globalMainScalar,
-				value -> KnowledgesConfig.globalMainScalar = value
+				0.5, 0.0, 2.0,
+				Global.class, "MAIN_SCALAR"
 		);
 		public static final Range<Double> CROSSHAIR_SAFE_AREA_SCALAR = new Range<>(
-				1.0, 0.0, 3.0,
-				() -> KnowledgesConfig.globalCrosshairSafeAreaScalar,
-				value -> KnowledgesConfig.globalCrosshairSafeAreaScalar = value
+				0.5, 0.0, 2.0,
+				Global.class, "CROSSHAIR_SAFE_AREA_SCALAR"
 		);
 	}
 
@@ -142,6 +204,11 @@ public class KnowledgesConfig extends Pierced {
 					true,
 					() -> KnowledgesConfig.componentCrosshairSubtitles,
 					value -> KnowledgesConfig.componentCrosshairSubtitles = value
+			);
+			public static final BooleanToggle SHOW_NUMERIC_HEALTH = new BooleanToggle(
+					false,
+					() -> KnowledgesConfig.componentCrosshairShowNumericHealth,
+					value -> KnowledgesConfig.componentCrosshairShowNumericHealth = value
 			);
 		}
 
@@ -196,6 +263,7 @@ public class KnowledgesConfig extends Pierced {
 	@Table("component.crosshair") static boolean componentCrosshairTextsRight = Component.Crosshair.TEXTS_RIGHT.defaultValue();
 	@Table("component.crosshair") static boolean componentCrosshairTextsLeft = Component.Crosshair.TEXTS_LEFT.defaultValue();
 	@Table("component.crosshair") static boolean componentCrosshairSubtitles = Component.Crosshair.SUBTITLES.defaultValue();
+	@Table("component.crosshair") static boolean componentCrosshairShowNumericHealth = Component.Crosshair.SHOW_NUMERIC_HEALTH.defaultValue();
 
 	@Table("component.info.block") static boolean componentInfoBlockShowPoweredStatus = Component.InfoBlock.SHOW_POWERED_STATUS.defaultValue();
 

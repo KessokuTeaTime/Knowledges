@@ -81,11 +81,11 @@ public class KnowledgesConfigScreen {
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
-            .setSavingRunnable(KnowledgesConfig::saveSelf);
+            .setSavingRunnable(KnowledgesConfig::saveStatic);
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
-        KnowledgesConfig.loadSelf();
+        KnowledgesConfig.loadStatic();
         configBuilder.setParentScreen(parent);
         BooleanListEntrySyncHelper.clearAll();
 
@@ -125,7 +125,7 @@ public class KnowledgesConfigScreen {
                         .setDefaultValue((int) (1000 * Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue()))
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
                         .setSaveConsumer(value -> Global.MAIN_SCALAR.set(value.floatValue() / 1000.0))
-                        .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
+                        .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
 
@@ -139,7 +139,7 @@ public class KnowledgesConfigScreen {
                         .setDefaultValue((int) (1000 * Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue()))
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
                         .setSaveConsumer(value -> Global.CROSSHAIR_SAFE_AREA_SCALAR.set(value.floatValue() / 1000.0))
-                        .setTextGetter(value -> Text.literal(String.format("%.2f", 0.5 + value / 1000.0 * 0.5)))
+                        .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
     }
