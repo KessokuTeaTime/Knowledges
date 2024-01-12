@@ -208,7 +208,7 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 		public static MutableText dateAndTime() {
 			if (MinecraftClient.getInstance().world == null) return Text.empty();
 
-			long time = MinecraftClient.getInstance().world.getTimeOfDay();
+			long time = MinecraftClient.getInstance().world.getTimeOfDay() + 24000 / 4; // Offset to morning
 			long day = time / 24000;
 			double percentage = (time % 24000) / 24000.0;
 

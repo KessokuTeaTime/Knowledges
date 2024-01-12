@@ -176,11 +176,11 @@ public class KnowledgesConfig extends Pierced {
 
 	public static class Global {
 		public static final Range<Double> MAIN_SCALAR = new Range<>(
-				0.5, 0.0, 2.0,
+				1.0, 0.5, 2.0,
 				Global.class, "MAIN_SCALAR"
 		);
 		public static final Range<Double> CROSSHAIR_SAFE_AREA_SCALAR = new Range<>(
-				0.5, 0.0, 2.0,
+				1.0, 0.5, 2.0,
 				Global.class, "CROSSHAIR_SAFE_AREA_SCALAR"
 		);
 	}

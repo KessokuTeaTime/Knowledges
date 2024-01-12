@@ -122,7 +122,7 @@ public class KnowledgesConfigScreen {
                                 (int) (Global.MAIN_SCALAR.min() * 1000),
                                 (int) (Global.MAIN_SCALAR.max() * 1000)
                         )
-                        .setDefaultValue((int) (1000 * Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue()))
+                        .setDefaultValue((int) (1000 * Global.MAIN_SCALAR.defaultValue()))
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
                         .setSaveConsumer(value -> Global.MAIN_SCALAR.set(value.floatValue() / 1000.0))
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))

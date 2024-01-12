@@ -11,10 +11,12 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.MusicDiscItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,6 +86,10 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                 // Description
                 if (heldItemStack.isOf(Items.CLOCK)) {
                     descriptionText = Knowledge.Util.dateAndTime();
+                }
+
+                if (heldItemStack.getItem() instanceof MusicDiscItem musicDiscItem) {
+                    descriptionText = musicDiscItem.getDescription().setStyle(Style.EMPTY);
                 }
 
                 return Helper.Text.combineToMultiline(durabilityText, enchantmentText, descriptionText);
