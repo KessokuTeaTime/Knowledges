@@ -49,7 +49,7 @@ public class Knowledges implements ModInitializer {
     @Override
     public void onInitialize() {
         KnowledgesConfig.loadStatic();
-        AbstractInfoComponent.Animations.registerEvents();
+        AbstractInfoComponent.Animation.registerEvents();
 
         // Components
         FabricLoader.getInstance().getEntrypointContainers(ID, KnowledgesComponentProvider.class).forEach(entrypoint -> {

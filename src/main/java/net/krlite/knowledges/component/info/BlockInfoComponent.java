@@ -17,7 +17,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -93,26 +92,26 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 					namespace = Util.namespace(blockState.getBlock().asItem().getDefaultStack()),
 					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
 
-			boolean resetBlockBreakingProgress = !Animations.Ring.cancelledBlockBreaking() && Animations.Ring.rawBlockBreakingProgress() < Animations.Ring.blockBreakingProgress();
-			Animations.Ring.blockBreakingProgress(Animations.Ring.rawBlockBreakingProgress(), resetBlockBreakingProgress);
-			Animations.Ring.ringRadians(Math.PI * 2 * Animations.Ring.rawBlockBreakingProgress(), resetBlockBreakingProgress);
+			boolean resetBlockBreakingProgress = !Animation.Contextual.cancelledBlockBreaking() && Animation.Contextual.rawBlockBreakingProgress() < Animation.Ring.blockBreakingProgress();
+			Animation.Ring.blockBreakingProgress(Animation.Contextual.rawBlockBreakingProgress(), resetBlockBreakingProgress);
+			Animation.Ring.ringArc(Math.PI * 2 * Animation.Contextual.rawBlockBreakingProgress(), resetBlockBreakingProgress);
 
-			Animations.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
-			Animations.Ring.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Animations.Ring.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
+			Animation.Ring.ovalColor(harvestable ? Palette.Minecraft.WHITE : Palette.Minecraft.RED);
+			Animation.Ring.ringColor(Palette.Minecraft.YELLOW.mix(Palette.Minecraft.GREEN, Animation.Ring.blockBreakingProgress(), ColorStandard.MixMode.PIGMENT));
 
 
 
 			// Titles
 			titles: {
-				Animations.Texts.titleRight(blockName);
-				Animations.Texts.titleLeft(Util.modName(namespace));
+				Animation.Text.titleRight(blockName);
+				Animation.Text.titleLeft(Util.modName(namespace));
 			}
 
 			// Right Above
 			if (client.options.advancedItemTooltips) subtitleRightAbove: {
-				Animations.Texts.subtitleRightAbove(Text.literal(path));
+				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.literal(path));
 			} else {
-				Animations.Texts.subtitleRightAbove(Text.empty());
+				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.empty());
 			}
 
 			// Right Below
@@ -129,7 +128,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 					} else if (data.isPresent()) {
 						tool = data.get();
 					} else {
-						Animations.Texts.subtitleRightBelow(Text.empty());
+						Animation.Text.subtitleRightBelow(net.minecraft.text.Text.empty());
 						break subtitleRightBelow;
 					}
 				}
@@ -140,16 +139,16 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 					String localizationKey = localizationKey("mining_level");
 					String localizationKeyWithLevel = localizationKey("mining_level", String.valueOf(requiredLevel));
-					MutableText localizationWithLevel = Text.translatable(localizationKeyWithLevel);
+					MutableText localizationWithLevel = net.minecraft.text.Text.translatable(localizationKeyWithLevel);
 
 					foundSemanticMiningLevel = !localizationWithLevel.getString().equals(localizationKeyWithLevel);
-					miningLevel = foundSemanticMiningLevel ? localizationWithLevel : Text.translatable(localizationKey, requiredLevel);
+					miningLevel = foundSemanticMiningLevel ? localizationWithLevel : net.minecraft.text.Text.translatable(localizationKey, requiredLevel);
 				}
 
 				if (miningLevel == null) {
-					Animations.Texts.subtitleRightBelow(Text.translatable(localizationKey("tool"), tool));
+					Animation.Text.subtitleRightBelow(net.minecraft.text.Text.translatable(localizationKey("tool"), tool));
 				} else {
-					Animations.Texts.subtitleRightBelow(Text.translatable(
+					Animation.Text.subtitleRightBelow(net.minecraft.text.Text.translatable(
 							foundSemanticMiningLevel ? localizationKey("tool_and_mining_level_semantic") : localizationKey("tool_and_mining_level"),
 							tool, miningLevel
 					));
@@ -158,19 +157,19 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Above
 			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
-				Animations.Texts.subtitleLeftAbove(Text.literal(namespace));
+				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.literal(namespace));
 			} else {
-				Animations.Texts.subtitleLeftAbove(Text.empty());
+				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.empty());
 			}
 
 			// Left Below
 			subtitleLeftBelow: {
-				boolean powered = KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS.get()
+				boolean powered = KnowledgesConfig.Component.InfoBlock.BLOCK_POWERED_STATUS.get()
 						&& Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
 
-				Animations.Texts.subtitleLeftBelow(
+				Animation.Text.subtitleLeftBelow(
 						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player)
-								.orElse(powered ? localize("powered") : Text.empty())
+								.orElse(powered ? localize("powered") : net.minecraft.text.Text.empty())
 				);
 			}
 		});
@@ -195,12 +194,12 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
-								localize("config", "show_powered_status"),
-								KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS.get()
+								localize("config", "block_powered_status"),
+								KnowledgesConfig.Component.InfoBlock.BLOCK_POWERED_STATUS.get()
 						)
-						.setDefaultValue(KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS.defaultValue())
+						.setDefaultValue(KnowledgesConfig.Component.InfoBlock.BLOCK_POWERED_STATUS.defaultValue())
 						.setTooltip(localize("config", "show_powered_status", "tooltip"))
-						.setSaveConsumer(KnowledgesConfig.Component.InfoBlock.SHOW_POWERED_STATUS::set)
+						.setSaveConsumer(KnowledgesConfig.Component.InfoBlock.BLOCK_POWERED_STATUS::set)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

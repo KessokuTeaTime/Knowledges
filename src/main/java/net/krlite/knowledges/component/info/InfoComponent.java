@@ -1,6 +1,7 @@
 package net.krlite.knowledges.component.info;
 
 import net.krlite.equator.math.geometry.flat.Box;
+import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
@@ -29,8 +30,8 @@ public class InfoComponent extends AbstractInfoComponent {
                 .shift(-5 - 3 * scalar(), 2 * scalar());
 
         final AccurateColor informativeTint = Palette.Minecraft.WHITE
-                .mix(Animations.Ring.ovalColor(), 0.8, ColorStandard.MixMode.PIGMENT)
-                .mix(Animations.Ring.ringColor(), Animations.Ring.ringRadians() / (Math.PI * 2), ColorStandard.MixMode.PIGMENT);
+                .mix(Animation.Ring.ovalColor(), 0.8, ColorStandard.MixMode.PIGMENT)
+                .mix(Animation.Ring.ringColor(), Animation.Ring.ringArc() / (Math.PI * 2), ColorStandard.MixMode.PIGMENT);
 
         // Titles
         titles: {
@@ -39,7 +40,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 renderText(
                         context,
                         textsRight,
-                        Animations.Texts.titleRight(),
+                        Animation.Text.titleRight(),
                         Paragraph.Alignment.LEFT,
                         informativeTint.opacity(0.6)
                 );
@@ -50,7 +51,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 renderText(
                         context,
                         textsLeft,
-                        Animations.Texts.titleLeft(),
+                        Animation.Text.titleLeft(),
                         Paragraph.Alignment.RIGHT,
                         Palette.Minecraft.WHITE.opacity(0.6)
                 );
@@ -60,21 +61,21 @@ public class InfoComponent extends AbstractInfoComponent {
         // Subtitles
         if (KnowledgesConfig.Component.Crosshair.SUBTITLES.get()) subtitles: {
             if (KnowledgesConfig.Component.Crosshair.TEXTS_RIGHT.get()) {
-                // Right Above
+                // Right above
                 renderText(
                         context,
                         textsRight.shift(-0.25 * scalar(), -8 * scalar()),
-                        Animations.Texts.subtitleRightAbove(),
+                        Animation.Text.subtitleRightAbove(),
                         Paragraph.Alignment.LEFT,
                         informativeTint.opacity(0.4),
                         0.82
                 );
 
-                // Right Below
+                // Right below
                 renderText(
                         context,
                         textsRight.shift(-0.25 * scalar(), 10.8 * scalar()),
-                        Animations.Texts.subtitleRightBelow(),
+                        Animation.Text.subtitleRightBelow(),
                         Paragraph.Alignment.LEFT,
                         Palette.Minecraft.WHITE.opacity(0.4),
                         0.82
@@ -82,40 +83,53 @@ public class InfoComponent extends AbstractInfoComponent {
             }
 
             if (KnowledgesConfig.Component.Crosshair.TEXTS_LEFT.get()) {
-                // Left Above
+                // Left above
                 renderText(
                         context,
                         textsLeft.shift(0.25 * scalar(), -8 * scalar()),
-                        Animations.Texts.subtitleLeftAbove(),
+                        Animation.Text.subtitleLeftAbove(),
                         Paragraph.Alignment.RIGHT,
                         Palette.Minecraft.WHITE.opacity(0.4),
                         0.82
                 );
 
-                // Left Below
+                // Left below
                 renderText(
                         context,
                         textsLeft.shift(0.25 * scalar(), 10.8 * scalar()),
-                        Animations.Texts.subtitleLeftBelow(),
+                        Animation.Text.subtitleLeftBelow(),
                         Paragraph.Alignment.RIGHT,
                         Palette.Minecraft.WHITE.opacity(0.4),
                         0.82
                 );
             }
         }
+
+        // Numeric health
+        if (KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH.get()) {
+            FrameInfo.scaled()
+                    .center(Vector.ZERO)
+                    .alignBottom(crosshairSafeArea().top())
+                    .shift(0, -2 * scalar())
+                    .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * 0.82 * scalar()).append(Animation.Text.numericHealth()))
+                            .horizontalAlignment(Paragraph.Alignment.CENTER)
+                            .verticalAlignment(Section.Alignment.BOTTOM)
+                            .color(informativeTint.opacity(0.6))
+                    );
+        }
     }
 
     protected void reset() {
-        Animations.Texts.titleRight(Text.empty());
-        Animations.Texts.titleLeft(Text.empty());
+        Animation.Text.titleRight(net.minecraft.text.Text.empty());
+        Animation.Text.titleLeft(net.minecraft.text.Text.empty());
 
-        Animations.Texts.subtitleRightAbove(Text.empty());
-        Animations.Texts.subtitleRightBelow(Text.empty());
-        Animations.Texts.subtitleLeftAbove(Text.empty());
-        Animations.Texts.subtitleLeftBelow(Text.empty());
+        Animation.Text.subtitleRightAbove(net.minecraft.text.Text.empty());
+        Animation.Text.subtitleRightBelow(net.minecraft.text.Text.empty());
+        Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.empty());
+        Animation.Text.subtitleLeftBelow(net.minecraft.text.Text.empty());
 
-        Animations.Ring.ringColor(Palette.Minecraft.WHITE);
-        Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+        Animation.Ring.ringColor(Palette.Minecraft.WHITE);
+        Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
     }
 
     private void renderText(DrawContext context, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color, double fontSizeMultiplier) {

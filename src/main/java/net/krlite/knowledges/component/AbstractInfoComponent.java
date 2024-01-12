@@ -4,8 +4,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.krlite.equator.input.Mouse;
 import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
-import net.krlite.equator.math.geometry.flat.Box;
-import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.animation.animated.AnimatedDouble;
 import net.krlite.equator.visual.animation.base.Interpolation;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedColor;
@@ -13,23 +11,12 @@ import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
-import net.krlite.equator.visual.text.Paragraph;
-import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.core.path.WithPartialPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.core.animation.InterpolatedText;
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.Knowledges;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public abstract class AbstractInfoComponent implements Knowledge, WithPartialPath {
 	@Override
@@ -37,75 +24,167 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 		return "info";
 	}
 
-	public static class Animations {
-		public static class Texts {
+	public static class Animation {
+		public static class Text {
 			private static final InterpolatedText
-					TITLE_RIGHT = new InterpolatedText(InterpolatedText.Alignment.LEFT),
-					TITLE_LEFT = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
+					titleRight = new InterpolatedText(InterpolatedText.Alignment.LEFT),
+					titleLeft = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
 
 			public static MutableText titleRight() {
-				return TITLE_RIGHT.text();
+				return titleRight.text();
 			}
 
-			public static void titleRight(Text text) {
-				TITLE_RIGHT.text(text);
+			public static void titleRight(net.minecraft.text.Text text) {
+				titleRight.text(text);
 			}
 
 			public static MutableText titleLeft() {
-				return TITLE_LEFT.text();
+				return titleLeft.text();
 			}
 
-			public static void titleLeft(Text text) {
-				TITLE_LEFT.text(text);
+			public static void titleLeft(net.minecraft.text.Text text) {
+				titleLeft.text(text);
 			}
 
 
 
 			private static final InterpolatedText
-					SUBTITLE_RIGHT_ABOVE = new InterpolatedText(InterpolatedText.Alignment.LEFT),
-					SUBTITLE_LEFT_ABOVE = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
+					subtitleRightAbove = new InterpolatedText(InterpolatedText.Alignment.LEFT),
+					subtitleLeftAbove = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
 
 			public static MutableText subtitleRightAbove() {
-				return SUBTITLE_RIGHT_ABOVE.text();
+				return subtitleRightAbove.text();
 			}
 
-			public static void subtitleRightAbove(Text text) {
-				SUBTITLE_RIGHT_ABOVE.text(text);
+			public static void subtitleRightAbove(net.minecraft.text.Text text) {
+				subtitleRightAbove.text(text);
 			}
 
 			public static MutableText subtitleLeftAbove() {
-				return SUBTITLE_LEFT_ABOVE.text();
+				return subtitleLeftAbove.text();
 			}
 
-			public static void subtitleLeftAbove(Text text) {
-				SUBTITLE_LEFT_ABOVE.text(text);
+			public static void subtitleLeftAbove(net.minecraft.text.Text text) {
+				subtitleLeftAbove.text(text);
 			}
 
 
 
 			private static final InterpolatedText
-					SUBTITLE_RIGHT_BELOW = new InterpolatedText(InterpolatedText.Alignment.LEFT),
-					SUBTITLE_LEFT_BELOW = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
+					subtitleRightBelow = new InterpolatedText(InterpolatedText.Alignment.LEFT),
+					subtitleLeftBelow = new InterpolatedText(InterpolatedText.Alignment.RIGHT);
 
 			public static MutableText subtitleRightBelow() {
-				return SUBTITLE_RIGHT_BELOW.text();
+				return subtitleRightBelow.text();
 			}
 
-			public static void subtitleRightBelow(Text text) {
-				SUBTITLE_RIGHT_BELOW.text(text);
+			public static void subtitleRightBelow(net.minecraft.text.Text text) {
+				subtitleRightBelow.text(text);
 			}
 
 			public static MutableText subtitleLeftBelow() {
-				return SUBTITLE_LEFT_BELOW.text();
+				return subtitleLeftBelow.text();
 			}
 
-			public static void subtitleLeftBelow(Text text) {
-				SUBTITLE_LEFT_BELOW.text(text);
+			public static void subtitleLeftBelow(net.minecraft.text.Text text) {
+				subtitleLeftBelow.text(text);
+			}
+
+
+
+			private static final InterpolatedText numericHealth = new InterpolatedText(InterpolatedText.Alignment.LEFT);
+
+			public static MutableText numericHealth() {
+				return numericHealth.text();
+			}
+
+			public static void numericHealth(float health) {
+				numericHealth.text(net.minecraft.text.Text.literal(String.format("%.1f", health)));
+			}
+
+			public static void clearNumericHealth() {
+				numericHealth.text(net.minecraft.text.Text.empty());
 			}
 		}
 
 		public static class Ring {
+			private static final InterpolatedDouble blockBreakingProgress = new InterpolatedDouble(0, 0.004);
+
+			public static double blockBreakingProgress() {
+				return blockBreakingProgress.value();
+			}
+
+			public static void blockBreakingProgress(double progress, boolean reset) {
+				progress = Theory.clamp(progress, 0, 1);
+				blockBreakingProgress.target(progress);
+				if (reset) blockBreakingProgress.reset(progress);
+			}
+
+			public static void blockBreakingProgress(double progress) {
+				blockBreakingProgress(progress, false);
+			}
+
+
+
+			private static final InterpolatedDouble ringArc = new InterpolatedDouble(0, 0.035);
+
+			private static final Interpolation<AccurateColor>
+					ringColor = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT),
+					ovalColor = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT);
+
+			public static double ringArc() {
+				return ringArc.value();
+			}
+
+			public static void ringArc(double radians, boolean reset) {
+				radians = Theory.mod(radians, 2 * Math.PI);
+				ringArc.target(radians);
+				if (reset) ringArc.reset(radians);
+			}
+
+			public static void ringArc(double radians) {
+				ringArc(radians, false);
+			}
+
+			public static AccurateColor ringColor() {
+				return ringColor.value().opacity(0.5 * Helper.Math.mapToPower(ringArc() / (2 * Math.PI), 2, 0.15));
+			}
+
+			public static void ringColor(AccurateColor color) {
+				ringColor.target(color);
+			}
+
+			public static AccurateColor ovalColor() {
+				return ovalColor.value().opacity(0.075 * ovalOpacity());
+			}
+
+			public static void ovalColor(AccurateColor color) {
+				ovalColor.target(color);
+			}
+
+
+
+			private static final InterpolatedDouble ovalOpacity = new InterpolatedDouble(0, 0.013);
+			private static final InterpolatedDouble mouseHolding = new InterpolatedDouble(0, 0.02);
+			private static final AnimatedDouble focusingBlock = new AnimatedDouble(1.6, 1, 150, Curves.Sinusoidal.EASE);
+
+
+			public static double ovalOpacity() {
+				return ovalOpacity.value();
+			}
+
+			public static double mouseHolding() {
+				return mouseHolding.value();
+			}
+
+			public static double focusingBlock() {
+				return focusingBlock.value();
+			}
+		}
+
+		public static class Contextual {
 			private static float rawBlockBreakingProgress = 0;
+			private static boolean cancelledBlockBreaking = false;
 
 			public static float rawBlockBreakingProgress() {
 				return rawBlockBreakingProgress;
@@ -115,8 +194,6 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 				rawBlockBreakingProgress = progress;
 			}
 
-			private static boolean cancelledBlockBreaking = false;
-
 			public static boolean cancelledBlockBreaking() {
 				return cancelledBlockBreaking;
 			}
@@ -125,98 +202,37 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 				cancelledBlockBreaking = flag;
 			}
 
-			private static final InterpolatedDouble BLOCK_BREAKING_PROGRESS = new InterpolatedDouble(0, 0.004);
 
-			public static double blockBreakingProgress() {
-				return BLOCK_BREAKING_PROGRESS.value();
+
+			private static boolean entityWasNotDamaged = true;
+
+			public static boolean entityWasNotDamaged() {
+				return entityWasNotDamaged;
 			}
 
-			public static void blockBreakingProgress(double progress, boolean reset) {
-				progress = Theory.clamp(progress, 0, 1);
-				BLOCK_BREAKING_PROGRESS.target(progress);
-				if (reset) BLOCK_BREAKING_PROGRESS.reset(progress);
-			}
-
-			public static void blockBreakingProgress(double progress) {
-				blockBreakingProgress(progress, false);
-			}
-
-
-
-			private static final InterpolatedDouble RING_RADIANS = new InterpolatedDouble(0, 0.035);
-
-			private static final Interpolation<AccurateColor>
-					RING_COLOR = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT),
-					OVAL_COLOR = new InterpolatedColor(Palette.TRANSPARENT, 0.009, ColorStandard.MixMode.PIGMENT);
-
-			public static double ringRadians() {
-				return RING_RADIANS.value();
-			}
-
-			public static void ringRadians(double radians, boolean reset) {
-				radians = Theory.mod(radians, 2 * Math.PI);
-				RING_RADIANS.target(radians);
-				if (reset) RING_RADIANS.reset(radians);
-			}
-
-			public static void ringRadians(double radians) {
-				ringRadians(radians, false);
-			}
-
-			public static AccurateColor ringColor() {
-				return RING_COLOR.value().opacity(0.5 * Helper.Math.mapToPower(ringRadians() / (2 * Math.PI), 2, 0.15));
-			}
-
-			public static void ringColor(AccurateColor color) {
-				RING_COLOR.target(color);
-			}
-
-			public static AccurateColor ovalColor() {
-				return OVAL_COLOR.value().opacity(0.075 * ovalOpacity());
-			}
-
-			public static void ovalColor(AccurateColor color) {
-				OVAL_COLOR.target(color);
-			}
-
-
-
-			private static final InterpolatedDouble OVAL_OPACITY = new InterpolatedDouble(0, 0.013);
-			private static final InterpolatedDouble MOUSE_HOLDING = new InterpolatedDouble(0, 0.02);
-			private static final AnimatedDouble FOCUSING_BLOCK = new AnimatedDouble(1.6, 1, 150, Curves.Sinusoidal.EASE);
-
-
-			public static double ovalOpacity() {
-				return OVAL_OPACITY.value();
-			}
-
-			public static double mouseHolding() {
-				return MOUSE_HOLDING.value();
-			}
-
-			public static double focusingBlock() {
-				return FOCUSING_BLOCK.value();
+			public static void entityWasNotDamaged(boolean flag) {
+				entityWasNotDamaged = flag;
 			}
 		}
 
 
 
 		static {
-			Ring.FOCUSING_BLOCK.speedDirection(false);
+			Ring.focusingBlock.speedDirection(false);
 
 			Mouse.Callbacks.Click.EVENT.register((button, action, modifiers) -> {
-				Ring.MOUSE_HOLDING.target(action.isPress() ? 1D : 0D);
+				Ring.mouseHolding.target(action.isPress() ? 1D : 0D);
 			});
 		}
 
 		public static void registerEvents() {
 			ClientTickEvents.END_CLIENT_TICK.register(client -> {
 				if (client != null) {
-					Ring.OVAL_OPACITY.target(Info.hasCrosshairTarget() ? 1D : 0D);
+					Ring.ovalOpacity.target(Info.hasCrosshairTarget() ? 1D : 0D);
 
-					if (Ring.FOCUSING_BLOCK.isPositive() != Info.hasCrosshairTarget()) {
-						Ring.FOCUSING_BLOCK.speedDirection(Info.hasCrosshairTarget());
-						Ring.FOCUSING_BLOCK.play();
+					if (Ring.focusingBlock.isPositive() != Info.hasCrosshairTarget()) {
+						Ring.focusingBlock.speedDirection(Info.hasCrosshairTarget());
+						Ring.focusingBlock.play();
 					}
 				}
 			});

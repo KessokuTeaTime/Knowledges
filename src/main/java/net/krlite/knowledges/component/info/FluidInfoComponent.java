@@ -13,7 +13,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -30,43 +29,43 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                     namespace = Registries.FLUID.getId(fluidState.getFluid()).getNamespace(),
                     path = Registries.FLUID.getId(fluidState.getFluid()).getPath();
 
-            Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
-            Animations.Ring.ringColor(Palette.Minecraft.WHITE);
+            Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
+            Animation.Ring.ringColor(Palette.Minecraft.WHITE);
 
             // Titles
             titles:
             {
-                Animations.Texts.titleRight(fluidName);
-                Animations.Texts.titleLeft(Util.modName(namespace));
+                Animation.Text.titleRight(fluidName);
+                Animation.Text.titleLeft(Util.modName(namespace));
             }
 
             // Right Above
             if (client.options.advancedItemTooltips) subtitleRightAbove:{
-                Animations.Texts.subtitleRightAbove(Text.literal(path));
+                Animation.Text.subtitleRightAbove(net.minecraft.text.Text.literal(path));
             }
             else {
-                Animations.Texts.subtitleRightAbove(Text.empty());
+                Animation.Text.subtitleRightAbove(net.minecraft.text.Text.empty());
             }
 
             // Right Below
             subtitleRightBelow:
             {
-                Animations.Texts.subtitleRightBelow(Text.empty());
+                Animation.Text.subtitleRightBelow(net.minecraft.text.Text.empty());
             }
 
             // Left Above
             if (client.options.advancedItemTooltips) subtitleLeftAbove:{
-                Animations.Texts.subtitleLeftAbove(Text.literal(namespace));
+                Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.literal(namespace));
             }
             else {
-                Animations.Texts.subtitleLeftAbove(Text.empty());
+                Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.empty());
             }
 
             // Left Below
             subtitleLeftBelow:
             {
                 int level = fluidState.getLevel();
-                Animations.Texts.subtitleLeftBelow(Text.translatable(localizationKey("level"), level));
+                Animation.Text.subtitleLeftBelow(net.minecraft.text.Text.translatable(localizationKey("level"), level));
             }
         });
     }

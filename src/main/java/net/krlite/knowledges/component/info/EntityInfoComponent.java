@@ -1,7 +1,12 @@
 package net.krlite.knowledges.component.info;
 
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.component.AbstractInfoComponent;
+import net.krlite.knowledges.config.KnowledgesConfig;
+import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
 import net.minecraft.client.MinecraftClient;
@@ -12,7 +17,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -76,7 +80,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 
 	@Override
 	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		Info.crosshairEntity().ifPresent(entity -> {
+		Info.crosshairEntity().ifPresentOrElse(entity -> {
 			MutableText entityName = entity.getDisplayName().copy();
 
 			String
@@ -85,74 +89,85 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 
 			// Titles
 			titles: {
-				Animations.Texts.titleRight(entityName);
-				Animations.Texts.titleLeft(Util.modName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+				Animation.Text.titleRight(entityName);
+				Animation.Text.titleLeft(Util.modName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 
 			switch (entity.getType().getSpawnGroup()) {
 				case MONSTER -> {
-					Animations.Ring.ringColor(Palette.Minecraft.RED);
-					Animations.Ring.ovalColor(Palette.Minecraft.RED);
+					Animation.Ring.ringColor(Palette.Minecraft.RED);
+					Animation.Ring.ovalColor(Palette.Minecraft.RED);
 				}
 				case WATER_CREATURE, UNDERGROUND_WATER_CREATURE -> {
-					Animations.Ring.ringColor(Palette.Minecraft.AQUA);
-					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+					Animation.Ring.ringColor(Palette.Minecraft.AQUA);
+					Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
 				}
 				case WATER_AMBIENT -> {
-					Animations.Ring.ringColor(Palette.Minecraft.BLUE);
-					Animations.Ring.ovalColor(Palette.Minecraft.BLUE);
+					Animation.Ring.ringColor(Palette.Minecraft.BLUE);
+					Animation.Ring.ovalColor(Palette.Minecraft.BLUE);
 				}
 				case MISC -> {
-					Animations.Ring.ringColor(Palette.Minecraft.WHITE);
-					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+					Animation.Ring.ringColor(Palette.Minecraft.WHITE);
+					Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
 				}
 				case AMBIENT -> {
-					Animations.Ring.ringColor(Palette.Minecraft.YELLOW);
-					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+					Animation.Ring.ringColor(Palette.Minecraft.YELLOW);
+					Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
 				}
 				default -> {
-					Animations.Ring.ringColor(Palette.Minecraft.GREEN);
-					Animations.Ring.ovalColor(Palette.Minecraft.WHITE);
+					Animation.Ring.ringColor(Palette.Minecraft.GREEN);
+					Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
 				}
 			}
 
 			if (entity.isInvulnerable()) {
-				Animations.Ring.ovalColor(Palette.Minecraft.LIGHT_PURPLE);
+				Animation.Ring.ovalColor(Palette.Minecraft.LIGHT_PURPLE);
 			}
 
 			if (!entity.isInvulnerable() && entity instanceof LivingEntity livingEntity) {
-				double health = livingEntity.getHealth() / livingEntity.getMaxHealth();
+				float health = livingEntity.getHealth(), maxHealth = livingEntity.getMaxHealth();
+				boolean notDamaged = health == maxHealth;
+				double arc = Math.PI * 2 * (health / maxHealth);
 
-				Animations.Ring.ringRadians(Math.PI * 2 * health);
+				if (Animation.Contextual.entityWasNotDamaged() && !notDamaged) {
+					Animation.Ring.ringArc(Math.min(arc + Math.PI / 3, Math.PI * 2 - Theory.EPSILON), true);
+				}
+
+				Animation.Ring.ringArc(arc);
+				Animation.Text.numericHealth(health);
+				Animation.Contextual.entityWasNotDamaged(notDamaged);
 			}
 
 			// Right Above
 			if (client.options.advancedItemTooltips) subtitleRightAbove: {
-				Animations.Texts.subtitleRightAbove(Text.literal(path));
+				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.literal(path));
 			} else {
-				Animations.Texts.subtitleRightAbove(Text.empty());
+				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.empty());
 			}
 
 			// Right Below
 			subtitleRightBelow: {
-				Animations.Texts.subtitleRightBelow(
-						EntityInformationInvoker.INSTANCE.invoker().entityInformation(entity, player).orElse(Text.empty())
+				Animation.Text.subtitleRightBelow(
+						EntityInformationInvoker.INSTANCE.invoker().entityInformation(entity, player).orElse(net.minecraft.text.Text.empty())
 				);
 			}
 
 			// Left Above
 			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
-				Animations.Texts.subtitleLeftAbove(Text.literal(namespace));
+				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.literal(namespace));
 			} else {
-				Animations.Texts.subtitleLeftAbove(Text.empty());
+				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.empty());
 			}
 
 			// Left Below
 			subtitleLeftBelow: {
-				Animations.Texts.subtitleLeftBelow(
-						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entity, player).orElse(Text.empty())
+				Animation.Text.subtitleLeftBelow(
+						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entity, player).orElse(net.minecraft.text.Text.empty())
 				);
 			}
+		}, () -> {
+			Animation.Text.clearNumericHealth();
+			Animation.Contextual.entityWasNotDamaged(true);
 		});
 	}
 
@@ -164,5 +179,24 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 	@Override
 	public boolean providesTooltip() {
 		return true;
+	}
+
+	@Override
+	public boolean requestsConfigPage() {
+		return true;
+	}
+
+	@Override
+	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+		return entryBuilder -> List.of(
+				entryBuilder.startBooleanToggle(
+								localize("config", "numeric_health"),
+								KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH.get()
+						)
+						.setDefaultValue(KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH.defaultValue())
+						.setTooltip(localize("config", "numeric_health", "tooltip"))
+						.setSaveConsumer(KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH::set)
+						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
+		);
 	}
 }

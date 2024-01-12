@@ -203,16 +203,19 @@ public class KnowledgesConfig extends Pierced {
 					true,
 					Crosshair.class, "SUBTITLES"
 			);
-			public static final BooleanToggle SHOW_NUMERIC_HEALTH = new BooleanToggle(
-					false,
-					Crosshair.class, "SHOW_NUMERIC_HEALTH"
-			);
 		}
 
 		public static class InfoBlock {
-			public static final BooleanToggle SHOW_POWERED_STATUS = new BooleanToggle(
+			public static final BooleanToggle BLOCK_POWERED_STATUS = new BooleanToggle(
 					true,
-					InfoBlock.class, "SHOW_POWERED_STATUS"
+					InfoBlock.class, "BLOCK_POWERED_STATUS"
+			);
+		}
+
+		public static class InfoEntity {
+			public static final BooleanToggle NUMERIC_HEALTH = new BooleanToggle(
+					false,
+					InfoEntity.class, "NUMERIC_HEALTH"
 			);
 		}
 
@@ -254,9 +257,10 @@ public class KnowledgesConfig extends Pierced {
 	@Table("component.crosshair") static boolean componentCrosshairTextsRight;
 	@Table("component.crosshair") static boolean componentCrosshairTextsLeft;
 	@Table("component.crosshair") static boolean componentCrosshairSubtitles;
-	@Table("component.crosshair") static boolean componentCrosshairShowNumericHealth;
 
-	@Table("component.info.block") static boolean componentInfoBlockShowPoweredStatus;
+	@Table("component.info.block") static boolean componentInfoBlockBlockPoweredStatus;
+
+	@Table("component.info.entity") static boolean componentInfoEntityNumericHealth;
 
 	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresWater;
 	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresLava;

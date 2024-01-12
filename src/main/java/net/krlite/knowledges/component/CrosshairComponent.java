@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -26,36 +25,36 @@ public class CrosshairComponent implements Knowledge {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
         Box box = crosshairSafeArea()
-                .scaleCenter(AbstractInfoComponent.Animations.Ring.focusingBlock())
-                .scaleCenter(1 + 0.3 * AbstractInfoComponent.Animations.Ring.mouseHolding());
+                .scaleCenter(AbstractInfoComponent.Animation.Ring.focusingBlock())
+                .scaleCenter(1 + 0.3 * AbstractInfoComponent.Animation.Ring.mouseHolding());
 
         // Shadow
         box.render(context, flat -> flat.new Rectangle()
                 .colors(Palette.Minecraft.BLACK)
-                .opacityMultiplier(0.08 * AbstractInfoComponent.Animations.Ring.ovalOpacity())
+                .opacityMultiplier(0.08 * AbstractInfoComponent.Animation.Ring.ovalOpacity())
                 .new Outlined(box.size())
                 .style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
         );
 
         // Oval
         box.render(context, flat -> flat.new Oval()
-                .colorCenter(AbstractInfoComponent.Animations.Ring.ovalColor())
+                .colorCenter(AbstractInfoComponent.Animation.Ring.ovalColor())
                 .mode(Flat.Oval.OvalMode.FILL)
         );
 
         // Ring
-        if (Theory.looseGreater(AbstractInfoComponent.Animations.Ring.ringRadians(), 0)) {
+        if (Theory.looseGreater(AbstractInfoComponent.Animation.Ring.ringArc(), 0)) {
             box.render(context, flat -> flat.new Oval()
-                    .arc(AbstractInfoComponent.Animations.Ring.ringRadians())
+                    .arc(AbstractInfoComponent.Animation.Ring.ringArc())
                     .mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
-                    .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity())
+                    .opacityMultiplier(AbstractInfoComponent.Animation.Ring.ovalOpacity())
 
-                    .colorCenter(AbstractInfoComponent.Animations.Ring.ringColor().opacity(0.4))
+                    .colorCenter(AbstractInfoComponent.Animation.Ring.ringColor().opacity(0.4))
 
                     .addColor(0, Palette.TRANSPARENT)
                     .addColor(
-                            AbstractInfoComponent.Animations.Ring.ringRadians(),
-                            AbstractInfoComponent.Animations.Ring.ringColor()
+                            AbstractInfoComponent.Animation.Ring.ringArc(),
+                            AbstractInfoComponent.Animation.Ring.ringColor()
                     )
             );
         }
@@ -63,23 +62,23 @@ public class CrosshairComponent implements Knowledge {
         // Outline
         if (KnowledgesConfig.Component.Crosshair.CURSOR_RING_OUTLINE.get()) {
             AccurateColor
-                    ovalColor = AbstractInfoComponent.Animations.Ring.ovalColor().opacity(0.5),
-                    ringColor = AbstractInfoComponent.Animations.Ring.ringColor().opacity(1);
+                    ovalColor = AbstractInfoComponent.Animation.Ring.ovalColor().opacity(0.5),
+                    ringColor = AbstractInfoComponent.Animation.Ring.ringColor().opacity(1);
 
             box.render(context, flat -> flat.new Oval()
                     .mode(Flat.Oval.OvalMode.GRADIANT)
-                    .outlineDynamic(Flat.Oval.VertexProvider.OUTER, 0.1 + 0.1 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress())
-                    .opacityMultiplier(AbstractInfoComponent.Animations.Ring.ovalOpacity() * (0.4 + 0.6 * AbstractInfoComponent.Animations.Ring.blockBreakingProgress()))
+                    .outlineDynamic(Flat.Oval.VertexProvider.OUTER, 0.1 + 0.1 * AbstractInfoComponent.Animation.Ring.blockBreakingProgress())
+                    .opacityMultiplier(AbstractInfoComponent.Animation.Ring.ovalOpacity() * (0.4 + 0.6 * AbstractInfoComponent.Animation.Ring.blockBreakingProgress()))
 
                     .addColor(-Math.PI / 2, ovalColor)
                     .addColor(Math.PI / 2, ovalColor)
                     .addColor(0, ovalColor.mix(
                             ringColor,
-                            Curves.Circular.OUT.apply(0, 1, AbstractInfoComponent.Animations.Ring.blockBreakingProgress()),
+                            Curves.Circular.OUT.apply(0, 1, AbstractInfoComponent.Animation.Ring.blockBreakingProgress()),
                             ColorStandard.MixMode.PIGMENT
                     ))
 
-                    .offset(AbstractInfoComponent.Animations.Ring.ringRadians())
+                    .offset(AbstractInfoComponent.Animation.Ring.ringArc())
             );
         }
     }
