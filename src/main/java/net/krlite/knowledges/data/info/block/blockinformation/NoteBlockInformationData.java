@@ -195,7 +195,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                 m -> Text.literal("E5"),
                 m -> Text.literal("F5"),
                 m -> m.map("Fis5", "Ges5")
-        ), Text.literal("C-D-E-F-G-A-B -is -es")),
+        ), Text.literal("C-D-E-F-G-A-H -is -es")),
         RUSSIAN("russian", mapNotes(
                 m -> m.map("Фа♯3", "So♭l3"),
                 m -> Text.literal("Соль3"),
