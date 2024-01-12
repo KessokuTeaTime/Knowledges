@@ -1,4 +1,4 @@
-### <p alignment=right>[`→` Modrinth](https://modrinth.com/mod/knowledges)</p>
+### <p align=right>[`→` Modrinth](https://modrinth.com/mod/knowledges)</p>
 
 # Knowledges
 
