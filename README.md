@@ -2,7 +2,7 @@
 
 # Knowledges
 
-**Knowledges** makes inspecting game information such as block, entity and armor durability easy and elegent. **Knowledges** provides fully extensionable component and data api that can be easily added through your mod's entrypoints.
+**Knowledges** makes inspecting game information such as block, entity and armor durability easier and more elegent than ever. **Knowledges** provides fully extensionable component and data api that can be easily added through your mod's entrypoints.
 
 By default, **Knowledges** provides 6 components:
 
