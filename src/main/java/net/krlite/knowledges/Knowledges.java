@@ -49,6 +49,7 @@ public class Knowledges implements ModInitializer {
     @Override
     public void onInitialize() {
         KnowledgesConfig.loadStatic();
+        KnowledgesConfig.saveStatic();
         AbstractInfoComponent.Animation.registerEvents();
 
         // Components

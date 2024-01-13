@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -21,8 +22,22 @@ public class KnowledgesConfig extends Pierced {
 		super(KnowledgesConfig.class, file);
 	}
 
+	protected static void forceInit(Class<?> clazz) {
+		try {
+			Class.forName(clazz.getName(), true, clazz.getClassLoader());
+		} catch (ClassNotFoundException e) {
+			throw new AssertionError(e);
+		}
+	}
+
+	protected static void forceInitAllDeclearedClasses(Class<?> clazz) {
+		forceInit(clazz);
+		Arrays.stream(clazz.getDeclaredClasses()).forEach(KnowledgesConfig::forceInitAllDeclearedClasses);
+	}
+
 	public static void loadStatic() {
 		self.load();
+		forceInitAllDeclearedClasses(KnowledgesConfig.class);
 	}
 
 	public static void saveStatic() {
@@ -50,6 +65,7 @@ public class KnowledgesConfig extends Pierced {
 
 			try {
 				target = KnowledgesConfig.class.getDeclaredField(targetFieldName);
+				target.setAccessible(true);
 			} catch (NoSuchFieldException e) {
 				throw new RuntimeException(e);
 			}
@@ -70,7 +86,15 @@ public class KnowledgesConfig extends Pierced {
 					throw new RuntimeException(e);
 				}
 			};
-        }
+
+			// Initialization
+			try {
+				@Nullable V value = (V) target.get(KnowledgesConfig.class);
+				if (value == null) target.set(KnowledgesConfig.class, defaultValue);
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
 		protected static String toUpperCamelCase(String[] strings) {
 			StringBuilder builder = new StringBuilder();
@@ -250,21 +274,21 @@ public class KnowledgesConfig extends Pierced {
 		}
 	}
 
-	static double globalMainScalar;
-	static double globalCrosshairSafeAreaScalar;
+	static Double globalMainScalar;
+	static Double globalCrosshairSafeAreaScalar;
 
-	@Table("component.crosshair") static boolean componentCrosshairCursorRingOutline;
-	@Table("component.crosshair") static boolean componentCrosshairTextsRight;
-	@Table("component.crosshair") static boolean componentCrosshairTextsLeft;
-	@Table("component.crosshair") static boolean componentCrosshairSubtitles;
+	@Table("component.crosshair") static Boolean componentCrosshairCursorRingOutline;
+	@Table("component.crosshair") static Boolean componentCrosshairTextsRight;
+	@Table("component.crosshair") static Boolean componentCrosshairTextsLeft;
+	@Table("component.crosshair") static Boolean componentCrosshairSubtitles;
 
-	@Table("component.info.block") static boolean componentInfoBlockBlockPoweredStatus;
+	@Table("component.info.block") static Boolean componentInfoBlockBlockPoweredStatus;
 
-	@Table("component.info.entity") static boolean componentInfoEntityNumericHealth;
+	@Table("component.info.entity") static Boolean componentInfoEntityNumericHealth;
 
-	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresWater;
-	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresLava;
-	@Table("component.info.fluid") static boolean componentInfoFluidIgnoresOtherFluids;
+	@Table("component.info.fluid") static Boolean componentInfoFluidIgnoresWater;
+	@Table("component.info.fluid") static Boolean componentInfoFluidIgnoresLava;
+	@Table("component.info.fluid") static Boolean componentInfoFluidIgnoresOtherFluids;
 
 	@Table("data.info.block.block_information.note_block") static NoteBlockInformationData.NoteModifier dataNoteBlockInformationNoteModifier;
 	@Table("data.info.block.block_information.note_block") static NoteBlockInformationData.MusicalAlphabet dataNoteBlockInformationMusicalAlphabet;
