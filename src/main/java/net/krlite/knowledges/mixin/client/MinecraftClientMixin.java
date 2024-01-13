@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
     @Inject(
-            method = "reloadResources(ZLnet/minecraft/client/MinecraftClient$LoadingContext;)Ljava/util/concurrent/CompletableFuture;",
+            method = "reloadResources(Z)Ljava/util/concurrent/CompletableFuture;",
             at = @At("HEAD")
     )
     private void reloadConfigs(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
