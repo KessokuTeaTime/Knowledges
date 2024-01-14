@@ -28,6 +28,8 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                     honeyLevel, fullHoneyLevel
             );
 
+            /*
+            // TODO: Make this stuff work
             int beeCount = beehiveBlockEntity.getBeeCount();
             MutableText beeCountText = beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
                     localizationKey("bee_count"),
@@ -35,6 +37,9 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
             );
 
             return Helper.Text.combineToMultiline(honeyLevelText, beeCountText);
+
+             */
+            return Optional.of(honeyLevelText);
         }
 
         return Optional.empty();
