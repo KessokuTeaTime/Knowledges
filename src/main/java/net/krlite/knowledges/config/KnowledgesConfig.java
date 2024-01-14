@@ -4,7 +4,7 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.data.info.block.blockinformation.NoteBlockInformationData;
 import net.krlite.pierced.annotation.Silent;
 import net.krlite.pierced.annotation.Table;
-import net.krlite.pierced.config.Pierced;
+import net.krlite.pierced.Pierced;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
