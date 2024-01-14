@@ -93,8 +93,8 @@ public class KnowledgesConfigScreen {
         initComponentEntries();
         initDataEntries();
 
-        initIndependentConfigPages(Knowledges.COMPONENTS, knowledge -> componentEntry(knowledge, false), "components");
-        initIndependentConfigPages(Knowledges.DATA, data -> dataEntry(data, false), "data");
+        initIndependentConfigPages(Knowledges.COMPONENTS, component -> componentEntry(component, false), BooleanListEntrySyncHelper.COMPONENTS, "components");
+        initIndependentConfigPages(Knowledges.DATA, data -> dataEntry(data, false), BooleanListEntrySyncHelper.DATA, "data");
     }
 
     public static String localizationKey(String... paths) {
@@ -144,16 +144,16 @@ public class KnowledgesConfigScreen {
         );
     }
 
-    private BooleanToggleBuilder componentEntry(Knowledge knowledge, boolean allowsTooltip) {
+    private BooleanToggleBuilder componentEntry(Knowledge component, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
-                        knowledge.name(),
-                        Knowledges.COMPONENTS.isEnabled(knowledge)
+                        component.name(),
+                        Knowledges.COMPONENTS.isEnabled(component)
                 )
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> Optional.ofNullable(
-                        allowsTooltip && knowledge.providesTooltip() ? new Text[]{knowledge.tooltip()} : null
+                        allowsTooltip && component.providesTooltip() ? new Text[]{component.tooltip()} : null
                 ))
-                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
+                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(component, value))
                 .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
@@ -211,14 +211,14 @@ public class KnowledgesConfigScreen {
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
-                map.forEach((knowledge, data) -> {
+                map.forEach((component, data) -> {
                     entries.add(
                             entryBuilder.startTextDescription(Text.translatable(
                                             localizationKey("data", "classifier"),
-                                            Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY)
+                                            Helper.Text.withFormatting(component.name(), Formatting.GRAY)
                                     ))
-                                    .setTooltipSupplier(() -> !knowledge.providesTooltip() ? Optional.empty() : Optional.of(
-                                            new Text[]{knowledge.tooltip()}
+                                    .setTooltipSupplier(() -> !component.providesTooltip() ? Optional.empty() : Optional.of(
+                                            new Text[]{component.tooltip()}
                                     ))
                                     .build()
                     );
@@ -226,7 +226,7 @@ public class KnowledgesConfigScreen {
                             data.stream()
                                     .map(d -> {
                                         var built = dataEntry(d, true).build();
-                                        BooleanListEntrySyncHelper.DATA.register(knowledge, built);
+                                        BooleanListEntrySyncHelper.DATA.register(d, built);
 
                                         return (AbstractConfigListEntry) built;
                                     })
@@ -243,6 +243,7 @@ public class KnowledgesConfigScreen {
     private <T extends WithPath & WithIndependentConfigPage & LocalizableWithName> void initIndependentConfigPages(
             AbstractManager<T> manager,
             Function<T, BooleanToggleBuilder> builder,
+            BooleanListEntrySyncHelper helper,
             String path
     ) {
         List<T> list = manager.asMap().values().stream()
@@ -258,7 +259,7 @@ public class KnowledgesConfigScreen {
             ConfigCategory category = configBuilder.getOrCreateCategory(t.name());
 
             var built = builder.apply(t).build();
-            BooleanListEntrySyncHelper.COMPONENTS.register(t, built);
+            helper.register(t, built);
 
             category.addEntry(built);
             category.addEntry(
