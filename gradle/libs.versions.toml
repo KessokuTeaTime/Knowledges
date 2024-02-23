@@ -1,7 +1,7 @@
 [versions]
 maven-group = "band.kessokuteatime"
 archives-name = "knowledges"
-mod = "4.0.0"
+mod = "4.0.1"
 
 minecraft = "1.20"
 yarn = "1.20+build.1"
