@@ -18,6 +18,9 @@
   "config.knowledges.general.crosshair_safe_area_scalar"        : "准心安全区缩放",
   "config.knowledges.general.crosshair_safe_area_scalar.tooltip": "缩放准心安全区的大小",
 
+  "config.knowledges.general.visible_in_debug_hud"        : "在调试页面可见",
+  "config.knowledges.general.visible_in_debug_hud.tooltip": "是否允许在调试页面（F3）打开时显示知识库",
+
   "config.knowledges.category.components": "组件",
 
   "config.knowledges.components.suffix.default": "（默认）",
@@ -69,22 +72,30 @@
   "musical_alphabet.knowledges.japanese"           : "日式（%s）",
   "musical_alphabet.knowledges.chinese"            : "中国五声调式（%s）",
 
+  "ring_style.knowledges.oval"   : "圆形",
+  "ring_style.knowledges.diamond": "菱形",
+
+  "ring_style.knowledges.oval.tooltip"   : "看起来更加圆滑，需要更高的硬件性能",
+  "ring_style.knowledges.diamond.tooltip": "看起来棱角分明，渲染速度更快",
+
   "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name"   : "准心",
   "knowledge.knowledges.crosshair.tooltip": "用于指示你是否正看着任何东西\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息将不再可见",
 
-  "knowledge.knowledges.crosshair.config.cursor_ring_outline"        : "准心圆形区域描线",
-  "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "§7在准心的圆形区域外显示描线",
+  "knowledge.knowledges.crosshair.config.ring_style": "准心形状",
+
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline"        : "准心指示区域描线",
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "在准心的指示区域外侧显示描线",
 
   "knowledge.knowledges.crosshair.config.texts_right"        : "准心右侧文本",
-  "knowledge.knowledges.crosshair.config.texts_right.tooltip": "§7显示准心右侧的扩展信息",
+  "knowledge.knowledges.crosshair.config.texts_right.tooltip": "显示准心右侧的扩展信息",
 
   "knowledge.knowledges.crosshair.config.texts_left"        : "准心左侧文本",
-  "knowledge.knowledges.crosshair.config.texts_left.tooltip": "§7显示准心左侧的扩展信息",
+  "knowledge.knowledges.crosshair.config.texts_left.tooltip": "显示准心左侧的扩展信息",
 
   "knowledge.knowledges.crosshair.config.subtitles"        : "副标题",
-  "knowledge.knowledges.crosshair.config.subtitles.tooltip": "§7显示位于准心文本上方或下方的描述性文本",
+  "knowledge.knowledges.crosshair.config.subtitles.tooltip": "显示位于准心文本上方或下方的描述性文本",
 
   "knowledge.knowledges.info.name"   : "信息",
   "knowledge.knowledges.info.tooltip": "显示准心目标的信息\n§c如果禁用，则§l方块信息§r§c和§l实体信息§r§c等组件将不再起作用",

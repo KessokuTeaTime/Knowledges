@@ -5,7 +5,6 @@ import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -93,7 +92,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                                 localize("config", "ignores_water"),
                                 Knowledges.CONFIG.components.infoFluid.ignoresWater
                         )
-                        .setDefaultValue(false)
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoFluid.ignoresWater)
                         .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresWater = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
@@ -101,7 +100,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                                 localize("config", "ignores_lava"),
                                 Knowledges.CONFIG.components.infoFluid.ignoresLava
                         )
-                        .setDefaultValue(false)
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoFluid.ignoresLava)
                         .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresLava = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
@@ -109,7 +108,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                                 localize("config", "ignores_other_fluids"),
                                 Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids
                         )
-                        .setDefaultValue(false)
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoFluid.ignoresOtherFluids)
                         .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED)
         );

@@ -15,6 +15,9 @@
   "config.knowledges.general.crosshair_safe_area_scalar"        : "Crosshair Safe Area Scalar",
   "config.knowledges.general.crosshair_safe_area_scalar.tooltip": "The local scalar for the crosshair safe area size",
 
+  "config.knowledges.general.visible_in_debug_hud"        : "Visible in Debug Hud",
+  "config.knowledges.general.visible_in_debug_hud.tooltip": "Whether the hud is visible in debug hud (F3)",
+
   "config.knowledges.category.components": "Components",
 
   "config.knowledges.components.suffix.default": " (Default)",
@@ -67,13 +70,21 @@
   "musical_alphabet.knowledges.japanese"           : "Japanese (%s)",
   "musical_alphabet.knowledges.chinese"            : "Chinese (%s)",
 
+  "ring_style.knowledges.oval"   : "Oval",
+  "ring_style.knowledges.diamond": "Diamond",
+
+  "ring_style.knowledges.oval.tooltip"   : "Looks smoother, requires higher hardware performance",
+  "ring_style.knowledges.diamond.tooltip": "Looks sharp and angular, fast to render",
+
   "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name"   : "Crosshair",
   "knowledge.knowledges.crosshair.tooltip": "Indicates whether you are looking at something\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill be invisible",
 
+  "knowledge.knowledges.crosshair.config.ring_style": "Ring Style",
+
   "knowledge.knowledges.crosshair.config.cursor_ring_outline"        : "Cursor Ring Outline",
-  "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "Whether to display an opaque ring outline around the crosshair oval",
+  "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "Whether to display an opaque ring outline around the crosshair ring",
 
   "knowledge.knowledges.crosshair.config.texts_right"        : "Right Sided Texts",
   "knowledge.knowledges.crosshair.config.texts_right.tooltip": "Whether to display the texts placed against the right side of the crosshair",

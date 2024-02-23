@@ -12,7 +12,7 @@ import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
-import net.krlite.knowledges.core.localization.LocalizableWithName;
+import net.krlite.knowledges.core.localization.Localizable;
 import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.manager.AbstractManager;
@@ -120,7 +120,7 @@ public class KnowledgesConfigScreen {
                                 Knowledges.CONFIG.global.mainScalar,
                                 500, 2000
                         )
-                        .setDefaultValue(1000)
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.global.mainScalar)
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
                         .setSaveConsumer(value -> Knowledges.CONFIG.global.mainScalar = value)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
@@ -133,10 +133,21 @@ public class KnowledgesConfigScreen {
                                 Knowledges.CONFIG.global.crosshairSafeAreaScalar,
                             500, 2000
                         )
-                        .setDefaultValue(1000)
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.global.crosshairSafeAreaScalar)
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
                         .setSaveConsumer(value -> Knowledges.CONFIG.global.crosshairSafeAreaScalar = value)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
+                        .build()
+        );
+
+        category.addEntry(
+                entryBuilder.startBooleanToggle(
+                                localize("general", "visible_in_debug_hud"),
+                                Knowledges.CONFIG.global.visibleInDebugHud
+                        )
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.global.visibleInDebugHud)
+                        .setTooltip(localize("general", "visible_in_debug_hud", "tooltip"))
+                        .setSaveConsumer(value -> Knowledges.CONFIG.global.visibleInDebugHud = value)
                         .build()
         );
     }
@@ -237,7 +248,7 @@ public class KnowledgesConfigScreen {
         }
     }
 
-    private <T extends WithPath & WithIndependentConfigPage & LocalizableWithName> void initIndependentConfigPages(
+    private <T extends WithPath & WithIndependentConfigPage & Localizable.WithName> void initIndependentConfigPages(
             AbstractManager<T> manager,
             Function<T, BooleanToggleBuilder> builder,
             BooleanListEntrySyncHelper helper,

@@ -4,7 +4,7 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
-import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.component.CrosshairComponent;
 import net.krlite.knowledges.data.info.block.blockinformation.NoteBlockInformationData;
 
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 	public static class Global implements ConfigData {
 		public int mainScalar = 1000;
 		public int crosshairSafeAreaScalar = 1000;
+		public boolean visibleInDebugHud = false;
 	}
 
 	@Config(name = "components")
@@ -36,6 +37,7 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 		public InfoFluid infoFluid = new InfoFluid();
 
 		public static class Crosshair {
+			public CrosshairComponent.RingStyle ringStyle = CrosshairComponent.RingStyle.OVAL;
 			public boolean cursorRingOutlineEnabled = false;
 			public boolean textsRightEnabled = true;
 			public boolean textsLeftEnabled = true;

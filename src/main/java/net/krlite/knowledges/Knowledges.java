@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.KnowledgesComponentProvider;
@@ -24,13 +23,13 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
-
 public class Knowledges implements ClientModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
+
     public static final ConfigHolder<KnowledgesConfig> CONFIG_HOLDER;
     public static final KnowledgesConfig CONFIG;
+    public static final KnowledgesConfig DEFAULT_CONFIG = new KnowledgesConfig();
 
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
     public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
