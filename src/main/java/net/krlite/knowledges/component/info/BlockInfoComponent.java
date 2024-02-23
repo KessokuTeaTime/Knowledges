@@ -199,7 +199,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 								Knowledges.CONFIG.components.infoBlock.showBlockPoweredStatus
 						)
 						.setDefaultValue(true)
-						.setTooltip(localize("config", "show_powered_status", "tooltip"))
+						.setTooltip(localize("config", "block_powered_status", "tooltip"))
 						.setSaveConsumer(value -> Knowledges.CONFIG.components.infoBlock.showBlockPoweredStatus = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);

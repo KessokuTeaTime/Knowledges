@@ -3,7 +3,6 @@ package net.krlite.knowledges.manager;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.config.disabled.DisabledDataConfig;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
 
@@ -24,7 +23,7 @@ public class KnowledgesDataManager extends AbstractManager<Data<?>> {
 
     public Map<? extends DataInvoker<?, ?>, List<Data<?>>> asDataInvokerClassifiedMap() {
         return asList().stream()
-                .collect(Collectors.groupingBy(data -> data.dataInvoker()));
+                .collect(Collectors.groupingBy(DataProtocol::dataInvoker));
     }
 
     public <K extends Knowledge> List<Data<K>> fromDataInvoker(DataInvoker<K, ?> dataInvoker) {

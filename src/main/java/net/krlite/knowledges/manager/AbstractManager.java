@@ -1,14 +1,12 @@
 package net.krlite.knowledges.manager;
 
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.config.disabled.AbstractDisabledConfig;
 import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public abstract class AbstractManager<T extends WithPath> {
     private final HashMap<String, List<T>> map = new HashMap<>();
