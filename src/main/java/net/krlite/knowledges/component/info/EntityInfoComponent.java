@@ -4,6 +4,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
@@ -191,11 +192,11 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localize("config", "numeric_health"),
-								KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH.get()
+								Knowledges.CONFIG.components.infoEntity.showNumericHealth
 						)
-						.setDefaultValue(KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH.defaultValue())
+						.setDefaultValue(false)
 						.setTooltip(localize("config", "numeric_health", "tooltip"))
-						.setSaveConsumer(KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH::set)
+						.setSaveConsumer(value -> Knowledges.CONFIG.components.infoEntity.showNumericHealth = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

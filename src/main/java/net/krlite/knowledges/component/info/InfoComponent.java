@@ -8,6 +8,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
+import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
@@ -36,7 +37,7 @@ public class InfoComponent extends AbstractInfoComponent {
         // Titles
         titles: {
             // Right
-            if (KnowledgesConfig.Component.Crosshair.TEXTS_RIGHT.get()) {
+            if (Knowledges.CONFIG.components.crosshair.textsRightEnabled) {
                 renderText(
                         context,
                         textsRight,
@@ -47,7 +48,7 @@ public class InfoComponent extends AbstractInfoComponent {
             }
 
             // Left
-            if (KnowledgesConfig.Component.Crosshair.TEXTS_LEFT.get()) {
+            if (Knowledges.CONFIG.components.crosshair.textsLeftEnabled) {
                 renderText(
                         context,
                         textsLeft,
@@ -59,8 +60,8 @@ public class InfoComponent extends AbstractInfoComponent {
         }
 
         // Subtitles
-        if (KnowledgesConfig.Component.Crosshair.SUBTITLES.get()) subtitles: {
-            if (KnowledgesConfig.Component.Crosshair.TEXTS_RIGHT.get()) {
+        if (Knowledges.CONFIG.components.crosshair.subtitlesEnabled) subtitles: {
+            if (Knowledges.CONFIG.components.crosshair.textsRightEnabled) {
                 // Right above
                 renderText(
                         context,
@@ -82,7 +83,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 );
             }
 
-            if (KnowledgesConfig.Component.Crosshair.TEXTS_LEFT.get()) {
+            if (Knowledges.CONFIG.components.crosshair.textsLeftEnabled) {
                 // Left above
                 renderText(
                         context,
@@ -106,7 +107,7 @@ public class InfoComponent extends AbstractInfoComponent {
         }
 
         // Numeric health
-        if (KnowledgesConfig.Component.InfoEntity.NUMERIC_HEALTH.get()) {
+        if (Knowledges.CONFIG.components.infoEntity.showNumericHealth) {
             FrameInfo.scaled()
                     .center(Vector.ZERO)
                     .alignBottom(crosshairSafeArea().top())

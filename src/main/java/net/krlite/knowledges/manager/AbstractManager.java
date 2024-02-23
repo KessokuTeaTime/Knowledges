@@ -1,22 +1,19 @@
 package net.krlite.knowledges.manager;
 
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.config.disabled.AbstractDisabledConfig;
 import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.minecraft.util.Identifier;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Supplier;
 
 public abstract class AbstractManager<T extends WithPath> {
     private final HashMap<String, List<T>> map = new HashMap<>();
-    private final AbstractDisabledConfig<T> disabled;
+    private final Supplier<ArrayList<String>> supplier;
 
-    AbstractManager(AbstractDisabledConfig<T> disabled) {
-        this.disabled = disabled;
+    AbstractManager(Supplier<ArrayList<String>> supplier) {
+        this.supplier = supplier;
     }
 
     protected abstract String localizationPrefix();
@@ -78,10 +75,25 @@ public abstract class AbstractManager<T extends WithPath> {
     }
 
     public boolean isEnabled(T t) {
-        return !disabled.get(t);
+        return identifier(t)
+            .map(Identifier::toString)
+            .filter(supplier.get()::contains)
+            .isEmpty();
     }
 
     public void setEnabled(T t, boolean enabled) {
-        disabled.set(t, !enabled);
+        identifier(t)
+                .map(Identifier::toString)
+                .ifPresent(key -> {
+                    if (enabled && !isEnabled(t)) {
+                        supplier.get().remove(key);
+                    }
+
+                    if (!enabled && isEnabled(t)) {
+                        supplier.get().add(key);
+                    }
+                });
+
+        Knowledges.CONFIG_HOLDER.save();
     }
 }

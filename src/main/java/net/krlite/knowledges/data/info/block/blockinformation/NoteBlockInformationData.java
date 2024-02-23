@@ -29,9 +29,9 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
         if (blockState.isOf(Blocks.NOTE_BLOCK)) {
             MutableText instrumentText = Knowledge.Util.instrumentName(blockState.get(NoteBlock.INSTRUMENT));
-            MutableText noteText = KnowledgesConfig.Data.NoteBlockInformation.MUSICAL_ALPHABET.get().alphabet(
+            MutableText noteText = Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet.alphabet(
                     blockState.get(NoteBlock.NOTE),
-                    KnowledgesConfig.Data.NoteBlockInformation.NOTE_MODIFIER.get()
+                    Knowledges.CONFIG.data.noteBlockInformation.noteModifier
             );
 
             return Helper.Text.combineToMultiline(instrumentText, noteText);
@@ -79,11 +79,6 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         @Override
         public MutableText localization() {
             return Knowledges.localize("note_modifier", path());
-        }
-
-        @Override
-        public String toString() {
-            return path();
         }
     }
 
@@ -320,11 +315,6 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                     demo
             );
         }
-
-        @Override
-        public String toString() {
-            return path();
-        }
     }
 
     @Override
@@ -337,23 +327,23 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         return entryBuilder -> List.of(
                 entryBuilder.startEnumSelector(
                                 localize("config", "note_modifiers"),
-                                KnowledgesConfig.Data.NoteBlockInformation.NOTE_MODIFIER.enumClass(),
-                                KnowledgesConfig.Data.NoteBlockInformation.NOTE_MODIFIER.get()
+                                NoteModifier.class,
+                                Knowledges.CONFIG.data.noteBlockInformation.noteModifier
                         )
-                        .setDefaultValue(KnowledgesConfig.Data.NoteBlockInformation.NOTE_MODIFIER.defaultValue())
+                        .setDefaultValue(NoteModifier.SHARPS)
                         .setTooltip(localize("config", "note_modifiers", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizableWithPath) e).localization())
-                        .setSaveConsumer(KnowledgesConfig.Data.NoteBlockInformation.NOTE_MODIFIER::set),
+                        .setSaveConsumer(value -> Knowledges.CONFIG.data.noteBlockInformation.noteModifier = value),
 
                 entryBuilder.startEnumSelector(
                                 localize("config", "musical_alphabet"),
-                                KnowledgesConfig.Data.NoteBlockInformation.MUSICAL_ALPHABET.enumClass(),
-                                KnowledgesConfig.Data.NoteBlockInformation.MUSICAL_ALPHABET.get()
+                                MusicalAlphabet.class,
+                                Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet
                         )
-                        .setDefaultValue(KnowledgesConfig.Data.NoteBlockInformation.MUSICAL_ALPHABET.defaultValue())
+                        .setDefaultValue(MusicalAlphabet.ENGLISH)
                         .setTooltip(localize("config", "musical_alphabet", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizableWithPath) e).localization())
-                        .setSaveConsumer(KnowledgesConfig.Data.NoteBlockInformation.MUSICAL_ALPHABET::set)
+                        .setSaveConsumer(value -> Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet = value)
         );
     }
 }
