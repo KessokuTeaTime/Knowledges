@@ -3,6 +3,7 @@ package net.krlite.knowledges.component.info;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.visual.color.Palette;
+import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
@@ -90,26 +91,26 @@ public class FluidInfoComponent extends AbstractInfoComponent {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_water"),
-                                KnowledgesConfig.Component.InfoFluid.IGNORES_WATER.get()
+                                Knowledges.CONFIG.components.infoFluid.ignoresWater
                         )
-                        .setDefaultValue(KnowledgesConfig.Component.InfoFluid.IGNORES_WATER.defaultValue())
-                        .setSaveConsumer(KnowledgesConfig.Component.InfoFluid.IGNORES_WATER::set)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresWater = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_lava"),
-                                KnowledgesConfig.Component.InfoFluid.IGNORES_LAVA.get()
+                                Knowledges.CONFIG.components.infoFluid.ignoresLava
                         )
-                        .setDefaultValue(KnowledgesConfig.Component.InfoFluid.IGNORES_LAVA.defaultValue())
-                        .setSaveConsumer(KnowledgesConfig.Component.InfoFluid.IGNORES_LAVA::set)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresLava = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_other_fluids"),
-                                KnowledgesConfig.Component.InfoFluid.IGNORES_OTHER_FLUIDS.get()
+                                Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids
                         )
-                        .setDefaultValue(KnowledgesConfig.Component.InfoFluid.IGNORES_OTHER_FLUIDS.defaultValue())
-                        .setSaveConsumer(KnowledgesConfig.Component.InfoFluid.IGNORES_OTHER_FLUIDS::set)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED)
         );
     }

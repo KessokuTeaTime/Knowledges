@@ -1,18 +1,20 @@
 package net.krlite.knowledges.config.modmenu;
 
-import me.shedaniel.clothconfig2.api.*;
+import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.api.Requirement;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Data;
+import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.core.localization.LocalizableWithName;
 import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.core.util.Helper;
-import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.AbstractManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
@@ -21,8 +23,6 @@ import net.minecraft.util.Formatting;
 
 import java.util.*;
 import java.util.function.Function;
-
-import net.krlite.knowledges.config.KnowledgesConfig.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class KnowledgesConfigScreen {
@@ -81,11 +81,10 @@ public class KnowledgesConfigScreen {
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
-            .setSavingRunnable(KnowledgesConfig::saveStatic);
+            .setSavingRunnable(Knowledges.CONFIG_HOLDER::save);
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
-        KnowledgesConfig.loadStatic();
         configBuilder.setParentScreen(parent);
         BooleanListEntrySyncHelper.clearAll();
 
@@ -93,8 +92,8 @@ public class KnowledgesConfigScreen {
         initComponentEntries();
         initDataEntries();
 
-        initIndependentConfigPages(Knowledges.COMPONENTS, knowledge -> componentEntry(knowledge, false), "components");
-        initIndependentConfigPages(Knowledges.DATA, data -> dataEntry(data, false), "data");
+        initIndependentConfigPages(Knowledges.COMPONENTS, component -> componentEntry(component, false), BooleanListEntrySyncHelper.COMPONENTS, "components");
+        initIndependentConfigPages(Knowledges.DATA, data -> dataEntry(data, false), BooleanListEntrySyncHelper.DATA, "data");
     }
 
     public static String localizationKey(String... paths) {
@@ -118,13 +117,12 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "main_scalar"),
-                                (int) (Global.MAIN_SCALAR.get() * 1000),
-                                (int) (Global.MAIN_SCALAR.min() * 1000),
-                                (int) (Global.MAIN_SCALAR.max() * 1000)
+                                Knowledges.CONFIG.global.mainScalar,
+                                500, 2000
                         )
-                        .setDefaultValue((int) (1000 * Global.MAIN_SCALAR.defaultValue()))
+                        .setDefaultValue(1000)
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> Global.MAIN_SCALAR.set(value.floatValue() / 1000.0))
+                        .setSaveConsumer(value -> Knowledges.CONFIG.global.mainScalar = value)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -132,28 +130,27 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
-                                (int) (Global.CROSSHAIR_SAFE_AREA_SCALAR.get() * 1000),
-                                (int) (Global.CROSSHAIR_SAFE_AREA_SCALAR.min() * 1000),
-                                (int) (Global.CROSSHAIR_SAFE_AREA_SCALAR.max() * 1000)
+                                Knowledges.CONFIG.global.crosshairSafeAreaScalar,
+                            500, 2000
                         )
-                        .setDefaultValue((int) (1000 * Global.CROSSHAIR_SAFE_AREA_SCALAR.defaultValue()))
+                        .setDefaultValue(1000)
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
-                        .setSaveConsumer(value -> Global.CROSSHAIR_SAFE_AREA_SCALAR.set(value.floatValue() / 1000.0))
+                        .setSaveConsumer(value -> Knowledges.CONFIG.global.crosshairSafeAreaScalar = value)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
     }
 
-    private BooleanToggleBuilder componentEntry(Knowledge knowledge, boolean allowsTooltip) {
+    private BooleanToggleBuilder componentEntry(Knowledge component, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
-                        knowledge.name(),
-                        Knowledges.COMPONENTS.isEnabled(knowledge)
+                        component.name(),
+                        Knowledges.COMPONENTS.isEnabled(component)
                 )
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> Optional.ofNullable(
-                        allowsTooltip && knowledge.providesTooltip() ? new Text[]{knowledge.tooltip()} : null
+                        allowsTooltip && component.providesTooltip() ? new Text[]{component.tooltip()} : null
                 ))
-                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(knowledge, value))
+                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(component, value))
                 .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
@@ -211,14 +208,14 @@ public class KnowledgesConfigScreen {
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
-                map.forEach((knowledge, data) -> {
+                map.forEach((component, data) -> {
                     entries.add(
                             entryBuilder.startTextDescription(Text.translatable(
                                             localizationKey("data", "classifier"),
-                                            Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY)
+                                            Helper.Text.withFormatting(component.name(), Formatting.GRAY)
                                     ))
-                                    .setTooltipSupplier(() -> !knowledge.providesTooltip() ? Optional.empty() : Optional.of(
-                                            new Text[]{knowledge.tooltip()}
+                                    .setTooltipSupplier(() -> !component.providesTooltip() ? Optional.empty() : Optional.of(
+                                            new Text[]{component.tooltip()}
                                     ))
                                     .build()
                     );
@@ -226,7 +223,7 @@ public class KnowledgesConfigScreen {
                             data.stream()
                                     .map(d -> {
                                         var built = dataEntry(d, true).build();
-                                        BooleanListEntrySyncHelper.DATA.register(knowledge, built);
+                                        BooleanListEntrySyncHelper.DATA.register(d, built);
 
                                         return (AbstractConfigListEntry) built;
                                     })
@@ -243,6 +240,7 @@ public class KnowledgesConfigScreen {
     private <T extends WithPath & WithIndependentConfigPage & LocalizableWithName> void initIndependentConfigPages(
             AbstractManager<T> manager,
             Function<T, BooleanToggleBuilder> builder,
+            BooleanListEntrySyncHelper helper,
             String path
     ) {
         List<T> list = manager.asMap().values().stream()
@@ -258,7 +256,7 @@ public class KnowledgesConfigScreen {
             ConfigCategory category = configBuilder.getOrCreateCategory(t.name());
 
             var built = builder.apply(t).build();
-            BooleanListEntrySyncHelper.COMPONENTS.register(t, built);
+            helper.register(t, built);
 
             category.addEntry(built);
             category.addEntry(

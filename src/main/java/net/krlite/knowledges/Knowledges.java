@@ -1,5 +1,10 @@
 package net.krlite.knowledges;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
+import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -21,13 +26,20 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
-public class Knowledges implements ModInitializer {
+public class Knowledges implements ClientModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
-    public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(Knowledges.ID);
+    public static final ConfigHolder<KnowledgesConfig> CONFIG_HOLDER;
+    public static final KnowledgesConfig CONFIG;
 
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
     public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
+
+    static {
+        AutoConfig.register(KnowledgesConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
+        CONFIG_HOLDER = AutoConfig.getConfigHolder(KnowledgesConfig.class);
+        CONFIG = CONFIG_HOLDER.get();
+    }
 
     public static String localizationKey(String category, String... paths) {
         return category + "." + ID + "." + String.join(".", paths);
@@ -47,9 +59,7 @@ public class Knowledges implements ModInitializer {
     }
 
     @Override
-    public void onInitialize() {
-        KnowledgesConfig.loadStatic();
-        KnowledgesConfig.saveStatic();
+    public void onInitializeClient() {
         AbstractInfoComponent.Animation.registerEvents();
 
         // Components

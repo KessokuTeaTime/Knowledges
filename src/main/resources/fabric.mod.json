@@ -19,7 +19,7 @@
 
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       "net.krlite.knowledges.Knowledges"
     ],
     "modmenu": [

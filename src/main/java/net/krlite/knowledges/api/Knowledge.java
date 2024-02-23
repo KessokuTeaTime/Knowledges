@@ -55,11 +55,11 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 	}
 
 	default double scalar() {
-		return 0.5 + 0.5 * KnowledgesConfig.Global.MAIN_SCALAR.get();
+		return 0.5 + 0.5 * Knowledges.CONFIG.global.mainScalar;
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 16 + 8 * KnowledgesConfig.Global.CROSSHAIR_SAFE_AREA_SCALAR.get();
+		double size = 16 + 8 * Knowledges.CONFIG.global.crosshairSafeAreaScalar;
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
 					   .center(Vector.ZERO)
@@ -123,13 +123,13 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 							)
 					)
 					.filter(fluidState -> !fluidState.isEmpty())
-					.filter(fluidState -> !(KnowledgesConfig.Component.InfoFluid.IGNORES_WATER.get() && (
+					.filter(fluidState -> !(Knowledges.CONFIG.components.infoFluid.ignoresWater && (
 							fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER
 					)))
-					.filter(fluidState -> !(KnowledgesConfig.Component.InfoFluid.IGNORES_LAVA.get() && (
+					.filter(fluidState -> !(Knowledges.CONFIG.components.infoFluid.ignoresLava && (
 							fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA
 					)))
-					.filter(fluidState -> !(KnowledgesConfig.Component.InfoFluid.IGNORES_OTHER_FLUIDS.get() && (
+					.filter(fluidState -> !(Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids && (
 							fluidState.getFluid() != Fluids.WATER
 									&& fluidState.getFluid() != Fluids.LAVA
 									&& fluidState.getFluid() != Fluids.FLOWING_WATER
