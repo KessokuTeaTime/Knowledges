@@ -1,6 +1,6 @@
 [versions]
 maven-group = "band.kessokuteatime"
-archives-name = "splasher"
+archives-name = "knowledges"
 mod = "4.0.0"
 
 minecraft = "1.20.2"
