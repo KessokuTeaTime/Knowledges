@@ -4,8 +4,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.config.KnowledgesConfig;
-import net.krlite.knowledges.core.config.EnumLocalizableWithPath;
+import net.krlite.knowledges.core.localization.EnumLocalizable;
 import net.krlite.knowledges.core.util.Helper;
 import net.krlite.knowledges.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
@@ -18,7 +17,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -54,7 +52,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         return true;
     }
 
-    public enum NoteModifier implements EnumLocalizableWithPath {
+    public enum NoteModifier implements EnumLocalizable.WithName {
         SHARPS("sharps"), FLATS("flats");
 
         private final String path;
@@ -82,7 +80,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         }
     }
 
-    public enum MusicalAlphabet implements EnumLocalizableWithPath {
+    public enum MusicalAlphabet implements EnumLocalizable.WithName {
         NUMERIC(
                 "numeric",
                 (n, m) -> Text.literal(String.valueOf(n)),
@@ -332,7 +330,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                         )
                         .setDefaultValue(NoteModifier.SHARPS)
                         .setTooltip(localize("config", "note_modifiers", "tooltip"))
-                        .setEnumNameProvider(e -> ((EnumLocalizableWithPath) e).localization())
+                        .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
                         .setSaveConsumer(value -> Knowledges.CONFIG.data.noteBlockInformation.noteModifier = value),
 
                 entryBuilder.startEnumSelector(
@@ -342,7 +340,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                         )
                         .setDefaultValue(MusicalAlphabet.ENGLISH)
                         .setTooltip(localize("config", "musical_alphabet", "tooltip"))
-                        .setEnumNameProvider(e -> ((EnumLocalizableWithPath) e).localization())
+                        .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
                         .setSaveConsumer(value -> Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet = value)
         );
     }

@@ -6,7 +6,6 @@ import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
@@ -194,7 +193,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 								localize("config", "numeric_health"),
 								Knowledges.CONFIG.components.infoEntity.showNumericHealth
 						)
-						.setDefaultValue(false)
+						.setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoEntity.showNumericHealth)
 						.setTooltip(localize("config", "numeric_health", "tooltip"))
 						.setSaveConsumer(value -> Knowledges.CONFIG.components.infoEntity.showNumericHealth = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)

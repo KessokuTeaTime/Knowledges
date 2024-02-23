@@ -6,9 +6,8 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
-import net.krlite.knowledges.core.localization.LocalizableWithName;
+import net.krlite.knowledges.core.localization.Localizable;
 import net.krlite.knowledges.core.path.WithPath;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -43,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public interface Knowledge extends WithPath, LocalizableWithName, WithIndependentConfigPage {
+public interface Knowledge extends WithPath, Localizable.WithName, WithIndependentConfigPage {
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
 	@Override
@@ -55,11 +54,11 @@ public interface Knowledge extends WithPath, LocalizableWithName, WithIndependen
 	}
 
 	default double scalar() {
-		return 0.5 + 0.5 * Knowledges.CONFIG.global.mainScalar;
+		return 0.5 + 0.5 * Knowledges.CONFIG.global.mainScalar / 1000.0;
 	}
 
 	default Box crosshairSafeArea() {
-		double size = 16 + 8 * Knowledges.CONFIG.global.crosshairSafeAreaScalar;
+		double size = 16 + 8 * Knowledges.CONFIG.global.crosshairSafeAreaScalar / 1000.0;
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
 					   .center(Vector.ZERO)

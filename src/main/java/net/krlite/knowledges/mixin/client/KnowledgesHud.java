@@ -41,7 +41,7 @@ public abstract class KnowledgesHud {
 
 			if (isFirstPerson
 						&& (!isSpectator || shouldRenderSpectatorCrosshair)
-						&& !isInDebugHud
+						&& (Knowledges.CONFIG.global.visibleInDebugHud || !isInDebugHud)
 			) {
 				Knowledges.render(context, client, client.player, client.world);
 			}

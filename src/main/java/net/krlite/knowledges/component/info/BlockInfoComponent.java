@@ -7,7 +7,6 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.component.AbstractInfoComponent;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.core.data.DataInvoker;
 import net.krlite.knowledges.core.data.DataProtocol;
@@ -198,7 +197,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 								localize("config", "block_powered_status"),
 								Knowledges.CONFIG.components.infoBlock.showBlockPoweredStatus
 						)
-						.setDefaultValue(true)
+						.setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoBlock.showBlockPoweredStatus)
 						.setTooltip(localize("config", "block_powered_status", "tooltip"))
 						.setSaveConsumer(value -> Knowledges.CONFIG.components.infoBlock.showBlockPoweredStatus = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
