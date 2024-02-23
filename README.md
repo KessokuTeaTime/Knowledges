@@ -1,3 +1,6 @@
-### <p align=right>[Main Branch `←`](https://github.com/KrLite/Knowledges)&emsp;[`→` Modrinth](https://modrinth.com/mod/knowledges)</p>
+### <p align=right>[Main Branch `←`](https://github.com/KrLite/Mod.Knowledges)&emsp;[`→` Modrinth](https://modrinth.com/mod/knowledges)</p>
 
-### Knowledges for `1.18~1.18.2`
+### Knowledges for Fabric `1.18.x`
+
+> [!WARNING]
+> This version of **Knowledges** is outdated. Newer modifications will only be made to the latst few versions.
