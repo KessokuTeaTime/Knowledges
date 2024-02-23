@@ -37,7 +37,7 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 		public InfoFluid infoFluid = new InfoFluid();
 
 		public static class Crosshair {
-			public CrosshairComponent.RingStyle ringStyle = CrosshairComponent.RingStyle.OVAL;
+			public CrosshairComponent.RingShape ringShape = CrosshairComponent.RingShape.OVAL;
 			public boolean cursorRingOutlineEnabled = false;
 			public boolean textsRightEnabled = true;
 			public boolean textsLeftEnabled = true;

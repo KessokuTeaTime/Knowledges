@@ -42,7 +42,7 @@ public class CrosshairComponent implements Knowledge {
                 .style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
         );
 
-        switch (Knowledges.CONFIG.components.crosshair.ringStyle) {
+        switch (Knowledges.CONFIG.components.crosshair.ringShape) {
             case OVAL -> {
                 // Oval
                 box.render(context, flat -> flat.new Oval()
@@ -147,12 +147,12 @@ public class CrosshairComponent implements Knowledge {
         return true;
     }
 
-    public enum RingStyle implements EnumLocalizable.WithName, EnumLocalizable.WithTooltip {
+    public enum RingShape implements EnumLocalizable.WithName, EnumLocalizable.WithTooltip {
         OVAL("oval"), DIAMOND("diamond");
 
         private final String path;
 
-        RingStyle(String path) {
+        RingShape(String path) {
             this.path = path;
         }
 
@@ -163,12 +163,12 @@ public class CrosshairComponent implements Knowledge {
 
         @Override
         public MutableText localization() {
-            return Knowledges.localize("ring_style", path());
+            return Knowledges.localize("ring_shape", path());
         }
 
         @Override
         public MutableText toolip() {
-            return Knowledges.localize("ring_style", path(), "tooltip");
+            return Knowledges.localize("ring_shape", path(), "tooltip");
         }
     }
 
@@ -176,17 +176,17 @@ public class CrosshairComponent implements Knowledge {
     public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
                 entryBuilder.startEnumSelector(
-                                localize("config", "ring_style"),
-                                RingStyle.class,
-                                Knowledges.CONFIG.components.crosshair.ringStyle
+                                localize("config", "ring_shape"),
+                                RingShape.class,
+                                Knowledges.CONFIG.components.crosshair.ringShape
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.crosshair.ringStyle)
-                        .setTooltip(localize("config", "ring_style", "tooltip"))
+                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.crosshair.ringShape)
+                        .setTooltip(localize("config", "ring_shape", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setTooltipSupplier(ringStyle -> Optional.of(new Text[]{
-                            ringStyle.toolip()
+                        .setTooltipSupplier(ringShape -> Optional.of(new Text[]{
+                            ringShape.toolip()
                         }))
-                        .setSaveConsumer(value -> Knowledges.CONFIG.components.crosshair.ringStyle = value),
+                        .setSaveConsumer(value -> Knowledges.CONFIG.components.crosshair.ringShape = value),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "cursor_ring_outline"),
