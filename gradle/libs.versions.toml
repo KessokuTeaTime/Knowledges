@@ -3,14 +3,14 @@ maven-group = "band.kessokuteatime"
 archives-name = "knowledges"
 mod = "4.0.0"
 
-minecraft = "1.20.2"
-yarn = "1.20.2+build.4"
+minecraft = "1.20"
+yarn = "1.20+build.1"
 fabric-loader = "0.15.7"
-fabric-api = "0.91.3+1.20.2"
+fabric-api = "0.83.0+1.20"
 fabric-loom = "1.5-SNAPSHOT"
 
-cloth-config = "12.0.109"
-modmenu = "8.0.0-beta.2"
+cloth-config = "11.1.118"
+modmenu = "7.0.1"
 equator = "2.6.2-mc1.20"
 
 [libraries]
