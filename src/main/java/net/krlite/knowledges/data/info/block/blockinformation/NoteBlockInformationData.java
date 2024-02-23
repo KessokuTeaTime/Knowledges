@@ -80,11 +80,6 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         public MutableText localization() {
             return Knowledges.localize("note_modifier", path());
         }
-
-        @Override
-        public String toString() {
-            return path();
-        }
     }
 
     public enum MusicalAlphabet implements EnumLocalizableWithPath {
@@ -319,11 +314,6 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                     Knowledges.localizationKey("musical_alphabet", path()),
                     demo
             );
-        }
-
-        @Override
-        public String toString() {
-            return path();
         }
     }
 

@@ -1,5 +1,6 @@
 package net.krlite.knowledges.config.disabled;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.krlite.knowledges.Knowledges;
 import org.apache.commons.io.FileUtils;
 
@@ -8,13 +9,14 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public abstract class AbstractDisabledConfig<T> {
     private final File file;
     protected final List<String> disabled;
 
     protected AbstractDisabledConfig(String fileName) {
         this.disabled = new ArrayList<>();
-        this.file = Knowledges.CONFIG_PATH.resolve(fileName + ".txt").toFile();
+        this.file = FabricLoader.getInstance().getConfigDir().resolve(Knowledges.ID).resolve(fileName + ".txt").toFile();
         load();
     }
 

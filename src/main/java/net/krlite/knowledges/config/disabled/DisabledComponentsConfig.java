@@ -4,6 +4,7 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Knowledge;
 import net.minecraft.util.Identifier;
 
+@Deprecated
 public class DisabledComponentsConfig extends AbstractDisabledConfig<Knowledge> {
 	public DisabledComponentsConfig() {
 		super("disabled_components");

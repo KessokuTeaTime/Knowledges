@@ -1,5 +1,6 @@
 package net.krlite.knowledges.manager;
 
+import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Data;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.config.disabled.DisabledDataConfig;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class KnowledgesDataManager extends AbstractManager<Data<?>> {
     public KnowledgesDataManager() {
-        super(new DisabledDataConfig());
+        super(() -> Knowledges.CONFIG.data.disabled);
     }
 
     @Override

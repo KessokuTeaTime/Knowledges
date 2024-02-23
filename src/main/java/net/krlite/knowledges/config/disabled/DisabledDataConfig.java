@@ -4,6 +4,7 @@ import net.krlite.knowledges.Knowledges;
 import net.krlite.knowledges.api.Data;
 import net.minecraft.util.Identifier;
 
+@Deprecated
 public class DisabledDataConfig extends AbstractDisabledConfig<Data<?>> {
     public DisabledDataConfig() {
         super("disabled_data");
