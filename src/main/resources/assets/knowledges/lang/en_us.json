@@ -70,18 +70,18 @@
   "musical_alphabet.knowledges.japanese"           : "Japanese (%s)",
   "musical_alphabet.knowledges.chinese"            : "Chinese (%s)",
 
-  "ring_style.knowledges.oval"   : "Oval",
-  "ring_style.knowledges.diamond": "Diamond",
+  "ring_shape.knowledges.oval"   : "Oval",
+  "ring_shape.knowledges.diamond": "Diamond",
 
-  "ring_style.knowledges.oval.tooltip"   : "Looks smoother, requires higher hardware performance",
-  "ring_style.knowledges.diamond.tooltip": "Looks sharp and angular, fast to render",
+  "ring_shape.knowledges.oval.tooltip"   : "Looks smoother, requires higher hardware performance",
+  "ring_shape.knowledges.diamond.tooltip": "Looks sharp and angular, fast to render",
 
   "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name"   : "Crosshair",
   "knowledge.knowledges.crosshair.tooltip": "Indicates whether you are looking at something\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill be invisible",
 
-  "knowledge.knowledges.crosshair.config.ring_style": "Ring Style",
+  "knowledge.knowledges.crosshair.config.ring_shape": "Ring Shape",
 
   "knowledge.knowledges.crosshair.config.cursor_ring_outline"        : "Cursor Ring Outline",
   "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "Whether to display an opaque ring outline around the crosshair ring",

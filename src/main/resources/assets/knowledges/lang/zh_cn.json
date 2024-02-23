@@ -72,18 +72,18 @@
   "musical_alphabet.knowledges.japanese"           : "日式（%s）",
   "musical_alphabet.knowledges.chinese"            : "中国五声调式（%s）",
 
-  "ring_style.knowledges.oval"   : "圆形",
-  "ring_style.knowledges.diamond": "菱形",
+  "ring_shape.knowledges.oval"   : "圆形",
+  "ring_shape.knowledges.diamond": "菱形",
 
-  "ring_style.knowledges.oval.tooltip"   : "看起来更加圆滑，需要更高的硬件性能",
-  "ring_style.knowledges.diamond.tooltip": "看起来棱角分明，渲染速度更快",
+  "ring_shape.knowledges.oval.tooltip"   : "看起来更加圆滑，需要更高的硬件性能",
+  "ring_shape.knowledges.diamond.tooltip": "看起来棱角分明，渲染速度更快",
 
   "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
 
   "knowledge.knowledges.crosshair.name"   : "准心",
   "knowledge.knowledges.crosshair.tooltip": "用于指示你是否正看着任何东西\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息将不再可见",
 
-  "knowledge.knowledges.crosshair.config.ring_style": "准心形状",
+  "knowledge.knowledges.crosshair.config.ring_shape": "准心形状",
 
   "knowledge.knowledges.crosshair.config.cursor_ring_outline"        : "准心指示区域描线",
   "knowledge.knowledges.crosshair.config.cursor_ring_outline.tooltip": "在准心的指示区域外侧显示描线",
