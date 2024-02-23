@@ -41,7 +41,7 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 		public InfoFluid infoFluid = new InfoFluid();
 
 		public static class Crosshair {
-			public boolean cursorRingOutlineEnabled = true;
+			public boolean cursorRingOutlineEnabled = false;
 			public boolean textsRightEnabled = true;
 			public boolean textsLeftEnabled = true;
 			public boolean subtitlesEnabled = true;
