@@ -1,5 +1,6 @@
 package net.krlite.knowledges.core.animation;
 
+import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
@@ -149,6 +150,19 @@ public class InterpolatedText {
     private Style style = Style.EMPTY;
 
     public MutableText text() {
+        if (Math.abs(width.target() - width.value()) < 1) {
+            // Directly return current texts
+            return current.stream()
+                    .map(array -> array.stream()
+                            .map(StyledChar::mutableText)
+                            .reduce(MutableText::append)
+                            .orElse(Text.empty())
+                    )
+                    .map(line -> line.setStyle(style))
+                    .reduce((p, n) -> p.append("\n").append(n))
+                    .orElse(Text.empty());
+        }
+
         ArrayList<ArrayList<StyledChar>> styledLines = new ArrayList<>();
 
         for (int line = 0; line < Math.max(last.size(), current.size()); line++) {
