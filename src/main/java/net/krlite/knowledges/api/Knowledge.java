@@ -5,7 +5,7 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.math.geometry.flat.Vector;
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.core.localization.Localizable;
 import net.krlite.knowledges.core.path.WithPath;
@@ -50,41 +50,48 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 		List<String> fullPaths = new ArrayList<>(List.of(path()));
 		fullPaths.addAll(List.of(paths));
 
-		return Knowledges.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
+		return KnowledgesClient.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
 	}
 
+	@Deprecated
 	static double scalar() {
-		return 0.5 + 0.5 * Knowledges.CONFIG.global.mainScalar / 1000.0;
+		return 0.5 + 0.5 * KnowledgesClient.CONFIG.global.mainScalar / 1000.0;
 	}
 
+	@Deprecated
 	static Box crosshairSafeArea() {
-		double size = 16 + 8 * Knowledges.CONFIG.global.crosshairSafeAreaScalar / 1000.0;
+		double size = 16 + 8 * KnowledgesClient.CONFIG.global.crosshairSafeAreaScalar / 1000.0;
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
 					   .center(Vector.ZERO)
 					   .shift(0, -1);
 	}
 
+	@Deprecated
 	class Info {
+		@Deprecated
 		public static boolean hasCrosshairTarget() {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			boolean blockPos = Knowledges.COMPONENTS.isEnabled(Knowledges.COMPONENTS.byId(Knowledges.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = Knowledges.COMPONENTS.isEnabled(Knowledges.COMPONENTS.byId(Knowledges.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = Knowledges.COMPONENTS.isEnabled(Knowledges.COMPONENTS.byId(Knowledges.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
+			boolean blockPos = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesClient.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesClient.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesClient.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
 
 			return blockPos || entity || fluidState;
 		}
 
+		@Deprecated
 		public static Optional<HitResult> crosshairTarget() {
 			return Optional.ofNullable(MinecraftClient.getInstance().crosshairTarget);
 		}
 
+		@Deprecated
 		public static Optional<Vec3d> crosshairPos() {
 			return crosshairTarget().map(HitResult::getPos);
 		}
 
+		@Deprecated
 		public static Optional<BlockPos> crosshairBlockPos() {
 			return crosshairTarget()
 					.filter(hitResult -> hitResult.getType() == HitResult.Type.BLOCK)
@@ -92,18 +99,21 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 					.map(BlockHitResult::getBlockPos);
 		}
 
+		@Deprecated
 		public static Optional<BlockState> crosshairBlockState() {
 			MinecraftClient client = MinecraftClient.getInstance();
 			return crosshairBlockPos()
 					.map(blockPos -> client.world != null ? client.world.getBlockState(blockPos) : null);
 		}
 
+		@Deprecated
 		public static Optional<BlockEntity> crosshairBlockEntity() {
 			MinecraftClient client = MinecraftClient.getInstance();
 			return crosshairBlockPos()
 					.map(blockPos -> client.world != null ? client.world.getBlockEntity(blockPos) : null);
 		}
 
+		@Deprecated
 		public static Optional<Entity> crosshairEntity() {
 			return crosshairTarget()
 					.filter(hitResult -> hitResult.getType() == HitResult.Type.ENTITY)
@@ -111,6 +121,7 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 					.map(EntityHitResult::getEntity);
 		}
 
+		@Deprecated
 		public static Optional<FluidState> crosshairFluidState() {
 			MinecraftClient client = MinecraftClient.getInstance();
 
@@ -122,13 +133,13 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 							)
 					)
 					.filter(fluidState -> !fluidState.isEmpty())
-					.filter(fluidState -> !(Knowledges.CONFIG.components.infoFluid.ignoresWater && (
+					.filter(fluidState -> !(KnowledgesClient.CONFIG.components.infoFluid.ignoresWater && (
 							fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER
 					)))
-					.filter(fluidState -> !(Knowledges.CONFIG.components.infoFluid.ignoresLava && (
+					.filter(fluidState -> !(KnowledgesClient.CONFIG.components.infoFluid.ignoresLava && (
 							fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA
 					)))
-					.filter(fluidState -> !(Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids && (
+					.filter(fluidState -> !(KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids && (
 							fluidState.getFluid() != Fluids.WATER
 									&& fluidState.getFluid() != Fluids.LAVA
 									&& fluidState.getFluid() != Fluids.FLOWING_WATER
@@ -137,7 +148,9 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 		}
 	}
 
+	@Deprecated
 	class Util {
+		@Deprecated
 		public static MutableText modName(String namespace) {
 			return Text.literal(FabricLoader.getInstance().getModContainer(namespace)
 					.map(ModContainer::getMetadata)
@@ -145,6 +158,7 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 					.orElse(""));
 		}
 
+		@Deprecated
 		public static String namespace(ItemStack itemStack) {
 			String namespace = Registries.ITEM.getId(itemStack.getItem()).getNamespace();
 
@@ -200,10 +214,12 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 			return namespace;
 		}
 
+		@Deprecated
 		public static MutableText instrumentName(Instrument instrument) {
-			return Knowledges.localize("instrument", instrument.asString());
+			return KnowledgesClient.localize("instrument", instrument.asString());
 		}
 
+		@Deprecated
 		public static MutableText dateAndTime() {
 			if (MinecraftClient.getInstance().world == null) return Text.empty();
 
@@ -214,7 +230,7 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 			int hour = (int) (24 * percentage), minute = (int) (60 * ((percentage * 24) % 1));
 
 			return Text.translatable(
-					Knowledges.localizationKey("util", "date_and_time"),
+					KnowledgesClient.localizationKey("util", "date_and_time"),
 					String.valueOf(day), String.format("%02d", hour), String.format("%02d", minute)
 			);
 		}

@@ -1,6 +1,6 @@
 package net.krlite.knowledges.manager;
 
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.core.path.WithPath;
 import net.krlite.knowledges.core.util.Helper;
 import net.minecraft.util.Identifier;
@@ -62,7 +62,7 @@ public abstract class AbstractManager<T extends WithPath> {
     }
 
     public String localizationKey(T t, String... paths) {
-        String namespace = namespace(t).orElse(Knowledges.ID);
+        String namespace = namespace(t).orElse(KnowledgesClient.ID);
         return localizationPrefix() + "." + namespace + "." + String.join(".", paths);
     }
 
@@ -71,7 +71,7 @@ public abstract class AbstractManager<T extends WithPath> {
     }
 
     public boolean isInDefaultNamespace(T t) {
-        return isInNamespace(t, Knowledges.ID);
+        return isInNamespace(t, KnowledgesClient.ID);
     }
 
     public boolean isEnabled(T t) {
@@ -94,6 +94,6 @@ public abstract class AbstractManager<T extends WithPath> {
                     }
                 });
 
-        Knowledges.CONFIG_HOLDER.save();
+        KnowledgesClient.CONFIG_HOLDER.save();
     }
 }

@@ -8,10 +8,9 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.component.AbstractInfoComponent;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -38,7 +37,7 @@ public class InfoComponent extends AbstractInfoComponent {
         // Titles
         titles: {
             // Right
-            if (Knowledges.CONFIG.components.crosshair.textsRightEnabled) {
+            if (KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled) {
                 renderText(
                         context,
                         textsRight,
@@ -49,7 +48,7 @@ public class InfoComponent extends AbstractInfoComponent {
             }
 
             // Left
-            if (Knowledges.CONFIG.components.crosshair.textsLeftEnabled) {
+            if (KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled) {
                 renderText(
                         context,
                         textsLeft,
@@ -61,8 +60,8 @@ public class InfoComponent extends AbstractInfoComponent {
         }
 
         // Subtitles
-        if (Knowledges.CONFIG.components.crosshair.subtitlesEnabled) subtitles: {
-            if (Knowledges.CONFIG.components.crosshair.textsRightEnabled) {
+        if (KnowledgesClient.CONFIG.components.crosshair.subtitlesEnabled) subtitles: {
+            if (KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled) {
                 // Right above
                 renderText(
                         context,
@@ -84,7 +83,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 );
             }
 
-            if (Knowledges.CONFIG.components.crosshair.textsLeftEnabled) {
+            if (KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled) {
                 // Left above
                 renderText(
                         context,
@@ -108,7 +107,7 @@ public class InfoComponent extends AbstractInfoComponent {
         }
 
         // Numeric health
-        if (Knowledges.CONFIG.components.infoEntity.showNumericHealth) {
+        if (KnowledgesClient.CONFIG.components.infoEntity.showNumericHealth) {
             FrameInfo.scaled()
                     .center(Vector.ZERO)
                     .alignBottom(Knowledge.crosshairSafeArea().top())

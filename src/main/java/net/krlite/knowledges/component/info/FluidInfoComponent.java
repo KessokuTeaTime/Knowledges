@@ -3,7 +3,7 @@ package net.krlite.knowledges.component.info;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.block.BlockState;
@@ -90,26 +90,26 @@ public class FluidInfoComponent extends AbstractInfoComponent {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_water"),
-                                Knowledges.CONFIG.components.infoFluid.ignoresWater
+                                KnowledgesClient.CONFIG.components.infoFluid.ignoresWater
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoFluid.ignoresWater)
-                        .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresWater = value)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresWater)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoFluid.ignoresWater = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_lava"),
-                                Knowledges.CONFIG.components.infoFluid.ignoresLava
+                                KnowledgesClient.CONFIG.components.infoFluid.ignoresLava
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoFluid.ignoresLava)
-                        .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresLava = value)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresLava)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoFluid.ignoresLava = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_other_fluids"),
-                                Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids
+                                KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.components.infoFluid.ignoresOtherFluids)
-                        .setSaveConsumer(value -> Knowledges.CONFIG.components.infoFluid.ignoresOtherFluids = value)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresOtherFluids)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED)
         );
     }

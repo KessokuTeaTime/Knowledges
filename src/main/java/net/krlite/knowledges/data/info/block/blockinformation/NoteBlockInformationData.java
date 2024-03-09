@@ -2,7 +2,7 @@ package net.krlite.knowledges.data.info.block.blockinformation;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.Knowledge;
 import net.krlite.knowledges.core.localization.EnumLocalizable;
 import net.krlite.knowledges.core.util.Helper;
@@ -27,9 +27,9 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
         if (blockState.isOf(Blocks.NOTE_BLOCK)) {
             MutableText instrumentText = Knowledge.Util.instrumentName(blockState.get(NoteBlock.INSTRUMENT));
-            MutableText noteText = Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet.alphabet(
+            MutableText noteText = KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet.alphabet(
                     blockState.get(NoteBlock.NOTE),
-                    Knowledges.CONFIG.data.noteBlockInformation.noteModifier
+                    KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier
             );
 
             return Helper.Text.combineToMultiline(instrumentText, noteText);
@@ -76,7 +76,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
 
         @Override
         public MutableText localization() {
-            return Knowledges.localize("note_modifier", path());
+            return KnowledgesClient.localize("note_modifier", path());
         }
     }
 
@@ -84,7 +84,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         NUMERIC(
                 "numeric",
                 (n, m) -> Text.literal(String.valueOf(n)),
-                Knowledges.localize("musical_alphabet", "numeric", "tooltip")
+                KnowledgesClient.localize("musical_alphabet", "numeric", "tooltip")
         ),
         SOLFEGE("solfege", mapNotes(
                 m -> m.map("Fa♯3", "So♭l3"),
@@ -309,7 +309,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         @Override
         public MutableText localization() {
             return Text.translatable(
-                    Knowledges.localizationKey("musical_alphabet", path()),
+                    KnowledgesClient.localizationKey("musical_alphabet", path()),
                     demo
             );
         }
@@ -326,22 +326,22 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                 entryBuilder.startEnumSelector(
                                 localize("config", "note_modifiers"),
                                 NoteModifier.class,
-                                Knowledges.CONFIG.data.noteBlockInformation.noteModifier
+                                KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier
                         )
                         .setDefaultValue(NoteModifier.SHARPS)
                         .setTooltip(localize("config", "note_modifiers", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setSaveConsumer(value -> Knowledges.CONFIG.data.noteBlockInformation.noteModifier = value),
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier = value),
 
                 entryBuilder.startEnumSelector(
                                 localize("config", "musical_alphabet"),
                                 MusicalAlphabet.class,
-                                Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet
+                                KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet
                         )
                         .setDefaultValue(MusicalAlphabet.ENGLISH)
                         .setTooltip(localize("config", "musical_alphabet", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setSaveConsumer(value -> Knowledges.CONFIG.data.noteBlockInformation.musicalAlphabet = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet = value)
         );
     }
 }

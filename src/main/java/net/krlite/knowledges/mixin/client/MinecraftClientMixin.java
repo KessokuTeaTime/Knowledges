@@ -1,7 +1,6 @@
 package net.krlite.knowledges.mixin.client;
 
-import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.config.KnowledgesConfig;
+import net.krlite.knowledges.KnowledgesClient;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +16,6 @@ public class MinecraftClientMixin {
             at = @At("HEAD")
     )
     private void reloadConfigs(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
-        Knowledges.CONFIG_HOLDER.load();
+        KnowledgesClient.CONFIG_HOLDER.load();
     }
 }

@@ -2,8 +2,8 @@ package net.krlite.knowledges.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.render.frame.FrameInfo;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.Knowledges;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -41,9 +41,9 @@ public abstract class KnowledgesHud {
 
 			if (isFirstPerson
 						&& (!isSpectator || shouldRenderSpectatorCrosshair)
-						&& (Knowledges.CONFIG.global.visibleInDebugHud || !isInDebugHud)
+						&& (KnowledgesClient.CONFIG.global.visibleInDebugHud || !isInDebugHud)
 			) {
-				Knowledges.render(context, client, client.player, client.world);
+				KnowledgesClient.render(context, client, client.player, client.world);
 			}
 		}
 

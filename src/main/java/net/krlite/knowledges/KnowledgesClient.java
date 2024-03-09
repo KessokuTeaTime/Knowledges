@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Knowledges implements ClientModInitializer {
+public class KnowledgesClient implements ClientModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 

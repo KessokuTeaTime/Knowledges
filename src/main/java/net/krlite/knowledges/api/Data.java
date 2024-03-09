@@ -1,6 +1,6 @@
 package net.krlite.knowledges.api;
 
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.core.data.DataProtocol;
 import net.krlite.knowledges.core.localization.Localizable;
@@ -15,6 +15,6 @@ public interface Data<K extends Knowledge> extends DataProtocol<K>, WithPath, Lo
         List<String> fullPaths = new ArrayList<>(List.of(path()));
         fullPaths.addAll(List.of(paths));
 
-        return Knowledges.DATA.localizationKey(this, fullPaths.toArray(String[]::new));
+        return KnowledgesClient.DATA.localizationKey(this, fullPaths.toArray(String[]::new));
     }
 }

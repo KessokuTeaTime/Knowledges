@@ -1,6 +1,6 @@
 package net.krlite.knowledges.core.data;
 
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.Knowledge;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +13,7 @@ public interface DataInvoker<K extends Knowledge, P extends DataProtocol<K>> {
     @NotNull Class<K> targetKnowledgeClass();
 
     default Optional<Knowledge> targetKnowledge() {
-        return Knowledges.COMPONENTS.byClass(targetKnowledgeClass());
+        return KnowledgesClient.COMPONENTS.byClass(targetKnowledgeClass());
     }
 
     @NotNull Function<List<P>, P> protocolStream();
@@ -23,7 +23,7 @@ public interface DataInvoker<K extends Knowledge, P extends DataProtocol<K>> {
     }
 
     default @NotNull P invoker() {
-        return invoker(Knowledges.DATA.availableProtocols(this));
+        return invoker(KnowledgesClient.DATA.availableProtocols(this));
     }
 
     default @NotNull String name() {

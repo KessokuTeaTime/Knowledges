@@ -1,11 +1,11 @@
 package net.krlite.knowledges.manager;
 
-import net.krlite.knowledges.Knowledges;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.Knowledge;
 
 public class KnowledgesComponentManager extends AbstractManager<Knowledge> {
     public KnowledgesComponentManager() {
-        super(() -> Knowledges.CONFIG.components.disabled);
+        super(() -> KnowledgesClient.CONFIG.components.disabled);
     }
 
     @Override
