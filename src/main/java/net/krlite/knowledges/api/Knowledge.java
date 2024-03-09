@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Knowledge extends WithPath, Localizable.WithName, WithIndependentConfigPage {
+	@Deprecated
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
 	@Override
