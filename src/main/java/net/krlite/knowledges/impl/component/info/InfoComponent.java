@@ -22,7 +22,6 @@ public class InfoComponent extends AbstractInfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
         if (!KnowledgeProxy.hitResultNotAir(representable.hitResult())) reset();
-        System.out.println(KnowledgeProxy.hitResultNotAir(representable.hitResult()));
 
         Box textsRight = FrameInfo.scaled()
                 .leftCenter(LayoutProxy.crosshairSafeArea().rightCenter())

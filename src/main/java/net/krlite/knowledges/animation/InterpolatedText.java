@@ -1,5 +1,6 @@
 package net.krlite.knowledges.animation;
 
+import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
@@ -202,23 +203,30 @@ public class InterpolatedText {
         List<String> strings = stringsUnCut.stream().map(StyledChar::cut).toList();
 
         if (!strings.isEmpty()) {
-            if (!cache.equals(current)) {
+            if (!paragraphEquals(cache, Collections.unmodifiableList(current))) {
+                System.out.println("replaced: " + stringsUnCut);
                 last = List.copyOf(cache);
                 cache = List.copyOf(current);
             }
 
-            for (int line = 0; line < Math.max(strings.size(), current.size()); line++) {
-                if (line < current.size() && line < strings.size())
-                    current.set(line, StyledChar.from(stringsUnCut.get(line)));
-                else if (line < strings.size())
-                    current.add(StyledChar.from(stringsUnCut.get(line)));
-                else
-                    current.set(line, new ArrayList<>());
-            }
-            style = text.getStyle();
-        }
+            current.clear();
+            current.addAll(stringsUnCut.stream().map(StyledChar::from).toList());
 
-        width.target(strings.stream().map(InterpolatedText::widthOfString).max(Comparator.naturalOrder()).orElse(0));
+            style = text.getStyle();
+            width.target(strings.stream().map(InterpolatedText::widthOfString).max(Comparator.naturalOrder()).orElse(0));
+        }
+    }
+
+    public boolean paragraphEquals(List<List<StyledChar>> paragraph1, List<List<StyledChar>> paragraph2) {
+        if (paragraph1.size() != paragraph2.size()) return false;
+        for (int line = 0; line < paragraph1.size(); line++) {
+            if (!lineEquals(paragraph1.get(line), paragraph2.get(line))) return false;
+        }
+        return true;
+    }
+
+    public boolean lineEquals(List<StyledChar> line1, List<StyledChar> line2) {
+        return Math.abs(line1.stream().mapToDouble(StyledChar::width).sum() - line2.stream().mapToDouble(StyledChar::width).sum()) < 1;
     }
 
     public static int widthOfString(String string) {
