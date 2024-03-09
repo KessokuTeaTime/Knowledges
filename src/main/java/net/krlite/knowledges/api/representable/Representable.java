@@ -21,23 +21,21 @@ public interface Representable<H extends HitResult> {
 
     Class<? extends Representable<H>> type();
 
-    interface Builder<H extends HitResult, R extends Representable<H>> {
-        Builder<H, R> hitResult(H hitResult);
+    interface Builder<H extends HitResult, R extends Representable<H>, B extends Builder<H, R, B>> {
+        B hitResult(H hitResult);
 
-        Builder<H, R> world(World world);
+        B world(World world);
 
-        Builder<H, R> player(PlayerEntity player);
+        B player(PlayerEntity player);
 
-        Builder<H, R> data(NbtCompound data);
+        B data(NbtCompound data);
 
-        Builder<H, R> hasServer(boolean connected);
+        B hasServer(boolean hasServer);
 
-        Builder<H, R> create();
+        R build();
 
-        Representable<H> build();
-
-        default Builder<H, R> from(R representable) {
-            return create()
+        static <H extends HitResult, R extends Representable<H>, B extends Builder<H, R, B>> B append(B builder, R representable) {
+            return builder
                     .hitResult(representable.hitResult())
                     .world(representable.world())
                     .player(representable.player())

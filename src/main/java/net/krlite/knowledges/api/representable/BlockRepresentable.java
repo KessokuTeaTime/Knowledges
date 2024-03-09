@@ -4,8 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+
+import java.util.function.Supplier;
 
 public interface BlockRepresentable extends Representable<BlockHitResult> {
     Block block();
@@ -16,38 +19,29 @@ public interface BlockRepresentable extends Representable<BlockHitResult> {
 
     BlockPos blockPos();
 
-    Direction direction();
+    Direction side();
 
     @Override
     default Class<? extends Representable<BlockHitResult>> type() {
         return BlockRepresentable.class;
     }
 
-    interface Builder extends Representable.Builder<BlockHitResult, BlockRepresentable> {
-        Builder block(Block block);
-
+    interface Builder extends Representable.Builder<BlockHitResult, BlockRepresentable, Builder> {
         Builder blockState(BlockState blockState);
 
-        Builder blockEntity(BlockEntity blockEntity);
+        default Builder blockEntity(BlockEntity blockEntity) {
+            return blockEntitySupplier(() -> blockEntity);
+        }
 
-        Builder blockPos(BlockPos blockPos);
-
-        Builder direction(Direction direction);
-
-        @Override
-        Builder create();
+        Builder blockEntitySupplier(Supplier<BlockEntity> blockEntitySupplier);
 
         @Override
         BlockRepresentable build();
 
-        @Override
-        default Builder from(BlockRepresentable representable) {
-            return ((Builder) Representable.Builder.super.from(representable))
-                    .block(representable.block())
+        static Builder append(Builder builder, BlockRepresentable representable) {
+            return Representable.Builder.append(builder, representable)
                     .blockState(representable.blockState())
-                    .blockEntity(representable.blockEntity())
-                    .blockPos(representable.blockPos())
-                    .direction(representable.direction());
+                    .blockEntity(representable.blockEntity());
         }
     }
 }
