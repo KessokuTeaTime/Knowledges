@@ -53,9 +53,9 @@ public class ArmorDurabilityComponent implements Knowledge {
 	private void renderArmorIndicator(DrawContext context, @Range(from = 0, to = 3) int position, @Nullable ItemStack itemStack, boolean enabled) {
 		Box box = Box.UNIT
 				.scale(16)
-				.scale(scalar())
+				.scale(Knowledge.scalar())
 				.center(FrameInfo.scaled())
-				.shift(-8 * scalar(), (-8 - 16 * position) * scalar());
+				.shift(-8 * Knowledge.scalar(), (-8 - 16 * position) * Knowledge.scalar());
 
 		if (enabled) {
 			AccurateColor color;

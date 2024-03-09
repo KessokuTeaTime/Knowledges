@@ -30,7 +30,7 @@ import java.util.function.Function;
 public class CrosshairComponent implements Knowledge {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-        Box box = crosshairSafeArea()
+        Box box = Knowledge.crosshairSafeArea()
                 .scaleCenter(AbstractInfoComponent.Animation.Ring.focusingBlock())
                 .scaleCenter(1 + 0.3 * AbstractInfoComponent.Animation.Ring.mouseHolding());
 

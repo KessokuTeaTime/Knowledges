@@ -53,11 +53,11 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 		return Knowledges.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
 	}
 
-	default double scalar() {
+	static double scalar() {
 		return 0.5 + 0.5 * Knowledges.CONFIG.global.mainScalar / 1000.0;
 	}
 
-	default Box crosshairSafeArea() {
+	static Box crosshairSafeArea() {
 		double size = 16 + 8 * Knowledges.CONFIG.global.crosshairSafeAreaScalar / 1000.0;
 		return Box.UNIT.scale(size)
 					   .scale(scalar())
