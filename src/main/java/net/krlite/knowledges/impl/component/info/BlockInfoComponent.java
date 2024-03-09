@@ -16,8 +16,6 @@ import net.krlite.knowledges.api.data.DataInvoker;
 import net.krlite.knowledges.api.data.DataProtocol;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
@@ -172,7 +170,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				boolean powered = KnowledgesClient.CONFIG.components.infoBlock.showBlockPoweredStatus
+				boolean powered = KnowledgesClient.CONFIG.components.infoBlock.showsBlockPoweredStatus
 						&& world.isReceivingRedstonePower(blockRepresentable.blockPos());
 
 				Animation.Text.subtitleLeftBelow(
@@ -203,11 +201,11 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localize("config", "block_powered_status"),
-								KnowledgesClient.CONFIG.components.infoBlock.showBlockPoweredStatus
+								KnowledgesClient.CONFIG.components.infoBlock.showsBlockPoweredStatus
 						)
-						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoBlock.showBlockPoweredStatus)
+						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoBlock.showsBlockPoweredStatus)
 						.setTooltip(localize("config", "block_powered_status", "tooltip"))
-						.setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoBlock.showBlockPoweredStatus = value)
+						.setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoBlock.showsBlockPoweredStatus = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

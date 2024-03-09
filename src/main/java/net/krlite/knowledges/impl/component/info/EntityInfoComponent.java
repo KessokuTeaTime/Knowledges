@@ -13,17 +13,13 @@ import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.data.DataInvoker;
 import net.krlite.knowledges.api.data.DataProtocol;
-import net.krlite.knowledges.impl.representable.KnowledgesEntityRepresentable;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -201,11 +197,11 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localize("config", "numeric_health"),
-								KnowledgesClient.CONFIG.components.infoEntity.showNumericHealth
+								KnowledgesClient.CONFIG.components.infoEntity.showsNumericHealth
 						)
-						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoEntity.showNumericHealth)
+						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoEntity.showsNumericHealth)
 						.setTooltip(localize("config", "numeric_health", "tooltip"))
-						.setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoEntity.showNumericHealth = value)
+						.setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoEntity.showsNumericHealth = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

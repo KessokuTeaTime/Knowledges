@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class KnowledgesDataManager extends KnowledgesManager<Data<?>> {
     public KnowledgesDataManager() {
-        super(() -> KnowledgesClient.CONFIG.data.disabled);
+        super(() -> KnowledgesClient.CONFIG.data.map);
     }
 
     @Override

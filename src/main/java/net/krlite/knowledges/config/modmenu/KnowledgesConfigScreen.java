@@ -83,7 +83,10 @@ public class KnowledgesConfigScreen {
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
-            .setSavingRunnable(KnowledgesClient.CONFIG_HOLDER::save);
+            .setSavingRunnable(() -> {
+                KnowledgesClient.CONFIG_HOLDER.save();
+                if (KnowledgesClient.CONFIG.global.autoTidiesUp) KnowledgesClient.tidyUp();
+            });
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
@@ -150,6 +153,17 @@ public class KnowledgesConfigScreen {
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.global.visibleInDebugHud)
                         .setTooltip(localize("general", "visible_in_debug_hud", "tooltip"))
                         .setSaveConsumer(value -> KnowledgesClient.CONFIG.global.visibleInDebugHud = value)
+                        .build()
+        );
+
+        category.addEntry(
+                entryBuilder.startBooleanToggle(
+                                localize("general", "auto_tidies_up"),
+                                KnowledgesClient.CONFIG.global.autoTidiesUp
+                        )
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.global.autoTidiesUp)
+                        .setTooltip(localize("general", "auto_tidies_up", "tooltip"))
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.global.autoTidiesUp = value)
                         .build()
         );
     }
