@@ -3,6 +3,7 @@ package net.krlite.knowledges.impl.representable;
 import net.krlite.knowledges.api.representable.Representable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
@@ -16,6 +17,11 @@ public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> imple
     @Override
     public HitResult.Type type() {
         return HitResult.Type.MISS;
+    }
+
+    @Override
+    public void writeToBuf(PacketByteBuf buf) {
+        // Nothing to write.
     }
 
     public static class Builder extends KnowledgesRepresentable.Builder<HitResult> implements Representable.Builder<HitResult, EmptyRepresentable, Builder> {

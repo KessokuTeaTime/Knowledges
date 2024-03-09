@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
-public interface Representable<H extends HitResult> {
+public interface Representable<H extends HitResult> extends PacketByteBufWritable {
     default boolean hasHitResult() {
         return hitResult() != null && hitResult().getType() != HitResult.Type.MISS;
     }

@@ -5,15 +5,22 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
+import net.krlite.knowledges.api.representable.PacketByteBufWritable;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
+import net.krlite.knowledges.networking.KnowledgesNetworking;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -52,6 +59,7 @@ public class KnowledgesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         AbstractInfoComponent.Animation.registerEvents();
+        KnowledgesNetworking.registerClient();
 
         // Components
         FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, ComponentProvider.class).forEach(entrypoint -> {
@@ -133,8 +141,15 @@ public class KnowledgesClient implements ClientModInitializer {
             ));
         }
 
+        ClientTickEvents.END_CLIENT_TICK.register(HUD::tick);
         HudRenderCallback.EVENT.register(((context, tickDelta) -> {
             HUD.render(context, COMPONENTS::render);
         }));
+    }
+
+    public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {
+        PacketByteBuf buf = PacketByteBufs.create();
+        writable.writeToBuf(buf);
+        ClientPlayNetworking.send(channel, buf);
     }
 }
