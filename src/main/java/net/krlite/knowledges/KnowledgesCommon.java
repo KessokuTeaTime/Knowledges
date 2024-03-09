@@ -1,6 +1,7 @@
 package net.krlite.knowledges;
 
 import net.fabricmc.api.ModInitializer;
+import net.krlite.knowledges.networking.KnowledgesNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,6 @@ public class KnowledgesCommon implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
+        KnowledgesNetworking.register();
     }
 }

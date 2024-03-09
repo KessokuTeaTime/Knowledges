@@ -6,6 +6,7 @@ import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -26,7 +27,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
         if (blockState.isOf(Blocks.NOTE_BLOCK)) {
-            MutableText instrumentText = Knowledge.Util.instrumentName(blockState.get(NoteBlock.INSTRUMENT));
+            MutableText instrumentText = KnowledgeProxy.getInstrumentName(blockState.get(NoteBlock.INSTRUMENT));
             MutableText noteText = KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet.alphabet(
                     blockState.get(NoteBlock.NOTE),
                     KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier
@@ -36,7 +37,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
         }
 
         if (player.getMainHandStack().isOf(Items.NOTE_BLOCK)) {
-            return Optional.of(Knowledge.Util.instrumentName(blockState.getInstrument()));
+            return Optional.of(KnowledgeProxy.getInstrumentName(blockState.getInstrument()));
         }
 
         return Optional.empty();

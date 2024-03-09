@@ -6,6 +6,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
+import java.util.function.Supplier;
+
 public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> implements Representable<HitResult> {
     public EmptyRepresentable(Builder builder) {
         super(builder);
@@ -18,8 +20,8 @@ public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> imple
 
     public static class Builder extends KnowledgesRepresentable.Builder<HitResult> implements Representable.Builder<HitResult, EmptyRepresentable, Builder> {
         @Override
-        public Builder hitResult(HitResult hitResult) {
-            this.hitResultSupplier = hitResult;
+        public Builder hitResultSupplier(Supplier<HitResult> hitResultSupplier) {
+            this.hitResultSupplier = hitResultSupplier;
             return this;
         }
 

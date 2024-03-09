@@ -2,6 +2,7 @@ package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -83,7 +84,7 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
 
                 // Description
                 if (heldItemStack.isOf(Items.CLOCK)) {
-                    descriptionText = Knowledge.Util.dateAndTime();
+                    descriptionText = KnowledgeProxy.getDateAndTime();
                 }
 
                 if (heldItemStack.getItem() instanceof MusicDiscItem musicDiscItem) {

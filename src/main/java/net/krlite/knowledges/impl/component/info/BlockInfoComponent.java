@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.data.DataInvoker;
@@ -89,7 +90,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			boolean harvestable = hardness >= 0 && player.canHarvest(blockState);
 
 			String
-					namespace = Util.namespace(blockState.getBlock().asItem().getDefaultStack()),
+					namespace = KnowledgeProxy.getNamespace(blockState.getBlock().asItem().getDefaultStack()),
 					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
 
 			boolean resetBlockBreakingProgress = !Animation.Contextual.cancelledBlockBreaking() && Animation.Contextual.rawBlockBreakingProgress() < Animation.Ring.blockBreakingProgress();
@@ -104,7 +105,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Titles
 			titles: {
 				Animation.Text.titleRight(blockName);
-				Animation.Text.titleLeft(Util.modName(namespace));
+				Animation.Text.titleLeft(KnowledgeProxy.getModName(namespace));
 			}
 
 			// Right Above
