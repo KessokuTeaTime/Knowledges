@@ -3,9 +3,8 @@ package net.krlite.knowledges.api.component;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.krlite.equator.math.geometry.flat.Box;
-import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
@@ -64,9 +63,9 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.world == null || client.player == null) return false;
 
-			boolean blockPos = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesClient.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesClient.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesClient.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
+			boolean blockPos = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesCommon.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
+			boolean entity = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesCommon.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
+			boolean fluidState = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesCommon.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
 
 			return blockPos || entity || fluidState;
 		}

@@ -24,7 +24,7 @@ public abstract class KnowledgesRepresentable<H extends HitResult> implements Re
     }
 
     protected <B extends Builder<H>> KnowledgesRepresentable(B builder) {
-        this(() -> builder.hitResult, builder.world, builder.player, builder.data, builder.hasServer);
+        this(builder.hitResultSupplier, builder.world, builder.player, builder.data, builder.hasServer);
     }
 
     @Override
@@ -53,7 +53,7 @@ public abstract class KnowledgesRepresentable<H extends HitResult> implements Re
     }
 
     public static class Builder<H extends HitResult> {
-        protected H hitResult;
+        protected Supplier<H> hitResultSupplier;
         protected World world;
         protected PlayerEntity player;
         protected NbtCompound data;

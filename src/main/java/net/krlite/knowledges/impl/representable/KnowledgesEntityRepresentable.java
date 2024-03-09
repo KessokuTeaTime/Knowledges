@@ -1,12 +1,17 @@
 package net.krlite.knowledges.impl.representable;
 
+import com.google.common.base.Suppliers;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<EntityHitResult> implements EntityRepresentable {
@@ -21,6 +26,30 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
     public Entity entity() {
         return entitySupplier.get();
     }
+    
+    public static void onRequest(PacketByteBuf buf, ServerPlayerEntity player, Consumer<Runnable> executor, Consumer<NbtCompound> responseSender) {
+        KnowledgesEntityRepresentable representable = Builder.from(buf, player).build();
+        executor.accept(() -> {
+            Entity entity = representable.entity();
+            if (entity == null) return;
+            
+            // TODO
+
+            NbtCompound compound = representable.data();
+            compound.putInt("id", entity.getId());
+
+            responseSender.accept(compound);
+        });
+    }
+    
+    public void writeToPacket(PacketByteBuf buf) {
+        buf.writeVarInt(entity().getId());
+        
+        Vec3d hitPos = hitResult().getPos();
+        buf.writeDouble(hitPos.getX());
+        buf.writeDouble(hitPos.getY());
+        buf.writeDouble(hitPos.getZ());
+    }
 
     public static class Builder extends KnowledgesRepresentable.Builder<EntityHitResult> implements EntityRepresentable.Builder {
         private Supplier<Entity> entitySupplier;
@@ -32,8 +61,8 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
         }
 
         @Override
-        public Builder hitResult(EntityHitResult hitResult) {
-            this.hitResult = hitResult;
+        public Builder hitResultSupplier(Supplier<EntityHitResult> hitResultSupplier) {
+            this.hitResultSupplier = hitResultSupplier;
             return this;
         }
 
@@ -62,7 +91,7 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
         }
 
         @Override
-        public EntityRepresentable build() {
+        public KnowledgesEntityRepresentable build() {
             return new KnowledgesEntityRepresentable(this);
         }
 
@@ -72,6 +101,23 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
 
         public static Builder from(EntityRepresentable representable) {
             return (Builder) EntityRepresentable.Builder.append(create(), representable);
+        }
+        
+        public static Builder from(PacketByteBuf buf, ServerPlayerEntity player) {
+            Builder builder = create();
+            
+            builder.world(player.getWorld());
+            builder.player(player);
+            
+            int entityId = buf.readVarInt();
+            double x = buf.readDouble(), y = buf.readDouble(), z = buf.readDouble();
+            
+            // Performs actions on the main thread
+            Supplier<Entity> entitySupplier = Suppliers.memoize(() -> builder.world.getEntityById(entityId));
+            builder.entitySupplier(entitySupplier);
+            builder.hitResultSupplier(Suppliers.memoize(() -> new EntityHitResult(entitySupplier.get(), new Vec3d(x, y, z))));
+            
+            return builder;
         }
     }
 }

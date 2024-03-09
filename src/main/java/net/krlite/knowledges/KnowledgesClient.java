@@ -10,24 +10,18 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
-import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class KnowledgesClient implements ClientModInitializer {
-    public static final String NAME = "Knowledges", ID = "knowledges";
-    public static final Logger LOGGER = LoggerFactory.getLogger(ID);
+    public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + ":client");
 
     public static final ConfigHolder<KnowledgesConfig> CONFIG_HOLDER;
     public static final KnowledgesConfig CONFIG;
@@ -43,8 +37,12 @@ public class KnowledgesClient implements ClientModInitializer {
         CONFIG = CONFIG_HOLDER.get();
     }
 
+    public static Identifier identifier(String path) {
+        return new Identifier(KnowledgesCommon.ID, path);
+    }
+
     public static String localizationKey(String category, String... paths) {
-        return category + "." + ID + "." + String.join(".", paths);
+        return category + "." + KnowledgesCommon.ID + "." + String.join(".", paths);
     }
 
     public static MutableText localize(String category, String... paths) {
@@ -56,7 +54,7 @@ public class KnowledgesClient implements ClientModInitializer {
         AbstractInfoComponent.Animation.registerEvents();
 
         // Components
-        FabricLoader.getInstance().getEntrypointContainers(ID, ComponentProvider.class).forEach(entrypoint -> {
+        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, ComponentProvider.class).forEach(entrypoint -> {
             ComponentProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
@@ -87,7 +85,7 @@ public class KnowledgesClient implements ClientModInitializer {
         });
 
         // Data
-        FabricLoader.getInstance().getEntrypointContainers(ID + "_data", DataProvider.class).forEach(entrypoint -> {
+        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + "_data", DataProvider.class).forEach(entrypoint -> {
             DataProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;

@@ -19,6 +19,9 @@
 
   "environment": "client",
   "entrypoints": {
+    "main": [
+      "net.krlite.knowledges.KnowledgesCommon"
+    ],
     "client": [
       "net.krlite.knowledges.KnowledgesClient"
     ],

@@ -1,5 +1,7 @@
 package net.krlite.knowledges.impl.representable;
 
+import com.google.common.base.Suppliers;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -7,11 +9,15 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockHitResult> implements BlockRepresentable {
@@ -49,13 +55,40 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
         return hitResult().getSide();
     }
 
+    public static void onRequest(PacketByteBuf buf, ServerPlayerEntity player, Consumer<Runnable> executor, Consumer<NbtCompound> responseSender) {
+        KnowledgesBlockRepresentable representable = Builder.from(buf, player).build();
+        executor.accept(() -> {
+            BlockPos pos = representable.blockPos();
+            ServerWorld world = player.getServerWorld();
+            if (!world.canSetBlock(pos)) return;
+
+            BlockEntity blockEntity = representable.blockEntity();
+            if (blockEntity == null) return;
+
+            // TODO
+
+            NbtCompound compound = representable.data();
+            compound.putInt("x", pos.getX());
+            compound.putInt("y", pos.getY());
+            compound.putInt("z", pos.getZ());
+            compound.putString("id", KnowledgeProxy.getId(blockEntity.getType()).toString());
+
+            responseSender.accept(compound);
+        });
+    }
+
+    public void writeToBuf(PacketByteBuf buf) {
+        buf.writeBlockHitResult(hitResult());
+        buf.writeVarInt(Block.getRawIdFromState(blockState()));
+    }
+
     public static final class Builder extends KnowledgesRepresentable.Builder<BlockHitResult> implements BlockRepresentable.Builder {
         private BlockState blockState = Blocks.AIR.getDefaultState();
         private Supplier<BlockEntity> blockEntitySupplier;
 
         @Override
-        public Builder hitResult(BlockHitResult hitResult) {
-            this.hitResult = hitResult;
+        public Builder hitResultSupplier(Supplier<BlockHitResult> hitResultSupplier) {
+            this.hitResultSupplier = hitResultSupplier;
             return this;
         }
 
@@ -106,6 +139,22 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
 
         public static Builder from(BlockRepresentable representable) {
             return (Builder) BlockRepresentable.Builder.append(create(), representable);
+        }
+
+        public static Builder from(PacketByteBuf buf, ServerPlayerEntity player) {
+            Builder builder = create();
+
+            builder.world(player.getWorld());
+            builder.player(player);
+            builder.hitResult(buf.readBlockHitResult());
+            builder.blockState(Block.getStateFromRawId(buf.readVarInt()));
+
+            if (builder.blockState.hasBlockEntity()) {
+                // Performs actions on the main thread
+                builder.blockEntitySupplier(Suppliers.memoize(() -> builder.world.getBlockEntity(builder.hitResultSupplier.get().getBlockPos())));
+            }
+
+            return builder;
         }
     }
 }

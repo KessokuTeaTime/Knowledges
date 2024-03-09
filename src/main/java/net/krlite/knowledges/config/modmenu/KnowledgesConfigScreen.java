@@ -8,6 +8,7 @@ import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
@@ -190,7 +191,7 @@ public class KnowledgesConfigScreen {
         if (!KnowledgesClient.COMPONENTS.asMap().isEmpty()) {
             KnowledgesClient.COMPONENTS.asMap().forEach((namespace, components) -> {
                 MutableText name = Knowledge.Util.modName(namespace);
-                boolean isInDefaultNamespace = namespace.equals(KnowledgesClient.ID);
+                boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
                 if (isInDefaultNamespace) name.append(localize("components", "suffix", "default"));
 
                 category.addEntry(entryBuilder.startSubCategory(
@@ -214,7 +215,7 @@ public class KnowledgesConfigScreen {
         if (!KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
             KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
                 MutableText name = Knowledge.Util.modName(namespace);
-                boolean isInDefaultNamespace = namespace.equals(KnowledgesClient.ID);
+                boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
                 if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();

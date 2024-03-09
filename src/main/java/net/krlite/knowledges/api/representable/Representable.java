@@ -5,6 +5,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
+import java.util.function.Supplier;
+
 public interface Representable<H extends HitResult> {
     H hitResult();
 
@@ -22,7 +24,11 @@ public interface Representable<H extends HitResult> {
     HitResult.Type type();
 
     interface Builder<H extends HitResult, R extends Representable<H>, B extends Builder<H, R, B>> {
-        B hitResult(H hitResult);
+        default B hitResult(H hitResult) {
+            return hitResultSupplier(() -> hitResult);
+        }
+
+        B hitResultSupplier(Supplier<H> hitResultSupplier);
 
         B world(World world);
 
@@ -36,7 +42,7 @@ public interface Representable<H extends HitResult> {
 
         static <H extends HitResult, R extends Representable<H>, B extends Builder<H, R, B>> B append(B builder, R representable) {
             return builder
-                    .hitResult(representable.hitResult())
+                    .hitResultSupplier(representable::hitResult)
                     .world(representable.world())
                     .player(representable.player())
                     .data(representable.data())

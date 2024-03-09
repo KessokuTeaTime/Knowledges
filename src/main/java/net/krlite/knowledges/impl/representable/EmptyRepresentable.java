@@ -19,7 +19,7 @@ public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> imple
     public static class Builder extends KnowledgesRepresentable.Builder<HitResult> implements Representable.Builder<HitResult, EmptyRepresentable, Builder> {
         @Override
         public Builder hitResult(HitResult hitResult) {
-            this.hitResult = hitResult;
+            this.hitResultSupplier = hitResult;
             return this;
         }
 
