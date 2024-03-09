@@ -15,7 +15,9 @@ import net.krlite.knowledges.api.core.path.WithPartialPath;
 import net.krlite.knowledges.Shortcuts;
 import net.krlite.knowledges.animation.InterpolatedText;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
+import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractInfoComponent implements Knowledge, WithPartialPath {
@@ -228,10 +230,13 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 		public static void registerEvents() {
 			ClientTickEvents.END_CLIENT_TICK.register(client -> {
 				if (client != null) {
-					Ring.ovalOpacity.target(Info.hasCrosshairTarget() ? 1D : 0D);
+					HitResult hitResult = MinecraftClient.getInstance().crosshairTarget;
+					boolean hasHitResult = hitResult != null && hitResult.getType() != HitResult.Type.MISS;
 
-					if (Ring.focusingBlock.isPositive() != Info.hasCrosshairTarget()) {
-						Ring.focusingBlock.speedDirection(Info.hasCrosshairTarget());
+					Ring.ovalOpacity.target(hasHitResult ? 1D : 0D);
+
+					if (Ring.focusingBlock.isPositive() != hasHitResult) {
+						Ring.focusingBlock.speedDirection(hasHitResult);
 						Ring.focusingBlock.play();
 					}
 				}

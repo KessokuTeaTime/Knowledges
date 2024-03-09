@@ -7,6 +7,9 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.RenderProxy;
+import net.krlite.knowledges.api.representable.BlockRepresentable;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.data.DataInvoker;
@@ -18,6 +21,8 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -80,13 +85,15 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 	}
 
 	@Override
-	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		Info.crosshairBlockState().ifPresent(blockState -> {
+	public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
+		if (representable.type() == HitResult.Type.BLOCK && representable instanceof BlockRepresentable blockRepresentable) {
+			BlockState blockState = blockRepresentable.blockState();
+			World world = blockRepresentable.world();
+			PlayerEntity player = blockRepresentable.player();
+
 			MutableText blockName = blockState.getBlock().getName();
 
-			float hardness = Info.crosshairBlockPos()
-					.map(blockPos -> blockState.getHardness(world, blockPos))
-					.orElse(0F);
+			float hardness = blockState.getHardness(world, blockRepresentable.blockPos());
 			boolean harvestable = hardness >= 0 && player.canHarvest(blockState);
 
 			String
@@ -109,7 +116,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			}
 
 			// Right Above
-			if (client.options.advancedItemTooltips) subtitleRightAbove: {
+			if (MinecraftClient.getInstance().options.advancedItemTooltips) subtitleRightAbove: {
 				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.literal(path));
 			} else {
 				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.empty());
@@ -157,7 +164,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			}
 
 			// Left Above
-			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
+			if (MinecraftClient.getInstance().options.advancedItemTooltips) subtitleLeftAbove: {
 				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.literal(namespace));
 			} else {
 				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.empty());
@@ -166,14 +173,14 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				boolean powered = KnowledgesClient.CONFIG.components.infoBlock.showBlockPoweredStatus
-						&& Info.crosshairBlockPos().map(world::isReceivingRedstonePower).orElse(false);
+						&& world.isReceivingRedstonePower(blockRepresentable.blockPos());
 
 				Animation.Text.subtitleLeftBelow(
 						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player)
 								.orElse(powered ? localize("powered") : net.minecraft.text.Text.empty())
 				);
 			}
-		});
+		}
 	}
 
 	@Override

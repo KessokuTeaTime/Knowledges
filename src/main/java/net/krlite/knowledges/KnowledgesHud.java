@@ -3,6 +3,7 @@ package net.krlite.knowledges;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.mixin.client.InGameHudInvoker;
 import net.minecraft.client.MinecraftClient;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class KnowledgesHud {
@@ -31,7 +33,7 @@ public class KnowledgesHud {
         return Optional.ofNullable(representable);
     }
 
-    public void render(DrawContext context, Consumer<Representable<?>> renderConsumer) {
+    public void render(DrawContext context, BiConsumer<RenderProxy, Representable<?>> renderConsumer) {
         getRepresentable().ifPresent(rep -> {
 
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -57,7 +59,7 @@ public class KnowledgesHud {
                         && (!isSpectator || shouldRenderSpectatorCrosshair)
                         && (KnowledgesClient.CONFIG.global.visibleInDebugHud || !isInDebugHud)
                 ) {
-                    renderConsumer.accept(rep);
+                    renderConsumer.accept(new RenderProxy(context), rep);
                 }
             }
 

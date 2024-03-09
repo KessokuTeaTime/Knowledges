@@ -5,6 +5,10 @@ import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.RenderProxy;
+import net.krlite.knowledges.api.representable.EntityRepresentable;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.data.DataInvoker;
@@ -17,6 +21,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -79,8 +85,11 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 	}
 
 	@Override
-	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-		Info.crosshairEntity().ifPresentOrElse(entity -> {
+	public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
+		if (representable.type() == HitResult.Type.ENTITY && representable instanceof EntityRepresentable entityRepresentable) {
+			Entity entity = entityRepresentable.entity();
+			PlayerEntity player = entityRepresentable.player();
+
 			MutableText entityName = entity.getDisplayName().copy();
 
 			String
@@ -90,7 +99,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			// Titles
 			titles: {
 				Animation.Text.titleRight(entityName);
-				Animation.Text.titleLeft(Util.modName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+				Animation.Text.titleLeft(KnowledgeProxy.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 
 			switch (entity.getType().getSpawnGroup()) {
@@ -139,7 +148,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			}
 
 			// Right Above
-			if (client.options.advancedItemTooltips) subtitleRightAbove: {
+			if (MinecraftClient.getInstance().options.advancedItemTooltips) subtitleRightAbove: {
 				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.literal(path));
 			} else {
 				Animation.Text.subtitleRightAbove(net.minecraft.text.Text.empty());
@@ -153,7 +162,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			}
 
 			// Left Above
-			if (client.options.advancedItemTooltips) subtitleLeftAbove: {
+			if (MinecraftClient.getInstance().options.advancedItemTooltips) subtitleLeftAbove: {
 				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.literal(namespace));
 			} else {
 				Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.empty());
@@ -165,10 +174,10 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entity, player).orElse(net.minecraft.text.Text.empty())
 				);
 			}
-		}, () -> {
+		} else {
 			Animation.Text.clearNumericHealth();
 			Animation.Contextual.entityWasNotDamaged(true);
-		});
+		}
 	}
 
 	@Override

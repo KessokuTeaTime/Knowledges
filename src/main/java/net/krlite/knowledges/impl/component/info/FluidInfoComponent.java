@@ -4,6 +4,9 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.RenderProxy;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.block.BlockState;
@@ -20,8 +23,8 @@ import java.util.function.Function;
 
 public class FluidInfoComponent extends AbstractInfoComponent {
     @Override
-    public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-        Info.crosshairFluidState().ifPresent(fluidState -> {
+    public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
+        KnowledgeProxy.getFluidState(representable.hitResult()).ifPresent(fluidState -> {
             BlockState blockState = fluidState.getBlockState();
             MutableText fluidName = blockState.getBlock().getName();
 
@@ -36,11 +39,11 @@ public class FluidInfoComponent extends AbstractInfoComponent {
             titles:
             {
                 Animation.Text.titleRight(fluidName);
-                Animation.Text.titleLeft(Util.modName(namespace));
+                Animation.Text.titleLeft(KnowledgeProxy.getModName(namespace));
             }
 
             // Right Above
-            if (client.options.advancedItemTooltips) subtitleRightAbove:{
+            if (MinecraftClient.getInstance().options.advancedItemTooltips) subtitleRightAbove:{
                 Animation.Text.subtitleRightAbove(net.minecraft.text.Text.literal(path));
             }
             else {
@@ -54,7 +57,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
             }
 
             // Left Above
-            if (client.options.advancedItemTooltips) subtitleLeftAbove:{
+            if (MinecraftClient.getInstance().options.advancedItemTooltips) subtitleLeftAbove:{
                 Animation.Text.subtitleLeftAbove(net.minecraft.text.Text.literal(namespace));
             }
             else {

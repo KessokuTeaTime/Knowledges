@@ -13,6 +13,8 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
+import net.krlite.knowledges.api.proxy.RenderProxy;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.minecraft.client.MinecraftClient;
@@ -30,13 +32,13 @@ import java.util.function.Function;
 
 public class CrosshairComponent implements Knowledge {
     @Override
-    public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
+    public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
         Box box = LayoutProxy.crosshairSafeArea()
                 .scaleCenter(AbstractInfoComponent.Animation.Ring.focusingBlock())
                 .scaleCenter(1 + 0.3 * AbstractInfoComponent.Animation.Ring.mouseHolding());
 
         // Shadow
-        box.render(context, flat -> flat.new Rectangle()
+        renderProxy.draw(box, flat -> flat.new Rectangle()
                 .colors(Palette.Minecraft.BLACK)
                 .opacityMultiplier(0.08 * AbstractInfoComponent.Animation.Ring.ovalOpacity())
                 .new Outlined(box.size())
@@ -46,14 +48,14 @@ public class CrosshairComponent implements Knowledge {
         switch (KnowledgesClient.CONFIG.components.crosshair.ringShape) {
             case OVAL -> {
                 // Oval
-                box.render(context, flat -> flat.new Oval()
+                renderProxy.draw(box, flat -> flat.new Oval()
                         .colorCenter(AbstractInfoComponent.Animation.Ring.ovalColor())
                         .mode(Flat.Oval.OvalMode.FILL)
                 );
 
                 // Ring
                 if (Theory.looseGreater(AbstractInfoComponent.Animation.Ring.ringArc(), 0)) {
-                    box.render(context, flat -> flat.new Oval()
+                    renderProxy.draw(box, flat -> flat.new Oval()
                             .arc(AbstractInfoComponent.Animation.Ring.ringArc())
                             .mode(Flat.Oval.OvalMode.FILL_GRADIANT_OUT)
                             .opacityMultiplier(AbstractInfoComponent.Animation.Ring.ovalOpacity())
@@ -74,7 +76,7 @@ public class CrosshairComponent implements Knowledge {
                             ovalColor = AbstractInfoComponent.Animation.Ring.ovalColor().opacity(0.5),
                             ringColor = AbstractInfoComponent.Animation.Ring.ringColor().opacity(1);
 
-                    box.render(context, flat -> flat.new Oval()
+                    renderProxy.draw(box, flat -> flat.new Oval()
                             .mode(Flat.Oval.OvalMode.GRADIANT)
                             .outlineDynamic(Flat.Oval.VertexProvider.OUTER, 0.1 + 0.05 * AbstractInfoComponent.Animation.Ring.blockBreakingProgress())
                             .opacityMultiplier(AbstractInfoComponent.Animation.Ring.ovalOpacity() * (0.4 + 0.6 * AbstractInfoComponent.Animation.Ring.blockBreakingProgress()))
@@ -92,19 +94,21 @@ public class CrosshairComponent implements Knowledge {
                 }
             }
             case DIAMOND -> {
-                context.getMatrices().push();
-                context.getMatrices().translate(-0.5, 0, 0); // Refine position
-                context.getMatrices().scale(0.72F, 0.72F, 0.72F);
-                context.getMatrices().multiply(RotationAxis.POSITIVE_Z.rotationDegrees(45));
+                renderProxy.pushMatrix();
+                renderProxy.withMatrix(matrixStack -> {
+                    matrixStack.translate(-0.5, 0, 0); // Refine position
+                    matrixStack.scale(0.72F, 0.72F, 0.72F);
+                    matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(45));
+                });
 
                 // Diamond
-                box.render(context, flat -> flat.new Rectangle()
+                renderProxy.draw(box, flat -> flat.new Rectangle()
                         .colors(AbstractInfoComponent.Animation.Ring.ovalColor())
                 );
 
                 // Ring
                 if (Theory.looseGreater(AbstractInfoComponent.Animation.Ring.ringArc(), 0)) {
-                    box.scaleCenter(AbstractInfoComponent.Animation.Ring.ringArc() / (Math.PI * 2)).render(context, flat -> flat.new Rectangle()
+                    renderProxy.draw(box.scaleCenter(AbstractInfoComponent.Animation.Ring.ringArc() / (Math.PI * 2)), flat -> flat.new Rectangle()
                             .opacityMultiplier(AbstractInfoComponent.Animation.Ring.ovalOpacity())
                             .colors(AbstractInfoComponent.Animation.Ring.ringColor())
                     );
@@ -116,7 +120,7 @@ public class CrosshairComponent implements Knowledge {
                             ovalColor = AbstractInfoComponent.Animation.Ring.ovalColor().opacity(0.5),
                             ringColor = AbstractInfoComponent.Animation.Ring.ringColor().opacity(1);
 
-                    box.render(context, flat -> flat.new Rectangle()
+                    renderProxy.draw(box, flat -> flat.new Rectangle()
                             .opacityMultiplier(AbstractInfoComponent.Animation.Ring.ovalOpacity() * (0.4 + 0.6 * AbstractInfoComponent.Animation.Ring.blockBreakingProgress()))
                             .colors(ovalColor.mix(
                                     ringColor,
@@ -128,7 +132,7 @@ public class CrosshairComponent implements Knowledge {
                     );
                 }
 
-                context.getMatrices().pop();
+                renderProxy.popMatrix();
             }
         }
     }

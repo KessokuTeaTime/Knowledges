@@ -8,6 +8,7 @@ import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
+import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.Representable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -43,10 +44,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Knowledge extends WithPath, Localizable.WithName, WithIndependentConfigPage {
-	default void render(@NotNull Representable<?> representable) {};
-
-	@Deprecated
-	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
+	void render(RenderProxy renderProxy, @NotNull Representable<?> representable);
 
 	@Override
 	default String localizationKey(String... paths) {
@@ -54,86 +52,5 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 		fullPaths.addAll(List.of(paths));
 
 		return KnowledgesClient.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
-	}
-
-	@Deprecated
-	class Info {
-		@Deprecated
-		public static boolean hasCrosshairTarget() {
-			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.world == null || client.player == null) return false;
-
-			boolean blockPos = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesCommon.ID, "info", "block").orElseThrow()) && crosshairBlockPos().isPresent();
-			boolean entity = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesCommon.ID, "info", "entity").orElseThrow()) && crosshairEntity().isPresent();
-			boolean fluidState = KnowledgesClient.COMPONENTS.isEnabled(KnowledgesClient.COMPONENTS.byId(KnowledgesCommon.ID, "info", "fluid").orElseThrow()) && crosshairFluidState().isPresent();
-
-			return blockPos || entity || fluidState;
-		}
-
-		@Deprecated
-		public static Optional<HitResult> crosshairTarget() {
-			return Optional.ofNullable(MinecraftClient.getInstance().crosshairTarget);
-		}
-
-		@Deprecated
-		public static Optional<Vec3d> crosshairPos() {
-			return crosshairTarget().map(HitResult::getPos);
-		}
-
-		@Deprecated
-		public static Optional<BlockPos> crosshairBlockPos() {
-			return crosshairTarget()
-					.filter(hitResult -> hitResult.getType() == HitResult.Type.BLOCK)
-					.map(hitResult -> (BlockHitResult) hitResult)
-					.map(BlockHitResult::getBlockPos);
-		}
-
-		@Deprecated
-		public static Optional<BlockState> crosshairBlockState() {
-			MinecraftClient client = MinecraftClient.getInstance();
-			return crosshairBlockPos()
-					.map(blockPos -> client.world != null ? client.world.getBlockState(blockPos) : null);
-		}
-
-		@Deprecated
-		public static Optional<BlockEntity> crosshairBlockEntity() {
-			MinecraftClient client = MinecraftClient.getInstance();
-			return crosshairBlockPos()
-					.map(blockPos -> client.world != null ? client.world.getBlockEntity(blockPos) : null);
-		}
-
-		@Deprecated
-		public static Optional<Entity> crosshairEntity() {
-			return crosshairTarget()
-					.filter(hitResult -> hitResult.getType() == HitResult.Type.ENTITY)
-					.map(hitResult -> (EntityHitResult) hitResult)
-					.map(EntityHitResult::getEntity);
-		}
-
-		@Deprecated
-		public static Optional<FluidState> crosshairFluidState() {
-			MinecraftClient client = MinecraftClient.getInstance();
-
-			return crosshairTarget()
-					.filter(hitResult -> hitResult.getType() == HitResult.Type.MISS)
-					.flatMap(hitResult -> crosshairPos()
-							.flatMap(pos -> Optional.ofNullable(client.world)
-									.map(world -> world.getFluidState(new BlockPos((int) pos.getX(), (int) pos.getY(), (int) pos.getZ())))
-							)
-					)
-					.filter(fluidState -> !fluidState.isEmpty())
-					.filter(fluidState -> !(KnowledgesClient.CONFIG.components.infoFluid.ignoresWater && (
-							fluidState.getFluid() == Fluids.WATER || fluidState.getFluid() == Fluids.FLOWING_WATER
-					)))
-					.filter(fluidState -> !(KnowledgesClient.CONFIG.components.infoFluid.ignoresLava && (
-							fluidState.getFluid() == Fluids.LAVA || fluidState.getFluid() == Fluids.FLOWING_LAVA
-					)))
-					.filter(fluidState -> !(KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids && (
-							fluidState.getFluid() != Fluids.WATER
-									&& fluidState.getFluid() != Fluids.LAVA
-									&& fluidState.getFluid() != Fluids.FLOWING_WATER
-									&& fluidState.getFluid() != Fluids.FLOWING_LAVA
-					)));
-		}
 	}
 }

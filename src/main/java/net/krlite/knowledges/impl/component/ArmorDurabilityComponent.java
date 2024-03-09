@@ -7,6 +7,8 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Shortcuts;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
+import net.krlite.knowledges.api.proxy.RenderProxy;
+import net.krlite.knowledges.api.representable.Representable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -20,12 +22,12 @@ import org.spongepowered.asm.mixin.Unique;
 
 public class ArmorDurabilityComponent implements Knowledge {
 	@Override
-	public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
+	public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
 		ItemStack
-				head 	= player.getEquippedStack(EquipmentSlot.HEAD),
-				chest 	= player.getEquippedStack(EquipmentSlot.CHEST),
-				legs 	= player.getEquippedStack(EquipmentSlot.LEGS),
-				feet 	= player.getEquippedStack(EquipmentSlot.FEET);
+				head 	= representable.player().getEquippedStack(EquipmentSlot.HEAD),
+				chest 	= representable.player().getEquippedStack(EquipmentSlot.CHEST),
+				legs 	= representable.player().getEquippedStack(EquipmentSlot.LEGS),
+				feet 	= representable.player().getEquippedStack(EquipmentSlot.FEET);
 
 		boolean
 				hasHead 	= head != null 	&& !head.isEmpty(),
@@ -38,20 +40,20 @@ public class ArmorDurabilityComponent implements Knowledge {
 		if (!hasArmor) return;
 
 		// Helmet
-		renderArmorIndicator(context, 3, head, hasHead);
+		renderArmorIndicator(renderProxy, 3, head, hasHead);
 
 		// Chest plate
-		renderArmorIndicator(context, 2, chest, hasChest);
+		renderArmorIndicator(renderProxy, 2, chest, hasChest);
 
 		// Leggings
-		renderArmorIndicator(context, 1, legs, hasLegs);
+		renderArmorIndicator(renderProxy, 1, legs, hasLegs);
 
 		// Boots
-		renderArmorIndicator(context, 0, feet, hasFeet);
+		renderArmorIndicator(renderProxy, 0, feet, hasFeet);
 	}
 
 	@Unique
-	private void renderArmorIndicator(DrawContext context, @Range(from = 0, to = 3) int position, @Nullable ItemStack itemStack, boolean enabled) {
+	private void renderArmorIndicator(RenderProxy renderProxy, @Range(from = 0, to = 3) int position, @Nullable ItemStack itemStack, boolean enabled) {
 		Box box = Box.UNIT
 				.scale(16)
 				.scale(LayoutProxy.scalar())
@@ -68,14 +70,14 @@ public class ArmorDurabilityComponent implements Knowledge {
 								.opacity(Shortcuts.Math.mapToPower(health, 2, 0.15));
 			}
 
-			box.render(context, flat ->
+			renderProxy.draw(box, flat ->
 					flat.new Rectangle()
 							.colorLeft(Palette.TRANSPARENT)
 							.colorRight(color)
 			);
 
 			if (itemStack != null) {
-				box.scaleCenter(0.6).render(context, flat ->
+				renderProxy.draw(box.scaleCenter(0.6), flat ->
 						flat.new Item(itemStack)
 				);
 			}

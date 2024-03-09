@@ -10,6 +10,9 @@ import net.minecraft.block.enums.Instrument;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -21,6 +24,11 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.Optional;
 
 public class KnowledgeProxy {
     public static Identifier getId(Block block) {
@@ -40,6 +48,25 @@ public class KnowledgeProxy {
                 .map(ModContainer::getMetadata)
                 .map(ModMetadata::getName)
                 .orElse(""));
+    }
+
+    public static Optional<FluidState> getFluidState(HitResult hitResult) {
+        if (hitResult == null || hitResult.getType() != HitResult.Type.MISS) return Optional.empty();
+
+        World world = MinecraftClient.getInstance().world;
+        if (world == null) return Optional.empty();
+
+        BlockPos pos = BlockPos.ofFloored(hitResult.getPos());
+        FluidState fluidState = world.getFluidState(pos);
+        if (fluidState == null) return Optional.empty();
+
+        Fluid fluid = fluidState.getFluid();
+        boolean fluidIsWater = fluid == Fluids.WATER || fluid == Fluids.FLOWING_WATER, fluidIsLava = fluid == Fluids.LAVA || fluid == Fluids.FLOWING_LAVA;
+        if (KnowledgesClient.CONFIG.components.infoFluid.ignoresWater && fluidIsWater) return Optional.empty();
+        if (KnowledgesClient.CONFIG.components.infoFluid.ignoresLava && fluidIsLava) return Optional.empty();
+        if (KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids && !fluidIsWater && !fluidIsLava) return Optional.empty();
+
+        return Optional.of(fluidState);
     }
 
     public static String getNamespace(ItemStack itemStack) {

@@ -11,6 +11,7 @@ import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
@@ -190,7 +191,7 @@ public class KnowledgesConfigScreen {
 
         if (!KnowledgesClient.COMPONENTS.asMap().isEmpty()) {
             KnowledgesClient.COMPONENTS.asMap().forEach((namespace, components) -> {
-                MutableText name = Knowledge.Util.modName(namespace);
+                MutableText name = KnowledgeProxy.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
                 if (isInDefaultNamespace) name.append(localize("components", "suffix", "default"));
 
@@ -214,7 +215,7 @@ public class KnowledgesConfigScreen {
 
         if (!KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
             KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
-                MutableText name = Knowledge.Util.modName(namespace);
+                MutableText name = KnowledgeProxy.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
                 if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
 
