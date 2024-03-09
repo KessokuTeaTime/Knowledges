@@ -12,6 +12,7 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.minecraft.client.MinecraftClient;
@@ -30,7 +31,7 @@ import java.util.function.Function;
 public class CrosshairComponent implements Knowledge {
     @Override
     public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-        Box box = Knowledge.crosshairSafeArea()
+        Box box = LayoutProxy.crosshairSafeArea()
                 .scaleCenter(AbstractInfoComponent.Animation.Ring.focusingBlock())
                 .scaleCenter(1 + 0.3 * AbstractInfoComponent.Animation.Ring.mouseHolding());
 

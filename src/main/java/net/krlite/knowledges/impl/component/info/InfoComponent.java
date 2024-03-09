@@ -10,6 +10,7 @@ import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -24,11 +25,11 @@ public class InfoComponent extends AbstractInfoComponent {
         if (!Info.hasCrosshairTarget()) reset();
 
         final Box textsRight = FrameInfo.scaled()
-                .leftCenter(Knowledge.crosshairSafeArea().rightCenter())
-                .shift(5 + 3 * Knowledge.scalar(), 2 * Knowledge.scalar());
+                .leftCenter(LayoutProxy.crosshairSafeArea().rightCenter())
+                .shift(5 + 3 * LayoutProxy.scalar(), 2 * LayoutProxy.scalar());
         final Box textsLeft = FrameInfo.scaled()
-                .rightCenter(Knowledge.crosshairSafeArea().leftCenter())
-                .shift(-5 - 3 * Knowledge.scalar(), 2 * Knowledge.scalar());
+                .rightCenter(LayoutProxy.crosshairSafeArea().leftCenter())
+                .shift(-5 - 3 * LayoutProxy.scalar(), 2 * LayoutProxy.scalar());
 
         final AccurateColor informativeTint = Palette.Minecraft.WHITE
                 .mix(Animation.Ring.ovalColor(), 0.8, ColorStandard.MixMode.PIGMENT)
@@ -65,7 +66,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 // Right above
                 renderText(
                         context,
-                        textsRight.shift(-0.25 * Knowledge.scalar(), -8 * Knowledge.scalar()),
+                        textsRight.shift(-0.25 * LayoutProxy.scalar(), -8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleRightAbove(),
                         Paragraph.Alignment.LEFT,
                         informativeTint.opacity(0.4),
@@ -75,7 +76,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 // Right below
                 renderText(
                         context,
-                        textsRight.shift(-0.25 * Knowledge.scalar(), 10.8 * Knowledge.scalar()),
+                        textsRight.shift(-0.25 * LayoutProxy.scalar(), 10.8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleRightBelow(),
                         Paragraph.Alignment.LEFT,
                         Palette.Minecraft.WHITE.opacity(0.4),
@@ -87,7 +88,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 // Left above
                 renderText(
                         context,
-                        textsLeft.shift(0.25 * Knowledge.scalar(), -8 * Knowledge.scalar()),
+                        textsLeft.shift(0.25 * LayoutProxy.scalar(), -8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleLeftAbove(),
                         Paragraph.Alignment.RIGHT,
                         Palette.Minecraft.WHITE.opacity(0.4),
@@ -97,7 +98,7 @@ public class InfoComponent extends AbstractInfoComponent {
                 // Left below
                 renderText(
                         context,
-                        textsLeft.shift(0.25 * Knowledge.scalar(), 10.8 * Knowledge.scalar()),
+                        textsLeft.shift(0.25 * LayoutProxy.scalar(), 10.8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleLeftBelow(),
                         Paragraph.Alignment.RIGHT,
                         Palette.Minecraft.WHITE.opacity(0.4),
@@ -110,9 +111,9 @@ public class InfoComponent extends AbstractInfoComponent {
         if (KnowledgesClient.CONFIG.components.infoEntity.showNumericHealth) {
             FrameInfo.scaled()
                     .center(Vector.ZERO)
-                    .alignBottom(Knowledge.crosshairSafeArea().top())
-                    .shift(0, -2 * Knowledge.scalar())
-                    .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * 0.82 * Knowledge.scalar()).append(Animation.Text.numericHealth()))
+                    .alignBottom(LayoutProxy.crosshairSafeArea().top())
+                    .shift(0, -2 * LayoutProxy.scalar())
+                    .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * 0.82 * LayoutProxy.scalar()).append(Animation.Text.numericHealth()))
                             .horizontalAlignment(Paragraph.Alignment.CENTER)
                             .verticalAlignment(Section.Alignment.BOTTOM)
                             .color(informativeTint.opacity(0.6))
@@ -137,7 +138,7 @@ public class InfoComponent extends AbstractInfoComponent {
         box
                 .translateTop(0.5)
                 .shiftTop(-MinecraftClient.getInstance().textRenderer.fontHeight / 2.0 * fontSizeMultiplier)
-                .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * Knowledge.scalar()).append(text))
+                .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * LayoutProxy.scalar()).append(text))
                         .verticalAlignment(Section.Alignment.TOP)
                         .horizontalAlignment(alignment)
                         .color(color)

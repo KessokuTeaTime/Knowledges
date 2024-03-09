@@ -6,6 +6,7 @@ import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.Shortcuts;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -53,9 +54,9 @@ public class ArmorDurabilityComponent implements Knowledge {
 	private void renderArmorIndicator(DrawContext context, @Range(from = 0, to = 3) int position, @Nullable ItemStack itemStack, boolean enabled) {
 		Box box = Box.UNIT
 				.scale(16)
-				.scale(Knowledge.scalar())
+				.scale(LayoutProxy.scalar())
 				.center(FrameInfo.scaled())
-				.shift(-8 * Knowledge.scalar(), (-8 - 16 * position) * Knowledge.scalar());
+				.shift(-8 * LayoutProxy.scalar(), (-8 - 16 * position) * LayoutProxy.scalar());
 
 		if (enabled) {
 			AccurateColor color;

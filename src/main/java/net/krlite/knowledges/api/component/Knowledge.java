@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Knowledge extends WithPath, Localizable.WithName, WithIndependentConfigPage {
-	void render(@NotNull Representable<?> representable);
+	default void render(@NotNull Representable<?> representable) {};
 
 	@Deprecated
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
@@ -55,20 +55,6 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 		fullPaths.addAll(List.of(paths));
 
 		return KnowledgesClient.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
-	}
-
-	@Deprecated
-	static double scalar() {
-		return 0.5 + 0.5 * KnowledgesClient.CONFIG.global.mainScalar / 1000.0;
-	}
-
-	@Deprecated
-	static Box crosshairSafeArea() {
-		double size = 16 + 8 * KnowledgesClient.CONFIG.global.crosshairSafeAreaScalar / 1000.0;
-		return Box.UNIT.scale(size)
-					   .scale(scalar())
-					   .center(Vector.ZERO)
-					   .shift(0, -1);
 	}
 
 	@Deprecated
