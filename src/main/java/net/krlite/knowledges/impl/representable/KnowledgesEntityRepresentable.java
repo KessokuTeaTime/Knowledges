@@ -41,8 +41,9 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
             responseSender.accept(compound);
         });
     }
-    
-    public void writeToPacket(PacketByteBuf buf) {
+
+    @Override
+    public void writeToBuf(PacketByteBuf buf) {
         buf.writeVarInt(entity().getId());
         
         Vec3d hitPos = hitResult().getPos();

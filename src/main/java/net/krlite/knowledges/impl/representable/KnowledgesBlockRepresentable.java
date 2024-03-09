@@ -77,6 +77,7 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
         });
     }
 
+    @Override
     public void writeToBuf(PacketByteBuf buf) {
         buf.writeBlockHitResult(hitResult());
         buf.writeVarInt(Block.getRawIdFromState(blockState()));

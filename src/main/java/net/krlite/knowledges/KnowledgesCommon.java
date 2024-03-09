@@ -11,6 +11,6 @@ public class KnowledgesCommon implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        KnowledgesNetworking.register();
+        KnowledgesNetworking.registerServer();
     }
 }
