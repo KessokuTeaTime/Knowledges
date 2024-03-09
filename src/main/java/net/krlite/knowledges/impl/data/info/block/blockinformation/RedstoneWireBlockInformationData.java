@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
+import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -14,11 +15,11 @@ import java.util.Optional;
 
 public class RedstoneWireBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
-        if (blockState.isOf(Blocks.REDSTONE_WIRE)) {
+    public Optional<MutableText> blockInformation(BlockRepresentable representable) {
+        if (representable.blockState().isOf(Blocks.REDSTONE_WIRE)) {
             return Optional.of(Text.translatable(
                     localizationKey("power"),
-                    blockState.get(RedstoneWireBlock.POWER)
+                    representable.blockState().get(RedstoneWireBlock.POWER)
             ));
         }
 

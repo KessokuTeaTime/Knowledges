@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
+import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
@@ -12,13 +13,13 @@ import java.util.Optional;
 
 public class CropBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
-        if (blockState.getBlock() instanceof CropBlock) {
-            int age = blockState.get(CropBlock.AGE), maxAge = CropBlock.MAX_AGE;
+    public Optional<MutableText> blockInformation(BlockRepresentable representable) {
+        if (representable.block() instanceof CropBlock) {
+            int age = representable.blockState().get(CropBlock.AGE), maxAge = CropBlock.MAX_AGE;
 
             return Optional.of(age == maxAge ? localize("mature") : Text.translatable(
                     localizationKey("age"),
-                    blockState.get(CropBlock.AGE), CropBlock.MAX_AGE
+                    representable.blockState().get(CropBlock.AGE), CropBlock.MAX_AGE
             ));
         }
 

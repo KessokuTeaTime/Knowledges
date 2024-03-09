@@ -1,6 +1,7 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BannerBlockEntity;
@@ -16,9 +17,9 @@ import java.util.Optional;
 
 public class BannerBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
-        if (blockState.isIn(BlockTags.BANNERS) && Knowledge.Info.crosshairBlockEntity().isPresent()) {
-            if (!(Knowledge.Info.crosshairBlockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
+    public Optional<MutableText> blockInformation(BlockRepresentable representable) {
+        if (representable.blockState().isIn(BlockTags.BANNERS)) {
+            if (!(representable.blockEntity() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
 
             var patterns = bannerBlockEntity.getPatterns();
             int available = patterns.size() - 1;

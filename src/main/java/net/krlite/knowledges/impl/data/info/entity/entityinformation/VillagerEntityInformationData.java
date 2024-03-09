@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.entity.entityinformation;
 
+import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityInformationData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,9 +16,9 @@ import java.util.Optional;
 
 public class VillagerEntityInformationData extends AbstractEntityInformationData {
     @Override
-    public Optional<MutableText> entityInformation(Entity entity, PlayerEntity player) {
-        if (entity.getType() == EntityType.VILLAGER) {
-            if (!(entity instanceof VillagerEntity villagerEntity)) return Optional.empty();
+    public Optional<MutableText> entityInformation(EntityRepresentable representable) {
+        if (representable.entity().getType() == EntityType.VILLAGER) {
+            if (!(representable.entity() instanceof VillagerEntity villagerEntity)) return Optional.empty();
             VillagerData villagerData = villagerEntity.getVillagerData();
 
             return Optional.of(Text.translatable(

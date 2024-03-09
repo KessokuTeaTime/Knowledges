@@ -61,8 +61,8 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		BlockInformationInvoker INSTANCE = new BlockInformationInvoker() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> (blockState, player) -> protocols.stream()
-						.map(protocol -> protocol.blockInformation(blockState, player))
+				return protocols -> (representable) -> protocols.stream()
+						.map(protocol -> protocol.blockInformation(representable))
 						.filter(Optional::isPresent)
 						.findFirst()
 						.orElse(Optional.empty());
@@ -70,7 +70,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		};
 
 		interface Protocol extends DataProtocol<BlockInfoComponent> {
-			Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player);
+			Optional<MutableText> blockInformation(BlockRepresentable representable);
 
 			@Override
 			default DataInvoker<BlockInfoComponent, ?> dataInvoker() {
@@ -176,7 +176,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 						&& world.isReceivingRedstonePower(blockRepresentable.blockPos());
 
 				Animation.Text.subtitleLeftBelow(
-						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockState, player)
+						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockRepresentable)
 								.orElse(powered ? localize("powered") : net.minecraft.text.Text.empty())
 				);
 			}

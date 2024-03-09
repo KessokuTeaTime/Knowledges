@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.entity.entityinformation;
 
+import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityInformationData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,9 +16,9 @@ import java.util.Optional;
 
 public class PaintingEntityInformationData extends AbstractEntityInformationData {
     @Override
-    public Optional<MutableText> entityInformation(Entity entity, PlayerEntity player) {
-        if (entity.getType() == EntityType.PAINTING) {
-            return ((PaintingEntity) entity).getVariant().getKey().map(key -> Text.translatable(
+    public Optional<MutableText> entityInformation(EntityRepresentable representable) {
+        if (representable.entity().getType() == EntityType.PAINTING) {
+            return ((PaintingEntity) representable.entity()).getVariant().getKey().map(key -> Text.translatable(
                     key.getValue().toTranslationKey("painting", "title")
             ));
         }

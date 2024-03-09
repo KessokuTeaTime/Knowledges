@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
+import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -14,11 +15,11 @@ import java.util.Optional;
 
 public class ComposterBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
-        if (blockState.isOf(Blocks.COMPOSTER)) {
+    public Optional<MutableText> blockInformation(BlockRepresentable representable) {
+        if (representable.blockState().isOf(Blocks.COMPOSTER)) {
             return Optional.of(Text.translatable(
                     localizationKey("level"),
-                    blockState.get(ComposterBlock.LEVEL), ComposterBlock.MAX_LEVEL
+                    representable.blockState().get(ComposterBlock.LEVEL), ComposterBlock.MAX_LEVEL
             ));
         }
 
