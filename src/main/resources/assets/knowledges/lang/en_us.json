@@ -29,9 +29,9 @@
 
   "config.knowledges.data.suffix.default": " (Default)",
 
-  "config.knowledges.separator.global"    : " Global:",
-  "config.knowledges.separator.components": " Components:",
-  "config.knowledges.separator.data"      : " Data:",
+  "config.knowledges.separator.global"    : " Global > ",
+  "config.knowledges.separator.components": " Components > ",
+  "config.knowledges.separator.data"      : " Data > ",
 
   "instrument.knowledges.harp"           : "Harp",
   "instrument.knowledges.basedrum"       : "Base Drum",

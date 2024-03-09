@@ -32,9 +32,9 @@
 
   "config.knowledges.data.suffix.default": "（默认）",
 
-  "config.knowledges.separator.global"    : " 全局：",
-  "config.knowledges.separator.components": " 组件：",
-  "config.knowledges.separator.data"      : " 数据：",
+  "config.knowledges.separator.global"    : " 全局 > ",
+  "config.knowledges.separator.components": " 组件 > ",
+  "config.knowledges.separator.data"      : " 数据 > ",
 
   "instrument.knowledges.harp"           : "竖琴",
   "instrument.knowledges.basedrum"       : "底鼓",
