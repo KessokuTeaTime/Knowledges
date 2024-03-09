@@ -3,12 +3,10 @@ package net.krlite.knowledges;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.knowledges.api.proxy.RenderProxy;
-import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.representable.EmptyRepresentable;
 import net.krlite.knowledges.impl.representable.KnowledgesBlockRepresentable;
 import net.krlite.knowledges.impl.representable.KnowledgesEntityRepresentable;
-import net.krlite.knowledges.impl.representable.KnowledgesRepresentable;
 import net.krlite.knowledges.mixin.client.InGameHudInvoker;
 import net.krlite.knowledges.networking.KnowledgesNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -23,7 +21,6 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -115,7 +112,7 @@ public class KnowledgesHud {
                     .entity(entityHitResult.getEntity())
                     .build();
         }
-        
+
         this.representable = representable;
 
         if (representable != null && representable.hasServer()) {

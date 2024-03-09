@@ -18,8 +18,8 @@ import java.util.Optional;
 public class BannerBlockInformationData extends AbstractBlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
-        if (representable.blockState().isIn(BlockTags.BANNERS)) {
-            if (!(representable.blockEntity() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
+        if (representable.blockState().isIn(BlockTags.BANNERS) && representable.blockEntity().isPresent()) {
+            if (!(representable.blockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
 
             var patterns = bannerBlockEntity.getPatterns();
             int available = patterns.size() - 1;

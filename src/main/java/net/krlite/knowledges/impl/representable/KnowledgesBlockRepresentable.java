@@ -17,6 +17,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -41,8 +43,8 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
     }
 
     @Override
-    public BlockEntity blockEntity() {
-        return blockEntitySupplier.get();
+    public Optional<BlockEntity> blockEntity() {
+        return Optional.ofNullable(blockEntitySupplier).map(Supplier::get);
     }
 
     @Override
@@ -62,8 +64,8 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
             ServerWorld world = player.getServerWorld();
             if (!world.canSetBlock(pos)) return;
 
-            BlockEntity blockEntity = representable.blockEntity();
-            if (blockEntity == null) return;
+            Optional<BlockEntity> blockEntity = representable.blockEntity();
+            if (blockEntity.isEmpty()) return;
 
             // TODO
 
@@ -71,7 +73,7 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
             compound.putInt("x", pos.getX());
             compound.putInt("y", pos.getY());
             compound.putInt("z", pos.getZ());
-            compound.putString("id", KnowledgeProxy.getId(blockEntity.getType()).toString());
+            compound.putString("id", KnowledgeProxy.getId(blockEntity.get().getType()).toString());
 
             responseSender.accept(compound);
         });

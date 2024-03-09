@@ -10,6 +10,7 @@ import net.minecraft.block.enums.Instrument;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.fluid.EmptyFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -31,6 +32,10 @@ import net.minecraft.world.World;
 import java.util.Optional;
 
 public class KnowledgeProxy {
+    public static boolean hitResultNotAir(HitResult hitResult) {
+        return hitResult != null && (hitResult.getType() != HitResult.Type.MISS || KnowledgeProxy.getFluidStateNonEmpty(hitResult).isPresent());
+    }
+
     public static Identifier getId(Block block) {
         return Registries.BLOCK.getId(block);
     }
@@ -61,12 +66,17 @@ public class KnowledgeProxy {
         if (fluidState == null) return Optional.empty();
 
         Fluid fluid = fluidState.getFluid();
+
         boolean fluidIsWater = fluid == Fluids.WATER || fluid == Fluids.FLOWING_WATER, fluidIsLava = fluid == Fluids.LAVA || fluid == Fluids.FLOWING_LAVA;
         if (KnowledgesClient.CONFIG.components.infoFluid.ignoresWater && fluidIsWater) return Optional.empty();
         if (KnowledgesClient.CONFIG.components.infoFluid.ignoresLava && fluidIsLava) return Optional.empty();
         if (KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids && !fluidIsWater && !fluidIsLava) return Optional.empty();
 
         return Optional.of(fluidState);
+    }
+
+    public static Optional<FluidState> getFluidStateNonEmpty(HitResult hitResult) {
+        return getFluidState(hitResult).filter(fluidState -> !fluidState.isEmpty());
     }
 
     public static String getNamespace(ItemStack itemStack) {

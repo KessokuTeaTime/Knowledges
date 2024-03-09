@@ -1,5 +1,6 @@
 package net.krlite.knowledges.api.representable;
 
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
@@ -8,10 +9,6 @@ import net.minecraft.world.World;
 import java.util.function.Supplier;
 
 public interface Representable<H extends HitResult> extends PacketByteBufWritable {
-    default boolean hasHitResult() {
-        return hitResult() != null && hitResult().getType() != HitResult.Type.MISS;
-    }
-
     H hitResult();
 
     World world();

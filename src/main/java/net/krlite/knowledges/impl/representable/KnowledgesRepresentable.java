@@ -19,7 +19,7 @@ public abstract class KnowledgesRepresentable<H extends HitResult> implements Re
         this.hitResultSupplier = hitResultSupplier;
         this.world = world;
         this.player = player;
-        this.data = data;
+        this.data = data != null ? data : new NbtCompound();
         this.hasServer = hasServer;
     }
 

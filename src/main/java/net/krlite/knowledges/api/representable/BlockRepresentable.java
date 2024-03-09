@@ -8,6 +8,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public interface BlockRepresentable extends Representable<BlockHitResult> {
@@ -15,7 +16,7 @@ public interface BlockRepresentable extends Representable<BlockHitResult> {
 
     BlockState blockState();
 
-    BlockEntity blockEntity();
+    Optional<BlockEntity> blockEntity();
 
     BlockPos blockPos();
 
@@ -30,7 +31,7 @@ public interface BlockRepresentable extends Representable<BlockHitResult> {
         Builder blockState(BlockState blockState);
 
         default Builder blockEntity(BlockEntity blockEntity) {
-            return blockEntitySupplier(() -> blockEntity);
+            return blockEntity != null ? blockEntitySupplier(() -> blockEntity) : this;
         }
 
         Builder blockEntitySupplier(Supplier<BlockEntity> blockEntitySupplier);
@@ -38,7 +39,7 @@ public interface BlockRepresentable extends Representable<BlockHitResult> {
         static Builder append(Builder builder, BlockRepresentable representable) {
             return Representable.Builder.append(builder, representable)
                     .blockState(representable.blockState())
-                    .blockEntity(representable.blockEntity());
+                    .blockEntity(representable.blockEntity().orElse(null));
         }
     }
 }

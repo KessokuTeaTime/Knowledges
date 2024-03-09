@@ -24,7 +24,7 @@ import java.util.function.Function;
 public class FluidInfoComponent extends AbstractInfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
-        KnowledgeProxy.getFluidState(representable.hitResult()).ifPresent(fluidState -> {
+        KnowledgeProxy.getFluidStateNonEmpty(representable.hitResult()).ifPresent(fluidState -> {
             BlockState blockState = fluidState.getBlockState();
             MutableText fluidName = blockState.getBlock().getName();
 

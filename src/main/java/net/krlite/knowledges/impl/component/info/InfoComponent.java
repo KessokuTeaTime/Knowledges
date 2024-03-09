@@ -9,22 +9,20 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public class InfoComponent extends AbstractInfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
-        if (!representable.hasHitResult()) reset();
+        if (!KnowledgeProxy.hitResultNotAir(representable.hitResult())) reset();
+        System.out.println(KnowledgeProxy.hitResultNotAir(representable.hitResult()));
 
         Box textsRight = FrameInfo.scaled()
                 .leftCenter(LayoutProxy.crosshairSafeArea().rightCenter())
