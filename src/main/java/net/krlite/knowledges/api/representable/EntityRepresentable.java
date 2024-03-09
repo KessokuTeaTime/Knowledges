@@ -2,6 +2,7 @@ package net.krlite.knowledges.api.representable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 
 import java.util.function.Supplier;
 
@@ -9,8 +10,8 @@ public interface EntityRepresentable extends Representable<EntityHitResult> {
     Entity entity();
 
     @Override
-    default Class<? extends Representable<EntityHitResult>> type() {
-        return EntityRepresentable.class;
+    default HitResult.Type type() {
+        return HitResult.Type.ENTITY;
     }
 
     interface Builder extends Representable.Builder<EntityHitResult, EntityRepresentable, Builder> {
@@ -19,9 +20,6 @@ public interface EntityRepresentable extends Representable<EntityHitResult> {
         }
 
         Builder entitySupplier(Supplier<Entity> entitySupplier);
-
-        @Override
-        EntityRepresentable build();
 
         static Builder append(Builder builder, EntityRepresentable representable) {
             return Representable.Builder.append(builder, representable)

@@ -22,8 +22,8 @@ public interface BlockRepresentable extends Representable<BlockHitResult> {
     Direction side();
 
     @Override
-    default Class<? extends Representable<BlockHitResult>> type() {
-        return BlockRepresentable.class;
+    default HitResult.Type type() {
+        return HitResult.Type.BLOCK;
     }
 
     interface Builder extends Representable.Builder<BlockHitResult, BlockRepresentable, Builder> {
@@ -34,9 +34,6 @@ public interface BlockRepresentable extends Representable<BlockHitResult> {
         }
 
         Builder blockEntitySupplier(Supplier<BlockEntity> blockEntitySupplier);
-
-        @Override
-        BlockRepresentable build();
 
         static Builder append(Builder builder, BlockRepresentable representable) {
             return Representable.Builder.append(builder, representable)

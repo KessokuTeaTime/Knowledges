@@ -11,11 +11,11 @@ import java.util.function.Supplier;
 
 public class RenderProxy {
     public static class LayoutProxy {
-        public double scalar() {
+        public static double scalar() {
             return 0.5 + 0.5 * KnowledgesClient.CONFIG.global.mainScalar / 1000.0;
         }
 
-        public Box crosshairSafeArea() {
+        public static Box crosshairSafeArea() {
             double size = 16 + 8 * KnowledgesClient.CONFIG.global.crosshairSafeAreaScalar / 1000.0;
             return Box.UNIT.scale(size)
                     .scale(scalar())
@@ -23,22 +23,20 @@ public class RenderProxy {
                     .shift(0, -1);
         }
 
-        public Box screen() {
+        public static Box screen() {
             return FrameInfo.scaled();
         }
     }
 
-    public final LayoutProxy layout = new LayoutProxy();
-
-    public void draw(Supplier<Renderable> renderableSupplier) {
+    public static void draw(Supplier<Renderable> renderableSupplier) {
         renderableSupplier.get().render();
     }
 
-    public void drawAroundCursor(Function<Box, Renderable> renderableFunction) {
-        draw(() -> renderableFunction.apply(layout.crosshairSafeArea()));
+    public static void drawAroundCursor(Function<Box, Renderable> renderableFunction) {
+        draw(() -> renderableFunction.apply(LayoutProxy.crosshairSafeArea()));
     }
 
-    public void drawInScreen(Function<Box, Renderable> renderableFunction) {
-        draw(() -> renderableFunction.apply(layout.screen()));
+    public static void drawInScreen(Function<Box, Renderable> renderableFunction) {
+        draw(() -> renderableFunction.apply(LayoutProxy.screen()));
     }
 }

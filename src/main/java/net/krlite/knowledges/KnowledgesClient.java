@@ -5,10 +5,12 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
@@ -33,6 +35,7 @@ public class KnowledgesClient implements ClientModInitializer {
 
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
     public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
+    public static final KnowledgesHud HUD = new KnowledgesHud();
 
     static {
         AutoConfig.register(KnowledgesConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
@@ -46,15 +49,6 @@ public class KnowledgesClient implements ClientModInitializer {
 
     public static MutableText localize(String category, String... paths) {
         return Text.translatable(localizationKey(category, paths));
-    }
-
-    public static void render(
-            @NotNull DrawContext context, @NotNull MinecraftClient client,
-            @NotNull PlayerEntity player, @NotNull ClientWorld world
-    ) {
-        COMPONENTS.asList().forEach(knowledge -> {
-            if (COMPONENTS.isEnabled(knowledge)) knowledge.render(context, client, player, world);
-        });
     }
 
     @Override
@@ -140,5 +134,9 @@ public class KnowledgesClient implements ClientModInitializer {
                     COMPONENTS.asList().size() + DATA.asList().size() <= 1 ? "It makes" : "They make"
             ));
         }
+
+        HudRenderCallback.EVENT.register(((context, tickDelta) -> {
+            HUD.render(context, COMPONENTS::render);
+        }));
     }
 }

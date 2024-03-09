@@ -19,7 +19,7 @@ public interface Representable<H extends HitResult> {
      */
     boolean hasServer();
 
-    Class<? extends Representable<H>> type();
+    HitResult.Type type();
 
     interface Builder<H extends HitResult, R extends Representable<H>, B extends Builder<H, R, B>> {
         B hitResult(H hitResult);

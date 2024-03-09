@@ -9,6 +9,7 @@ import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
+import net.krlite.knowledges.api.representable.Representable;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.Instrument;
@@ -43,6 +44,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Knowledge extends WithPath, Localizable.WithName, WithIndependentConfigPage {
+	void render(@NotNull Representable<?> representable);
+
 	@Deprecated
 	void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world);
 
