@@ -13,6 +13,7 @@ import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.krlite.knowledges.api.data.DataInvoker;
 import net.krlite.knowledges.api.data.DataProtocol;
+import net.krlite.knowledges.impl.representable.KnowledgesEntityRepresentable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.world.ClientWorld;
@@ -34,8 +35,8 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		EntityInformationInvoker INSTANCE = new EntityInformationInvoker() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> (entity, player) -> protocols.stream()
-						.map(protocol -> protocol.entityInformation(entity, player))
+				return protocols -> (representable) -> protocols.stream()
+						.map(protocol -> protocol.entityInformation(representable))
 						.filter(Optional::isPresent)
 						.findFirst()
 						.orElse(Optional.empty());
@@ -43,7 +44,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		};
 
 		interface Protocol extends DataProtocol<EntityInfoComponent> {
-			Optional<MutableText> entityInformation(Entity entity, PlayerEntity player);
+			Optional<MutableText> entityInformation(EntityRepresentable representable);
 
 			@Override
 			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
@@ -61,8 +62,8 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		EntityDescriptionInvoker INSTANCE = new EntityDescriptionInvoker() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> (entity, player) -> protocols.stream()
-						.map(protocol -> protocol.entityDescription(entity, player))
+				return protocols -> (representable) -> protocols.stream()
+						.map(protocol -> protocol.entityDescription(representable))
 						.filter(Optional::isPresent)
 						.findFirst()
 						.orElse(Optional.empty());
@@ -70,7 +71,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 		};
 
 		interface Protocol extends DataProtocol<EntityInfoComponent> {
-			Optional<MutableText> entityDescription(Entity entity, PlayerEntity player);
+			Optional<MutableText> entityDescription(EntityRepresentable representable);
 
 			@Override
 			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
@@ -157,7 +158,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			// Right Below
 			subtitleRightBelow: {
 				Animation.Text.subtitleRightBelow(
-						EntityInformationInvoker.INSTANCE.invoker().entityInformation(entity, player).orElse(net.minecraft.text.Text.empty())
+						EntityInformationInvoker.INSTANCE.invoker().entityInformation(entityRepresentable).orElse(net.minecraft.text.Text.empty())
 				);
 			}
 
@@ -171,7 +172,7 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animation.Text.subtitleLeftBelow(
-						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entity, player).orElse(net.minecraft.text.Text.empty())
+						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entityRepresentable).orElse(net.minecraft.text.Text.empty())
 				);
 			}
 		} else {

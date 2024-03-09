@@ -1,6 +1,7 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
@@ -17,7 +18,9 @@ import java.util.Optional;
 
 public class BeehiveBlockInformationData extends AbstractBlockInformationData {
     @Override
-    public Optional<MutableText> blockInformation(BlockState blockState, PlayerEntity player) {
+    public Optional<MutableText> blockInformation(BlockRepresentable representable) {
+        // TODO: Make this stuff work
+        /*
         Optional<BlockEntity> blockEntity = Knowledge.Info.crosshairBlockEntity();
 
         if (blockEntity.isPresent() && blockEntity.get() instanceof BeehiveBlockEntity beehiveBlockEntity) {
@@ -26,9 +29,6 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                     localizationKey("honey_level"),
                     honeyLevel, fullHoneyLevel
             );
-
-            /*
-            // TODO: Make this stuff work
             int beeCount = beehiveBlockEntity.getBeeCount();
             MutableText beeCountText = beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
                     localizationKey("bee_count"),
@@ -36,10 +36,9 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
             );
 
             return Helper.Text.combineToMultiline(honeyLevelText, beeCountText);
-
-             */
             return Optional.of(honeyLevelText);
         }
+        */
 
         return Optional.empty();
     }

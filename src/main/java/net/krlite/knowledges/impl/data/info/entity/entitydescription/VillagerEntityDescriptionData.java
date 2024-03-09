@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 
+import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,13 +15,13 @@ import java.util.Optional;
 
 public class VillagerEntityDescriptionData extends AbstractEntityDescriptionData {
     @Override
-    public Optional<MutableText> entityDescription(Entity entity, PlayerEntity player) {
-        if (entity.getType() == EntityType.VILLAGER) {
-            if (!(entity instanceof VillagerEntity villagerEntity)) return Optional.empty();
+    public Optional<MutableText> entityDescription(EntityRepresentable representable) {
+        if (representable.entity().getType() == EntityType.VILLAGER) {
+            if (!(representable.entity() instanceof VillagerEntity villagerEntity)) return Optional.empty();
 
             return Optional.of(Text.translatable(
                     localizationKey("reputation"),
-                    villagerEntity.getReputation(player)
+                    villagerEntity.getReputation(representable.player())
             ));
         }
 

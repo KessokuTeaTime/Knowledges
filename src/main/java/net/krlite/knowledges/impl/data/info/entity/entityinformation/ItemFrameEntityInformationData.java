@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.entity.entityinformation;
 
+import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityInformationData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,9 +16,9 @@ import java.util.Optional;
 
 public class ItemFrameEntityInformationData extends AbstractEntityInformationData {
     @Override
-    public Optional<MutableText> entityInformation(Entity entity, PlayerEntity player) {
-        if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
-            if (!(entity instanceof ItemFrameEntity itemFrameEntity)) return Optional.empty();
+    public Optional<MutableText> entityInformation(EntityRepresentable representable) {
+        if (representable.entity().getType() == EntityType.ITEM_FRAME || representable.entity().getType() == EntityType.GLOW_ITEM_FRAME) {
+            if (!(representable.entity() instanceof ItemFrameEntity itemFrameEntity)) return Optional.empty();
             ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
 
             if (!heldItemStack.isEmpty()) return Optional.of((MutableText) heldItemStack.getItem().getName());

@@ -3,6 +3,7 @@ package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.Shortcuts;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -25,9 +26,9 @@ import java.util.Optional;
 
 public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionData {
     @Override
-    public Optional<MutableText> entityDescription(Entity entity, PlayerEntity player) {
-        if (entity.getType() == EntityType.ITEM_FRAME || entity.getType() == EntityType.GLOW_ITEM_FRAME) {
-            if (!(entity instanceof ItemFrameEntity itemFrameEntity)) return Optional.empty();
+    public Optional<MutableText> entityDescription(EntityRepresentable representable) {
+        if (representable.entity().getType() == EntityType.ITEM_FRAME || representable.entity().getType() == EntityType.GLOW_ITEM_FRAME) {
+            if (!(representable.entity() instanceof ItemFrameEntity itemFrameEntity)) return Optional.empty();
             ItemStack heldItemStack = itemFrameEntity.getHeldItemStack();
 
             if (!heldItemStack.isEmpty()) {

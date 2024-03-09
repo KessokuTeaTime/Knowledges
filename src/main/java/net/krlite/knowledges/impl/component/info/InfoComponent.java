@@ -11,6 +11,8 @@ import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
+import net.krlite.knowledges.api.proxy.RenderProxy;
+import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -21,17 +23,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class InfoComponent extends AbstractInfoComponent {
     @Override
-    public void render(@NotNull DrawContext context, @NotNull MinecraftClient client, @NotNull PlayerEntity player, @NotNull ClientWorld world) {
-        if (!Info.hasCrosshairTarget()) reset();
+    public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
+        if (!representable.hasHitResult()) reset();
 
-        final Box textsRight = FrameInfo.scaled()
+        Box textsRight = FrameInfo.scaled()
                 .leftCenter(LayoutProxy.crosshairSafeArea().rightCenter())
                 .shift(5 + 3 * LayoutProxy.scalar(), 2 * LayoutProxy.scalar());
-        final Box textsLeft = FrameInfo.scaled()
+        Box textsLeft = FrameInfo.scaled()
                 .rightCenter(LayoutProxy.crosshairSafeArea().leftCenter())
                 .shift(-5 - 3 * LayoutProxy.scalar(), 2 * LayoutProxy.scalar());
 
-        final AccurateColor informativeTint = Palette.Minecraft.WHITE
+        AccurateColor informativeTint = Palette.Minecraft.WHITE
                 .mix(Animation.Ring.ovalColor(), 0.8, ColorStandard.MixMode.PIGMENT)
                 .mix(Animation.Ring.ringColor(), Animation.Ring.ringArc() / (Math.PI * 2), ColorStandard.MixMode.PIGMENT);
 
@@ -40,7 +42,7 @@ public class InfoComponent extends AbstractInfoComponent {
             // Right
             if (KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled) {
                 renderText(
-                        context,
+                        renderProxy,
                         textsRight,
                         Animation.Text.titleRight(),
                         Paragraph.Alignment.LEFT,
@@ -51,7 +53,7 @@ public class InfoComponent extends AbstractInfoComponent {
             // Left
             if (KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled) {
                 renderText(
-                        context,
+                        renderProxy,
                         textsLeft,
                         Animation.Text.titleLeft(),
                         Paragraph.Alignment.RIGHT,
@@ -65,7 +67,7 @@ public class InfoComponent extends AbstractInfoComponent {
             if (KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled) {
                 // Right above
                 renderText(
-                        context,
+                        renderProxy,
                         textsRight.shift(-0.25 * LayoutProxy.scalar(), -8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleRightAbove(),
                         Paragraph.Alignment.LEFT,
@@ -75,7 +77,7 @@ public class InfoComponent extends AbstractInfoComponent {
 
                 // Right below
                 renderText(
-                        context,
+                        renderProxy,
                         textsRight.shift(-0.25 * LayoutProxy.scalar(), 10.8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleRightBelow(),
                         Paragraph.Alignment.LEFT,
@@ -87,7 +89,7 @@ public class InfoComponent extends AbstractInfoComponent {
             if (KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled) {
                 // Left above
                 renderText(
-                        context,
+                        renderProxy,
                         textsLeft.shift(0.25 * LayoutProxy.scalar(), -8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleLeftAbove(),
                         Paragraph.Alignment.RIGHT,
@@ -97,7 +99,7 @@ public class InfoComponent extends AbstractInfoComponent {
 
                 // Left below
                 renderText(
-                        context,
+                        renderProxy,
                         textsLeft.shift(0.25 * LayoutProxy.scalar(), 10.8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleLeftBelow(),
                         Paragraph.Alignment.RIGHT,
@@ -109,15 +111,16 @@ public class InfoComponent extends AbstractInfoComponent {
 
         // Numeric health
         if (KnowledgesClient.CONFIG.components.infoEntity.showNumericHealth) {
-            FrameInfo.scaled()
-                    .center(Vector.ZERO)
-                    .alignBottom(LayoutProxy.crosshairSafeArea().top())
-                    .shift(0, -2 * LayoutProxy.scalar())
-                    .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * 0.82 * LayoutProxy.scalar()).append(Animation.Text.numericHealth()))
+            renderProxy.draw(
+                    FrameInfo.scaled()
+                            .center(Vector.ZERO)
+                            .alignBottom(LayoutProxy.crosshairSafeArea().top())
+                            .shift(0, -2 * LayoutProxy.scalar()),
+                    flat -> flat.new Text(section -> section.fontSize(0.9 * 0.82 * LayoutProxy.scalar()).append(Animation.Text.numericHealth()))
                             .horizontalAlignment(Paragraph.Alignment.CENTER)
                             .verticalAlignment(Section.Alignment.BOTTOM)
                             .color(informativeTint.opacity(0.6))
-                    );
+            );
         }
     }
 
@@ -134,19 +137,20 @@ public class InfoComponent extends AbstractInfoComponent {
         Animation.Ring.ovalColor(Palette.Minecraft.WHITE);
     }
 
-    private void renderText(DrawContext context, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color, double fontSizeMultiplier) {
-        box
-                .translateTop(0.5)
-                .shiftTop(-MinecraftClient.getInstance().textRenderer.fontHeight / 2.0 * fontSizeMultiplier)
-                .render(context, flat -> flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * LayoutProxy.scalar()).append(text))
+    private void renderText(RenderProxy renderProxy, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color, double fontSizeMultiplier) {
+        renderProxy.draw(
+                box
+                        .translateTop(0.5)
+                        .shiftTop(-MinecraftClient.getInstance().textRenderer.fontHeight / 2.0 * fontSizeMultiplier),
+                flat -> flat.new Text(section -> section.fontSize(0.9 * fontSizeMultiplier * LayoutProxy.scalar()).append(text))
                         .verticalAlignment(Section.Alignment.TOP)
                         .horizontalAlignment(alignment)
                         .color(color)
-                );
+        );
     }
 
-    private void renderText(DrawContext context, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color) {
-        renderText(context, box, text, alignment, color, 1);
+    private void renderText(RenderProxy renderProxy, Box box, Text text, Paragraph.Alignment alignment, AccurateColor color) {
+        renderText(renderProxy, box, text, alignment, color, 1);
     }
 
     @Override
