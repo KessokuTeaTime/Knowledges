@@ -7,9 +7,9 @@ import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.entrypoint.KnowledgesComponentProvider;
-import net.krlite.knowledges.api.entrypoint.KnowledgesDataProvider;
-import net.krlite.knowledges.component.AbstractInfoComponent;
+import net.krlite.knowledges.api.entrypoint.ComponentProvider;
+import net.krlite.knowledges.api.entrypoint.DataProvider;
+import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
@@ -62,8 +62,8 @@ public class KnowledgesClient implements ClientModInitializer {
         AbstractInfoComponent.Animation.registerEvents();
 
         // Components
-        FabricLoader.getInstance().getEntrypointContainers(ID, KnowledgesComponentProvider.class).forEach(entrypoint -> {
-            KnowledgesComponentProvider provider = entrypoint.getEntrypoint();
+        FabricLoader.getInstance().getEntrypointContainers(ID, ComponentProvider.class).forEach(entrypoint -> {
+            ComponentProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 
@@ -93,8 +93,8 @@ public class KnowledgesClient implements ClientModInitializer {
         });
 
         // Data
-        FabricLoader.getInstance().getEntrypointContainers(ID + "_data", KnowledgesDataProvider.class).forEach(entrypoint -> {
-            KnowledgesDataProvider provider = entrypoint.getEntrypoint();
+        FabricLoader.getInstance().getEntrypointContainers(ID + "_data", DataProvider.class).forEach(entrypoint -> {
+            DataProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 

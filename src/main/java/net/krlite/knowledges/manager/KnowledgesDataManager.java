@@ -1,17 +1,17 @@
 package net.krlite.knowledges.manager;
 
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.Data;
-import net.krlite.knowledges.api.Knowledge;
-import net.krlite.knowledges.core.data.DataInvoker;
-import net.krlite.knowledges.core.data.DataProtocol;
+import net.krlite.knowledges.api.data.Data;
+import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.data.DataInvoker;
+import net.krlite.knowledges.api.data.DataProtocol;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class KnowledgesDataManager extends AbstractManager<Data<?>> {
+public class KnowledgesDataManager extends KnowledgesManager<Data<?>> {
     public KnowledgesDataManager() {
         super(() -> KnowledgesClient.CONFIG.data.disabled);
     }

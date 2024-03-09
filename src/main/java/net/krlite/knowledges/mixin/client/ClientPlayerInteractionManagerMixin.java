@@ -1,6 +1,6 @@
 package net.krlite.knowledges.mixin.client;
 
-import net.krlite.knowledges.component.AbstractInfoComponent;
+import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;

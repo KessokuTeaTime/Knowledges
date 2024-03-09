@@ -3,7 +3,7 @@ package net.krlite.knowledges.mixin.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.api.component.Knowledge;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;

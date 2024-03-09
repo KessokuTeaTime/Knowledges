@@ -4,8 +4,8 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
-import net.krlite.knowledges.component.CrosshairComponent;
-import net.krlite.knowledges.data.info.block.blockinformation.NoteBlockInformationData;
+import net.krlite.knowledges.impl.component.CrosshairComponent;
+import net.krlite.knowledges.impl.data.info.block.blockinformation.NoteBlockInformationData;
 
 import java.util.ArrayList;
 

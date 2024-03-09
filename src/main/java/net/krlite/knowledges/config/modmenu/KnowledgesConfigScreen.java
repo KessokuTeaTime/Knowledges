@@ -8,14 +8,14 @@ import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.Data;
-import net.krlite.knowledges.api.Knowledge;
+import net.krlite.knowledges.api.data.Data;
+import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
-import net.krlite.knowledges.core.config.WithIndependentConfigPage;
-import net.krlite.knowledges.core.localization.Localizable;
-import net.krlite.knowledges.core.path.WithPath;
-import net.krlite.knowledges.core.util.Helper;
-import net.krlite.knowledges.manager.AbstractManager;
+import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
+import net.krlite.knowledges.api.core.localization.Localizable;
+import net.krlite.knowledges.api.core.path.WithPath;
+import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.manager.KnowledgesManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -72,7 +72,7 @@ public class KnowledgesConfigScreen {
 
         public void register(Object object, BooleanListEntry entry) {
             ENTRY_INDEXED.put(entry, object);
-            Helper.Map.fastMerge(OBJECT_INDEXED, object, entry);
+            Shortcuts.Map.fastMerge(OBJECT_INDEXED, object, entry);
         }
     }
 
@@ -176,8 +176,8 @@ public class KnowledgesConfigScreen {
                                 (allowsTooltip && data.providesTooltip()) ? data.tooltip() : Text.empty(),
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
-                                        Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
-                                        Helper.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
+                                        Shortcuts.Text.withFormatting(knowledge.name(), Formatting.GRAY),
+                                        Shortcuts.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
                                 )
                         }))
                 .setSaveConsumer(value -> KnowledgesClient.DATA.setEnabled(data, value))
@@ -223,7 +223,7 @@ public class KnowledgesConfigScreen {
                     entries.add(
                             entryBuilder.startTextDescription(Text.translatable(
                                             localizationKey("data", "classifier"),
-                                            Helper.Text.withFormatting(component.name(), Formatting.GRAY)
+                                            Shortcuts.Text.withFormatting(component.name(), Formatting.GRAY)
                                     ))
                                     .setTooltipSupplier(() -> !component.providesTooltip() ? Optional.empty() : Optional.of(
                                             new Text[]{component.tooltip()}
@@ -249,7 +249,7 @@ public class KnowledgesConfigScreen {
     }
 
     private <T extends WithPath & WithIndependentConfigPage & Localizable.WithName> void initIndependentConfigPages(
-            AbstractManager<T> manager,
+            KnowledgesManager<T> manager,
             Function<T, BooleanToggleBuilder> builder,
             BooleanListEntrySyncHelper helper,
             String path
