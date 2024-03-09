@@ -204,7 +204,6 @@ public class InterpolatedText {
 
         if (!strings.isEmpty()) {
             if (!paragraphEquals(cache, Collections.unmodifiableList(current))) {
-                System.out.println("replaced: " + stringsUnCut);
                 last = List.copyOf(cache);
                 cache = List.copyOf(current);
             }

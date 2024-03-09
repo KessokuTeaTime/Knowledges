@@ -6,18 +6,17 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.api.data.DataInvoker;
+import net.krlite.knowledges.api.data.DataProtocol;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.representable.Representable;
-import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
-import net.krlite.knowledges.api.data.DataInvoker;
-import net.krlite.knowledges.api.data.DataProtocol;
+import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -96,7 +95,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			String
 					namespace = KnowledgeProxy.getNamespace(blockState.getBlock().asItem().getDefaultStack()),
-					path = Registries.BLOCK.getId(blockState.getBlock()).getPath();
+					path = KnowledgeProxy.getId(blockState.getBlock()).getPath();
 
 			boolean resetBlockBreakingProgress = !Animation.Contextual.cancelledBlockBreaking() && Animation.Contextual.rawBlockBreakingProgress() < Animation.Ring.blockBreakingProgress();
 			Animation.Ring.blockBreakingProgress(Animation.Contextual.rawBlockBreakingProgress(), resetBlockBreakingProgress);

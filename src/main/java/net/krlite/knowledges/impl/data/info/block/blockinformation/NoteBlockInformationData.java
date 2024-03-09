@@ -46,7 +46,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
 
     @Override
     public @NotNull String partialPath() {
-        return Registries.BLOCK.getId(Blocks.NOTE_BLOCK).getPath();
+        return KnowledgeProxy.getId(Blocks.NOTE_BLOCK).getPath();
     }
 
     @Override

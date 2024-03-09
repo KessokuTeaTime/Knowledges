@@ -1,5 +1,6 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
+import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.minecraft.block.BlockState;
@@ -28,7 +29,7 @@ public class ComposterBlockInformationData extends AbstractBlockInformationData 
 
     @Override
     public @NotNull String partialPath() {
-        return Registries.BLOCK.getId(Blocks.COMPOSTER).getPath();
+        return KnowledgeProxy.getId(Blocks.COMPOSTER).getPath();
     }
 
     @Override
