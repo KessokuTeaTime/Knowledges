@@ -31,7 +31,7 @@
     "knowledges": [
       "net.krlite.knowledges.impl.entrypoint.KnowledgesComponentProvider"
     ],
-    "knowledges_data": [
+    "knowledges:data": [
       "net.krlite.knowledges.impl.entrypoint.KnowledgesDataProvider"
     ]
   },

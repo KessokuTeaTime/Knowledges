@@ -29,14 +29,14 @@ public class KnowledgesDataManager extends KnowledgesManager<Data<?>> {
     public <K extends Knowledge> List<Data<K>> fromDataInvoker(DataInvoker<K, ?> dataInvoker) {
         return asDataInvokerClassifiedMap().getOrDefault(dataInvoker, new ArrayList<>()).stream()
                 .map(data -> (Data<K>) data)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public <K extends Knowledge, P extends DataProtocol<K>> List<P> availableProtocols(DataInvoker<K, P> dataInvoker) {
         return fromDataInvoker(dataInvoker).stream()
                 .filter(this::isEnabled)
                 .map(data -> (P) data)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Map<String, Map<Knowledge, List<Data<?>>>> asNamespaceKnowledgeClassifiedMap() {

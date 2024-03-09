@@ -1,6 +1,7 @@
 package net.krlite.knowledges.impl.representable;
 
 import com.google.common.base.Suppliers;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,10 +33,13 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
         executor.accept(() -> {
             Entity entity = representable.entity();
             if (entity == null) return;
-            
-            // TODO
+
+            var tags = KnowledgesClient.TAGS.byEntity(representable.entity());
+            if (tags.isEmpty()) return;
 
             NbtCompound compound = representable.data();
+            tags.forEach(t -> t.append(compound, representable));
+
             compound.putInt("id", entity.getId());
 
             responseSender.accept(compound);

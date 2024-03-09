@@ -1,6 +1,7 @@
 package net.krlite.knowledges.impl.representable;
 
 import com.google.common.base.Suppliers;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.minecraft.block.Block;
@@ -17,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -67,9 +67,12 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
             Optional<BlockEntity> blockEntity = representable.blockEntity();
             if (blockEntity.isEmpty()) return;
 
-            // TODO
+            var tags = KnowledgesClient.TAGS.byBlock(representable.block());
+            if (tags.isEmpty()) return;
 
             NbtCompound compound = representable.data();
+            tags.forEach(t -> t.append(compound, representable));
+
             compound.putInt("x", pos.getX());
             compound.putInt("y", pos.getY());
             compound.putInt("z", pos.getZ());

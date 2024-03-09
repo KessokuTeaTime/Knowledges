@@ -4,6 +4,10 @@ import net.krlite.knowledges.api.core.path.WithPath;
 import net.krlite.knowledges.api.representable.Representable;
 import net.minecraft.nbt.NbtCompound;
 
-public interface AdditionalTag<R extends Representable<?>> extends WithPath {
+public interface AdditionalTag<R extends Representable<?>, T> extends WithPath {
+    boolean shouldApply(T t);
+
+    Class<R> targetRepresentableClass();
+
     void append(NbtCompound data, R representable);
 }

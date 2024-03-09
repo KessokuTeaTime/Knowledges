@@ -96,7 +96,7 @@ public class KnowledgesClient implements ClientModInitializer {
         });
 
         // Data
-        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + "_data", DataProvider.class).forEach(entrypoint -> {
+        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + ":data", DataProvider.class).forEach(entrypoint -> {
             DataProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
@@ -127,7 +127,7 @@ public class KnowledgesClient implements ClientModInitializer {
         });
 
         // Tags
-        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, TagProvider.class).forEach(entrypoint -> {
+        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + ":tags", TagProvider.class).forEach(entrypoint -> {
             TagProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
