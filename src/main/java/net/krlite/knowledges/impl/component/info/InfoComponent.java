@@ -107,7 +107,7 @@ public class InfoComponent extends AbstractInfoComponent {
         }
 
         // Numeric health
-        if (KnowledgesClient.CONFIG.components.infoEntity.showNumericHealth) {
+        if (KnowledgesClient.CONFIG.components.infoEntity.showsNumericHealth) {
             renderProxy.draw(
                     FrameInfo.scaled()
                             .center(Vector.ZERO)

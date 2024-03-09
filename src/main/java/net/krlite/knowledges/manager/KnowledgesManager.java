@@ -11,16 +11,17 @@ import java.util.function.Supplier;
 
 public abstract class KnowledgesManager<T extends WithPath> {
     private final HashMap<String, List<T>> map = new HashMap<>();
-    private final Supplier<ArrayList<String>> supplier;
+    private final Supplier<HashMap<String, Boolean>> configSupplier;
 
-    KnowledgesManager(Supplier<ArrayList<String>> supplier) {
-        this.supplier = supplier;
+    KnowledgesManager(Supplier<HashMap<String, Boolean>> configSupplier) {
+        this.configSupplier = configSupplier;
     }
 
     protected abstract String localizationPrefix();
 
     public void register(String namespace, T t) {
         Shortcuts.Map.fastMerge(map, namespace, t);
+        identifier(t).ifPresent(key -> configSupplier.get().putIfAbsent(key.toString(), true));
     }
 
     public Map<String, List<T>> asMap() {
@@ -78,23 +79,38 @@ public abstract class KnowledgesManager<T extends WithPath> {
     public boolean isEnabled(T t) {
         return identifier(t)
             .map(Identifier::toString)
-            .filter(supplier.get()::contains)
-            .isEmpty();
+            .filter(key -> {
+                var config = configSupplier.get();
+
+                if (config.containsKey(key)) {
+                    return config.get(key);
+                } else {
+                    config.put(key, true);
+                    return true;
+                }
+            })
+            .isPresent();
     }
 
     public void setEnabled(T t, boolean enabled) {
         identifier(t)
                 .map(Identifier::toString)
                 .ifPresent(key -> {
+                    var config = configSupplier.get();
+
                     if (enabled && !isEnabled(t)) {
-                        supplier.get().remove(key);
+                        config.put(key, false);
                     }
 
                     if (!enabled && isEnabled(t)) {
-                        supplier.get().add(key);
+                        config.put(key, true);
                     }
                 });
 
         KnowledgesClient.CONFIG_HOLDER.save();
+    }
+
+    public void tidyUp() {
+        configSupplier.get().keySet().removeIf(key -> byId(key).isEmpty());
     }
 }

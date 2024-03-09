@@ -10,6 +10,7 @@ import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +20,11 @@ import java.util.Optional;
 public class BeehiveBlockInformationData extends AbstractBlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
-        // TODO: Make this stuff work
         /*
+        representable.blockEntity().flatMap(blockEntity -> {
+
+        })
+
         Optional<BlockEntity> blockEntity = Knowledge.Info.crosshairBlockEntity();
 
         if (blockEntity.isPresent() && blockEntity.get() instanceof BeehiveBlockEntity beehiveBlockEntity) {

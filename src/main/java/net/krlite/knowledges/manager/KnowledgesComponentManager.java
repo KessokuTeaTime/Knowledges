@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 
 public class KnowledgesComponentManager extends KnowledgesManager<Knowledge> {
     public KnowledgesComponentManager() {
-        super(() -> KnowledgesClient.CONFIG.components.disabled);
+        super(() -> KnowledgesClient.CONFIG.components.map);
     }
 
     public void render(RenderProxy renderProxy, Representable<?> representable) {

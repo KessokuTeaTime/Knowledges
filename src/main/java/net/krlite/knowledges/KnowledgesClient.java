@@ -13,12 +13,13 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
+import net.krlite.knowledges.api.entrypoint.TagProvider;
 import net.krlite.knowledges.api.representable.PacketByteBufWritable;
-import net.krlite.knowledges.api.representable.Representable;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
+import net.krlite.knowledges.manager.KnowledgesTagManager;
 import net.krlite.knowledges.networking.KnowledgesNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
@@ -36,6 +37,8 @@ public class KnowledgesClient implements ClientModInitializer {
 
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
     public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
+    public static final KnowledgesTagManager TAGS = new KnowledgesTagManager();
+
     public static final KnowledgesHud HUD = new KnowledgesHud();
 
     static {
@@ -123,14 +126,50 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(data -> DATA.register(namespace, data));
         });
 
+        // Tags
+        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, TagProvider.class).forEach(entrypoint -> {
+            TagProvider provider = entrypoint.getEntrypoint();
+            var classes = provider.provide();
+            if (classes.isEmpty()) return;
+
+            ModContainer mod = entrypoint.getProvider();
+            String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
+
+            LOGGER.info(String.format(
+                    "Registering %d %s for %s...",
+                    classes.size(),
+                    classes.size() <= 1 ? "tag" : "tags",
+                    name
+            ));
+
+            classes.stream()
+                    .distinct()
+                    .map(clazz -> {
+                        try {
+                            return clazz.getDeclaredConstructor().newInstance();
+                        } catch (Throwable throwable) {
+                            throw new RuntimeException(String.format(
+                                    "Failed to register tag for %s: constructor not found",
+                                    clazz.getName()
+                            ), throwable);
+                        }
+                    })
+                    .forEach(tag -> TAGS.register(namespace, tag));
+        });
+
         if (!COMPONENTS.asMap().isEmpty()) {
             LOGGER.info(String.format(
-                    "Successfully registered %d %s for %d %s and %d %s for %d %s. %s you wiser! 📚",
+                    "Successfully registered %d %s for %d %s, %d %s for %d %s, and %d %s for %d %s. %s you wiser! 📚",
 
                     COMPONENTS.asList().size(),
                     COMPONENTS.asList().size() <= 1 ? "knowledge" : "knowledges",
                     COMPONENTS.asMap().keySet().size(),
                     COMPONENTS.asMap().keySet().size() <= 1 ? "mod" : "mods",
+
+                    TAGS.asList().size(),
+                    TAGS.asList().size() <= 1 ? "tag" : "tags",
+                    TAGS.asMap().keySet().size(),
+                    TAGS.asMap().keySet().size() <= 1 ? "mod" : "mods",
 
                     DATA.asList().size(),
                     "data",
@@ -145,6 +184,10 @@ public class KnowledgesClient implements ClientModInitializer {
         HudRenderCallback.EVENT.register(((context, tickDelta) -> {
             HUD.render(context, COMPONENTS::render);
         }));
+    }
+
+    public static void tidyUp() {
+
     }
 
     public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {

@@ -18,45 +18,47 @@ import java.util.Optional;
 public class BannerBlockInformationData extends AbstractBlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
-        if (representable.blockState().isIn(BlockTags.BANNERS) && representable.blockEntity().isPresent()) {
-            if (!(representable.blockEntity().get() instanceof BannerBlockEntity bannerBlockEntity)) return Optional.empty();
+        return representable.blockEntity().flatMap(blockEntity -> {
+            if (representable.blockState().isIn(BlockTags.BANNERS)) {
+                if (blockEntity instanceof BannerBlockEntity bannerBlockEntity) {
+                    var patterns = bannerBlockEntity.getPatterns();
+                    int available = patterns.size() - 1;
+                    // The first pattern is always the background color, so ignore it
 
-            var patterns = bannerBlockEntity.getPatterns();
-            int available = patterns.size() - 1;
-            // The first pattern is always the background color, so ignore it
+                    if (available > 0) {
+                        return patterns.get(1).getFirst().getKey()
+                                .map(RegistryKey::getValue)
+                                .map(Identifier::toShortTranslationKey)
+                                .map(translationKey -> {
+                                    MutableText name = Text.translatable(
+                                            localizationKey("pattern"),
+                                            Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName()).getString()
+                                    );
 
-            if (available > 0) {
-                return patterns.get(1).getFirst().getKey()
-                        .map(RegistryKey::getValue)
-                        .map(Identifier::toShortTranslationKey)
-                        .map(translationKey -> {
-                            MutableText name = Text.translatable(
-                                    localizationKey("pattern"),
-                                    Text.translatable("block.minecraft.banner." + translationKey + "." + patterns.get(1).getSecond().getName()).getString()
-                            );
-
-                            if (available > 2) {
-                                return Text.translatable(
-                                        localizationKey("more_patterns"),
-                                        name.getString(),
-                                        available - 1,
-                                        // Counts the rest of the patterns. Use '%2$d' to reference.
-                                        available
-                                        // Counts all the patterns. Use '%3$d' to reference.
-                                );
-                            } else if (available > 1) {
-                                return Text.translatable(
-                                        localizationKey("one_more_pattern"),
-                                        name.getString()
-                                );
-                            } else {
-                                return name;
-                            }
-                        });
+                                    if (available > 2) {
+                                        return Text.translatable(
+                                                localizationKey("more_patterns"),
+                                                name.getString(),
+                                                available - 1,
+                                                // Counts the rest of the patterns. Use '%2$d' to reference.
+                                                available
+                                                // Counts all the patterns. Use '%3$d' to reference.
+                                        );
+                                    } else if (available > 1) {
+                                        return Text.translatable(
+                                                localizationKey("one_more_pattern"),
+                                                name.getString()
+                                        );
+                                    } else {
+                                        return name;
+                                    }
+                                });
+                    }
+                }
             }
-        }
 
-        return Optional.empty();
+            return Optional.empty();
+        });
     }
 
     @Override
