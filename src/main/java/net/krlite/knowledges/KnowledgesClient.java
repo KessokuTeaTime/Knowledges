@@ -15,7 +15,6 @@ import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.api.representable.PacketByteBufWritable;
 import net.krlite.knowledges.config.KnowledgesClientConfig;
-import net.krlite.knowledges.config.KnowledgesCommonConfig;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
@@ -127,7 +126,7 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(data -> DATA.register(namespace, data));
         });
 
-        if (CONFIG.global.autoTidiesUp) tidyUpConfig();
+        if (CONFIG.general.autoTidiesUp) tidyUpConfig();
         CONFIG_HOLDER.save();
 
         if (!COMPONENTS.asMap().isEmpty()) {
@@ -157,8 +156,6 @@ public class KnowledgesClient implements ClientModInitializer {
     public static void tidyUpConfig() {
         COMPONENTS.tidyUp();
         DATA.tidyUp();
-
-        KnowledgesCommon.TAGS.fixKeys();
     }
 
     public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {

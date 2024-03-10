@@ -78,7 +78,7 @@ public class KnowledgesHud {
 
                 if (isFirstPerson
                         && (!isSpectator || shouldRenderSpectatorCrosshair)
-                        && (KnowledgesClient.CONFIG.global.visibleInDebugHud || !isInDebugHud)
+                        && (KnowledgesClient.CONFIG.general.visibleInDebugHud || !isInDebugHud)
                 ) {
                     renderConsumer.accept(new RenderProxy(context), rep);
                 }

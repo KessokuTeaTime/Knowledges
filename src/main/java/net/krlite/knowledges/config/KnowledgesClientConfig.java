@@ -12,17 +12,14 @@ import java.util.TreeMap;
 
 @Config(name = "knowledges")
 public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
-	@ConfigEntry.Category("global")
-	public Global global = new Global();
+	public General general = new General();
 
-	@ConfigEntry.Category("components")
 	public Components components = new Components();
 
-	@ConfigEntry.Category("data")
 	public Data data = new Data();
 
 	@Config(name = "general")
-	public static class Global implements ConfigData {
+	public static class General implements ConfigData {
 		public int mainScalar = 1000;
 		public int crosshairSafeAreaScalar = 1000;
 		public boolean visibleInDebugHud = false;

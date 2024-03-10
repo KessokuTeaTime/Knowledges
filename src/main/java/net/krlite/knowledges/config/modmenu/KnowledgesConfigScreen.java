@@ -84,7 +84,7 @@ public class KnowledgesConfigScreen {
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
             .setSavingRunnable(() -> {
-                if (KnowledgesClient.CONFIG.global.autoTidiesUp) KnowledgesClient.tidyUpConfig();
+                if (KnowledgesClient.CONFIG.general.autoTidiesUp) KnowledgesClient.tidyUpConfig();
                 KnowledgesClient.CONFIG_HOLDER.save();
             });
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
@@ -122,12 +122,12 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "main_scalar"),
-                                KnowledgesClient.CONFIG.global.mainScalar,
+                                KnowledgesClient.CONFIG.general.mainScalar,
                                 500, 2000
                         )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.global.mainScalar)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.mainScalar)
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.global.mainScalar = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.mainScalar = value)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -135,12 +135,12 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
-                                KnowledgesClient.CONFIG.global.crosshairSafeAreaScalar,
+                                KnowledgesClient.CONFIG.general.crosshairSafeAreaScalar,
                             500, 2000
                         )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.global.crosshairSafeAreaScalar)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSafeAreaScalar)
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.global.crosshairSafeAreaScalar = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.crosshairSafeAreaScalar = value)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -148,22 +148,22 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startBooleanToggle(
                                 localize("general", "visible_in_debug_hud"),
-                                KnowledgesClient.CONFIG.global.visibleInDebugHud
+                                KnowledgesClient.CONFIG.general.visibleInDebugHud
                         )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.global.visibleInDebugHud)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.visibleInDebugHud)
                         .setTooltip(localize("general", "visible_in_debug_hud", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.global.visibleInDebugHud = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.visibleInDebugHud = value)
                         .build()
         );
 
         category.addEntry(
                 entryBuilder.startBooleanToggle(
                                 localize("general", "auto_tidies_up"),
-                                KnowledgesClient.CONFIG.global.autoTidiesUp
+                                KnowledgesClient.CONFIG.general.autoTidiesUp
                         )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.global.autoTidiesUp)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.autoTidiesUp)
                         .setTooltip(localize("general", "auto_tidies_up", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.global.autoTidiesUp = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.autoTidiesUp = value)
                         .build()
         );
     }

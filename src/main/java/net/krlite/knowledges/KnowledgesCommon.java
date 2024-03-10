@@ -42,7 +42,7 @@ public class KnowledgesCommon implements ModInitializer {
         new ServerNetworking().register();
 
         // Tags
-        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + ":tags", TagProvider.class).forEach(entrypoint -> {
+        FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", TagProvider.class).forEach(entrypoint -> {
             TagProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
@@ -69,7 +69,14 @@ public class KnowledgesCommon implements ModInitializer {
                             ), throwable);
                         }
                     })
-                    .forEach(tag -> KnowledgesCommon.TAGS.register(namespace, tag));
+                    .forEach(tag -> TAGS.register(namespace, tag));
         });
+
+        tidyUpConfig();
+        CONFIG_HOLDER.save();
+    }
+
+    public static void tidyUpConfig() {
+        TAGS.tidyUp();
     }
 }
