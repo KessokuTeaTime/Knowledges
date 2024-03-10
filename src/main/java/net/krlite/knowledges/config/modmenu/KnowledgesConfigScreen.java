@@ -84,7 +84,7 @@ public class KnowledgesConfigScreen {
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
             .setSavingRunnable(() -> {
-                if (KnowledgesClient.CONFIG.global.autoTidiesUp) KnowledgesClient.tidyUp();
+                if (KnowledgesClient.CONFIG.global.autoTidiesUp) KnowledgesClient.tidyUpConfig();
                 KnowledgesClient.CONFIG_HOLDER.save();
             });
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();

@@ -9,6 +9,6 @@ public interface WithPartialPath extends WithPath {
 
     @Override
     default @NotNull String path() {
-        return currentPath() + "." + partialPath();
+        return currentPath() + "/" + partialPath();
     }
 }

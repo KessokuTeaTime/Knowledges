@@ -14,8 +14,8 @@ import net.minecraft.block.entity.BeehiveBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 
-public class BeehiveAdditionalTag implements AdditionalBlockTag {
-    public enum Protocol implements TagProtocol<BeehiveAdditionalTag, Protocol> {
+public class BeehiveTag implements AdditionalBlockTag {
+    public enum Protocol implements TagProtocol<BeehiveTag, Protocol> {
         BEES_BYTE(new NbtByteCaster("Bees")),
         FULL_BOOLEAN(new NbtBooleanCaster("Full"));
 
@@ -32,7 +32,7 @@ public class BeehiveAdditionalTag implements AdditionalBlockTag {
     }
 
     @Override
-    public boolean shouldApply(Block block) {
+    public boolean isApplicableTo(Block block) {
         System.out.println(block);
         return block instanceof BeehiveBlock;
     }

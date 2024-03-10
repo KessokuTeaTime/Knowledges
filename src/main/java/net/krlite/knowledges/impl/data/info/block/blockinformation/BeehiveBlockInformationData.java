@@ -6,7 +6,7 @@ import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.tag.caster.NbtBooleanCaster;
 import net.krlite.knowledges.api.tag.caster.NbtByteCaster;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
-import net.krlite.knowledges.impl.tag.block.BeehiveAdditionalTag;
+import net.krlite.knowledges.impl.tag.block.BeehiveTag;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BeehiveBlockEntity;
@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Predicate;
 
 public class BeehiveBlockInformationData extends AbstractBlockInformationData {
     @Override
@@ -33,13 +32,13 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                 );
 
                 final AtomicReference<MutableText> beeCountText = new AtomicReference<>(Text.empty());
-                ((NbtByteCaster) BeehiveAdditionalTag.Protocol.BEES_BYTE.caster()).get(data).ifPresent(beeCount -> {
+                ((NbtByteCaster) BeehiveTag.Protocol.BEES_BYTE.caster()).get(data).ifPresent(beeCount -> {
                     beeCountText.set(beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
                             localizationKey("bee_count"),
                             beeCount
                     ));
                 });
-                ((NbtBooleanCaster) BeehiveAdditionalTag.Protocol.FULL_BOOLEAN.caster()).get(data).ifPresent(full -> {
+                ((NbtBooleanCaster) BeehiveTag.Protocol.FULL_BOOLEAN.caster()).get(data).ifPresent(full -> {
                     if (full) beeCountText.set(localize("bee_count", "full"));
                 });
 

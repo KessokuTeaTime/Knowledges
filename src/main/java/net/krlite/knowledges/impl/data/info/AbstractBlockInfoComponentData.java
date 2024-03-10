@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractBlockInfoComponentData implements Data<BlockInfoComponent>, WithPartialPath {
     @Override
     public @NotNull String currentPath() {
-        return "info.block";
+        return "info/block";
     }
 }

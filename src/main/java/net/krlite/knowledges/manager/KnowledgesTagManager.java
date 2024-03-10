@@ -28,13 +28,13 @@ public class KnowledgesTagManager extends KnowledgesManager<AdditionalTag<?, ?>>
 
     public List<AdditionalBlockTag> byBlock(Block block) {
         return ofSpecifiedType(AdditionalBlockTag.class).stream()
-                .filter(t -> t.shouldApply(block))
+                .filter(t -> t.isApplicableTo(block))
                 .toList();
     }
 
     public List<AdditionalEntityTag> byEntity(Entity entity) {
         return ofSpecifiedType(AdditionalEntityTag.class).stream()
-                .filter(t -> t.shouldApply(entity))
+                .filter(t -> t.isApplicableTo(entity))
                 .toList();
     }
 }

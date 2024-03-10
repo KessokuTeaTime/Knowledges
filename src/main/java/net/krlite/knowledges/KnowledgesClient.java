@@ -24,7 +24,6 @@ import net.krlite.knowledges.networking.KnowledgesNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,6 +161,7 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(tag -> TAGS.register(namespace, tag));
         });
 
+        if (CONFIG.global.autoTidiesUp) tidyUpConfig();
         CONFIG_HOLDER.save();
 
         if (!COMPONENTS.asMap().isEmpty()) {
@@ -193,7 +193,7 @@ public class KnowledgesClient implements ClientModInitializer {
         }));
     }
 
-    public static void tidyUp() {
+    public static void tidyUpConfig() {
         COMPONENTS.tidyUp();
         DATA.tidyUp();
         TAGS.tidyUp();
