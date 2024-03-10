@@ -45,7 +45,7 @@ public class CrosshairComponent implements Knowledge {
                 .style(Flat.Rectangle.Outlined.OutliningStyle.EDGE_FADED)
         );
 
-        switch (KnowledgesClient.CONFIG.components.crosshair.ringShape) {
+        switch (KnowledgesClient.CONFIG.get().components.crosshair.ringShape) {
             case OVAL -> {
                 // Oval
                 renderProxy.draw(box, flat -> flat.new Oval()
@@ -71,7 +71,7 @@ public class CrosshairComponent implements Knowledge {
                 }
 
                 // Outline
-                if (KnowledgesClient.CONFIG.components.crosshair.cursorRingOutlineEnabled) {
+                if (KnowledgesClient.CONFIG.get().components.crosshair.cursorRingOutlineEnabled) {
                     AccurateColor
                             ovalColor = AbstractInfoComponent.Animation.Ring.ovalColor().opacity(0.5),
                             ringColor = AbstractInfoComponent.Animation.Ring.ringColor().opacity(1);
@@ -115,7 +115,7 @@ public class CrosshairComponent implements Knowledge {
                 }
 
                 // Outline
-                if (KnowledgesClient.CONFIG.components.crosshair.cursorRingOutlineEnabled) {
+                if (KnowledgesClient.CONFIG.get().components.crosshair.cursorRingOutlineEnabled) {
                     AccurateColor
                             ovalColor = AbstractInfoComponent.Animation.Ring.ovalColor().opacity(0.5),
                             ringColor = AbstractInfoComponent.Animation.Ring.ringColor().opacity(1);
@@ -183,7 +183,7 @@ public class CrosshairComponent implements Knowledge {
                 entryBuilder.startEnumSelector(
                                 localize("config", "ring_shape"),
                                 RingShape.class,
-                                KnowledgesClient.CONFIG.components.crosshair.ringShape
+                                KnowledgesClient.CONFIG.get().components.crosshair.ringShape
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.ringShape)
                         .setTooltip(localize("config", "ring_shape", "tooltip"))
@@ -191,42 +191,42 @@ public class CrosshairComponent implements Knowledge {
                         .setTooltipSupplier(ringShape -> Optional.of(new Text[]{
                             ringShape.toolip()
                         }))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.crosshair.ringShape = value),
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.ringShape = value),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "cursor_ring_outline"),
-                                KnowledgesClient.CONFIG.components.crosshair.cursorRingOutlineEnabled
+                                KnowledgesClient.CONFIG.get().components.crosshair.cursorRingOutlineEnabled
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.cursorRingOutlineEnabled)
                         .setTooltip(localize("config", "cursor_ring_outline", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.crosshair.cursorRingOutlineEnabled = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.cursorRingOutlineEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "texts_right"),
-                                KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled
+                                KnowledgesClient.CONFIG.get().components.crosshair.textsRightEnabled
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.textsRightEnabled)
                         .setTooltip(localize("config", "texts_right", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.textsRightEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "texts_left"),
-                                KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled
+                                KnowledgesClient.CONFIG.get().components.crosshair.textsLeftEnabled
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.textsLeftEnabled)
                         .setTooltip(localize("config", "texts_left", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.textsLeftEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "subtitles"),
-                                KnowledgesClient.CONFIG.components.crosshair.subtitlesEnabled
+                                KnowledgesClient.CONFIG.get().components.crosshair.subtitlesEnabled
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.subtitlesEnabled)
                         .setTooltip(localize("config", "subtitles", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.crosshair.subtitlesEnabled = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.subtitlesEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
         );
     }

@@ -8,11 +8,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.TagProvider;
-import net.krlite.knowledges.config.KnowledgesClientConfig;
 import net.krlite.knowledges.config.KnowledgesCommonConfig;
 import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
+import net.krlite.knowledges.manager.KnowledgesManager;
 import net.krlite.knowledges.manager.KnowledgesTagManager;
 import net.krlite.knowledges.networking.ServerNetworking;
+import net.minecraft.util.ActionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,14 +21,19 @@ public class KnowledgesCommon implements ModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID + ":common");
 
-    public static final ConfigHolder<KnowledgesCommonConfig> CONFIG_HOLDER;
-    public static final KnowledgesCommonConfig CONFIG;
+
+    public static final ConfigHolder<KnowledgesCommonConfig> CONFIG;
     public static final KnowledgesCommonConfig DEFAULT_CONFIG = new KnowledgesCommonConfig();
 
     static {
         AutoConfig.register(KnowledgesCommonConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
-        CONFIG_HOLDER = AutoConfig.getConfigHolder(KnowledgesCommonConfig.class);
-        CONFIG = CONFIG_HOLDER.getConfig();
+        CONFIG = AutoConfig.getConfigHolder(KnowledgesCommonConfig.class);
+
+        CONFIG.registerLoadListener((configHolder, knowledgesCommonConfig) -> {
+            KnowledgesManager.fixKeysAndSort(knowledgesCommonConfig.tags.enabled);
+
+            return ActionResult.PASS;
+        });
     }
 
     public static final KnowledgesTagManager TAGS = new KnowledgesTagManager();
@@ -36,8 +42,9 @@ public class KnowledgesCommon implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        TAGS.fixKeys();
         CACHE_USERNAME.load();
+
+        KnowledgesManager.fixKeysAndSort(CONFIG.get().tags.enabled);
 
         new ServerNetworking().register();
 
@@ -73,7 +80,7 @@ public class KnowledgesCommon implements ModInitializer {
         });
 
         tidyUpConfig();
-        CONFIG_HOLDER.save();
+        CONFIG.save();
     }
 
     public static void tidyUpConfig() {

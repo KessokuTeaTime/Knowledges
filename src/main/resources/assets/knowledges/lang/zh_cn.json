@@ -210,5 +210,8 @@
   "knowledge_data.knowledges.info/entity/entity_description/villager.name"   : "村民详细信息",
   "knowledge_data.knowledges.info/entity/entity_description/villager.tooltip": "提供有关村民属性的详细信息",
 
-  "knowledge_data.knowledges.info/entity/entity_description/villager.reputation": "§7声望：§r%1$d"
+  "knowledge_data.knowledges.info/entity/entity_description/villager.reputation": "§7声望：§r%1$d",
+
+  "knowledge_data.knowledges.info/entity/entity_description/animal_owner.owner"     : "§7主人：§r%1$s",
+  "knowledge_data.knowledges.info/entity/entity_description/animal_owner.owner.none": "§7没有主人"
 }

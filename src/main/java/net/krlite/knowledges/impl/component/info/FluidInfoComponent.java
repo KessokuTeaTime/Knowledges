@@ -93,26 +93,26 @@ public class FluidInfoComponent extends AbstractInfoComponent {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_water"),
-                                KnowledgesClient.CONFIG.components.infoFluid.ignoresWater
+                                KnowledgesClient.CONFIG.get().components.infoFluid.ignoresWater
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresWater)
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoFluid.ignoresWater = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.infoFluid.ignoresWater = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_lava"),
-                                KnowledgesClient.CONFIG.components.infoFluid.ignoresLava
+                                KnowledgesClient.CONFIG.get().components.infoFluid.ignoresLava
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresLava)
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoFluid.ignoresLava = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.infoFluid.ignoresLava = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
                                 localize("config", "ignores_other_fluids"),
-                                KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids
+                                KnowledgesClient.CONFIG.get().components.infoFluid.ignoresOtherFluids
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresOtherFluids)
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.infoFluid.ignoresOtherFluids = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED)
         );
     }

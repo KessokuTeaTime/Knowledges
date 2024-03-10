@@ -7,7 +7,7 @@ import net.krlite.knowledges.api.representable.Representable;
 
 public class KnowledgesComponentManager extends KnowledgesManager<Knowledge> {
     public KnowledgesComponentManager() {
-        super(() -> KnowledgesClient.CONFIG.components.enabled);
+        super(() -> KnowledgesClient.CONFIG.get().components.enabled);
     }
 
     public void render(RenderProxy renderProxy, Representable<?> representable) {

@@ -2,7 +2,6 @@ package net.krlite.knowledges.config.modmenu.cache;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.yggdrasil.ProfileResult;
-import net.krlite.knowledges.KnowledgesClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -50,8 +49,8 @@ public class UsernameCache extends Cache<UUID, String> {
         @Override
         public void run() {
             try {
+                LOGGER.info("Downloading player name for caching. UUID: {}", uuid);
                 callback.downloading.add(uuid);
-                System.out.println("downloading: " + uuid);
 
                 ProfileResult profileResult = MinecraftClient.getInstance().getSessionService().fetchProfile(uuid, true);
                 if (profileResult == null) {
@@ -59,13 +58,15 @@ public class UsernameCache extends Cache<UUID, String> {
                 }
 
                 GameProfile profile = profileResult.profile();
-                if (profile.getName() == null || profile.getName().equals("???")) {
+                String name = profile.getName();
+                if (name == null || name.equals("???")) {
                     return;
                 }
 
-                callback.put(profile.getId(), profile.getName());
+                callback.put(profile.getId(), name);
+                LOGGER.info("Player name cache for {} succeed: {}", uuid, name);
             } catch (Exception e) {
-                KnowledgesClient.LOGGER.error("Error downloading player profile!", e);
+                LOGGER.error("Error downloading player profile when caching for {}!", uuid, e);
             } finally {
                 callback.downloading.remove(uuid);
             }

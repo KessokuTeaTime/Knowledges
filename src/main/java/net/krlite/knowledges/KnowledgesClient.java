@@ -18,10 +18,12 @@ import net.krlite.knowledges.config.KnowledgesClientConfig;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
+import net.krlite.knowledges.manager.KnowledgesManager;
 import net.krlite.knowledges.networking.ClientNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,14 +31,19 @@ import org.slf4j.LoggerFactory;
 public class KnowledgesClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + ":client");
 
-    public static final ConfigHolder<KnowledgesClientConfig> CONFIG_HOLDER;
-    public static final KnowledgesClientConfig CONFIG;
+    public static final ConfigHolder<KnowledgesClientConfig> CONFIG;
     public static final KnowledgesClientConfig DEFAULT_CONFIG = new KnowledgesClientConfig();
 
     static {
         AutoConfig.register(KnowledgesClientConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
-        CONFIG_HOLDER = AutoConfig.getConfigHolder(KnowledgesClientConfig.class);
-        CONFIG = CONFIG_HOLDER.get();
+        CONFIG = AutoConfig.getConfigHolder(KnowledgesClientConfig.class);
+
+        CONFIG.registerLoadListener((configHolder, knowledgesClientConfig) -> {
+            KnowledgesManager.fixKeysAndSort(knowledgesClientConfig.components.enabled);
+            KnowledgesManager.fixKeysAndSort(knowledgesClientConfig.data.enabled);
+
+            return ActionResult.PASS;
+        });
     }
 
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
@@ -58,8 +65,8 @@ public class KnowledgesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        COMPONENTS.fixKeys();
-        DATA.fixKeys();
+        KnowledgesManager.fixKeysAndSort(CONFIG.get().components.enabled);
+        KnowledgesManager.fixKeysAndSort(CONFIG.get().data.enabled);
 
         AbstractInfoComponent.Animation.registerEvents();
         new ClientNetworking().register();
@@ -126,8 +133,8 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(data -> DATA.register(namespace, data));
         });
 
-        if (CONFIG.general.autoTidiesUp) tidyUpConfig();
-        CONFIG_HOLDER.save();
+        tidyUpConfig();
+        CONFIG.save();
 
         if (!COMPONENTS.asMap().isEmpty()) {
             LOGGER.info(String.format(
@@ -154,8 +161,10 @@ public class KnowledgesClient implements ClientModInitializer {
     }
 
     public static void tidyUpConfig() {
-        COMPONENTS.tidyUp();
-        DATA.tidyUp();
+        if (CONFIG.get().components.autoTidiesUp)
+            COMPONENTS.tidyUp();
+        if (CONFIG.get().data.autoTidiesUp)
+            DATA.tidyUp();
     }
 
     public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {

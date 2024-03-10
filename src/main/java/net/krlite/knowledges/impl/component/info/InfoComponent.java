@@ -37,38 +37,38 @@ public class InfoComponent extends AbstractInfoComponent {
         // Titles
         titles: {
             // Right
-            if (KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled) {
+            if (KnowledgesClient.CONFIG.get().components.crosshair.textsRightEnabled) {
                 renderText(
                         renderProxy,
                         textsRight,
                         Animation.Text.titleRight(),
                         Paragraph.Alignment.LEFT,
-                        informativeTint.opacity(0.6)
+                        informativeTint.opacity(KnowledgesClient.CONFIG.get().general.crosshairPrimaryOpacity)
                 );
             }
 
             // Left
-            if (KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled) {
+            if (KnowledgesClient.CONFIG.get().components.crosshair.textsLeftEnabled) {
                 renderText(
                         renderProxy,
                         textsLeft,
                         Animation.Text.titleLeft(),
                         Paragraph.Alignment.RIGHT,
-                        Palette.Minecraft.WHITE.opacity(0.6)
+                        Palette.Minecraft.WHITE.opacity(KnowledgesClient.CONFIG.get().general.crosshairPrimaryOpacity)
                 );
             }
         }
 
         // Subtitles
-        if (KnowledgesClient.CONFIG.components.crosshair.subtitlesEnabled) subtitles: {
-            if (KnowledgesClient.CONFIG.components.crosshair.textsRightEnabled) {
+        if (KnowledgesClient.CONFIG.get().components.crosshair.subtitlesEnabled) subtitles: {
+            if (KnowledgesClient.CONFIG.get().components.crosshair.textsRightEnabled) {
                 // Right above
                 renderText(
                         renderProxy,
                         textsRight.shift(-0.25 * LayoutProxy.scalar(), -8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleRightAbove(),
                         Paragraph.Alignment.LEFT,
-                        informativeTint.opacity(0.4),
+                        informativeTint.opacity(KnowledgesClient.CONFIG.get().general.crosshairSecondaryOpacity),
                         0.82
                 );
 
@@ -78,19 +78,19 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsRight.shift(-0.25 * LayoutProxy.scalar(), 10.8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleRightBelow(),
                         Paragraph.Alignment.LEFT,
-                        Palette.Minecraft.WHITE.opacity(0.4),
+                        Palette.Minecraft.WHITE.opacity(KnowledgesClient.CONFIG.get().general.crosshairSecondaryOpacity),
                         0.82
                 );
             }
 
-            if (KnowledgesClient.CONFIG.components.crosshair.textsLeftEnabled) {
+            if (KnowledgesClient.CONFIG.get().components.crosshair.textsLeftEnabled) {
                 // Left above
                 renderText(
                         renderProxy,
                         textsLeft.shift(0.25 * LayoutProxy.scalar(), -8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleLeftAbove(),
                         Paragraph.Alignment.RIGHT,
-                        Palette.Minecraft.WHITE.opacity(0.4),
+                        Palette.Minecraft.WHITE.opacity(KnowledgesClient.CONFIG.get().general.crosshairSecondaryOpacity),
                         0.82
                 );
 
@@ -100,14 +100,14 @@ public class InfoComponent extends AbstractInfoComponent {
                         textsLeft.shift(0.25 * LayoutProxy.scalar(), 10.8 * LayoutProxy.scalar()),
                         Animation.Text.subtitleLeftBelow(),
                         Paragraph.Alignment.RIGHT,
-                        Palette.Minecraft.WHITE.opacity(0.4),
+                        Palette.Minecraft.WHITE.opacity(KnowledgesClient.CONFIG.get().general.crosshairSecondaryOpacity),
                         0.82
                 );
             }
         }
 
         // Numeric health
-        if (KnowledgesClient.CONFIG.components.infoEntity.showsNumericHealth) {
+        if (KnowledgesClient.CONFIG.get().components.infoEntity.showsNumericHealth) {
             renderProxy.draw(
                     FrameInfo.scaled()
                             .center(Vector.ZERO)
@@ -116,7 +116,7 @@ public class InfoComponent extends AbstractInfoComponent {
                     flat -> flat.new Text(section -> section.fontSize(0.9 * 0.82 * LayoutProxy.scalar()).append(Animation.Text.numericHealth()))
                             .horizontalAlignment(Paragraph.Alignment.CENTER)
                             .verticalAlignment(Section.Alignment.BOTTOM)
-                            .color(informativeTint.opacity(0.6))
+                            .color(informativeTint.opacity(KnowledgesClient.CONFIG.get().general.crosshairPrimaryOpacity))
             );
         }
     }

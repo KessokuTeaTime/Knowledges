@@ -68,9 +68,9 @@ public class KnowledgeProxy {
         Fluid fluid = fluidState.getFluid();
 
         boolean fluidIsWater = fluid == Fluids.WATER || fluid == Fluids.FLOWING_WATER, fluidIsLava = fluid == Fluids.LAVA || fluid == Fluids.FLOWING_LAVA;
-        if (KnowledgesClient.CONFIG.components.infoFluid.ignoresWater && fluidIsWater) return Optional.empty();
-        if (KnowledgesClient.CONFIG.components.infoFluid.ignoresLava && fluidIsLava) return Optional.empty();
-        if (KnowledgesClient.CONFIG.components.infoFluid.ignoresOtherFluids && !fluidIsWater && !fluidIsLava) return Optional.empty();
+        if (KnowledgesClient.CONFIG.get().components.infoFluid.ignoresWater && fluidIsWater) return Optional.empty();
+        if (KnowledgesClient.CONFIG.get().components.infoFluid.ignoresLava && fluidIsLava) return Optional.empty();
+        if (KnowledgesClient.CONFIG.get().components.infoFluid.ignoresOtherFluids && !fluidIsWater && !fluidIsLava) return Optional.empty();
 
         return Optional.of(fluidState);
     }

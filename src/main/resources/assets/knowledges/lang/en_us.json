@@ -210,5 +210,8 @@
   "knowledge_data.knowledges.info/entity/entity_description/villager.name"   : "Villager Description",
   "knowledge_data.knowledges.info/entity/entity_description/villager.tooltip": "Provides descriptions about the properties of villagers",
 
-  "knowledge_data.knowledges.info/entity/entity_description/villager.reputation": "§7Reputation: §r%1$d"
+  "knowledge_data.knowledges.info/entity/entity_description/villager.reputation": "§7Reputation: §r%1$d",
+
+  "knowledge_data.knowledges.info/entity/entity_description/animal_owner.owner"     : "§7Owner: §r%1$s",
+  "knowledge_data.knowledges.info/entity/entity_description/animal_owner.owner.none": "§7No Owner"
 }

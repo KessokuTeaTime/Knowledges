@@ -29,9 +29,9 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         if (representable.blockState().isOf(Blocks.NOTE_BLOCK)) {
             MutableText instrumentText = KnowledgeProxy.getInstrumentName(representable.blockState().get(NoteBlock.INSTRUMENT));
-            MutableText noteText = KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet.alphabet(
+            MutableText noteText = KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet.alphabet(
                     representable.blockState().get(NoteBlock.NOTE),
-                    KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier
+                    KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
             );
 
             return Shortcuts.Text.combineToMultiline(instrumentText, noteText);
@@ -328,22 +328,22 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                 entryBuilder.startEnumSelector(
                                 localize("config", "note_modifiers"),
                                 NoteModifier.class,
-                                KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier
+                                KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
                         )
                         .setDefaultValue(NoteModifier.SHARPS)
                         .setTooltip(localize("config", "note_modifiers", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.data.noteBlockInformation.noteModifier = value),
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier = value),
 
                 entryBuilder.startEnumSelector(
                                 localize("config", "musical_alphabet"),
                                 MusicalAlphabet.class,
-                                KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet
+                                KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet
                         )
                         .setDefaultValue(MusicalAlphabet.ENGLISH)
                         .setTooltip(localize("config", "musical_alphabet", "tooltip"))
                         .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.data.noteBlockInformation.musicalAlphabet = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet = value)
         );
     }
 }

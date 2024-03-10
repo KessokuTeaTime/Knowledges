@@ -7,11 +7,11 @@ import net.krlite.knowledges.KnowledgesClient;
 
 public class LayoutProxy {
     public static double scalar() {
-        return 0.5 + 0.5 * KnowledgesClient.CONFIG.general.mainScalar / 1000.0;
+        return 0.5 + 0.5 * KnowledgesClient.CONFIG.get().general.mainScalar;
     }
 
     public static Box crosshairSafeArea() {
-        double size = 16 + 8 * KnowledgesClient.CONFIG.general.crosshairSafeAreaScalar / 1000.0;
+        double size = 16 + 8 * KnowledgesClient.CONFIG.get().general.crosshairSafeAreaScalar;
         return Box.UNIT.scale(size)
                 .scale(scalar())
                 .center(Vector.ZERO)

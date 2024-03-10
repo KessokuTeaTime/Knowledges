@@ -16,6 +16,6 @@ public class MinecraftClientMixin {
             at = @At("HEAD")
     )
     private void reloadConfigs(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
-        KnowledgesClient.CONFIG_HOLDER.load();
+        KnowledgesClient.CONFIG.load();
     }
 }

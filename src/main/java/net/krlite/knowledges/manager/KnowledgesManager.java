@@ -20,14 +20,13 @@ public abstract class KnowledgesManager<T extends WithPath> {
 
     protected abstract String localizationPrefix();
 
-    public void fixKeys() {
+    public static <V> void fixKeysAndSort(Map<String, V> config) {
         // This fixes a Toml4j issue
-        var config = configSupplier.get();
-        var sortedMap = new TreeMap<String, Boolean>();
+        var sortedMap = new TreeMap<String, V>();
 
         for (String key : ImmutableList.copyOf(config.keySet())) {
-            String rawKey = key.replaceAll("^\"|\"$", "");
-            boolean value = config.remove(key);
+            String rawKey = key.replaceAll("^\"*|\"*$", "");
+            V value = config.remove(key);
 
             sortedMap.putIfAbsent(rawKey, value);
         }
@@ -123,7 +122,7 @@ public abstract class KnowledgesManager<T extends WithPath> {
                     }
                 });
 
-        KnowledgesClient.CONFIG_HOLDER.save();
+        KnowledgesClient.CONFIG.save();
     }
 
     public void tidyUp() {

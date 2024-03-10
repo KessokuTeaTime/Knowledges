@@ -6,6 +6,7 @@ import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData
 import net.krlite.knowledges.impl.tag.entity.AnimalOwnerTag;
 import net.minecraft.entity.Tameable;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -16,8 +17,10 @@ public class AnimalOwnerEntityDescriptionData extends AbstractEntityDescriptionD
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity() instanceof Tameable tameable && tameable.getOwnerUuid() != null) {
-            final Function<String, MutableText> localization = name -> localize("owner", name);
-            System.out.println(tameable.getOwnerUuid());
+            final Function<String, MutableText> localization = name -> Text.translatable(
+                    localizationKey("owner"),
+                    name
+            );
 
             return AnimalOwnerTag.OWNER.get(representable.data())
                     .map(localization)

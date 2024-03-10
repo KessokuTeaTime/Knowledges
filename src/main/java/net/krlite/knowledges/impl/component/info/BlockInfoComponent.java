@@ -169,7 +169,7 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 
 			// Left Below
 			subtitleLeftBelow: {
-				boolean powered = KnowledgesClient.CONFIG.components.infoBlock.showsBlockPoweredStatus
+				boolean powered = KnowledgesClient.CONFIG.get().components.infoBlock.showsBlockPoweredStatus
 						&& world.isReceivingRedstonePower(blockRepresentable.blockPos());
 
 				Animation.Text.subtitleLeftBelow(
@@ -200,11 +200,11 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localize("config", "block_powered_status"),
-								KnowledgesClient.CONFIG.components.infoBlock.showsBlockPoweredStatus
+								KnowledgesClient.CONFIG.get().components.infoBlock.showsBlockPoweredStatus
 						)
 						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoBlock.showsBlockPoweredStatus)
 						.setTooltip(localize("config", "block_powered_status", "tooltip"))
-						.setSaveConsumer(value -> KnowledgesClient.CONFIG.components.infoBlock.showsBlockPoweredStatus = value)
+						.setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.infoBlock.showsBlockPoweredStatus = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
 	}

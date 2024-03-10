@@ -84,12 +84,14 @@ public class KnowledgesConfigScreen {
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
             .setSavingRunnable(() -> {
-                if (KnowledgesClient.CONFIG.general.autoTidiesUp) KnowledgesClient.tidyUpConfig();
-                KnowledgesClient.CONFIG_HOLDER.save();
+                KnowledgesClient.tidyUpConfig();
+                KnowledgesClient.CONFIG.save();
             });
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
+        KnowledgesClient.CONFIG.load();
+
         configBuilder.setParentScreen(parent);
         BooleanListEntrySyncHelper.clearAll();
 
@@ -122,12 +124,12 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "main_scalar"),
-                                KnowledgesClient.CONFIG.general.mainScalar,
+                                KnowledgesClient.CONFIG.get().general.mainScalarAsInt(),
                                 500, 2000
                         )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.mainScalar)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.mainScalarAsInt())
                         .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.mainScalar = value)
+                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::mainScalarAsInt)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -135,12 +137,38 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
-                                KnowledgesClient.CONFIG.general.crosshairSafeAreaScalar,
-                            500, 2000
+                                KnowledgesClient.CONFIG.get().general.crosshairSafeAreaScalarAsInt(),
+                                500, 2000
                         )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSafeAreaScalar)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSafeAreaScalarAsInt())
                         .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.crosshairSafeAreaScalar = value)
+                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairSafeAreaScalarAsInt)
+                        .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
+                        .build()
+        );
+
+        category.addEntry(
+                entryBuilder.startIntSlider(
+                                localize("general", "crosshair_primary_opacity"),
+                                KnowledgesClient.CONFIG.get().general.crosshairPrimaryOpacityAsInt(),
+                                100, 1000
+                        )
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairPrimaryOpacityAsInt())
+                        .setTooltip(localize("general", "crosshair_primary_opacity", "tooltip"))
+                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairPrimaryOpacityAsInt)
+                        .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
+                        .build()
+        );
+
+        category.addEntry(
+                entryBuilder.startIntSlider(
+                                localize("general", "crosshair_secondary_opacity"),
+                                KnowledgesClient.CONFIG.get().general.crosshairSecondaryOpacityAsInt(),
+                                100, 1000
+                        )
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSecondaryOpacityAsInt())
+                        .setTooltip(localize("general", "crosshair_secondary_opacity", "tooltip"))
+                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairSecondaryOpacityAsInt)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -148,22 +176,11 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startBooleanToggle(
                                 localize("general", "visible_in_debug_hud"),
-                                KnowledgesClient.CONFIG.general.visibleInDebugHud
+                                KnowledgesClient.CONFIG.get().general.visibleInDebugHud
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.visibleInDebugHud)
                         .setTooltip(localize("general", "visible_in_debug_hud", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.visibleInDebugHud = value)
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startBooleanToggle(
-                                localize("general", "auto_tidies_up"),
-                                KnowledgesClient.CONFIG.general.autoTidiesUp
-                        )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.autoTidiesUp)
-                        .setTooltip(localize("general", "auto_tidies_up", "tooltip"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.general.autoTidiesUp = value)
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().general.visibleInDebugHud = value)
                         .build()
         );
     }

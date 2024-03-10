@@ -12,7 +12,7 @@ import java.util.List;
 
 public class KnowledgesTagManager extends KnowledgesManager<AdditionalTag<?, ?>> {
     public KnowledgesTagManager() {
-        super(() -> KnowledgesCommon.CONFIG.tags.enabled);
+        super(() -> KnowledgesCommon.CONFIG.get().tags.enabled);
     }
 
     @Override

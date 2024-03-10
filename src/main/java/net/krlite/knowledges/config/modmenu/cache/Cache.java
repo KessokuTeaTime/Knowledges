@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,6 +21,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class Cache<K, V> {
+    public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + ":cache");
     public static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve(KnowledgesCommon.ID).resolve("cache");
 
     private final Map<K, V> map = new HashMap<>();
@@ -81,7 +84,7 @@ public abstract class Cache<K, V> {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             } catch (IOException e) {
-                KnowledgesClient.LOGGER.error("Failed creating file!", e);
+                LOGGER.error("Failed creating file!", e);
             }
         }
 
@@ -104,7 +107,7 @@ public abstract class Cache<K, V> {
                 tempMap.forEach(this::put);
             }
         } catch (Exception e) {
-            KnowledgesClient.LOGGER.error("Error caching! Deleting file {}", file.getPath());
+            LOGGER.error("Error caching! Deleting file at {}", file.getPath());
             file.delete();
         } finally {
             loading = false;
@@ -128,7 +131,7 @@ public abstract class Cache<K, V> {
                     Files.writeString(file.toPath(), data);
                 }
             } catch (IOException e) {
-                KnowledgesClient.LOGGER.error("Failed saving cache!");
+                LOGGER.error("Failed saving cache at {}!", file.getPath());
             }
         }
     }
