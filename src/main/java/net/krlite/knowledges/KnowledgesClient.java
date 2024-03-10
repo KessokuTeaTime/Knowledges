@@ -15,6 +15,7 @@ import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.api.entrypoint.TagProvider;
 import net.krlite.knowledges.api.representable.PacketByteBufWritable;
+import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
 import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
@@ -40,6 +41,7 @@ public class KnowledgesClient implements ClientModInitializer {
     public static final KnowledgesTagManager TAGS = new KnowledgesTagManager();
 
     public static final KnowledgesHud HUD = new KnowledgesHud();
+    public static final UsernameCache CACHE_USERNAME = new UsernameCache();
 
     static {
         AutoConfig.register(KnowledgesConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
