@@ -132,7 +132,7 @@
 
   "knowledge.knowledges.info/fluid.config.ignores_water"       : "忽略水",
   "knowledge.knowledges.info/fluid.config.ignores_lava"        : "忽略熔岩",
-  "knowledge.knowledges.info/fluid.config.ignores_other_fluids": "忽略其它液体",
+  "knowledge.knowledges.info/fluid.config.ignores_other_fluids": "忽略其它流体",
 
   "knowledge.knowledges.armor_durability.name"   : "装备耐久",
   "knowledge.knowledges.armor_durability.tooltip": "在屏幕角落处显示你的装备耐久",
