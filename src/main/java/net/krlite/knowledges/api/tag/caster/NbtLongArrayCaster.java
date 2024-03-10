@@ -14,7 +14,7 @@ public class NbtLongArrayCaster extends NbtCaster<List<Long>> {
         );
     }
 
-    public void set(NbtCompound data, long[] longs) {
-        super.set(data, Arrays.stream(longs).boxed().toList());
+    public void put(NbtCompound data, long[] longs) {
+        super.put(data, Arrays.stream(longs).boxed().toList());
     }
 }

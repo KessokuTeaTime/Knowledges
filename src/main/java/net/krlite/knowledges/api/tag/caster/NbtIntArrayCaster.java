@@ -14,7 +14,7 @@ public class NbtIntArrayCaster extends NbtCaster<List<Integer>> {
         );
     }
 
-    public void set(NbtCompound data, int[] integers) {
-        super.set(data, Arrays.stream(integers).boxed().toList());
+    public void put(NbtCompound data, int[] integers) {
+        super.put(data, Arrays.stream(integers).boxed().toList());
     }
 }

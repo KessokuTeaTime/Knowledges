@@ -1,24 +1,23 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
 import net.krlite.knowledges.Shortcuts;
-import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
+import net.krlite.knowledges.api.tag.caster.NbtBooleanCaster;
+import net.krlite.knowledges.api.tag.caster.NbtByteCaster;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
+import net.krlite.knowledges.impl.tag.block.BeehiveAdditionalTag;
 import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BeehiveBlockEntity;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 
 public class BeehiveBlockInformationData extends AbstractBlockInformationData {
     @Override
@@ -26,7 +25,6 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
         return representable.blockEntity().flatMap(blockEntity -> {
             if (blockEntity instanceof BeehiveBlockEntity) {
                 NbtCompound data = representable.data();
-                System.out.println(data);
 
                 int honeyLevel = representable.blockState().get(BeehiveBlock.HONEY_LEVEL), fullHoneyLevel = BeehiveBlock.FULL_HONEY_LEVEL;
                 MutableText honeyLevelText = Text.translatable(
@@ -34,21 +32,18 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                         honeyLevel, fullHoneyLevel
                 );
 
-                MutableText beeCountText = Text.empty();
-                if (data.contains("Bees")) {
-                    byte beeCount = data.getByte("Bees");
-                    beeCountText = beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
+                final AtomicReference<MutableText> beeCountText = new AtomicReference<>(Text.empty());
+                ((NbtByteCaster) BeehiveAdditionalTag.Protocol.BEES_BYTE.caster()).get(data).ifPresent(beeCount -> {
+                    beeCountText.set(beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
                             localizationKey("bee_count"),
                             beeCount
-                    );
-                }
+                    ));
+                });
+                ((NbtBooleanCaster) BeehiveAdditionalTag.Protocol.FULL_BOOLEAN.caster()).get(data).ifPresent(full -> {
+                    if (full) beeCountText.set(localize("bee_count", "full"));
+                });
 
-                if (data.contains("Full")) {
-                    boolean isFull = data.getBoolean("Full");
-                    if (isFull) beeCountText = localize("bee_count", "full");
-                }
-
-                return Shortcuts.Text.combineToMultiline(honeyLevelText, beeCountText);
+                return Shortcuts.Text.combineToMultiline(honeyLevelText, beeCountText.get());
             }
 
             return Optional.empty();

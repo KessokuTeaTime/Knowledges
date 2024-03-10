@@ -37,7 +37,7 @@ public abstract class NbtCaster<T> {
         return Optional.ofNullable(hasValueIn(data) ? fromData.get(data, identifier) : null);
     }
 
-    public void set(NbtCompound data, T t) {
+    public void put(NbtCompound data, T t) {
         toData.set(data, identifier, t);
     }
 }

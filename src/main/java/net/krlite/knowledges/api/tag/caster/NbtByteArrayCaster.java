@@ -14,7 +14,7 @@ public class NbtByteArrayCaster extends NbtCaster<List<Byte>> {
         );
     }
 
-    public void set(NbtCompound data, byte[] bytes) {
-        super.set(data, Bytes.asList(bytes));
+    public void put(NbtCompound data, byte[] bytes) {
+        super.put(data, Bytes.asList(bytes));
     }
 }
