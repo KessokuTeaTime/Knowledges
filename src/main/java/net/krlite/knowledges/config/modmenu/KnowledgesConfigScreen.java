@@ -90,8 +90,6 @@ public class KnowledgesConfigScreen {
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
-        KnowledgesClient.CONFIG.load();
-
         configBuilder.setParentScreen(parent);
         BooleanListEntrySyncHelper.clearAll();
 

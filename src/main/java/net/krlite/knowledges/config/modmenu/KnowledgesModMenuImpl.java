@@ -8,6 +8,9 @@ import net.minecraft.client.MinecraftClient;
 public class KnowledgesModMenuImpl implements ModMenuApi {
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return parent -> new KnowledgesConfigScreen(parent).build();
+		return parent -> {
+			KnowledgesClient.CONFIG.load();
+			return new KnowledgesConfigScreen(parent).build();
+		};
 	}
 }
