@@ -1,5 +1,6 @@
 package net.krlite.knowledges.manager;
 
+import com.google.common.collect.ImmutableList;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.core.path.WithPath;
@@ -11,13 +12,28 @@ import java.util.function.Supplier;
 
 public abstract class KnowledgesManager<T extends WithPath> {
     private final HashMap<String, List<T>> map = new HashMap<>();
-    private final Supplier<HashMap<String, Boolean>> configSupplier;
+    private final Supplier<Map<String, Boolean>> configSupplier;
 
-    KnowledgesManager(Supplier<HashMap<String, Boolean>> configSupplier) {
+    KnowledgesManager(Supplier<Map<String, Boolean>> configSupplier) {
         this.configSupplier = configSupplier;
     }
 
     protected abstract String localizationPrefix();
+
+    public void fixKeys() {
+        // This fixes a Toml4j issue
+        var config = configSupplier.get();
+        var sortedMap = new TreeMap<String, Boolean>();
+
+        for (String key : ImmutableList.copyOf(config.keySet())) {
+            String rawKey = key.replaceAll("^\"|\"$", "");
+            boolean value = config.remove(key);
+
+            sortedMap.putIfAbsent(rawKey, value);
+        }
+
+        config.putAll(sortedMap);
+    }
 
     public void register(String namespace, T t) {
         Shortcuts.Map.fastMerge(map, namespace, t);
@@ -99,11 +115,11 @@ public abstract class KnowledgesManager<T extends WithPath> {
                     var config = configSupplier.get();
 
                     if (enabled && !isEnabled(t)) {
-                        config.put(key, false);
+                        config.put(key, true);
                     }
 
                     if (!enabled && isEnabled(t)) {
-                        config.put(key, true);
+                        config.put(key, false);
                     }
                 });
 
@@ -111,6 +127,10 @@ public abstract class KnowledgesManager<T extends WithPath> {
     }
 
     public void tidyUp() {
-        configSupplier.get().keySet().removeIf(key -> byId(key).isEmpty());
+        configSupplier.get().keySet()
+                .removeIf(key -> {
+                    Identifier i = Identifier.tryParse(key);
+                    return i == null || byId(i).isEmpty();
+                });
     }
 }

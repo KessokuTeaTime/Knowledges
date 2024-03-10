@@ -24,6 +24,7 @@ import net.krlite.knowledges.networking.KnowledgesNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +62,10 @@ public class KnowledgesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        COMPONENTS.fixKeys();
+        DATA.fixKeys();
+        TAGS.fixKeys();
+
         AbstractInfoComponent.Animation.registerEvents();
         KnowledgesNetworking.registerClient();
 
@@ -157,6 +162,8 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(tag -> TAGS.register(namespace, tag));
         });
 
+        CONFIG_HOLDER.save();
+
         if (!COMPONENTS.asMap().isEmpty()) {
             LOGGER.info(String.format(
                     "Successfully registered %d %s for %d %s, %d %s for %d %s, and %d %s for %d %s. %s you wiser! 📚",
@@ -187,7 +194,9 @@ public class KnowledgesClient implements ClientModInitializer {
     }
 
     public static void tidyUp() {
-
+        COMPONENTS.tidyUp();
+        DATA.tidyUp();
+        TAGS.tidyUp();
     }
 
     public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {

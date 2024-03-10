@@ -8,6 +8,8 @@ import net.krlite.knowledges.impl.component.CrosshairComponent;
 import net.krlite.knowledges.impl.data.info.block.blockinformation.NoteBlockInformationData;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Config(name = "knowledges")
 public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
@@ -33,8 +35,6 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 
 	@Config(name = "components")
 	public static class Components implements ConfigData {
-		public HashMap<String, Boolean> map = new HashMap<>();
-
 		public Crosshair crosshair = new Crosshair();
 		public InfoBlock infoBlock = new InfoBlock();
 		public InfoEntity infoEntity = new InfoEntity();
@@ -61,22 +61,24 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 			public boolean ignoresLava = false;
 			public boolean ignoresOtherFluids = false;
 		}
+
+		public Map<String, Boolean> enabled = new TreeMap<>();
 	}
 
 	@Config(name = "data")
 	public static class Data implements ConfigData {
-		public HashMap<String, Boolean> map = new HashMap<>();
-
 		public NoteBlockInformation noteBlockInformation = new NoteBlockInformation();
 
 		public static class NoteBlockInformation {
 			public NoteBlockInformationData.NoteModifier noteModifier = NoteBlockInformationData.NoteModifier.SHARPS;
 			public NoteBlockInformationData.MusicalAlphabet musicalAlphabet = NoteBlockInformationData.MusicalAlphabet.ENGLISH;
 		}
+
+		public Map<String, Boolean> enabled = new TreeMap<>();
 	}
 
 	@Config(name = "tags")
 	public static class Tags implements ConfigData {
-		public HashMap<String, Boolean> map = new HashMap<>();
+		public Map<String, Boolean> enabled = new TreeMap<>();
 	}
 }

@@ -4,11 +4,10 @@ import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.Representable;
-import net.minecraft.client.gui.DrawContext;
 
 public class KnowledgesComponentManager extends KnowledgesManager<Knowledge> {
     public KnowledgesComponentManager() {
-        super(() -> KnowledgesClient.CONFIG.components.map);
+        super(() -> KnowledgesClient.CONFIG.components.enabled);
     }
 
     public void render(RenderProxy renderProxy, Representable<?> representable) {
