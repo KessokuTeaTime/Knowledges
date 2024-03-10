@@ -32,13 +32,13 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                 );
 
                 final AtomicReference<MutableText> beeCountText = new AtomicReference<>(Text.empty());
-                ((NbtByteCaster) BeehiveTag.Protocol.BEES_BYTE.caster()).get(data).ifPresent(beeCount -> {
+                BeehiveTag.BEES.get(data).ifPresent(beeCount -> {
                     beeCountText.set(beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
                             localizationKey("bee_count"),
                             beeCount
                     ));
                 });
-                ((NbtBooleanCaster) BeehiveTag.Protocol.FULL_BOOLEAN.caster()).get(data).ifPresent(full -> {
+                BeehiveTag.FULL.get(data).ifPresent(full -> {
                     if (full) beeCountText.set(localize("bee_count", "full"));
                 });
 

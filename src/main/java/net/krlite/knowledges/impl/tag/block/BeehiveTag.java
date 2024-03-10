@@ -3,7 +3,6 @@ package net.krlite.knowledges.impl.tag.block;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.tag.AdditionalBlockTag;
-import net.krlite.knowledges.api.tag.TagProtocol;
 import net.krlite.knowledges.api.tag.caster.NbtBooleanCaster;
 import net.krlite.knowledges.api.tag.caster.NbtByteCaster;
 import net.krlite.knowledges.api.tag.caster.NbtCaster;
@@ -15,25 +14,11 @@ import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 
 public class BeehiveTag implements AdditionalBlockTag {
-    public enum Protocol implements TagProtocol<BeehiveTag, Protocol> {
-        BEES_BYTE(new NbtByteCaster("Bees")),
-        FULL_BOOLEAN(new NbtBooleanCaster("Full"));
-
-        private final NbtCaster<?> caster;
-
-        Protocol(NbtCaster<?> caster) {
-            this.caster = caster;
-        }
-
-        @Override
-        public NbtCaster<?> caster() {
-            return caster;
-        }
-    }
+    public static final NbtByteCaster BEES = new NbtByteCaster("Bees");
+    public static final NbtBooleanCaster FULL = new NbtBooleanCaster("Full");
 
     @Override
     public boolean isApplicableTo(Block block) {
-        System.out.println(block);
         return block instanceof BeehiveBlock;
     }
 
@@ -41,8 +26,8 @@ public class BeehiveTag implements AdditionalBlockTag {
     public void append(NbtCompound data, BlockRepresentable representable) {
         representable.blockEntity().ifPresent(blockEntity -> {
             if (blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity) {
-                ((NbtByteCaster) Protocol.BEES_BYTE.caster()).put(data, (byte) beehiveBlockEntity.getBeeCount());
-                ((NbtBooleanCaster) Protocol.FULL_BOOLEAN.caster()).put(data, beehiveBlockEntity.isFullOfBees());
+                BEES.put(data, (byte) beehiveBlockEntity.getBeeCount());
+                FULL.put(data, beehiveBlockEntity.isFullOfBees());
             }
         });
     }

@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.yggdrasil.ProfileResult;
 import net.krlite.knowledges.KnowledgesClient;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.*;
 
@@ -26,6 +27,10 @@ public class UsernameCache extends Cache<UUID, String> {
         }
 
         return super.get(key);
+    }
+
+    public void put(PlayerEntity player) {
+        put(player.getUuid(), player.getGameProfile().getName());
     }
 
     private void download(UUID uuid) {

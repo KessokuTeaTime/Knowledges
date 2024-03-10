@@ -1,7 +1,10 @@
 package net.krlite.knowledges.impl.tag.entity;
 
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.api.tag.AdditionalEntityTag;
+import net.krlite.knowledges.api.tag.caster.NbtCaster;
+import net.krlite.knowledges.api.tag.caster.NbtStringCaster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.Ownable;
 import net.minecraft.entity.passive.TameableEntity;
@@ -12,9 +15,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 public class AnimalOwnerTag implements AdditionalEntityTag {
+    public static final NbtStringCaster OWNER = new NbtStringCaster("Owner");
+
     @Override
     public boolean isApplicableTo(Entity entity) {
-        return true;
+        return entity instanceof Ownable;
     }
 
     @Override
@@ -25,7 +30,10 @@ public class AnimalOwnerTag implements AdditionalEntityTag {
             return;
 
         if (entity instanceof Ownable ownable && ownable.getOwner() != null) {
-            UUID owner = ownable.getOwner().getUuid();
+            UUID ownerUuid = ownable.getOwner().getUuid();
+            KnowledgesClient.CACHE_USERNAME.get(ownerUuid).ifPresent(name ->
+                    OWNER.put(data, name)
+            );
         }
     }
 

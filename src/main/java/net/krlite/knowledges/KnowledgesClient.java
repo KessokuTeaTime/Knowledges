@@ -21,7 +21,7 @@ import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
 import net.krlite.knowledges.manager.KnowledgesTagManager;
-import net.krlite.knowledges.networking.KnowledgesNetworking;
+import net.krlite.knowledges.networking.ClientNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -41,6 +41,7 @@ public class KnowledgesClient implements ClientModInitializer {
     public static final KnowledgesTagManager TAGS = new KnowledgesTagManager();
 
     public static final KnowledgesHud HUD = new KnowledgesHud();
+
     public static final UsernameCache CACHE_USERNAME = new UsernameCache();
 
     static {
@@ -68,7 +69,7 @@ public class KnowledgesClient implements ClientModInitializer {
         TAGS.fixKeys();
 
         AbstractInfoComponent.Animation.registerEvents();
-        KnowledgesNetworking.registerClient();
+        new ClientNetworking().register();
 
         // Components
         FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, ComponentProvider.class).forEach(entrypoint -> {

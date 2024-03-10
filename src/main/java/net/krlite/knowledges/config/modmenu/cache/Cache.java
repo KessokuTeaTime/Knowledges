@@ -77,7 +77,12 @@ public abstract class Cache<K, V> {
 
     protected void save() {
         if (!file.exists()) {
-            file.mkdirs();
+            try {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            } catch (IOException e) {
+                KnowledgesClient.LOGGER.error("Failed creating file!", e);
+            }
         }
 
         new SaveThread(file, gson.toJson(asMap())).start();

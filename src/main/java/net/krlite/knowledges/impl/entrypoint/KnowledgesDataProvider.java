@@ -4,6 +4,7 @@ import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.impl.data.info.block.MineableToolData;
 import net.krlite.knowledges.impl.data.info.block.blockinformation.*;
+import net.krlite.knowledges.impl.data.info.entity.entitydescription.AnimalOwnerEntityDescriptionData;
 import net.krlite.knowledges.impl.data.info.entity.entitydescription.ItemFrameEntityDescriptionData;
 import net.krlite.knowledges.impl.data.info.entity.entitydescription.VillagerEntityDescriptionData;
 import net.krlite.knowledges.impl.data.info.entity.entityinformation.ItemFrameEntityInformationData;
@@ -18,6 +19,7 @@ public class KnowledgesDataProvider implements DataProvider {
     public @NotNull List<Class<? extends Data<?>>> provide() {
         return List.of(
                 MineableToolData.class,
+
                 NoteBlockInformationData.class,
                 BannerBlockInformationData.class,
                 ComposterBlockInformationData.class,
@@ -29,6 +31,8 @@ public class KnowledgesDataProvider implements DataProvider {
                 PaintingEntityInformationData.class,
                 ItemFrameEntityInformationData.class,
                 VillagerEntityInformationData.class,
+
+                AnimalOwnerEntityDescriptionData.class,
                 ItemFrameEntityDescriptionData.class,
                 VillagerEntityDescriptionData.class
         );

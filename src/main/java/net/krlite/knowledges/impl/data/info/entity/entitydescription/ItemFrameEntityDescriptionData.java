@@ -83,7 +83,6 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                     }
                 }
 
-                // Description
                 if (heldItemStack.isOf(Items.CLOCK)) {
                     descriptionText = KnowledgeProxy.getDateAndTime();
                 }
