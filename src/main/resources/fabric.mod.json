@@ -33,6 +33,9 @@
     ],
     "knowledges:data": [
       "net.krlite.knowledges.impl.entrypoint.KnowledgesDataProvider"
+    ],
+    "knowledges:tags": [
+      "net.krlite.knowledges.impl.entrypoint.KnowledgesTagProvider"
     ]
   },
   "mixins": [

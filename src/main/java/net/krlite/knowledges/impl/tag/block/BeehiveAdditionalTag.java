@@ -19,7 +19,6 @@ public class BeehiveAdditionalTag implements AdditionalBlockTag {
 
     @Override
     public void append(NbtCompound data, BlockRepresentable representable) {
-        System.out.println(1);
         representable.blockEntity().ifPresent(blockEntity -> {
             if (blockEntity instanceof BeehiveBlockEntity beehiveBlockEntity) {
                 data.putByte("Bees", (byte) beehiveBlockEntity.getBeeCount());

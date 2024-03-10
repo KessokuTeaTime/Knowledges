@@ -23,7 +23,7 @@ import java.util.Optional;
 public class BeehiveBlockInformationData extends AbstractBlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
-        representable.blockEntity().flatMap(blockEntity -> {
+        return representable.blockEntity().flatMap(blockEntity -> {
             if (blockEntity instanceof BeehiveBlockEntity) {
                 NbtCompound data = representable.data();
                 System.out.println(data);
@@ -53,8 +53,6 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
 
             return Optional.empty();
         });
-
-        return Optional.empty();
     }
 
     @Override
