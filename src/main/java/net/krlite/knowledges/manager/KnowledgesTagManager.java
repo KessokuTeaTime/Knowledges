@@ -1,6 +1,7 @@
 package net.krlite.knowledges.manager;
 
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.tag.AdditionalBlockTag;
 import net.krlite.knowledges.api.tag.AdditionalEntityTag;
 import net.krlite.knowledges.api.tag.AdditionalTag;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class KnowledgesTagManager extends KnowledgesManager<AdditionalTag<?, ?>> {
     public KnowledgesTagManager() {
-        super(() -> KnowledgesClient.CONFIG.tags.enabled);
+        super(() -> KnowledgesCommon.CONFIG.tags.enabled);
     }
 
     @Override
