@@ -48,7 +48,7 @@ public class BeehiveTag implements AdditionalBlockTag {
     }
 
     @Override
-    public @NotNull String path() {
+    public @NotNull String partialPath() {
         return KnowledgeProxy.getId(Blocks.BEEHIVE).getPath();
     }
 }

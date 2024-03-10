@@ -7,7 +7,6 @@ import net.minecraft.entity.Ownable;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -31,7 +30,7 @@ public class AnimalOwnerTag implements AdditionalEntityTag {
     }
 
     @Override
-    public @NotNull String path() {
+    public @NotNull String partialPath() {
         return "animal_owner";
     }
 }
