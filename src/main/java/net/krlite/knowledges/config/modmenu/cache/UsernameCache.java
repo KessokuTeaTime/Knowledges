@@ -45,13 +45,14 @@ public class UsernameCache extends Cache<UUID, String> {
         public DownloadThread(UsernameCache callback, UUID uuid) {
             this.callback = callback;
             this.uuid = uuid;
-
-            callback.downloading.add(uuid);
         }
 
         @Override
         public void run() {
             try {
+                callback.downloading.add(uuid);
+                System.out.println("downloading: " + uuid);
+
                 ProfileResult profileResult = MinecraftClient.getInstance().getSessionService().fetchProfile(uuid, true);
                 if (profileResult == null) {
                     return;
@@ -63,9 +64,10 @@ public class UsernameCache extends Cache<UUID, String> {
                 }
 
                 callback.put(profile.getId(), profile.getName());
-                callback.downloading.remove(uuid);
             } catch (Exception e) {
                 KnowledgesClient.LOGGER.error("Error downloading player profile!", e);
+            } finally {
+                callback.downloading.remove(uuid);
             }
         }
     }

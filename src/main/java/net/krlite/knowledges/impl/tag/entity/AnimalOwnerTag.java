@@ -1,12 +1,12 @@
 package net.krlite.knowledges.impl.tag.entity;
 
-import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.api.tag.AdditionalEntityTag;
-import net.krlite.knowledges.api.tag.caster.NbtCaster;
 import net.krlite.knowledges.api.tag.caster.NbtStringCaster;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.Ownable;
+import net.minecraft.entity.Tameable;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -29,9 +29,9 @@ public class AnimalOwnerTag implements AdditionalEntityTag {
         if (server != null && server.isHost(representable.player().getGameProfile()) && entity instanceof TameableEntity)
             return;
 
-        if (entity instanceof Ownable ownable && ownable.getOwner() != null) {
-            UUID ownerUuid = ownable.getOwner().getUuid();
-            KnowledgesClient.CACHE_USERNAME.get(ownerUuid).ifPresent(name ->
+        if (entity instanceof Tameable tameable && tameable.getOwnerUuid() != null) {
+            UUID ownerUuid = tameable.getOwnerUuid();
+            KnowledgesCommon.CACHE_USERNAME.get(ownerUuid).ifPresent(name ->
                     OWNER.put(data, name)
             );
         }

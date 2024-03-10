@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.impl.representable.KnowledgesBlockRepresentable;
 import net.krlite.knowledges.impl.representable.KnowledgesEntityRepresentable;
 import net.minecraft.network.PacketByteBuf;
@@ -47,7 +47,7 @@ public class ServerNetworking implements KnowledgesNetworking {
         public void onPlayReady(ServerPlayNetworkHandler handler, PacketSender sender, MinecraftServer server) {
             ServerPlayerEntity player = handler.getPlayer();
             ServerPlayNetworking.send(player, PACKET_SERVER_PING, PacketByteBufs.create());
-            KnowledgesClient.CACHE_USERNAME.put(player);
+            KnowledgesCommon.CACHE_USERNAME.put(player);
         }
     }
 }

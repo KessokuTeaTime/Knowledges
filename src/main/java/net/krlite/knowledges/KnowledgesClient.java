@@ -13,14 +13,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
-import net.krlite.knowledges.api.entrypoint.TagProvider;
 import net.krlite.knowledges.api.representable.PacketByteBufWritable;
-import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
+import net.krlite.knowledges.config.KnowledgesClientConfig;
+import net.krlite.knowledges.config.KnowledgesCommonConfig;
 import net.krlite.knowledges.impl.component.AbstractInfoComponent;
-import net.krlite.knowledges.config.KnowledgesConfig;
 import net.krlite.knowledges.manager.KnowledgesComponentManager;
 import net.krlite.knowledges.manager.KnowledgesDataManager;
-import net.krlite.knowledges.manager.KnowledgesTagManager;
 import net.krlite.knowledges.networking.ClientNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
@@ -32,23 +30,20 @@ import org.slf4j.LoggerFactory;
 public class KnowledgesClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + ":client");
 
-    public static final ConfigHolder<KnowledgesConfig> CONFIG_HOLDER;
-    public static final KnowledgesConfig CONFIG;
-    public static final KnowledgesConfig DEFAULT_CONFIG = new KnowledgesConfig();
+    public static final ConfigHolder<KnowledgesClientConfig> CONFIG_HOLDER;
+    public static final KnowledgesClientConfig CONFIG;
+    public static final KnowledgesClientConfig DEFAULT_CONFIG = new KnowledgesClientConfig();
+
+    static {
+        AutoConfig.register(KnowledgesClientConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
+        CONFIG_HOLDER = AutoConfig.getConfigHolder(KnowledgesClientConfig.class);
+        CONFIG = CONFIG_HOLDER.get();
+    }
 
     public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
     public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
-    public static final KnowledgesTagManager TAGS = new KnowledgesTagManager();
 
     public static final KnowledgesHud HUD = new KnowledgesHud();
-
-    public static final UsernameCache CACHE_USERNAME = new UsernameCache();
-
-    static {
-        AutoConfig.register(KnowledgesConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
-        CONFIG_HOLDER = AutoConfig.getConfigHolder(KnowledgesConfig.class);
-        CONFIG = CONFIG_HOLDER.get();
-    }
 
     public static Identifier identifier(String path) {
         return new Identifier(KnowledgesCommon.ID, path);
@@ -66,7 +61,6 @@ public class KnowledgesClient implements ClientModInitializer {
     public void onInitializeClient() {
         COMPONENTS.fixKeys();
         DATA.fixKeys();
-        TAGS.fixKeys();
 
         AbstractInfoComponent.Animation.registerEvents();
         new ClientNetworking().register();
@@ -133,53 +127,17 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(data -> DATA.register(namespace, data));
         });
 
-        // Tags
-        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + ":tags", TagProvider.class).forEach(entrypoint -> {
-            TagProvider provider = entrypoint.getEntrypoint();
-            var classes = provider.provide();
-            if (classes.isEmpty()) return;
-
-            ModContainer mod = entrypoint.getProvider();
-            String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
-
-            LOGGER.info(String.format(
-                    "Registering %d %s for %s...",
-                    classes.size(),
-                    classes.size() <= 1 ? "tag" : "tags",
-                    name
-            ));
-
-            classes.stream()
-                    .distinct()
-                    .map(clazz -> {
-                        try {
-                            return clazz.getDeclaredConstructor().newInstance();
-                        } catch (Throwable throwable) {
-                            throw new RuntimeException(String.format(
-                                    "Failed to register tag for %s: constructor not found",
-                                    clazz.getName()
-                            ), throwable);
-                        }
-                    })
-                    .forEach(tag -> TAGS.register(namespace, tag));
-        });
-
         if (CONFIG.global.autoTidiesUp) tidyUpConfig();
         CONFIG_HOLDER.save();
 
         if (!COMPONENTS.asMap().isEmpty()) {
             LOGGER.info(String.format(
-                    "Successfully registered %d %s for %d %s, %d %s for %d %s, and %d %s for %d %s. %s you wiser! 📚",
+                    "Successfully registered %d %s for %d %s and %d %s for %d %s. %s you wiser! 📚",
 
                     COMPONENTS.asList().size(),
                     COMPONENTS.asList().size() <= 1 ? "knowledge" : "knowledges",
                     COMPONENTS.asMap().keySet().size(),
                     COMPONENTS.asMap().keySet().size() <= 1 ? "mod" : "mods",
-
-                    TAGS.asList().size(),
-                    TAGS.asList().size() <= 1 ? "tag" : "tags",
-                    TAGS.asMap().keySet().size(),
-                    TAGS.asMap().keySet().size() <= 1 ? "mod" : "mods",
 
                     DATA.asList().size(),
                     "data",
@@ -199,7 +157,8 @@ public class KnowledgesClient implements ClientModInitializer {
     public static void tidyUpConfig() {
         COMPONENTS.tidyUp();
         DATA.tidyUp();
-        TAGS.tidyUp();
+
+        KnowledgesCommon.TAGS.fixKeys();
     }
 
     public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {

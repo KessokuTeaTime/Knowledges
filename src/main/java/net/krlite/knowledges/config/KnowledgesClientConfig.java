@@ -7,12 +7,11 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.krlite.knowledges.impl.component.CrosshairComponent;
 import net.krlite.knowledges.impl.data.info.block.blockinformation.NoteBlockInformationData;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 @Config(name = "knowledges")
-public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
+public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
 	@ConfigEntry.Category("global")
 	public Global global = new Global();
 
@@ -21,9 +20,6 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 
 	@ConfigEntry.Category("data")
 	public Data data = new Data();
-
-	@ConfigEntry.Category("tags")
-	public Tags tags = new Tags();
 
 	@Config(name = "general")
 	public static class Global implements ConfigData {
@@ -74,11 +70,6 @@ public class KnowledgesConfig extends PartitioningSerializer.GlobalData {
 			public NoteBlockInformationData.MusicalAlphabet musicalAlphabet = NoteBlockInformationData.MusicalAlphabet.ENGLISH;
 		}
 
-		public Map<String, Boolean> enabled = new TreeMap<>();
-	}
-
-	@Config(name = "tags")
-	public static class Tags implements ConfigData {
 		public Map<String, Boolean> enabled = new TreeMap<>();
 	}
 }

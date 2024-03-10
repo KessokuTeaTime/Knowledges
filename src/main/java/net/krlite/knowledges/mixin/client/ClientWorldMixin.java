@@ -1,6 +1,6 @@
 package net.krlite.knowledges.mixin.client;
 
-import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +14,6 @@ public class ClientWorldMixin {
     @Inject(method = "addEntity", at = @At("HEAD"))
     private void addPlayer(Entity entity, CallbackInfo ci) {
         if (entity instanceof PlayerEntity player)
-            KnowledgesClient.CACHE_USERNAME.put(player);
+            KnowledgesCommon.CACHE_USERNAME.put(player);
     }
 }

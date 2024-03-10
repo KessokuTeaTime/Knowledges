@@ -75,7 +75,7 @@ public abstract class Cache<K, V> {
         mapConsumer.accept(map);
     }
 
-    protected void save() {
+    public void save() {
         if (!file.exists()) {
             try {
                 file.getParentFile().mkdirs();
@@ -88,7 +88,7 @@ public abstract class Cache<K, V> {
         new SaveThread(file, gson.toJson(asMap())).start();
     }
 
-    protected void load() {
+    public void load() {
         if (!file.exists()) {
             save();
             return;
