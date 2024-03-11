@@ -22,6 +22,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -109,6 +110,10 @@ public class KnowledgesConfigScreen {
         return Text.translatable(localizationKey(paths));
     }
 
+    public static MutableText localizeTooltip(String... paths) {
+        return localize(ArrayUtils.add(paths, "tooltip"));
+    }
+
     public Screen build() {
         return configBuilder.build();
     }
@@ -126,7 +131,7 @@ public class KnowledgesConfigScreen {
                                 500, 2000
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.mainScalarAsInt())
-                        .setTooltip(localize("general", "main_scalar", "tooltip"))
+                        .setTooltip(localizeTooltip("general", "main_scalar"))
                         .setSaveConsumer(KnowledgesClient.CONFIG.get().general::mainScalarAsInt)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
@@ -139,34 +144,8 @@ public class KnowledgesConfigScreen {
                                 500, 2000
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSafeAreaScalarAsInt())
-                        .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
+                        .setTooltip(localizeTooltip("general", "crosshair_safe_area_scalar"))
                         .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairSafeAreaScalarAsInt)
-                        .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startIntSlider(
-                                localize("general", "crosshair_primary_opacity"),
-                                KnowledgesClient.CONFIG.get().general.crosshairPrimaryOpacityAsInt(),
-                                100, 1000
-                        )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairPrimaryOpacityAsInt())
-                        .setTooltip(localize("general", "crosshair_primary_opacity", "tooltip"))
-                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairPrimaryOpacityAsInt)
-                        .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
-                        .build()
-        );
-
-        category.addEntry(
-                entryBuilder.startIntSlider(
-                                localize("general", "crosshair_secondary_opacity"),
-                                KnowledgesClient.CONFIG.get().general.crosshairSecondaryOpacityAsInt(),
-                                100, 1000
-                        )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSecondaryOpacityAsInt())
-                        .setTooltip(localize("general", "crosshair_secondary_opacity", "tooltip"))
-                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairSecondaryOpacityAsInt)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -177,7 +156,7 @@ public class KnowledgesConfigScreen {
                                 KnowledgesClient.CONFIG.get().general.visibleInDebugHud
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.visibleInDebugHud)
-                        .setTooltip(localize("general", "visible_in_debug_hud", "tooltip"))
+                        .setTooltip(localizeTooltip("general", "visible_in_debug_hud"))
                         .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().general.visibleInDebugHud = value)
                         .build()
         );

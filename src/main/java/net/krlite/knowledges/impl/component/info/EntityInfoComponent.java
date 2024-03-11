@@ -196,11 +196,11 @@ public class EntityInfoComponent extends AbstractInfoComponent {
 	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
-								localize("config", "numeric_health"),
+								localizeForConfig("numeric_health"),
 								KnowledgesClient.CONFIG.get().components.infoEntity.showsNumericHealth
 						)
 						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoEntity.showsNumericHealth)
-						.setTooltip(localize("config", "numeric_health", "tooltip"))
+						.setTooltip(localizeTooltipForConfig("numeric_health"))
 						.setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.infoEntity.showsNumericHealth = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);

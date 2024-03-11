@@ -12,9 +12,7 @@ import java.util.List;
 public interface Data<K extends Knowledge> extends DataProtocol<K>, WithPath, Localizable.WithName, WithIndependentConfigPage {
     @Override
     default String localizationKey(String... paths) {
-        List<String> fullPaths = new ArrayList<>(List.of(path()));
-        fullPaths.addAll(List.of(paths));
-
-        return KnowledgesClient.DATA.localizationKey(this, fullPaths.toArray(String[]::new));
+        paths[0] = path() + Separator.REALM + paths[0];
+        return KnowledgesClient.DATA.localizationKey(this, paths);
     }
 }

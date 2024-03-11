@@ -3,18 +3,14 @@ package net.krlite.knowledges.impl.data.info.block.blockinformation;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.krlite.knowledges.Shortcuts;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.NoteBlock;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +48,36 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
     @Override
     public boolean providesTooltip() {
         return true;
+    }
+
+    @Override
+    public boolean requestsConfigPage() {
+        return true;
+    }
+
+    @Override
+    public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+        return entryBuilder -> List.of(
+                entryBuilder.startEnumSelector(
+                                localizeForConfig("note_modifiers"),
+                                NoteModifier.class,
+                                KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
+                        )
+                        .setDefaultValue(NoteModifier.SHARPS)
+                        .setTooltip(localizeTooltipForConfig("note_modifiers"))
+                        .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier = value),
+
+                entryBuilder.startEnumSelector(
+                                localizeForConfig("musical_alphabet"),
+                                MusicalAlphabet.class,
+                                KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet
+                        )
+                        .setDefaultValue(MusicalAlphabet.ENGLISH)
+                        .setTooltip(localizeTooltipForConfig("musical_alphabet"))
+                        .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet = value)
+        );
     }
 
     public enum NoteModifier implements EnumLocalizable.WithName {
@@ -291,17 +317,17 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
             this.demo = demo;
         }
 
-        @Override
-        public String path() {
-            return path;
-        }
-
         @SafeVarargs
         public static BiFunction<Integer, NoteModifier, MutableText> mapNotes(Function<NoteModifier, MutableText>... functions) {
             return (note, modifier) -> {
                 if (note >= 0 && note < functions.length) return functions[note].apply(modifier);
                 return Text.empty();
             };
+        }
+
+        @Override
+        public String path() {
+            return path;
         }
 
         public MutableText alphabet(int note, NoteModifier modifier) {
@@ -315,35 +341,5 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                     demo
             );
         }
-    }
-
-    @Override
-    public boolean requestsConfigPage() {
-        return true;
-    }
-
-    @Override
-    public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
-        return entryBuilder -> List.of(
-                entryBuilder.startEnumSelector(
-                                localize("config", "note_modifiers"),
-                                NoteModifier.class,
-                                KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
-                        )
-                        .setDefaultValue(NoteModifier.SHARPS)
-                        .setTooltip(localize("config", "note_modifiers", "tooltip"))
-                        .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier = value),
-
-                entryBuilder.startEnumSelector(
-                                localize("config", "musical_alphabet"),
-                                MusicalAlphabet.class,
-                                KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet
-                        )
-                        .setDefaultValue(MusicalAlphabet.ENGLISH)
-                        .setTooltip(localize("config", "musical_alphabet", "tooltip"))
-                        .setEnumNameProvider(e -> ((EnumLocalizable.WithName) e).localization())
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet = value)
-        );
     }
 }

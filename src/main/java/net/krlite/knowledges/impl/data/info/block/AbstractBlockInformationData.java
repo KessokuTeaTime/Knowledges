@@ -7,6 +7,6 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractBlockInformationData extends AbstractBlockInfoComponentData implements BlockInfoComponent.BlockInformationInvoker.Protocol {
     @Override
     public @NotNull String currentPath() {
-        return super.currentPath() + "/block_information";
+        return super.currentPath() + Separator.RANK.toString().repeat(2) + "block_information";
     }
 }

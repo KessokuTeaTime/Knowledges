@@ -3,12 +3,15 @@ package net.krlite.knowledges.manager;
 import com.google.common.collect.ImmutableList;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
+import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
 import net.krlite.knowledges.Shortcuts;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
 import java.util.function.Supplier;
+
+import static net.krlite.knowledges.api.core.localization.Localizable.Separator.*;
 
 public abstract class KnowledgesManager<T extends WithPath> {
     private final HashMap<String, List<T>> map = new HashMap<>();
@@ -58,7 +61,7 @@ public abstract class KnowledgesManager<T extends WithPath> {
     public Optional<T> byId(String namespace, String... paths) {
         return Optional.ofNullable(asMap().get(namespace))
                 .flatMap(list -> list.stream()
-                        .filter(t -> t.path().equals(String.join(".", paths)))
+                        .filter(t -> t.path().equals(String.join(KEY.toString(), paths)))
                         .findAny());
     }
 
@@ -80,7 +83,7 @@ public abstract class KnowledgesManager<T extends WithPath> {
 
     public String localizationKey(T t, String... paths) {
         String namespace = namespace(t).orElse(KnowledgesCommon.ID);
-        return localizationPrefix() + "." + namespace + "." + String.join(".", paths);
+        return localizationPrefix() + RANK + namespace + REALM + String.join(KEY.toString(), paths);
     }
 
     public boolean isInNamespace(T t, String namespace) {

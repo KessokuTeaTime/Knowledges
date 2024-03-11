@@ -2,7 +2,6 @@ package net.krlite.knowledges.config;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.knowledges.impl.component.CrosshairComponent;
@@ -23,8 +22,6 @@ public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
 	public static class General implements ConfigData {
 		public double mainScalar = 1.0;
 		public double crosshairSafeAreaScalar = 1.0;
-		public double crosshairPrimaryOpacity = 0.72;
-		public double crosshairSecondaryOpacity = 0.5;
 		public boolean visibleInDebugHud = false;
 
 		public int mainScalarAsInt() {
@@ -41,22 +38,6 @@ public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
 
 		public void crosshairSafeAreaScalarAsInt(int scalar) {
 			crosshairSafeAreaScalar = Theory.clamp(scalar / 1000.0, 0.5, 2.0);
-		}
-
-		public int crosshairPrimaryOpacityAsInt() {
-			return (int) (crosshairPrimaryOpacity * 1000);
-		}
-
-		public void crosshairPrimaryOpacityAsInt(int opacity) {
-			crosshairPrimaryOpacity = Theory.clamp(opacity / 1000.0, 0.1, 1.0);
-		}
-
-		public int crosshairSecondaryOpacityAsInt() {
-			return (int) (crosshairSecondaryOpacity * 1000);
-		}
-
-		public void crosshairSecondaryOpacityAsInt(int opacity) {
-			crosshairSecondaryOpacity = Theory.clamp(opacity / 1000.0, 0.1, 1.0);
 		}
 	}
 
@@ -75,6 +56,24 @@ public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
 			public boolean textsRightEnabled = true;
 			public boolean textsLeftEnabled = true;
 			public boolean subtitlesEnabled = true;
+			public double primaryOpacity = 0.72;
+			public double secondaryOpacity = 0.5;
+
+			public int primaryOpacityAsInt() {
+				return (int) (primaryOpacity * 1000);
+			}
+
+			public void primaryOpacityAsInt(int opacity) {
+				primaryOpacity = Theory.clamp(opacity / 1000.0, 0.1, 1.0);
+			}
+
+			public int secondaryOpacityAsInt() {
+				return (int) (secondaryOpacity * 1000);
+			}
+
+			public void secondaryOpacityAsInt(int opacity) {
+				secondaryOpacity = Theory.clamp(opacity / 1000.0, 0.1, 1.0);
+			}
 		}
 
 		public static class InfoBlock {

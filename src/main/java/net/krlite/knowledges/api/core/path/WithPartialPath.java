@@ -1,5 +1,6 @@
 package net.krlite.knowledges.api.core.path;
 
+import net.krlite.knowledges.api.core.localization.Localizable;
 import org.jetbrains.annotations.NotNull;
 
 public interface WithPartialPath extends WithPath {
@@ -9,6 +10,6 @@ public interface WithPartialPath extends WithPath {
 
     @Override
     default @NotNull String path() {
-        return currentPath() + "/" + partialPath();
+        return currentPath() + Localizable.Separator.RANK + partialPath();
     }
 }

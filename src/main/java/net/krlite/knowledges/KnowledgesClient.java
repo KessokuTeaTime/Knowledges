@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.api.representable.PacketByteBufWritable;
@@ -27,6 +28,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static net.krlite.knowledges.api.core.localization.Localizable.Separator.KEY;
 
 public class KnowledgesClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + ":client");
@@ -56,7 +59,7 @@ public class KnowledgesClient implements ClientModInitializer {
     }
 
     public static String localizationKey(String category, String... paths) {
-        return category + "." + KnowledgesCommon.ID + "." + String.join(".", paths);
+        return category + KEY + KnowledgesCommon.ID + KEY + String.join(KEY.toString(), paths);
     }
 
     public static MutableText localize(String category, String... paths) {

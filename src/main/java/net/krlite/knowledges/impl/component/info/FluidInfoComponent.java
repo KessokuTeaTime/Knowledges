@@ -92,7 +92,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
     public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
-                                localize("config", "ignores_water"),
+                                localizeForConfig("ignores_water"),
                                 KnowledgesClient.CONFIG.get().components.infoFluid.ignoresWater
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresWater)
@@ -100,7 +100,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
-                                localize("config", "ignores_lava"),
+                                localizeForConfig("ignores_lava"),
                                 KnowledgesClient.CONFIG.get().components.infoFluid.ignoresLava
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresLava)
@@ -108,7 +108,7 @@ public class FluidInfoComponent extends AbstractInfoComponent {
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.ENABLED_DISABLED),
 
                 entryBuilder.startBooleanToggle(
-                                localize("config", "ignores_other_fluids"),
+                                localizeForConfig("ignores_other_fluids"),
                                 KnowledgesClient.CONFIG.get().components.infoFluid.ignoresOtherFluids
                         )
                         .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoFluid.ignoresOtherFluids)

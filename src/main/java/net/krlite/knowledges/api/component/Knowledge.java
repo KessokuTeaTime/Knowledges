@@ -48,9 +48,7 @@ public interface Knowledge extends WithPath, Localizable.WithName, WithIndepende
 
 	@Override
 	default String localizationKey(String... paths) {
-		List<String> fullPaths = new ArrayList<>(List.of(path()));
-		fullPaths.addAll(List.of(paths));
-
-		return KnowledgesClient.COMPONENTS.localizationKey(this, fullPaths.toArray(String[]::new));
+		paths[0] = path() + Separator.REALM + paths[0];
+		return KnowledgesClient.COMPONENTS.localizationKey(this, paths);
 	}
 }

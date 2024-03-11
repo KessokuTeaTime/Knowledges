@@ -199,11 +199,11 @@ public class BlockInfoComponent extends AbstractInfoComponent {
 	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
-								localize("config", "block_powered_status"),
+								localizeForConfig("block_powered_status"),
 								KnowledgesClient.CONFIG.get().components.infoBlock.showsBlockPoweredStatus
 						)
 						.setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.infoBlock.showsBlockPoweredStatus)
-						.setTooltip(localize("config", "block_powered_status", "tooltip"))
+						.setTooltip(localizeTooltipForConfig("block_powered_status"))
 						.setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.infoBlock.showsBlockPoweredStatus = value)
 						.setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN)
 		);
