@@ -39,4 +39,9 @@ public class AnimalOwnerEntityDescriptionData extends AbstractEntityDescriptionD
     public @NotNull String partialPath() {
         return "animal_owner";
     }
+
+    @Override
+    public boolean providesTooltip() {
+        return true;
+    }
 }
