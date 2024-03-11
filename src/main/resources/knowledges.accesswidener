@@ -1,2 +1,4 @@
 accessWidener v2 named
 accessible method net/minecraft/item/ItemStack getHideFlags ()I
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity fuel I
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity brewTime I
