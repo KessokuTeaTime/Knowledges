@@ -5,16 +5,14 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.api.Requirement;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
-import me.shedaniel.clothconfig2.impl.builders.TextDescriptionBuilder;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.ModProxy;
-import net.krlite.knowledges.config.modmenu.impl.InvisibleSeparatorListEntry;
+import net.krlite.knowledges.config.modmenu.impl.EmptyEntryBuilder;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
@@ -117,8 +115,12 @@ public class KnowledgesConfigScreen {
         return localize(ArrayUtils.add(paths, "tooltip"));
     }
 
-    public static InvisibleSeparatorListEntry.Builder separatorBuilder() {
-        return new InvisibleSeparatorListEntry.Builder();
+    public static EmptyEntryBuilder emptyEntryBuilder(int height) {
+        return new EmptyEntryBuilder(height);
+    }
+
+    public static EmptyEntryBuilder emptyEntryBuilder() {
+        return new EmptyEntryBuilder();
     }
 
     public Screen build() {
@@ -157,7 +159,7 @@ public class KnowledgesConfigScreen {
                         .build()
         );
 
-        category.addEntry(separatorBuilder().build());
+        category.addEntry(emptyEntryBuilder().build());
 
         category.addEntry(
                 entryBuilder.startBooleanToggle(
@@ -290,10 +292,11 @@ public class KnowledgesConfigScreen {
 
             category.addEntry(built);
             category.addEntry(
-                    entryBuilder.startTextDescription(((MutableText) t.tooltip()).append("\n"))
+                    entryBuilder.startTextDescription(t.tooltip())
                             .setRequirement(Requirement.isTrue(t::providesTooltip))
                             .build()
             );
+            category.addEntry(emptyEntryBuilder(16).build());
 
             t.buildConfigEntries().apply(entryBuilder).stream()
                     .map(FieldBuilder::build)
