@@ -2,6 +2,7 @@ package net.krlite.knowledges.config.modmenu.cache;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.yggdrasil.ProfileResult;
+import net.krlite.knowledges.config.modmenu.cache.base.Cache;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 

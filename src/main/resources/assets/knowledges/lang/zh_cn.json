@@ -23,14 +23,14 @@
 
   "config.knowledges.category.components": "组件",
 
-  "config.knowledges.components.suffix.default": "（默认）",
+  "config.knowledges.components.default": "默认",
 
   "config.knowledges.category.data": "数据",
 
   "config.knowledges.data.classifier": "§8- 目标组件：%s",
   "config.knowledges.data.footnote"  : "§8目标组件：%1$s\n§8数据回调：%2$s",
 
-  "config.knowledges.data.suffix.default": "（默认）",
+  "config.knowledges.data.default": "默认",
 
   "config.knowledges.separator.global"    : " 全局 > ",
   "config.knowledges.separator.components": " 组件 > ",
@@ -82,143 +82,149 @@
   
   
 
-  "knowledge/knowledges:crosshair:name"   : "准心",
-  "knowledge/knowledges:crosshair:tooltip": "用于指示你是否正看着任何东西\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息将不再可见",
+  "knowledges:component/knowledges:crosshair:name"   : "准心",
+  "knowledges:component/knowledges:crosshair:tooltip": "用于指示你是否正看着任何东西\n§c如果禁用，则§l方块破坏进度§r§c和§l实体血量§r§c等信息将不再可见",
 
-  "knowledge/knowledges:crosshair:config/ring_shape": "准心形状",
+  "knowledges:component/knowledges:crosshair:config/ring_shape": "准心形状",
 
-  "knowledge/knowledges:crosshair:config/cursor_ring_outline"        : "准心指示区域描线",
-  "knowledge/knowledges:crosshair:config/cursor_ring_outline.tooltip": "在准心的指示区域外侧显示描线",
+  "knowledges:component/knowledges:crosshair:config/cursor_ring_outline"        : "准心指示区域描线",
+  "knowledges:component/knowledges:crosshair:config/cursor_ring_outline.tooltip": "在准心的指示区域外侧显示描线",
 
-  "knowledge/knowledges:crosshair:config/texts_right"        : "准心右侧文本",
-  "knowledge/knowledges:crosshair:config/texts_right.tooltip": "显示准心右侧的扩展信息",
+  "knowledges:component/knowledges:crosshair:config/texts_right"        : "准心右侧文本",
+  "knowledges:component/knowledges:crosshair:config/texts_right.tooltip": "显示准心右侧的扩展信息",
 
-  "knowledge/knowledges:crosshair:config/texts_left"        : "准心左侧文本",
-  "knowledge/knowledges:crosshair:config/texts_left.tooltip": "显示准心左侧的扩展信息",
+  "knowledges:component/knowledges:crosshair:config/texts_left"        : "准心左侧文本",
+  "knowledges:component/knowledges:crosshair:config/texts_left.tooltip": "显示准心左侧的扩展信息",
 
-  "knowledge/knowledges:crosshair:config/subtitles"        : "副标题",
-  "knowledge/knowledges:crosshair:config/subtitles.tooltip": "显示位于准心文本上方或下方的描述性文本",
+  "knowledges:component/knowledges:crosshair:config/subtitles"        : "副标题",
+  "knowledges:component/knowledges:crosshair:config/subtitles.tooltip": "显示位于准心文本上方或下方的描述性文本",
 
-  "knowledge/knowledges:info:name"   : "信息",
-  "knowledge/knowledges:info:tooltip": "显示准心目标的信息\n§c如果禁用，则§l方块信息§r§c和§l实体信息§r§c等组件将不再起作用",
+  "knowledges:component/knowledges:crosshair:config/primary_opacity"        : "主要透明度",
+  "knowledges:component/knowledges:crosshair:config/primary_opacity.tooltip": "控制准心处主要信息的显示透明度",
 
-  "knowledge/knowledges:info/block:name"   : "方块信息",
-  "knowledge/knowledges:info/block:tooltip": "显示你正看着的方块的信息",
+  "knowledges:component/knowledges:crosshair:config/secondary_opacity"        : "次要透明度",
+  "knowledges:component/knowledges:crosshair:config/secondary_opacity.tooltip": "控制准心处次要信息的显示透明度",
 
-  "knowledge/knowledges:info/block:mining_level"  : "挖掘等级为%1$d",
-  "knowledge/knowledges:info/block:mining_level.1": "石",
-  "knowledge/knowledges:info/block:mining_level.2": "铁",
-  "knowledge/knowledges:info/block:mining_level.3": "钻石",
-  "knowledge/knowledges:info/block:mining_level.4": "下界合金",
+  "knowledges:component/knowledges:info:name"   : "信息",
+  "knowledges:component/knowledges:info:tooltip": "显示准心目标的信息\n§c如果禁用，则§l方块信息§r§c和§l实体信息§r§c等组件将不再起作用",
 
-  "knowledge/knowledges:info/block:tool.unbreakable"              : "不可破坏",
-  "knowledge/knowledges:info/block:tool"                          : "任意%1$s",
-  "knowledge/knowledges:info/block:tool_and_mining_level_semantic": "%2$s%1$s",
-  "knowledge/knowledges:info/block:tool_and_mining_level"         : "§7%2$s的§r%1$s",
+  "knowledges:component/knowledges:info/block:name"   : "方块信息",
+  "knowledges:component/knowledges:info/block:tooltip": "显示你正看着的方块的信息",
 
-  "knowledge/knowledges:info/block:powered": "已充能",
+  "knowledges:component/knowledges:info/block:mining_level"  : "挖掘等级为%1$d",
+  "knowledges:component/knowledges:info/block:mining_level.1": "石",
+  "knowledges:component/knowledges:info/block:mining_level.2": "铁",
+  "knowledges:component/knowledges:info/block:mining_level.3": "钻石",
+  "knowledges:component/knowledges:info/block:mining_level.4": "下界合金",
 
-  "knowledge/knowledges:info/block:config/block_powered_status"        : "方块充能状态",
-  "knowledge/knowledges:info/block:config/block_powered_status.tooltip": "显示方块是否被红石充能",
+  "knowledges:component/knowledges:info/block:tool.unbreakable"              : "不可破坏",
+  "knowledges:component/knowledges:info/block:tool"                          : "任意%1$s",
+  "knowledges:component/knowledges:info/block:tool_and_mining_level_semantic": "%2$s%1$s",
+  "knowledges:component/knowledges:info/block:tool_and_mining_level"         : "§7%2$s的§r%1$s",
 
-  "knowledge/knowledges:info/entity:name"   : "实体信息",
-  "knowledge/knowledges:info/entity:tooltip": "显示你正看着的实体的信息",
+  "knowledges:component/knowledges:info/block:powered": "已充能",
 
-  "knowledge/knowledges:info/entity:config/numeric_health"        : "数字血量",
-  "knowledge/knowledges:info/entity:config/numeric_health.tooltip": "在准心上方以数字形式显示你正看着的实体的血量",
+  "knowledges:component/knowledges:info/block:config/block_powered_status"        : "方块充能状态",
+  "knowledges:component/knowledges:info/block:config/block_powered_status.tooltip": "显示方块是否被红石充能",
 
-  "knowledge/knowledges:info/fluid:name"   : "流体信息",
-  "knowledge/knowledges:info/fluid:tooltip": "显示你正看着的流体的信息",
+  "knowledges:component/knowledges:info/entity:name"   : "实体信息",
+  "knowledges:component/knowledges:info/entity:tooltip": "显示你正看着的实体的信息",
 
-  "knowledge/knowledges:info/fluid:level": "§7体积：§r%1$d",
+  "knowledges:component/knowledges:info/entity:config/numeric_health"        : "数字血量",
+  "knowledges:component/knowledges:info/entity:config/numeric_health.tooltip": "在准心上方以数字形式显示你正看着的实体的血量",
 
-  "knowledge/knowledges:info/fluid:config/ignores_water"       : "忽略水",
-  "knowledge/knowledges:info/fluid:config/ignores_lava"        : "忽略熔岩",
-  "knowledge/knowledges:info/fluid:config/ignores_other_fluids": "忽略其它流体",
+  "knowledges:component/knowledges:info/fluid:name"   : "流体信息",
+  "knowledges:component/knowledges:info/fluid:tooltip": "显示你正看着的流体的信息",
 
-  "knowledge/knowledges:armor_durability:name"   : "装备耐久",
-  "knowledge/knowledges:armor_durability:tooltip": "在屏幕角落处显示你的装备耐久",
+  "knowledges:component/knowledges:info/fluid:level": "§7体积：§r%1$d",
+
+  "knowledges:component/knowledges:info/fluid:config/ignores_water"       : "忽略水",
+  "knowledges:component/knowledges:info/fluid:config/ignores_lava"        : "忽略熔岩",
+  "knowledges:component/knowledges:info/fluid:config/ignores_other_fluids": "忽略其它流体",
+
+  "knowledges:component/knowledges:armor_durability:name"   : "装备耐久",
+  "knowledges:component/knowledges:armor_durability:tooltip": "在屏幕角落处显示你的装备耐久",
   
   
 
-  "knowledge_data/knowledges:info/block//mineable_tool:name"   : "挖掘工具",
-  "knowledge_data/knowledges:info/block//mineable_tool:tooltip": "提供关于方块的最合适挖掘工具的信息",
+  "knowledges:data/knowledges:info/block//mineable_tool:name"   : "挖掘工具",
+  "knowledges:data/knowledges:info/block//mineable_tool:tooltip": "提供关于方块的最合适挖掘工具的信息",
 
-  "knowledge_data/knowledges:info/block//mineable_tool:pickaxe": "镐",
-  "knowledge_data/knowledges:info/block//mineable_tool:axe"    : "斧",
-  "knowledge_data/knowledges:info/block//mineable_tool:hoe"    : "锄",
-  "knowledge_data/knowledges:info/block//mineable_tool:shovel" : "锹",
+  "knowledges:data/knowledges:info/block//mineable_tool:pickaxe": "镐",
+  "knowledges:data/knowledges:info/block//mineable_tool:axe"    : "斧",
+  "knowledges:data/knowledges:info/block//mineable_tool:hoe"    : "锄",
+  "knowledges:data/knowledges:info/block//mineable_tool:shovel" : "锹",
 
-  "knowledge_data/knowledges:info/block//block_information/note_block:name"   : "音符盒信息",
-  "knowledge_data/knowledges:info/block//block_information/note_block:tooltip": "提供有关音符盒音色的信息，并在多种音名下提供有关音符盒音高的信息",
+  "knowledges:data/knowledges:info/block//block_information/note_block:name"   : "音符盒信息",
+  "knowledges:data/knowledges:info/block//block_information/note_block:tooltip": "提供有关音符盒音色的信息，并在多种音名下提供有关音符盒音高的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/note_modifiers"        : "修饰符",
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/note_modifiers.tooltip": "如何展示黑键",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/note_modifiers"        : "修饰符",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/note_modifiers.tooltip": "如何展示黑键",
 
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/musical_alphabet"        : "音名",
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/musical_alphabet.tooltip": "如何展示音符名称",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/musical_alphabet"        : "音名",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/musical_alphabet.tooltip": "如何展示音符名称",
 
-  "knowledge_data/knowledges:info/block//block_information/banner:name"   : "旗帜信息",
-  "knowledge_data/knowledges:info/block//block_information/banner:tooltip": "提供有关旗帜的信息",
+  "knowledges:data/knowledges:info/block//block_information/banner:name"   : "旗帜信息",
+  "knowledges:data/knowledges:info/block//block_information/banner:tooltip": "提供有关旗帜的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/banner:more_patterns"   : "§r%1$s§7等%3$d个样式",
-  "knowledge_data/knowledges:info/block//block_information/banner:one_more_pattern": "§r%1$s§7等2个样式",
+  "knowledges:data/knowledges:info/block//block_information/banner:more_patterns"   : "§r%1$s§7等%3$d个样式",
+  "knowledges:data/knowledges:info/block//block_information/banner:one_more_pattern": "§r%1$s§7等2个样式",
 
-  "knowledge_data/knowledges:info/block//block_information/composter:name"   : "堆肥桶信息",
-  "knowledge_data/knowledges:info/block//block_information/composter:tooltip": "提供有关堆肥桶的堆肥等级的信息",
+  "knowledges:data/knowledges:info/block//block_information/composter:name"   : "堆肥桶信息",
+  "knowledges:data/knowledges:info/block//block_information/composter:tooltip": "提供有关堆肥桶的堆肥等级的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/composter:level": "§7堆肥等级：§r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/block//block_information/composter:level": "§7堆肥等级：§r%1$s §7/ %2$s",
 
-  "knowledge_data/knowledges:info/block//block_information/redstone_wire:name"   : "红石线信息",
-  "knowledge_data/knowledges:info/block//block_information/redstone_wire:tooltip": "提供有关红石线的信号强度的信息",
+  "knowledges:data/knowledges:info/block//block_information/redstone_wire:name"   : "红石线信息",
+  "knowledges:data/knowledges:info/block//block_information/redstone_wire:tooltip": "提供有关红石线的信号强度的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/redstone_wire:power": "§7信号强度：§r%1$s",
+  "knowledges:data/knowledges:info/block//block_information/redstone_wire:power": "§7信号强度：§r%1$s",
 
-  "knowledge_data/knowledges:info/block//block_information/crop:name"   : "作物信息",
-  "knowledge_data/knowledges:info/block//block_information/crop:tooltip": "提供有关作物年龄的信息",
+  "knowledges:data/knowledges:info/block//block_information/crop:name"   : "作物信息",
+  "knowledges:data/knowledges:info/block//block_information/crop:tooltip": "提供有关作物年龄的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/crop:mature": "已成熟",
-  "knowledge_data/knowledges:info/block//block_information/crop:age"   : "§7年龄：§r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/block//block_information/crop:mature": "已成熟",
+  "knowledges:data/knowledges:info/block//block_information/crop:age"   : "§7年龄：§r%1$s §7/ %2$s",
 
-  "knowledge_data/knowledges:info/block//block_information/sapling:name"   : "树苗信息",
-  "knowledge_data/knowledges:info/block//block_information/sapling:tooltip": "提供有关树苗生长阶段的信息",
+  "knowledges:data/knowledges:info/block//block_information/sapling:name"   : "树苗信息",
+  "knowledges:data/knowledges:info/block//block_information/sapling:tooltip": "提供有关树苗生长阶段的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/sapling:stage": "§7生长阶段：§r%1$s",
+  "knowledges:data/knowledges:info/block//block_information/sapling:stage": "§7生长阶段：§r%1$s",
 
-  "knowledge_data/knowledges:info/block//block_information/beehive:name"   : "蜂巢与蜂箱信息",
-  "knowledge_data/knowledges:info/block//block_information/beehive:tooltip": "提供有关蜂巢与蜂箱的信息",
+  "knowledges:data/knowledges:info/block//block_information/beehive:name"   : "蜂巢与蜂箱信息",
+  "knowledges:data/knowledges:info/block//block_information/beehive:tooltip": "提供有关蜂巢与蜂箱的信息",
 
-  "knowledge_data/knowledges:info/block//block_information/beehive:honey_level"    : "§7蜂蜜体积：§r%1$s §7/ %2$s",
-  "knowledge_data/knowledges:info/block//block_information/beehive:bee_count"      : "§7蜜蜂数量：§r%1$s",
-  "knowledge_data/knowledges:info/block//block_information/beehive:bee_count.empty": "没有蜜蜂",
+  "knowledges:data/knowledges:info/block//block_information/beehive:honey_level"    : "§7蜂蜜体积：§r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/block//block_information/beehive:bee_count"      : "§7蜜蜂数量：§r%1$s",
+  "knowledges:data/knowledges:info/block//block_information/beehive:bee_count.empty": "没有蜜蜂",
 
-  "knowledge_data/knowledges:info/entity//entity_information/painting:name"   : "画作信息",
-  "knowledge_data/knowledges:info/entity//entity_information/painting:tooltip": "提供有关画作的信息",
+  "knowledges:data/knowledges:info/entity//entity_information/painting:name"   : "画作信息",
+  "knowledges:data/knowledges:info/entity//entity_information/painting:tooltip": "提供有关画作的信息",
 
-  "knowledge_data/knowledges:info/entity//entity_information/item_frame:name"   : "物品展示框信息",
-  "knowledge_data/knowledges:info/entity//entity_information/item_frame:tooltip": "提供有关物品展示框内的物品的信息",
+  "knowledges:data/knowledges:info/entity//entity_information/item_frame:name"   : "物品展示框信息",
+  "knowledges:data/knowledges:info/entity//entity_information/item_frame:tooltip": "提供有关物品展示框内的物品的信息",
 
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:durability": "§7耐久度：§r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:durability": "§7耐久度：§r%1$s §7/ %2$s",
 
-  "knowledge_data/knowledges:info/entity//entity_information/villager:name"   : "村民信息",
-  "knowledge_data/knowledges:info/entity//entity_information/villager:tooltip": "提供有关村民的基础信息",
+  "knowledges:data/knowledges:info/entity//entity_information/villager:name"   : "村民信息",
+  "knowledges:data/knowledges:info/entity//entity_information/villager:tooltip": "提供有关村民的基础信息",
 
-  "knowledge_data/knowledges:info/entity//entity_information/villager:profession_and_level": "§7%2$d级§r%1$s",
+  "knowledges:data/knowledges:info/entity//entity_information/villager:profession_and_level": "§7%2$d级§r%1$s",
 
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:name"   : "物品展示框详细信息",
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:tooltip": "提供有关物品展示框内的物品属性的详细信息",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:name"   : "物品展示框详细信息",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:tooltip": "提供有关物品展示框内的物品属性的详细信息",
 
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:enchantment.more"    : "§r%1$s§7等%3$d个附魔",
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:enchantment.one_more": "§r%1$s§7等2个附魔",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:enchantment.more"    : "§r%1$s§7等%3$d个附魔",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:enchantment.one_more": "§r%1$s§7等2个附魔",
 
-  "knowledge_data/knowledges:info/entity//entity_description/villager:name"   : "村民详细信息",
-  "knowledge_data/knowledges:info/entity//entity_description/villager:tooltip": "提供有关村民属性的详细信息",
+  "knowledges:data/knowledges:info/entity//entity_description/villager:name"   : "村民详细信息",
+  "knowledges:data/knowledges:info/entity//entity_description/villager:tooltip": "提供有关村民属性的详细信息",
 
-  "knowledge_data/knowledges:info/entity//entity_description/villager:reputation": "§7声望：§r%1$d",
+  "knowledges:data/knowledges:info/entity//entity_description/villager:reputation": "§7声望：§r%1$d",
 
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:name"   : "动物主人",
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:tooltip": "如果可能，提供动物主人的名字",
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:name"   : "动物主人",
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:tooltip": "如果可能，提供动物主人的名字",
 
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:owner"     : "§7主人：§r%1$s",
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:owner.none": "没有主人"
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:owner"     : "§7主人：§r%1$s",
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:owner.none": "没有主人"
 }

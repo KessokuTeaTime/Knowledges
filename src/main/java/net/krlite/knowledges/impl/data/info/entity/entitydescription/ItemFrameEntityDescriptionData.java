@@ -1,7 +1,7 @@
 package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 
 import net.krlite.knowledges.Util;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.base.entity.EntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
@@ -81,7 +81,7 @@ public class ItemFrameEntityDescriptionData extends EntityDescriptionData {
                 }
 
                 if (heldItemStack.isOf(Items.CLOCK)) {
-                    descriptionText = KnowledgeProxy.getDateAndTime();
+                    descriptionText = ModProxy.getDateAndTime();
                 }
 
                 if (heldItemStack.getItem() instanceof MusicDiscItem musicDiscItem) {

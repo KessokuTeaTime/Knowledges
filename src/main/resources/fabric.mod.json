@@ -26,7 +26,7 @@
       "net.krlite.knowledges.KnowledgesClient"
     ],
     "modmenu": [
-      "net.krlite.knowledges.config.modmenu.KnowledgesModMenuImpl"
+      "net.krlite.knowledges.config.modmenu.KnowledgesModMenuIntegration"
     ],
     "knowledges:component": [
       "net.krlite.knowledges.impl.entrypoint.ComponentProviderImpl"

@@ -4,9 +4,11 @@ import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.contract.BlockContract;
 import net.krlite.knowledges.api.contract.Contract;
 import net.krlite.knowledges.api.contract.EntityContract;
+import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class ContractManager extends Manager<Contract<?, ?>> {
     }
 
     @Override
-    protected String localizationPrefix() {
-        return "tag";
+    protected @NotNull EntrypointInvoker entrypoint() {
+        return EntrypointInvoker.CONTRACT;
     }
 
     public <T extends Contract<?, ?>> List<T> ofSpecifiedType(Class<T> tClass) {

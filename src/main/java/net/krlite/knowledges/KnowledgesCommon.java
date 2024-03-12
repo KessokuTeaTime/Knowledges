@@ -5,14 +5,11 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.entrypoint.ContractProvider;
-import net.krlite.knowledges.config.KnowledgesCommonConfig;
+import net.krlite.knowledges.config.CommonConfig;
 import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
+import net.krlite.knowledges.manager.ContractManager;
 import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
-import net.krlite.knowledges.manager.ContractManager;
 import net.krlite.knowledges.networking.ServerNetworking;
 import net.minecraft.util.ActionResult;
 import org.slf4j.Logger;
@@ -23,65 +20,31 @@ public class KnowledgesCommon implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 
-    public static final ConfigHolder<KnowledgesCommonConfig> CONFIG;
-    public static final KnowledgesCommonConfig DEFAULT_CONFIG = new KnowledgesCommonConfig();
+    public static final ConfigHolder<CommonConfig> CONFIG;
+    public static final CommonConfig DEFAULT_CONFIG = new CommonConfig();
 
     static {
-        AutoConfig.register(KnowledgesCommonConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
-        CONFIG = AutoConfig.getConfigHolder(KnowledgesCommonConfig.class);
+        AutoConfig.register(CommonConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
+        CONFIG = AutoConfig.getConfigHolder(CommonConfig.class);
 
-        CONFIG.registerLoadListener((configHolder, knowledgesCommonConfig) -> {
-            Manager.fixKeysAndSort(knowledgesCommonConfig.contracts.available);
+        CONFIG.registerLoadListener((configHolder, commonConfig) -> {
+            Manager.fixKeysAndSort(commonConfig.contracts.available);
 
             return ActionResult.PASS;
         });
     }
 
-    public static final ContractManager CONTRACTS = new ContractManager();
-
     public static final UsernameCache CACHE_USERNAME = new UsernameCache();
+
+    // Managers
+    public static final ContractManager CONTRACTS = new ContractManager();
 
     @Override
     public void onInitialize() {
         CACHE_USERNAME.load();
-
         Manager.fixKeysAndSort(CONFIG.get().contracts.available);
 
         new ServerNetworking().register();
-
-        /*
-        // Tags
-        FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", ContractProvider.class).forEach(entrypoint -> {
-            ContractProvider<?> provider = entrypoint.getEntrypoint();
-            var classes = provider.provide();
-            if (classes.isEmpty()) return;
-
-            ModContainer mod = entrypoint.getProvider();
-            String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
-
-            LOGGER.info(String.format(
-                    "Registering %d %s for %s...",
-                    classes.size(),
-                    classes.size() <= 1 ? "contract" : "contracts",
-                    name
-            ));
-
-            classes.stream()
-                    .distinct()
-                    .map(clazz -> {
-                        try {
-                            return clazz.getDeclaredConstructor().newInstance();
-                        } catch (Throwable throwable) {
-                            throw new RuntimeException(String.format(
-                                    "Failed to register tag for %s: constructor not found",
-                                    clazz.getName()
-                            ), throwable);
-                        }
-                    })
-                    .forEach(tag -> CONTRACTS.register(namespace, tag));
-        });
-
-         */
 
         EntrypointInvoker.CONTRACT.invoke(CONTRACTS::register);
 

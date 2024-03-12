@@ -5,7 +5,9 @@ import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.data.transfer.DataInvoker;
 import net.krlite.knowledges.api.data.transfer.DataProtocol;
+import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,8 @@ public class DataManager extends Manager<Data<?>> {
     }
 
     @Override
-    protected String localizationPrefix() {
-        return "knowledge_data";
+    protected @NotNull EntrypointInvoker entrypoint() {
+        return EntrypointInvoker.DATA;
     }
 
     public Map<? extends DataInvoker<?, ?>, List<Data<?>>> asDataInvokerClassifiedMap() {

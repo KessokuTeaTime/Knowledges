@@ -4,14 +4,15 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.krlite.equator.math.algebra.Theory;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.impl.component.CrosshairComponent;
 import net.krlite.knowledges.impl.data.info.block.blockinformation.NoteBlockInformationData;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-@Config(name = "knowledges")
-public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
+@Config(name = KnowledgesCommon.ID)
+public class ClientConfig extends PartitioningSerializer.GlobalData {
 	public General general = new General();
 
 	public Components components = new Components();

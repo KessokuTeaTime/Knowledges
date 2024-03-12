@@ -15,7 +15,7 @@ import net.krlite.knowledges.api.core.path.WithPartialPath;
 import net.krlite.knowledges.Util;
 import net.krlite.knowledges.animation.InterpolatedText;
 import net.krlite.knowledges.api.component.Knowledge;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.hit.HitResult;
@@ -232,7 +232,7 @@ public abstract class InfoComponent implements Knowledge, WithPartialPath {
 			ClientTickEvents.END_CLIENT_TICK.register(client -> {
 				if (client != null) {
 					HitResult hitResult = MinecraftClient.getInstance().crosshairTarget;
-					boolean hitResultNotAir = KnowledgeProxy.hitResultNotAir(hitResult);
+					boolean hitResultNotAir = ModProxy.hitResultNotAir(hitResult);
 
 					Ring.ovalOpacity.target(hitResultNotAir ? 1D : 0D);
 

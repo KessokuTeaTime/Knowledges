@@ -2,9 +2,10 @@ package net.krlite.knowledges.impl.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.base.Representable;
 import net.krlite.knowledges.impl.component.base.InfoComponent;
@@ -21,7 +22,7 @@ import java.util.function.Function;
 public class FluidInfoComponent extends InfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
-        KnowledgeProxy.getFluidStateNonEmpty(representable.hitResult()).ifPresent(fluidState -> {
+        ModProxy.getFluidStateNonEmpty(representable.hitResult()).ifPresent(fluidState -> {
             BlockState blockState = fluidState.getBlockState();
             MutableText fluidName = blockState.getBlock().getName();
 
@@ -36,7 +37,7 @@ public class FluidInfoComponent extends InfoComponent {
             titles:
             {
                 Animation.Text.titleRight(fluidName);
-                Animation.Text.titleLeft(KnowledgeProxy.getModName(namespace));
+                Animation.Text.titleLeft(ModProxy.getModName(namespace));
             }
 
             // Right Above
@@ -86,7 +87,7 @@ public class FluidInfoComponent extends InfoComponent {
     }
 
     @Override
-    public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+    public Function<ConfigEntryBuilder, List<FieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
                 entryBuilder.startBooleanToggle(
                                 localizeForConfig("ignores_water"),

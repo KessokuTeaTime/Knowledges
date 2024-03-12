@@ -2,10 +2,11 @@ package net.krlite.knowledges.impl.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.api.representable.base.Representable;
@@ -96,7 +97,7 @@ public class EntityInfoComponent extends InfoComponent {
 			// Titles
 			titles: {
 				Animation.Text.titleRight(entityName);
-				Animation.Text.titleLeft(KnowledgeProxy.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
+				Animation.Text.titleLeft(ModProxy.getModName(Registries.ENTITY_TYPE.getId(entity.getType()).getNamespace()));
 			}
 
 			switch (entity.getType().getSpawnGroup()) {
@@ -193,7 +194,7 @@ public class EntityInfoComponent extends InfoComponent {
 	}
 
 	@Override
-	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+	public Function<ConfigEntryBuilder, List<FieldBuilder<?, ?, ?>>> buildConfigEntries() {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localizeForConfig("numeric_health"),

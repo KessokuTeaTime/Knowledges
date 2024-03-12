@@ -2,10 +2,11 @@ package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.krlite.knowledges.Util;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.base.block.BlockInformationData;
 import net.minecraft.block.Blocks;
@@ -24,7 +25,7 @@ public class NoteBlockInformationData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         if (representable.blockState().isOf(Blocks.NOTE_BLOCK)) {
-            MutableText instrumentText = KnowledgeProxy.getInstrumentName(representable.blockState().get(NoteBlock.INSTRUMENT));
+            MutableText instrumentText = ModProxy.getInstrumentName(representable.blockState().get(NoteBlock.INSTRUMENT));
             MutableText noteText = KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet.alphabet(
                     representable.blockState().get(NoteBlock.NOTE),
                     KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
@@ -34,7 +35,7 @@ public class NoteBlockInformationData extends BlockInformationData {
         }
 
         if (representable.player().getMainHandStack().isOf(Items.NOTE_BLOCK)) {
-            return Optional.of(KnowledgeProxy.getInstrumentName(representable.blockState().getInstrument()));
+            return Optional.of(ModProxy.getInstrumentName(representable.blockState().getInstrument()));
         }
 
         return Optional.empty();
@@ -42,7 +43,7 @@ public class NoteBlockInformationData extends BlockInformationData {
 
     @Override
     public @NotNull String partialPath() {
-        return KnowledgeProxy.getId(Blocks.NOTE_BLOCK).getPath();
+        return ModProxy.getId(Blocks.NOTE_BLOCK).getPath();
     }
 
     @Override
@@ -56,7 +57,7 @@ public class NoteBlockInformationData extends BlockInformationData {
     }
 
     @Override
-    public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+    public Function<ConfigEntryBuilder, List<FieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
                 entryBuilder.startEnumSelector(
                                 localizeForConfig("note_modifiers"),

@@ -10,7 +10,6 @@ import net.minecraft.block.enums.Instrument;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.fluid.EmptyFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -31,9 +30,9 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-public class KnowledgeProxy {
+public class ModProxy {
     public static boolean hitResultNotAir(HitResult hitResult) {
-        return hitResult != null && (hitResult.getType() != HitResult.Type.MISS || KnowledgeProxy.getFluidStateNonEmpty(hitResult).isPresent());
+        return hitResult != null && (hitResult.getType() != HitResult.Type.MISS || getFluidStateNonEmpty(hitResult).isPresent());
     }
 
     public static Identifier getId(Block block) {

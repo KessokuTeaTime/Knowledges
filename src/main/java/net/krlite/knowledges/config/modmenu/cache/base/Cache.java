@@ -1,4 +1,4 @@
-package net.krlite.knowledges.config.modmenu.cache;
+package net.krlite.knowledges.config.modmenu.cache.base;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;

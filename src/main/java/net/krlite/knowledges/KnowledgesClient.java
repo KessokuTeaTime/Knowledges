@@ -7,11 +7,7 @@ import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.entrypoint.ComponentProvider;
-import net.krlite.knowledges.api.entrypoint.DataProvider;
-import net.krlite.knowledges.config.KnowledgesClientConfig;
+import net.krlite.knowledges.config.ClientConfig;
 import net.krlite.knowledges.impl.component.base.InfoComponent;
 import net.krlite.knowledges.manager.ComponentManager;
 import net.krlite.knowledges.manager.DataManager;
@@ -30,25 +26,26 @@ import static net.krlite.knowledges.api.core.localization.Localizable.Separator.
 public class KnowledgesClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + "-client");
 
-    public static final ConfigHolder<KnowledgesClientConfig> CONFIG;
-    public static final KnowledgesClientConfig DEFAULT_CONFIG = new KnowledgesClientConfig();
+    public static final ConfigHolder<ClientConfig> CONFIG;
+    public static final ClientConfig DEFAULT_CONFIG = new ClientConfig();
 
     static {
-        AutoConfig.register(KnowledgesClientConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
-        CONFIG = AutoConfig.getConfigHolder(KnowledgesClientConfig.class);
+        AutoConfig.register(ClientConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new));
+        CONFIG = AutoConfig.getConfigHolder(ClientConfig.class);
 
-        CONFIG.registerLoadListener((configHolder, knowledgesClientConfig) -> {
-            Manager.fixKeysAndSort(knowledgesClientConfig.components.available);
-            Manager.fixKeysAndSort(knowledgesClientConfig.data.available);
+        CONFIG.registerLoadListener((configHolder, clientConfig) -> {
+            Manager.fixKeysAndSort(clientConfig.components.available);
+            Manager.fixKeysAndSort(clientConfig.data.available);
 
             return ActionResult.PASS;
         });
     }
 
+    public static final KnowledgesHud HUD = new KnowledgesHud();
+
+    // Managers
     public static final ComponentManager COMPONENTS = new ComponentManager();
     public static final DataManager DATA = new DataManager();
-
-    public static final KnowledgesHud HUD = new KnowledgesHud();
 
     @Override
     public void onInitializeClient() {
@@ -57,71 +54,6 @@ public class KnowledgesClient implements ClientModInitializer {
 
         InfoComponent.Animation.registerEvents();
         new ClientNetworking().register();
-
-        /*
-        // Components
-        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, ComponentProvider.class).forEach(entrypoint -> {
-            ComponentProvider<?> provider = entrypoint.getEntrypoint();
-            var classes = provider.provide();
-            if (classes.isEmpty()) return;
-
-            ModContainer mod = entrypoint.getProvider();
-            String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
-
-            LOGGER.info(String.format(
-                    "Registering %d %s for %s...",
-                    classes.size(),
-                    classes.size() <= 1 ? "knowledge" : "knowledges",
-                    name
-            ));
-
-            classes.stream()
-                    .distinct()
-                    .map(clazz -> {
-                        try {
-                            return clazz.getDeclaredConstructor().newInstance();
-                        } catch (Throwable throwable) {
-                            throw new RuntimeException(String.format(
-                                    "Failed to register knowledge for %s: constructor not found",
-                                    clazz.getName()
-                            ), throwable);
-                        }
-                    })
-                    .forEach(knowledge -> COMPONENTS.register(namespace, knowledge));
-        });
-
-        // Data
-        FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + ":data", DataProvider.class).forEach(entrypoint -> {
-            DataProvider<?> provider = entrypoint.getEntrypoint();
-            var classes = provider.provide();
-            if (classes.isEmpty()) return;
-
-            ModContainer mod = entrypoint.getProvider();
-            String namespace = mod.getMetadata().getId(), name = mod.getMetadata().getName();
-
-            LOGGER.info(String.format(
-                    "Registering %d %s for %s...",
-                    classes.size(),
-                    "data",
-                    name
-            ));
-
-            classes.stream()
-                    .distinct()
-                    .map(clazz -> {
-                        try {
-                            return clazz.getDeclaredConstructor().newInstance();
-                        } catch (Throwable throwable) {
-                            throw new RuntimeException(String.format(
-                                    "Failed to register knowledge data for %s: constructor not found",
-                                    clazz.getName()
-                            ), throwable);
-                        }
-                    })
-                    .forEach(data -> DATA.register(namespace, data));
-        });
-
-         */
 
         EntrypointInvoker.COMPONENT.invoke(COMPONENTS::register);
         EntrypointInvoker.DATA.invoke(DATA::register);

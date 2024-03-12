@@ -2,6 +2,7 @@ package net.krlite.knowledges.impl.component;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.equator.math.algebra.Curves;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.math.geometry.flat.Box;
@@ -150,7 +151,7 @@ public class CrosshairComponent implements Knowledge {
     }
 
     @Override
-    public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+    public Function<ConfigEntryBuilder, List<FieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return entryBuilder -> List.of(
                 entryBuilder.startEnumSelector(
                                 localizeForConfig("ring_shape"),
@@ -173,6 +174,8 @@ public class CrosshairComponent implements Knowledge {
                         .setTooltip(localizeTooltipForConfig("cursor_ring_outline"))
                         .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.cursorRingOutlineEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
+
+                KnowledgesConfigScreen.separatorBuilder(),
 
                 entryBuilder.startBooleanToggle(
                                 localizeForConfig("texts_right"),
@@ -201,6 +204,7 @@ public class CrosshairComponent implements Knowledge {
                         .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.subtitlesEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
 
+                KnowledgesConfigScreen.separatorBuilder(),
 
                 entryBuilder.startIntSlider(
                                 localizeForConfig("primary_opacity"),

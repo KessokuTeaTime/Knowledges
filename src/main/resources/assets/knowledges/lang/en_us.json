@@ -20,14 +20,14 @@
 
   "config.knowledges.category.components": "Components",
 
-  "config.knowledges.components.suffix.default": " (Default)",
+  "config.knowledges.components.default": "Default",
 
   "config.knowledges.category.data": "Data",
 
   "config.knowledges.data.classifier": "§8- Knowledge: %s",
   "config.knowledges.data.footnote"  : "§8Knowledge: %1$s\n§8Data Callback: %2$s",
 
-  "config.knowledges.data.suffix.default": " (Default)",
+  "config.knowledges.data.default": "Default",
 
   "config.knowledges.separator.global"    : " Global > ",
   "config.knowledges.separator.components": " Components > ",
@@ -80,145 +80,151 @@
 
 
 
-  "knowledge/knowledges:crosshair:name"   : "Crosshair",
-  "knowledge/knowledges:crosshair:tooltip": "Indicates whether you are looking at something\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill be invisible",
+  "knowledges:component/knowledges:crosshair:name"   : "Crosshair",
+  "knowledges:component/knowledges:crosshair:tooltip": "Indicates whether you are looking at something\n§cIf disabled, information such as §lblock breaking progress §r§cand §lentity health §r§cwill be invisible",
 
-  "knowledge/knowledges:crosshair:config/ring_shape": "Ring Shape",
+  "knowledges:component/knowledges:crosshair:config/ring_shape": "Ring Shape",
 
-  "knowledge/knowledges:crosshair:config/cursor_ring_outline"        : "Cursor Ring Outline",
-  "knowledge/knowledges:crosshair:config/cursor_ring_outline.tooltip": "Whether to display an opaque ring outline around the crosshair ring",
+  "knowledges:component/knowledges:crosshair:config/cursor_ring_outline"        : "Cursor Ring Outline",
+  "knowledges:component/knowledges:crosshair:config/cursor_ring_outline.tooltip": "Whether to display an opaque ring outline around the crosshair ring",
 
-  "knowledge/knowledges:crosshair:config/texts_right"        : "Right Sided Texts",
-  "knowledge/knowledges:crosshair:config/texts_right.tooltip": "Whether to display the texts placed against the right side of the crosshair",
+  "knowledges:component/knowledges:crosshair:config/texts_right"        : "Right Sided Texts",
+  "knowledges:component/knowledges:crosshair:config/texts_right.tooltip": "Whether to display the texts placed against the right side of the crosshair",
 
-  "knowledge/knowledges:crosshair:config/texts_left"        : "Left Sided Texts",
-  "knowledge/knowledges:crosshair:config/texts_left.tooltip": "Whether to display the texts placed against the left side of the crosshair",
+  "knowledges:component/knowledges:crosshair:config/texts_left"        : "Left Sided Texts",
+  "knowledges:component/knowledges:crosshair:config/texts_left.tooltip": "Whether to display the texts placed against the left side of the crosshair",
 
-  "knowledge/knowledges:crosshair:config/subtitles"        : "Subtitles",
-  "knowledge/knowledges:crosshair:config/subtitles.tooltip": "Whether to display the descriptive texts that are above or below the crosshair texts",
+  "knowledges:component/knowledges:crosshair:config/subtitles"        : "Subtitles",
+  "knowledges:component/knowledges:crosshair:config/subtitles.tooltip": "Whether to display the descriptive texts that are above or below the crosshair texts",
 
-  "knowledge/knowledges:info:name"   : "Info",
-  "knowledge/knowledges:info:tooltip": "Displays information about the cursor target\n§cIf disabled, components such as §lBlock Info §r§cand §lEntity Info §r§cwill no longer work",
+  "knowledges:component/knowledges:crosshair:config/primary_opacity"        : "Primary Opacity",
+  "knowledges:component/knowledges:crosshair:config/primary_opacity.tooltip": "Controls the display opacity of primary information around the cursor",
 
-  "knowledge/knowledges:info/block:name"   : "Block Info",
-  "knowledge/knowledges:info/block:tooltip": "Displays information about the block you are looking at",
+  "knowledges:component/knowledges:crosshair:config/secondary_opacity"        : "Secondary Opacity",
+  "knowledges:component/knowledges:crosshair:config/secondary_opacity.tooltip": "Controls the display opacity of secondary information around the cursor",
 
-  "knowledge/knowledges:info/block:mining_level"  : "Mining Level %1$d",
-  "knowledge/knowledges:info/block:mining_level.1": "Stone",
-  "knowledge/knowledges:info/block:mining_level.2": "Iron",
-  "knowledge/knowledges:info/block:mining_level.3": "Diamond",
-  "knowledge/knowledges:info/block:mining_level.4": "Netherite",
+  "knowledges:component/knowledges:info:name"   : "Info",
+  "knowledges:component/knowledges:info:tooltip": "Displays information about the cursor target\n§cIf disabled, components such as §lBlock Info §r§cand §lEntity Info §r§cwill no longer work",
 
-  "knowledge/knowledges:info/block:tool.unbreakable"              : "Unbreakable",
-  "knowledge/knowledges:info/block:tool"                          : "%1$s",
-  "knowledge/knowledges:info/block:tool_and_mining_level_semantic": "%2$s %1$s",
-  "knowledge/knowledges:info/block:tool_and_mining_level"         : "%1$s §7with %2$s",
+  "knowledges:component/knowledges:info/block:name"   : "Block Info",
+  "knowledges:component/knowledges:info/block:tooltip": "Displays information about the block you are looking at",
 
-  "knowledge/knowledges:info/block:powered": "Powered",
+  "knowledges:component/knowledges:info/block:mining_level"  : "Mining Level %1$d",
+  "knowledges:component/knowledges:info/block:mining_level.1": "Stone",
+  "knowledges:component/knowledges:info/block:mining_level.2": "Iron",
+  "knowledges:component/knowledges:info/block:mining_level.3": "Diamond",
+  "knowledges:component/knowledges:info/block:mining_level.4": "Netherite",
 
-  "knowledge/knowledges:info/block:config/block_powered_status"        : "Block Powered Status",
-  "knowledge/knowledges:info/block:config/block_powered_status.tooltip": "Whether to display if blocks are powered by redstone",
+  "knowledges:component/knowledges:info/block:tool.unbreakable"              : "Unbreakable",
+  "knowledges:component/knowledges:info/block:tool"                          : "%1$s",
+  "knowledges:component/knowledges:info/block:tool_and_mining_level_semantic": "%2$s %1$s",
+  "knowledges:component/knowledges:info/block:tool_and_mining_level"         : "%1$s §7with %2$s",
 
-  "knowledge/knowledges:info/entity:name"   : "Entity Info",
-  "knowledge/knowledges:info/entity:tooltip": "Displays information about the entity you are looking at",
+  "knowledges:component/knowledges:info/block:powered": "Powered",
 
-  "knowledge/knowledges:info/entity:config/numeric_health"        : "Numeric Health",
-  "knowledge/knowledges:info/entity:config/numeric_health.tooltip": "Whether to display the target entity's health numerically above the crosshair",
+  "knowledges:component/knowledges:info/block:config/block_powered_status"        : "Block Powered Status",
+  "knowledges:component/knowledges:info/block:config/block_powered_status.tooltip": "Whether to display if blocks are powered by redstone",
 
-  "knowledge/knowledges:info/fluid:name"   : "Fluid Info",
-  "knowledge/knowledges:info/fluid:tooltip": "Displays information about the fluid you are looking at",
+  "knowledges:component/knowledges:info/entity:name"   : "Entity Info",
+  "knowledges:component/knowledges:info/entity:tooltip": "Displays information about the entity you are looking at",
 
-  "knowledge/knowledges:info/fluid:level": "§7Volume: §r%1$d",
+  "knowledges:component/knowledges:info/entity:config/numeric_health"        : "Numeric Health",
+  "knowledges:component/knowledges:info/entity:config/numeric_health.tooltip": "Whether to display the target entity's health numerically above the crosshair",
 
-  "knowledge/knowledges:info/fluid:config/ignores_water"       : "Ignores Water",
-  "knowledge/knowledges:info/fluid:config/ignores_lava"        : "Ignores Lava",
-  "knowledge/knowledges:info/fluid:config/ignores_other_fluids": "Ignores Other Fluids",
+  "knowledges:component/knowledges:info/fluid:name"   : "Fluid Info",
+  "knowledges:component/knowledges:info/fluid:tooltip": "Displays information about the fluid you are looking at",
 
-  "knowledge/knowledges:armor_durability:name"   : "Armor Durability",
-  "knowledge/knowledges:armor_durability:tooltip": "Displays the durability of your armor around the screen corner",
+  "knowledges:component/knowledges:info/fluid:level": "§7Volume: §r%1$d",
+
+  "knowledges:component/knowledges:info/fluid:config/ignores_water"       : "Ignores Water",
+  "knowledges:component/knowledges:info/fluid:config/ignores_lava"        : "Ignores Lava",
+  "knowledges:component/knowledges:info/fluid:config/ignores_other_fluids": "Ignores Other Fluids",
+
+  "knowledges:component/knowledges:armor_durability:name"   : "Armor Durability",
+  "knowledges:component/knowledges:armor_durability:tooltip": "Displays the durability of your armor around the screen corner",
 
 
 
-  "knowledge_data/knowledges:info/block//mineable_tool:name"   : "Mineable Tool",
-  "knowledge_data/knowledges:info/block//mineable_tool:tooltip": "Provides information about the most appropriate mineable tool for blocks",
+  "knowledges:data/knowledges:info/block//mineable_tool:name"   : "Mineable Tool",
+  "knowledges:data/knowledges:info/block//mineable_tool:tooltip": "Provides information about the most appropriate mineable tool for blocks",
 
-  "knowledge_data/knowledges:info/block//mineable_tool:pickaxe": "Pickaxes",
-  "knowledge_data/knowledges:info/block//mineable_tool:axe"    : "Axes",
-  "knowledge_data/knowledges:info/block//mineable_tool:hoe"    : "Hoes",
-  "knowledge_data/knowledges:info/block//mineable_tool:shovel" : "Shovels",
+  "knowledges:data/knowledges:info/block//mineable_tool:pickaxe": "Pickaxes",
+  "knowledges:data/knowledges:info/block//mineable_tool:axe"    : "Axes",
+  "knowledges:data/knowledges:info/block//mineable_tool:hoe"    : "Hoes",
+  "knowledges:data/knowledges:info/block//mineable_tool:shovel" : "Shovels",
 
-  "knowledge_data/knowledges:info/block//block_information/note_block:name"   : "Note Block Information",
-  "knowledge_data/knowledges:info/block//block_information/note_block:tooltip": "Provides information about note blocks' timbres and their pitches in various of musical alphabets",
+  "knowledges:data/knowledges:info/block//block_information/note_block:name"   : "Note Block Information",
+  "knowledges:data/knowledges:info/block//block_information/note_block:tooltip": "Provides information about note blocks' timbres and their pitches in various of musical alphabets",
 
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/note_modifiers"        : "Note Modifiers",
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/note_modifiers.tooltip": "How the black notes are presented",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/note_modifiers"        : "Note Modifiers",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/note_modifiers.tooltip": "How the black notes are presented",
 
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/musical_alphabet"        : "Musical Alphabet",
-  "knowledge_data/knowledges:info/block//block_information/note_block:config/musical_alphabet.tooltip": "How the note names are presented",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/musical_alphabet"        : "Musical Alphabet",
+  "knowledges:data/knowledges:info/block//block_information/note_block:config/musical_alphabet.tooltip": "How the note names are presented",
 
-  "knowledge_data/knowledges:info/block//block_information/banner:name"   : "Banner Information",
-  "knowledge_data/knowledges:info/block//block_information/banner:tooltip": "Provides information about banners",
+  "knowledges:data/knowledges:info/block//block_information/banner:name"   : "Banner Information",
+  "knowledges:data/knowledges:info/block//block_information/banner:tooltip": "Provides information about banners",
 
-  "knowledge_data/knowledges:info/block//block_information/banner:pattern"         : "%1$s",
-  "knowledge_data/knowledges:info/block//block_information/banner:more_patterns"   : "§r%1$s §7and %2$d More",
-  "knowledge_data/knowledges:info/block//block_information/banner:one_more_pattern": "§r%1$s §7and 1 More",
+  "knowledges:data/knowledges:info/block//block_information/banner:pattern"         : "%1$s",
+  "knowledges:data/knowledges:info/block//block_information/banner:more_patterns"   : "§r%1$s §7and %2$d More",
+  "knowledges:data/knowledges:info/block//block_information/banner:one_more_pattern": "§r%1$s §7and 1 More",
 
-  "knowledge_data/knowledges:info/block//block_information/composter:name"   : "Composter Information",
-  "knowledge_data/knowledges:info/block//block_information/composter:tooltip": "Provides information about composters' composition levels",
+  "knowledges:data/knowledges:info/block//block_information/composter:name"   : "Composter Information",
+  "knowledges:data/knowledges:info/block//block_information/composter:tooltip": "Provides information about composters' composition levels",
 
-  "knowledge_data/knowledges:info/block//block_information/composter:level": "§7Level: §r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/block//block_information/composter:level": "§7Level: §r%1$s §7/ %2$s",
 
-  "knowledge_data/knowledges:info/block//block_information/redstone_wire:name"   : "Redstone Wire Information",
-  "knowledge_data/knowledges:info/block//block_information/redstone_wire:tooltip": "Provides information about redstone wires' powers",
+  "knowledges:data/knowledges:info/block//block_information/redstone_wire:name"   : "Redstone Wire Information",
+  "knowledges:data/knowledges:info/block//block_information/redstone_wire:tooltip": "Provides information about redstone wires' powers",
 
-  "knowledge_data/knowledges:info/block//block_information/redstone_wire:power": "§7Power: §r%1$s",
+  "knowledges:data/knowledges:info/block//block_information/redstone_wire:power": "§7Power: §r%1$s",
 
-  "knowledge_data/knowledges:info/block//block_information/crop:name"   : "Crop Information",
-  "knowledge_data/knowledges:info/block//block_information/crop:tooltip": "Provides information about crops' ages",
+  "knowledges:data/knowledges:info/block//block_information/crop:name"   : "Crop Information",
+  "knowledges:data/knowledges:info/block//block_information/crop:tooltip": "Provides information about crops' ages",
 
-  "knowledge_data/knowledges:info/block//block_information/crop:mature": "Mature",
-  "knowledge_data/knowledges:info/block//block_information/crop:age"   : "§7Age: §r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/block//block_information/crop:mature": "Mature",
+  "knowledges:data/knowledges:info/block//block_information/crop:age"   : "§7Age: §r%1$s §7/ %2$s",
 
-  "knowledge_data/knowledges:info/block//block_information/sapling:name"   : "Sapling Information",
-  "knowledge_data/knowledges:info/block//block_information/sapling:tooltip": "Provides information about saplings' stages",
+  "knowledges:data/knowledges:info/block//block_information/sapling:name"   : "Sapling Information",
+  "knowledges:data/knowledges:info/block//block_information/sapling:tooltip": "Provides information about saplings' stages",
 
-  "knowledge_data/knowledges:info/block//block_information/sapling:stage": "§7Stage: §r%1$s",
+  "knowledges:data/knowledges:info/block//block_information/sapling:stage": "§7Stage: §r%1$s",
 
-  "knowledge_data/knowledges:info/block//block_information/beehive:name"   : "Beehive and Bee Nest Information",
-  "knowledge_data/knowledges:info/block//block_information/beehive:tooltip": "Provides information about beehives and bee nests",
+  "knowledges:data/knowledges:info/block//block_information/beehive:name"   : "Beehive and Bee Nest Information",
+  "knowledges:data/knowledges:info/block//block_information/beehive:tooltip": "Provides information about beehives and bee nests",
 
-  "knowledge_data/knowledges:info/block//block_information/beehive:honey_level"    : "§7Honey Level: §r%1$s §7/ %2$s",
-  "knowledge_data/knowledges:info/block//block_information/beehive:bee_count"      : "§7Bee Count: §r%1$s",
-  "knowledge_data/knowledges:info/block//block_information/beehive:bee_count.empty": "No Bees",
+  "knowledges:data/knowledges:info/block//block_information/beehive:honey_level"    : "§7Honey Level: §r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/block//block_information/beehive:bee_count"      : "§7Bee Count: §r%1$s",
+  "knowledges:data/knowledges:info/block//block_information/beehive:bee_count.empty": "No Bees",
 
-  "knowledge_data/knowledges:info/entity//entity_information/painting:name"   : "Painting Information",
-  "knowledge_data/knowledges:info/entity//entity_information/painting:tooltip": "Provides information about paintings",
+  "knowledges:data/knowledges:info/entity//entity_information/painting:name"   : "Painting Information",
+  "knowledges:data/knowledges:info/entity//entity_information/painting:tooltip": "Provides information about paintings",
 
-  "knowledge_data/knowledges:info/entity//entity_information/item_frame:name"   : "Item Frame Information",
-  "knowledge_data/knowledges:info/entity//entity_information/item_frame:tooltip": "Provides information about the items inside item frames",
+  "knowledges:data/knowledges:info/entity//entity_information/item_frame:name"   : "Item Frame Information",
+  "knowledges:data/knowledges:info/entity//entity_information/item_frame:tooltip": "Provides information about the items inside item frames",
 
-  "knowledge_data/knowledges:info/entity//entity_information/villager:name"   : "Villager Information",
-  "knowledge_data/knowledges:info/entity//entity_information/villager:tooltip": "Provides basic information about villagers",
+  "knowledges:data/knowledges:info/entity//entity_information/villager:name"   : "Villager Information",
+  "knowledges:data/knowledges:info/entity//entity_information/villager:tooltip": "Provides basic information about villagers",
 
-  "knowledge_data/knowledges:info/entity//entity_information/villager:profession_and_level": "§7Level %2$d §r%1$s",
+  "knowledges:data/knowledges:info/entity//entity_information/villager:profession_and_level": "§7Level %2$d §r%1$s",
 
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:name"   : "Item Frame Description",
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:tooltip": "Provides descriptions about the properties of the items inside item frames",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:name"   : "Item Frame Description",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:tooltip": "Provides descriptions about the properties of the items inside item frames",
 
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:durability": "§7Durability: §r%1$s §7/ %2$s",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:durability": "§7Durability: §r%1$s §7/ %2$s",
 
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:enchantment"         : "%1$s",
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:enchantment.more"    : "§r%1$s §7and %2$d More Enchantments",
-  "knowledge_data/knowledges:info/entity//entity_description/item_frame:enchantment.one_more": "§r%1$s §7and 1 More Enchantment",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:enchantment"         : "%1$s",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:enchantment.more"    : "§r%1$s §7and %2$d More Enchantments",
+  "knowledges:data/knowledges:info/entity//entity_description/item_frame:enchantment.one_more": "§r%1$s §7and 1 More Enchantment",
 
-  "knowledge_data/knowledges:info/entity//entity_description/villager:name"   : "Villager Description",
-  "knowledge_data/knowledges:info/entity//entity_description/villager:tooltip": "Provides descriptions about the properties of villagers",
+  "knowledges:data/knowledges:info/entity//entity_description/villager:name"   : "Villager Description",
+  "knowledges:data/knowledges:info/entity//entity_description/villager:tooltip": "Provides descriptions about the properties of villagers",
 
-  "knowledge_data/knowledges:info/entity//entity_description/villager:reputation": "§7Reputation: §r%1$d",
+  "knowledges:data/knowledges:info/entity//entity_description/villager:reputation": "§7Reputation: §r%1$d",
 
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:name"   : "Animal Owner",
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:tooltip": "Provides the owners' names of animals if possible",
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:name"   : "Animal Owner",
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:tooltip": "Provides the owners' names of animals if possible",
 
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:owner"     : "§7Owner: §r%1$s",
-  "knowledge_data/knowledges:info/entity//entity_description/animal_owner:owner.none": "Wild"
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:owner"     : "§7Owner: §r%1$s",
+  "knowledges:data/knowledges:info/entity//entity_description/animal_owner:owner.none": "Wild"
 }

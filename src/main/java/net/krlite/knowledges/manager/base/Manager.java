@@ -3,9 +3,10 @@ package net.krlite.knowledges.manager.base;
 import com.google.common.collect.ImmutableList;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
-import net.krlite.knowledges.api.core.path.WithPath;
 import net.krlite.knowledges.Util;
+import net.krlite.knowledges.api.core.path.WithPath;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -20,7 +21,8 @@ public abstract class Manager<T extends WithPath> {
         this.configSupplier = configSupplier;
     }
 
-    protected abstract String localizationPrefix();
+    @NotNull
+    protected abstract EntrypointInvoker entrypoint();
 
     public static <V> void fixKeysAndSort(Map<String, V> config) {
         // This fixes a Toml4j issue
@@ -82,7 +84,7 @@ public abstract class Manager<T extends WithPath> {
 
     public String localizationKey(T t, String... paths) {
         String namespace = namespace(t).orElse(KnowledgesCommon.ID);
-        return localizationPrefix() + RANK + namespace + REALM + String.join(KEY.toString(), paths);
+        return entrypoint().entrypointPath() + RANK + namespace + REALM + String.join(KEY.toString(), paths);
     }
 
     public boolean isInNamespace(T t, String namespace) {

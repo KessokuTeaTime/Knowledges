@@ -1,7 +1,7 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
 import net.krlite.knowledges.Util;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.base.block.BlockInformationData;
 import net.krlite.knowledges.impl.contract.block.BeehiveContract;
@@ -49,7 +49,7 @@ public class BeehiveBlockInformationData extends BlockInformationData {
 
     @Override
     public @NotNull String partialPath() {
-        return KnowledgeProxy.getId(Blocks.BEEHIVE).getPath();
+        return ModProxy.getId(Blocks.BEEHIVE).getPath();
     }
 
     @Override

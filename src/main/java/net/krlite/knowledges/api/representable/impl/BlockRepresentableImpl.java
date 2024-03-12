@@ -2,7 +2,7 @@ package net.krlite.knowledges.api.representable.impl;
 
 import com.google.common.base.Suppliers;
 import net.krlite.knowledges.KnowledgesCommon;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.representable.impl.base.RepresentableImpl;
 import net.minecraft.block.Block;
@@ -77,7 +77,7 @@ public class BlockRepresentableImpl extends RepresentableImpl<BlockHitResult> im
             compound.putInt("x", pos.getX());
             compound.putInt("y", pos.getY());
             compound.putInt("z", pos.getZ());
-            compound.putString("id", KnowledgeProxy.getId(blockEntity.get().getType()).toString());
+            compound.putString("id", ModProxy.getId(blockEntity.get().getType()).toString());
 
             responseSender.accept(compound);
         });

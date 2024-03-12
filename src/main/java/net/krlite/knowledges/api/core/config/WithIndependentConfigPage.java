@@ -2,6 +2,7 @@ package net.krlite.knowledges.api.core.config;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface WithIndependentConfigPage {
         return false;
     }
 
-    default Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+    default Function<ConfigEntryBuilder, List<FieldBuilder<?, ?, ?>>> buildConfigEntries() {
         return configEntryBuilder -> new ArrayList<>();
     }
 }

@@ -7,11 +7,13 @@ import me.shedaniel.clothconfig2.api.Requirement;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.TextDescriptionBuilder;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
@@ -114,6 +116,10 @@ public class KnowledgesConfigScreen {
         return localize(ArrayUtils.add(paths, "tooltip"));
     }
 
+    public static TextDescriptionBuilder separatorBuilder() {
+        return new TextDescriptionBuilder(Text.empty(), Text.empty(), Text.literal(" "));
+    }
+
     public Screen build() {
         return configBuilder.build();
     }
@@ -149,6 +155,8 @@ public class KnowledgesConfigScreen {
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
+
+        category.addEntry(separatorBuilder().build());
 
         category.addEntry(
                 entryBuilder.startBooleanToggle(
@@ -199,9 +207,9 @@ public class KnowledgesConfigScreen {
 
         if (!KnowledgesClient.COMPONENTS.asMap().isEmpty()) {
             KnowledgesClient.COMPONENTS.asMap().forEach((namespace, components) -> {
-                MutableText name = KnowledgeProxy.getModName(namespace);
+                MutableText name = ModProxy.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
-                if (isInDefaultNamespace) name.append(localize("components", "suffix", "default"));
+                if (isInDefaultNamespace) name = localize("components", "default");
 
                 category.addEntry(entryBuilder.startSubCategory(
                         name,
@@ -223,9 +231,9 @@ public class KnowledgesConfigScreen {
 
         if (!KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
             KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
-                MutableText name = KnowledgeProxy.getModName(namespace);
+                MutableText name = ModProxy.getModName(namespace);
                 boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
-                if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
+                if (isInDefaultNamespace) name = localize("data", "default");
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
@@ -287,7 +295,7 @@ public class KnowledgesConfigScreen {
             );
 
             t.buildConfigEntries().apply(entryBuilder).stream()
-                    .map(AbstractFieldBuilder::build)
+                    .map(FieldBuilder::build)
                     .forEach(category::addEntry);
         });
     }

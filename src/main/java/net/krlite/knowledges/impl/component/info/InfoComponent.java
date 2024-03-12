@@ -9,7 +9,7 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.base.Representable;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class InfoComponent extends net.krlite.knowledges.impl.component.base.InfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
-        if (!KnowledgeProxy.hitResultNotAir(representable.hitResult())) reset();
+        if (!ModProxy.hitResultNotAir(representable.hitResult())) reset();
 
         Box textsRight = FrameInfo.scaled()
                 .leftCenter(LayoutProxy.crosshairSafeArea().rightCenter())

@@ -2,13 +2,14 @@ package net.krlite.knowledges.impl.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.data.transfer.DataInvoker;
 import net.krlite.knowledges.api.data.transfer.DataProtocol;
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.representable.base.Representable;
@@ -94,8 +95,8 @@ public class BlockInfoComponent extends InfoComponent {
 			boolean harvestable = hardness >= 0 && player.canHarvest(blockState);
 
 			String
-					namespace = KnowledgeProxy.getNamespace(blockState.getBlock().asItem().getDefaultStack()),
-					path = KnowledgeProxy.getId(blockState.getBlock()).getPath();
+					namespace = ModProxy.getNamespace(blockState.getBlock().asItem().getDefaultStack()),
+					path = ModProxy.getId(blockState.getBlock()).getPath();
 
 			boolean resetBlockBreakingProgress = !Animation.Contextual.cancelledBlockBreaking() && Animation.Contextual.rawBlockBreakingProgress() < Animation.Ring.blockBreakingProgress();
 			Animation.Ring.blockBreakingProgress(Animation.Contextual.rawBlockBreakingProgress(), resetBlockBreakingProgress);
@@ -109,7 +110,7 @@ public class BlockInfoComponent extends InfoComponent {
 			// Titles
 			titles: {
 				Animation.Text.titleRight(blockName);
-				Animation.Text.titleLeft(KnowledgeProxy.getModName(namespace));
+				Animation.Text.titleLeft(ModProxy.getModName(namespace));
 			}
 
 			// Right Above
@@ -196,7 +197,7 @@ public class BlockInfoComponent extends InfoComponent {
 	}
 
 	@Override
-	public Function<ConfigEntryBuilder, List<AbstractFieldBuilder<?, ?, ?>>> buildConfigEntries() {
+	public Function<ConfigEntryBuilder, List<FieldBuilder<?, ?, ?>>> buildConfigEntries() {
 		return entryBuilder -> List.of(
 				entryBuilder.startBooleanToggle(
 								localizeForConfig("block_powered_status"),

@@ -1,6 +1,6 @@
 package net.krlite.knowledges.impl.contract.block;
 
-import net.krlite.knowledges.api.proxy.KnowledgeProxy;
+import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.api.contract.BlockContract;
 import net.krlite.knowledges.api.contract.caster.NbtCompoundCaster;
@@ -30,6 +30,6 @@ public class ChiseledBookshelfContract implements BlockContract {
 
     @Override
     public @NotNull String partialPath() {
-        return KnowledgeProxy.getId(Blocks.CHISELED_BOOKSHELF).getPath();
+        return ModProxy.getId(Blocks.CHISELED_BOOKSHELF).getPath();
     }
 }
