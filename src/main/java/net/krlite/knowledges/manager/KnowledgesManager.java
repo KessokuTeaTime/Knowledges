@@ -3,9 +3,8 @@ package net.krlite.knowledges.manager;
 import com.google.common.collect.ImmutableList;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
-import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
@@ -38,7 +37,7 @@ public abstract class KnowledgesManager<T extends WithPath> {
     }
 
     public void register(String namespace, T t) {
-        Shortcuts.Map.fastMerge(map, namespace, t);
+        Util.Map.fastMerge(map, namespace, t);
         identifier(t).ifPresent(key -> configSupplier.get().putIfAbsent(key.toString(), true));
     }
 

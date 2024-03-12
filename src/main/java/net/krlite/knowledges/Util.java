@@ -6,12 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-public class Shortcuts {
+public class Util {
     public static class Map {
         public static <K, V> java.util.List<V> fastMerge(HashMap<K, java.util.List<V>> hashMap, K key, V value) {
             return hashMap.merge(

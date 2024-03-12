@@ -12,7 +12,7 @@ import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.api.core.path.WithPartialPath;
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.animation.InterpolatedText;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
@@ -150,7 +150,7 @@ public abstract class AbstractInfoComponent implements Knowledge, WithPartialPat
 			}
 
 			public static AccurateColor ringColor() {
-				return ringColor.value().opacity(0.5 * Shortcuts.Math.mapToPower(ringArc() / (2 * Math.PI), 2, 0.15));
+				return ringColor.value().opacity(0.5 * Util.Math.mapToPower(ringArc() / (2 * Math.PI), 2, 0.15));
 			}
 
 			public static void ringColor(AccurateColor color) {

@@ -1,10 +1,8 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
-import net.krlite.knowledges.api.tag.caster.NbtBooleanCaster;
-import net.krlite.knowledges.api.tag.caster.NbtByteCaster;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
 import net.krlite.knowledges.impl.tag.block.BeehiveTag;
 import net.minecraft.block.BeehiveBlock;
@@ -42,7 +40,7 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                     if (full) beeCountText.set(localize("bee_count", "full"));
                 });
 
-                return Shortcuts.Text.combineToMultiline(honeyLevelText, beeCountText.get());
+                return Util.Text.combineToMultiline(honeyLevelText, beeCountText.get());
             }
 
             return Optional.empty();

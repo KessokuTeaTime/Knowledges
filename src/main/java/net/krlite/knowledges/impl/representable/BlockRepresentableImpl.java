@@ -22,11 +22,11 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockHitResult> implements BlockRepresentable {
+public class BlockRepresentableImpl extends RepresentableImpl<BlockHitResult> implements BlockRepresentable {
     private final BlockState blockState;
     private final Supplier<BlockEntity> blockEntitySupplier;
 
-    public KnowledgesBlockRepresentable(Builder builder) {
+    public BlockRepresentableImpl(Builder builder) {
         super(builder);
         this.blockState = builder.blockState;
         this.blockEntitySupplier = builder.blockEntitySupplier;
@@ -58,7 +58,7 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
     }
 
     public static void onRequest(PacketByteBuf buf, ServerPlayerEntity player, Consumer<Runnable> executor, Consumer<NbtCompound> responseSender) {
-        KnowledgesBlockRepresentable representable = Builder.from(buf, player).build();
+        BlockRepresentableImpl representable = Builder.from(buf, player).build();
         executor.accept(() -> {
             BlockPos pos = representable.blockPos();
             ServerWorld world = player.getServerWorld();
@@ -88,7 +88,7 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
         buf.writeVarInt(Block.getRawIdFromState(blockState()));
     }
 
-    public static final class Builder extends KnowledgesRepresentable.Builder<BlockHitResult> implements BlockRepresentable.Builder {
+    public static final class Builder extends RepresentableImpl.Builder<BlockHitResult> implements BlockRepresentable.Builder {
         private BlockState blockState = Blocks.AIR.getDefaultState();
         private Supplier<BlockEntity> blockEntitySupplier;
 
@@ -135,8 +135,8 @@ public class KnowledgesBlockRepresentable extends KnowledgesRepresentable<BlockH
         }
 
         @Override
-        public KnowledgesBlockRepresentable build() {
-            return new KnowledgesBlockRepresentable(this);
+        public BlockRepresentableImpl build() {
+            return new BlockRepresentableImpl(this);
         }
 
         public static Builder create() {

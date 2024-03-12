@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class KnowledgesComponentProvider implements ComponentProvider {
+public class ComponentProviderImpl implements ComponentProvider {
 	@Override
 	public @NotNull List<Class<? extends Knowledge>> provide() {
 		return List.of(

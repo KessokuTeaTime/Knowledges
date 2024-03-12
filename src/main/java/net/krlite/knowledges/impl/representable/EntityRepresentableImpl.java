@@ -15,10 +15,10 @@ import net.minecraft.world.World;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<EntityHitResult> implements EntityRepresentable {
+public class EntityRepresentableImpl extends RepresentableImpl<EntityHitResult> implements EntityRepresentable {
     private final Supplier<Entity> entitySupplier;
 
-    public KnowledgesEntityRepresentable(Builder builder) {
+    public EntityRepresentableImpl(Builder builder) {
         super(builder);
         this.entitySupplier = builder.entitySupplier;
     }
@@ -29,7 +29,7 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
     }
     
     public static void onRequest(PacketByteBuf buf, ServerPlayerEntity player, Consumer<Runnable> executor, Consumer<NbtCompound> responseSender) {
-        KnowledgesEntityRepresentable representable = Builder.from(buf, player).build();
+        EntityRepresentableImpl representable = Builder.from(buf, player).build();
         executor.accept(() -> {
             Entity entity = representable.entity();
             if (entity == null) return;
@@ -56,7 +56,7 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
         buf.writeDouble(hitPos.getZ());
     }
 
-    public static class Builder extends KnowledgesRepresentable.Builder<EntityHitResult> implements EntityRepresentable.Builder {
+    public static class Builder extends RepresentableImpl.Builder<EntityHitResult> implements EntityRepresentable.Builder {
         private Supplier<Entity> entitySupplier;
 
         @Override
@@ -96,8 +96,8 @@ public class KnowledgesEntityRepresentable extends KnowledgesRepresentable<Entit
         }
 
         @Override
-        public KnowledgesEntityRepresentable build() {
-            return new KnowledgesEntityRepresentable(this);
+        public EntityRepresentableImpl build() {
+            return new EntityRepresentableImpl(this);
         }
 
         public static Builder create() {

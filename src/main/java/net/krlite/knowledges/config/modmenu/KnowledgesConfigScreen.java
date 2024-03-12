@@ -16,7 +16,7 @@ import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.manager.KnowledgesManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
@@ -75,7 +75,7 @@ public class KnowledgesConfigScreen {
 
         public void register(Object object, BooleanListEntry entry) {
             ENTRY_INDEXED.put(entry, object);
-            Shortcuts.Map.fastMerge(OBJECT_INDEXED, object, entry);
+            Util.Map.fastMerge(OBJECT_INDEXED, object, entry);
         }
     }
 
@@ -186,8 +186,8 @@ public class KnowledgesConfigScreen {
                                 (allowsTooltip && data.providesTooltip()) ? data.tooltip() : Text.empty(),
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
-                                        Shortcuts.Text.withFormatting(knowledge.name(), Formatting.GRAY),
-                                        Shortcuts.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
+                                        Util.Text.withFormatting(knowledge.name(), Formatting.GRAY),
+                                        Util.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
                                 )
                         }))
                 .setSaveConsumer(value -> KnowledgesClient.DATA.setEnabled(data, value))
@@ -233,7 +233,7 @@ public class KnowledgesConfigScreen {
                     entries.add(
                             entryBuilder.startTextDescription(Text.translatable(
                                             localizationKey("data", "classifier"),
-                                            Shortcuts.Text.withFormatting(component.name(), Formatting.GRAY)
+                                            Util.Text.withFormatting(component.name(), Formatting.GRAY)
                                     ))
                                     .setTooltipSupplier(() -> !component.providesTooltip() ? Optional.empty() : Optional.of(
                                             new Text[]{component.tooltip()}

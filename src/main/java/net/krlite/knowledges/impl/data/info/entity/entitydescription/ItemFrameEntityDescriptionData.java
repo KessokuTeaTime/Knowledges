@@ -1,16 +1,13 @@
 package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 
-import net.krlite.knowledges.api.component.Knowledge;
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
 import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MusicDiscItem;
@@ -91,7 +88,7 @@ public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionDat
                     descriptionText = musicDiscItem.getDescription().setStyle(Style.EMPTY);
                 }
 
-                return Shortcuts.Text.combineToMultiline(durabilityText, enchantmentText, descriptionText);
+                return Util.Text.combineToMultiline(durabilityText, enchantmentText, descriptionText);
             }
         }
 

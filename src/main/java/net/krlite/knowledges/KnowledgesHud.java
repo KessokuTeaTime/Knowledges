@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.Representable;
-import net.krlite.knowledges.impl.representable.EmptyRepresentable;
-import net.krlite.knowledges.impl.representable.KnowledgesBlockRepresentable;
-import net.krlite.knowledges.impl.representable.KnowledgesEntityRepresentable;
+import net.krlite.knowledges.impl.representable.EmptyRepresentableImpl;
+import net.krlite.knowledges.impl.representable.BlockRepresentableImpl;
+import net.krlite.knowledges.impl.representable.EntityRepresentableImpl;
 import net.krlite.knowledges.mixin.client.InGameHudInvoker;
 import net.krlite.knowledges.networking.KnowledgesNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -96,18 +96,18 @@ public class KnowledgesHud {
 
         Representable<?> representable = null;
         if (hitResult.getType() == HitResult.Type.MISS) {
-            representable = fillBuilder(client, EmptyRepresentable.Builder.create())
+            representable = fillBuilder(client, EmptyRepresentableImpl.Builder.create())
                     .hitResult(hitResult)
                     .build();
         } else if (hitResult instanceof BlockHitResult blockHitResult) {
             BlockPos blockPos = blockHitResult.getBlockPos();
-            representable = fillBuilder(client, KnowledgesBlockRepresentable.Builder.create())
+            representable = fillBuilder(client, BlockRepresentableImpl.Builder.create())
                     .hitResult(blockHitResult)
                     .blockState(world.getBlockState(blockPos))
                     .blockEntity(world.getBlockEntity(blockPos))
                     .build();
         } else if (hitResult instanceof EntityHitResult entityHitResult) {
-            representable = fillBuilder(client, KnowledgesEntityRepresentable.Builder.create())
+            representable = fillBuilder(client, EntityRepresentableImpl.Builder.create())
                     .hitResult(entityHitResult)
                     .entity(entityHitResult.getEntity())
                     .build();

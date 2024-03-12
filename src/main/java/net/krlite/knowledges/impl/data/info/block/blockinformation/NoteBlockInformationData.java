@@ -4,7 +4,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
@@ -30,7 +30,7 @@ public class NoteBlockInformationData extends AbstractBlockInformationData {
                     KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
             );
 
-            return Shortcuts.Text.combineToMultiline(instrumentText, noteText);
+            return Util.Text.combineToMultiline(instrumentText, noteText);
         }
 
         if (representable.player().getMainHandStack().isOf(Items.NOTE_BLOCK)) {

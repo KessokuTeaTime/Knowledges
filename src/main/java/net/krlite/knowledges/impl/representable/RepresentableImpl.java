@@ -8,14 +8,14 @@ import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
-public abstract class KnowledgesRepresentable<H extends HitResult> implements Representable<H> {
+public abstract class RepresentableImpl<H extends HitResult> implements Representable<H> {
     private final Supplier<H> hitResultSupplier;
     private final World world;
     private final PlayerEntity player;
     private final NbtCompound data;
     private final boolean hasServer;
 
-    protected KnowledgesRepresentable(Supplier<H> hitResultSupplier, World world, PlayerEntity player, NbtCompound data, boolean hasServer) {
+    protected RepresentableImpl(Supplier<H> hitResultSupplier, World world, PlayerEntity player, NbtCompound data, boolean hasServer) {
         this.hitResultSupplier = hitResultSupplier;
         this.world = world;
         this.player = player;
@@ -23,7 +23,7 @@ public abstract class KnowledgesRepresentable<H extends HitResult> implements Re
         this.hasServer = hasServer;
     }
 
-    protected <B extends Builder<H>> KnowledgesRepresentable(B builder) {
+    protected <B extends Builder<H>> RepresentableImpl(B builder) {
         this(builder.hitResultSupplier, builder.world, builder.player, builder.data, builder.hasServer);
     }
 

@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.entrypoint.TagProvider;
+import net.krlite.knowledges.api.entrypoint.AdditionalTagProvider;
 import net.krlite.knowledges.config.KnowledgesCommonConfig;
 import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
 import net.krlite.knowledges.manager.KnowledgesManager;
@@ -49,8 +49,8 @@ public class KnowledgesCommon implements ModInitializer {
         new ServerNetworking().register();
 
         // Tags
-        FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", TagProvider.class).forEach(entrypoint -> {
-            TagProvider provider = entrypoint.getEntrypoint();
+        FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", AdditionalTagProvider.class).forEach(entrypoint -> {
+            AdditionalTagProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 

@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
-public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> implements Representable<HitResult> {
-    public EmptyRepresentable(Builder builder) {
+public class EmptyRepresentableImpl extends RepresentableImpl<HitResult> implements Representable<HitResult> {
+    public EmptyRepresentableImpl(Builder builder) {
         super(builder);
     }
 
@@ -24,7 +24,7 @@ public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> imple
         // Nothing to write.
     }
 
-    public static class Builder extends KnowledgesRepresentable.Builder<HitResult> implements Representable.Builder<HitResult, EmptyRepresentable, Builder> {
+    public static class Builder extends RepresentableImpl.Builder<HitResult> implements Representable.Builder<HitResult, EmptyRepresentableImpl, Builder> {
         @Override
         public Builder hitResultSupplier(Supplier<HitResult> hitResultSupplier) {
             this.hitResultSupplier = hitResultSupplier;
@@ -56,15 +56,15 @@ public class EmptyRepresentable extends KnowledgesRepresentable<HitResult> imple
         }
 
         @Override
-        public EmptyRepresentable build() {
-            return new EmptyRepresentable(this);
+        public EmptyRepresentableImpl build() {
+            return new EmptyRepresentableImpl(this);
         }
 
         public static Builder create() {
             return new Builder();
         }
 
-        public static Builder from(EmptyRepresentable representable) {
+        public static Builder from(EmptyRepresentableImpl representable) {
             return Representable.Builder.append(create(), representable);
         }
     }

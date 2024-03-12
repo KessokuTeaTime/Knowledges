@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class KnowledgesDataProvider implements DataProvider {
+public class DataProviderImpl implements DataProvider {
     @Override
     public @NotNull List<Class<? extends Data<?>>> provide() {
         return List.of(

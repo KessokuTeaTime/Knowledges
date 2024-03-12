@@ -4,16 +4,12 @@ import net.krlite.equator.math.geometry.flat.Box;
 import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
-import net.krlite.knowledges.Shortcuts;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.Representable;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,7 +63,7 @@ public class ArmorDurabilityComponent implements Knowledge {
 			} else {
 				double health = (double) itemStack.getDamage() / itemStack.getMaxDamage();
 				color = AccurateColor.fromARGB(itemStack.getItemBarColor())
-								.opacity(Shortcuts.Math.mapToPower(health, 2, 0.15));
+								.opacity(Util.Math.mapToPower(health, 2, 0.15));
 			}
 
 			renderProxy.draw(box, flat ->
