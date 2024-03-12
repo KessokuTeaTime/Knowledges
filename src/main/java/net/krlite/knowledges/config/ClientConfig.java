@@ -6,7 +6,7 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.impl.component.CrosshairComponent;
-import net.krlite.knowledges.impl.data.info.block.blockinformation.NoteBlockInformationData;
+import net.krlite.knowledges.impl.data.info.block.blockinformation.NoteBlockData;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -101,8 +101,8 @@ public class ClientConfig extends PartitioningSerializer.GlobalData {
 		public NoteBlockInformation noteBlockInformation = new NoteBlockInformation();
 
 		public static class NoteBlockInformation {
-			public NoteBlockInformationData.NoteModifier noteModifier = NoteBlockInformationData.NoteModifier.SHARPS;
-			public NoteBlockInformationData.MusicalAlphabet musicalAlphabet = NoteBlockInformationData.MusicalAlphabet.ENGLISH;
+			public NoteBlockData.NoteModifier noteModifier = NoteBlockData.NoteModifier.SHARPS;
+			public NoteBlockData.MusicalAlphabet musicalAlphabet = NoteBlockData.MusicalAlphabet.ENGLISH;
 		}
 
 		public Map<String, Boolean> available = new TreeMap<>();

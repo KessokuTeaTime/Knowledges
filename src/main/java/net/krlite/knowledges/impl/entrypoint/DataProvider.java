@@ -3,12 +3,10 @@ package net.krlite.knowledges.impl.entrypoint;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.impl.data.info.block.MineableToolData;
 import net.krlite.knowledges.impl.data.info.block.blockinformation.*;
-import net.krlite.knowledges.impl.data.info.entity.entitydescription.AnimalOwnerEntityDescriptionData;
-import net.krlite.knowledges.impl.data.info.entity.entitydescription.ItemFrameEntityDescriptionData;
-import net.krlite.knowledges.impl.data.info.entity.entitydescription.VillagerEntityDescriptionData;
-import net.krlite.knowledges.impl.data.info.entity.entityinformation.ItemFrameEntityInformationData;
-import net.krlite.knowledges.impl.data.info.entity.entityinformation.PaintingEntityInformationData;
-import net.krlite.knowledges.impl.data.info.entity.entityinformation.VillagerEntityInformationData;
+import net.krlite.knowledges.impl.data.info.entity.entitydescription.AnimalOwnerData;
+import net.krlite.knowledges.impl.data.info.entity.entityinformation.ItemFrameData;
+import net.krlite.knowledges.impl.data.info.entity.entityinformation.PaintingData;
+import net.krlite.knowledges.impl.data.info.entity.entityinformation.VillagerData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -19,21 +17,21 @@ public class DataProvider implements net.krlite.knowledges.api.entrypoint.DataPr
         return List.of(
                 MineableToolData.class,
 
-                NoteBlockInformationData.class,
-                BannerBlockInformationData.class,
-                ComposterBlockInformationData.class,
-                RedstoneWireBlockInformationData.class,
-                CropBlockInformationData.class,
-                SaplingBlockInformationData.class,
-                BeehiveBlockInformationData.class,
+                NoteBlockData.class,
+                BannerData.class,
+                ComposterData.class,
+                RedstoneWireData.class,
+                CropData.class,
+                SaplingData.class,
+                BeehiveData.class,
 
-                PaintingEntityInformationData.class,
-                ItemFrameEntityInformationData.class,
-                VillagerEntityInformationData.class,
+                PaintingData.class,
+                ItemFrameData.class,
+                VillagerData.class,
 
-                AnimalOwnerEntityDescriptionData.class,
-                ItemFrameEntityDescriptionData.class,
-                VillagerEntityDescriptionData.class
+                AnimalOwnerData.class,
+                net.krlite.knowledges.impl.data.info.entity.entitydescription.ItemFrameData.class,
+                net.krlite.knowledges.impl.data.info.entity.entitydescription.VillagerData.class
         );
     }
 }

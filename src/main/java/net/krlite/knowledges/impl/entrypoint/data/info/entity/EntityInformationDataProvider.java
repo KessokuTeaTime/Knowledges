@@ -2,9 +2,9 @@ package net.krlite.knowledges.impl.entrypoint.data.info.entity;
 
 import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.impl.data.info.base.entity.EntityInformationData;
-import net.krlite.knowledges.impl.data.info.entity.entityinformation.ItemFrameEntityInformationData;
-import net.krlite.knowledges.impl.data.info.entity.entityinformation.PaintingEntityInformationData;
-import net.krlite.knowledges.impl.data.info.entity.entityinformation.VillagerEntityInformationData;
+import net.krlite.knowledges.impl.data.info.entity.entityinformation.ItemFrameData;
+import net.krlite.knowledges.impl.data.info.entity.entityinformation.PaintingData;
+import net.krlite.knowledges.impl.data.info.entity.entityinformation.VillagerData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public class EntityInformationDataProvider implements DataProvider<EntityInforma
     @Override
     public @NotNull List<Class<? extends EntityInformationData>> provide() {
         return List.of(
-                PaintingEntityInformationData.class,
-                ItemFrameEntityInformationData.class,
-                VillagerEntityInformationData.class
+                PaintingData.class,
+                ItemFrameData.class,
+                VillagerData.class
         );
     }
 }
