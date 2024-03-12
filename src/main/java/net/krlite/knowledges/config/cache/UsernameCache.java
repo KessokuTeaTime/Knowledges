@@ -1,8 +1,8 @@
-package net.krlite.knowledges.config.modmenu.cache;
+package net.krlite.knowledges.config.cache;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.yggdrasil.ProfileResult;
-import net.krlite.knowledges.config.modmenu.cache.base.Cache;
+import net.krlite.knowledges.config.cache.base.Cache;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 

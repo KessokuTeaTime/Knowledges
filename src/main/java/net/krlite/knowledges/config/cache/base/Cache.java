@@ -1,4 +1,4 @@
-package net.krlite.knowledges.config.modmenu.cache.base;
+package net.krlite.knowledges.config.cache.base;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
@@ -6,7 +6,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

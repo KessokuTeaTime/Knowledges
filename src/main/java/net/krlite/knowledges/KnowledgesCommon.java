@@ -6,7 +6,7 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.krlite.knowledges.config.CommonConfig;
-import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
+import net.krlite.knowledges.config.cache.UsernameCache;
 import net.krlite.knowledges.manager.ContractManager;
 import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
