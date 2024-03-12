@@ -11,6 +11,8 @@ import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.data.transfer.DataInvoker;
+import net.krlite.knowledges.api.data.transfer.DataProtocol;
 import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.config.modmenu.impl.EmptyEntryBuilder;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
@@ -27,6 +29,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("UnstableApiUsage")
 public class KnowledgesConfigScreen {
@@ -240,7 +243,7 @@ public class KnowledgesConfigScreen {
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
-                map.forEach((component, data) -> {
+                map.forEach((component, dataList) -> {
                     entries.add(
                             entryBuilder.startTextDescription(Text.translatable(
                                             localizationKey("data", "classifier"),
@@ -251,16 +254,28 @@ public class KnowledgesConfigScreen {
                                     ))
                                     .build()
                     );
-                    entries.addAll(
-                            data.stream()
-                                    .map(d -> {
-                                        var built = dataEntry(d, true).build();
-                                        BooleanListEntrySyncHelper.DATA.register(d, built);
 
-                                        return (AbstractConfigListEntry) built;
-                                    })
-                                    .toList()
-                    );
+                    Map<DataInvoker<?, ?>, List<Data<?>>> dataInvokerClassified = dataList.stream()
+                                    .collect(Collectors.groupingBy(DataProtocol::dataInvoker));
+                    var iterator = dataInvokerClassified.values().iterator();
+
+                    while (iterator.hasNext()) {
+                        var dataListSegment = iterator.next();
+                        entries.addAll(
+                                dataListSegment.stream()
+                                        .map(data -> {
+                                            var built = dataEntry(data, true).build();
+                                            BooleanListEntrySyncHelper.DATA.register(data, built);
+
+                                            return (AbstractConfigListEntry) built;
+                                        })
+                                        .toList()
+                        );
+
+                        if (iterator.hasNext()) {
+                            entries.add(emptyEntryBuilder().build());
+                        }
+                    }
                 });
 
                 category.addEntry(entryBuilder.startSubCategory(name, entries)
