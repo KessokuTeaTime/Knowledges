@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.data.transfer.DataInvoker;
 import net.krlite.knowledges.api.data.transfer.DataProtocol;
 import net.krlite.knowledges.api.proxy.ModProxy;
@@ -31,11 +32,12 @@ public class BlockInfoComponent extends InfoComponent {
 		MineableTool INVOKER = new MineableTool() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> blockState -> protocols.stream()
-						.map(protocol -> protocol.mineableTool(blockState))
-						.filter(Optional::isPresent)
-						.findFirst()
-						.orElse(Optional.empty());
+				return protocols -> blockState -> Util.Text.combineToMultiline(
+						protocols.stream()
+								.map(protocol -> protocol.mineableTool(blockState))
+								.filter(Optional::isPresent)
+								.toList()
+				);
 			}
 		};
 
@@ -59,11 +61,12 @@ public class BlockInfoComponent extends InfoComponent {
 		BlockInformation INVOKER = new BlockInformation() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> (representable) -> protocols.stream()
-						.map(protocol -> protocol.blockInformation(representable))
-						.filter(Optional::isPresent)
-						.findFirst()
-						.orElse(Optional.empty());
+				return protocols -> (representable) -> Util.Text.combineToMultiline(
+						protocols.stream()
+								.map(protocol -> protocol.blockInformation(representable))
+								.filter(Optional::isPresent)
+								.toList()
+				);
 			}
 		};
 

@@ -38,10 +38,19 @@ public class Util {
             return withFormatting(text.copy(), formattings);
         }
 
-        public static Optional<MutableText> combineToMultiline(@Nullable net.minecraft.text.MutableText... texts) {
+        public static Optional<MutableText> combineToMultiline(@Nullable MutableText... texts) {
             return Stream.of(texts)
                     .filter(Objects::nonNull)
                     .reduce((p, n) -> p.append("\n").append(n));
+        }
+
+        public static Optional<MutableText> combineToMultiline(@NotNull List<Optional<MutableText>> optionalTexts) {
+            return combineToMultiline(
+                    optionalTexts.stream()
+                            .filter(Optional::isPresent)
+                            .map(Optional::get)
+                            .toArray(MutableText[]::new)
+            );
         }
     }
 }

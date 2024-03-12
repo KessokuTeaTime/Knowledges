@@ -5,6 +5,7 @@ import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
@@ -31,11 +32,12 @@ public class EntityInfoComponent extends InfoComponent {
 		EntityInformation INVOKER = new EntityInformation() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> (representable) -> protocols.stream()
-						.map(protocol -> protocol.entityInformation(representable))
-						.filter(Optional::isPresent)
-						.findFirst()
-						.orElse(Optional.empty());
+				return protocols -> (representable) -> Util.Text.combineToMultiline(
+						protocols.stream()
+								.map(protocol -> protocol.entityInformation(representable))
+								.filter(Optional::isPresent)
+								.toList()
+				);
 			}
 		};
 
@@ -59,11 +61,12 @@ public class EntityInfoComponent extends InfoComponent {
 		EntityDescription INVOKER = new EntityDescription() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
-				return protocols -> (representable) -> protocols.stream()
-						.map(protocol -> protocol.entityDescription(representable))
-						.filter(Optional::isPresent)
-						.findFirst()
-						.orElse(Optional.empty());
+				return protocols -> (representable) -> Util.Text.combineToMultiline(
+						protocols.stream()
+								.map(protocol -> protocol.entityDescription(representable))
+								.filter(Optional::isPresent)
+								.toList()
+				);
 			}
 		};
 
