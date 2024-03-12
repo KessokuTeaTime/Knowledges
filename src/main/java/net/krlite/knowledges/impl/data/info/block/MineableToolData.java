@@ -28,6 +28,11 @@ public class MineableToolData extends BlockInfoComponentData implements BlockInf
     }
 
     @Override
+    public @NotNull String currentPath() {
+        return super.currentPath() + Separator.RANK;
+    }
+
+    @Override
     public @NotNull String partialPath() {
         return "mineable_tool";
     }

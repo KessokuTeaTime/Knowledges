@@ -141,13 +141,13 @@
   
   
 
-  "knowledge_data/knowledges:info/block/mineable_tool:name"   : "挖掘工具",
-  "knowledge_data/knowledges:info/block/mineable_tool:tooltip": "提供关于方块的最合适挖掘工具的信息",
+  "knowledge_data/knowledges:info/block//mineable_tool:name"   : "挖掘工具",
+  "knowledge_data/knowledges:info/block//mineable_tool:tooltip": "提供关于方块的最合适挖掘工具的信息",
 
-  "knowledge_data/knowledges:info/block/mineable_tool:pickaxe": "镐",
-  "knowledge_data/knowledges:info/block/mineable_tool:axe"    : "斧",
-  "knowledge_data/knowledges:info/block/mineable_tool:hoe"    : "锄",
-  "knowledge_data/knowledges:info/block/mineable_tool:shovel" : "锹",
+  "knowledge_data/knowledges:info/block//mineable_tool:pickaxe": "镐",
+  "knowledge_data/knowledges:info/block//mineable_tool:axe"    : "斧",
+  "knowledge_data/knowledges:info/block//mineable_tool:hoe"    : "锄",
+  "knowledge_data/knowledges:info/block//mineable_tool:shovel" : "锹",
 
   "knowledge_data/knowledges:info/block//block_information/note_block:name"   : "音符盒信息",
   "knowledge_data/knowledges:info/block//block_information/note_block:tooltip": "提供有关音符盒音色的信息，并在多种音名下提供有关音符盒音高的信息",

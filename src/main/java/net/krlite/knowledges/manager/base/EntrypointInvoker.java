@@ -17,8 +17,8 @@ public enum EntrypointInvoker {
     CONTRACT(false, ContractProvider.class, "contract");
 
     @FunctionalInterface
-    interface Registerable<T extends Provider<?>> {
-        BiConsumer<String, T> consumer();
+    interface Registerable<T extends Provider<?>, A> {
+        BiConsumer<String, A> consumer();
 
         default void register(EntrypointInvoker invoker, Class<T> clazz) {
             FabricLoader.getInstance().getEntrypointContainers(invoker.entrypointPath(), clazz).forEach(entrypoint -> {
@@ -40,7 +40,7 @@ public enum EntrypointInvoker {
                         .distinct()
                         .map(c -> {
                             try {
-                                return (T) c.getDeclaredConstructor().newInstance();
+                                return (A) c.getDeclaredConstructor().newInstance();
                             } catch (Throwable throwable) {
                                 throw new RuntimeException(String.format(
                                         "Failed to register %s for %s: constructor not found!",
@@ -49,7 +49,7 @@ public enum EntrypointInvoker {
                                 ), throwable);
                             }
                         })
-                        .forEach(t -> consumer().accept(namespace, t));
+                        .forEach(a -> consumer().accept(namespace, a));
             });
         }
     }
@@ -83,11 +83,11 @@ public enum EntrypointInvoker {
         return isClientSide;
     }
 
-    public <T extends Provider<?>> void invoke(BiConsumer<String, T> consumer) {
+    public <T extends Provider<?>, A> void invoke(BiConsumer<String, A> consumer) {
         try {
-            ((Registerable<T>) () -> consumer).register(this, (Class<T>) clazz);
+            ((Registerable<T, A>) () -> consumer).register(this, (Class<T>) clazz);
         } catch (Exception e) {
-            KnowledgesCommon.LOGGER.error("Failed invoking register methods for class {}!", clazz);
+            KnowledgesCommon.LOGGER.error("Failed invoking register methods for class {}!", clazz, e);
         }
     }
 }

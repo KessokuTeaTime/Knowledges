@@ -139,13 +139,13 @@
 
 
 
-  "knowledge_data/knowledges:info/block/mineable_tool:name"   : "Mineable Tool",
-  "knowledge_data/knowledges:info/block/mineable_tool:tooltip": "Provides information about the most appropriate mineable tool for blocks",
+  "knowledge_data/knowledges:info/block//mineable_tool:name"   : "Mineable Tool",
+  "knowledge_data/knowledges:info/block//mineable_tool:tooltip": "Provides information about the most appropriate mineable tool for blocks",
 
-  "knowledge_data/knowledges:info/block/mineable_tool:pickaxe": "Pickaxes",
-  "knowledge_data/knowledges:info/block/mineable_tool:axe"    : "Axes",
-  "knowledge_data/knowledges:info/block/mineable_tool:hoe"    : "Hoes",
-  "knowledge_data/knowledges:info/block/mineable_tool:shovel" : "Shovels",
+  "knowledge_data/knowledges:info/block//mineable_tool:pickaxe": "Pickaxes",
+  "knowledge_data/knowledges:info/block//mineable_tool:axe"    : "Axes",
+  "knowledge_data/knowledges:info/block//mineable_tool:hoe"    : "Hoes",
+  "knowledge_data/knowledges:info/block//mineable_tool:shovel" : "Shovels",
 
   "knowledge_data/knowledges:info/block//block_information/note_block:name"   : "Note Block Information",
   "knowledge_data/knowledges:info/block//block_information/note_block:tooltip": "Provides information about note blocks' timbres and their pitches in various of musical alphabets",
