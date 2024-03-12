@@ -6,14 +6,11 @@ import net.krlite.equator.visual.color.Palette;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
-import net.krlite.knowledges.api.representable.Representable;
-import net.krlite.knowledges.impl.component.AbstractInfoComponent;
+import net.krlite.knowledges.api.representable.base.Representable;
+import net.krlite.knowledges.impl.component.base.InfoComponent;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
-public class FluidInfoComponent extends AbstractInfoComponent {
+public class FluidInfoComponent extends InfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
         KnowledgeProxy.getFluidStateNonEmpty(representable.hitResult()).ifPresent(fluidState -> {

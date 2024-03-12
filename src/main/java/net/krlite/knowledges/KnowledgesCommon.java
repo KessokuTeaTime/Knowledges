@@ -7,11 +7,11 @@ import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.entrypoint.AdditionalTagProvider;
+import net.krlite.knowledges.api.entrypoint.ContractProvider;
 import net.krlite.knowledges.config.KnowledgesCommonConfig;
 import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
-import net.krlite.knowledges.manager.KnowledgesManager;
-import net.krlite.knowledges.manager.KnowledgesTagManager;
+import net.krlite.knowledges.manager.base.Manager;
+import net.krlite.knowledges.manager.ContractManager;
 import net.krlite.knowledges.networking.ServerNetworking;
 import net.minecraft.util.ActionResult;
 import org.slf4j.Logger;
@@ -30,13 +30,13 @@ public class KnowledgesCommon implements ModInitializer {
         CONFIG = AutoConfig.getConfigHolder(KnowledgesCommonConfig.class);
 
         CONFIG.registerLoadListener((configHolder, knowledgesCommonConfig) -> {
-            KnowledgesManager.fixKeysAndSort(knowledgesCommonConfig.tags.enabled);
+            Manager.fixKeysAndSort(knowledgesCommonConfig.tags.enabled);
 
             return ActionResult.PASS;
         });
     }
 
-    public static final KnowledgesTagManager TAGS = new KnowledgesTagManager();
+    public static final ContractManager TAGS = new ContractManager();
 
     public static final UsernameCache CACHE_USERNAME = new UsernameCache();
 
@@ -44,13 +44,13 @@ public class KnowledgesCommon implements ModInitializer {
     public void onInitialize() {
         CACHE_USERNAME.load();
 
-        KnowledgesManager.fixKeysAndSort(CONFIG.get().tags.enabled);
+        Manager.fixKeysAndSort(CONFIG.get().tags.enabled);
 
         new ServerNetworking().register();
 
         // Tags
-        FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", AdditionalTagProvider.class).forEach(entrypoint -> {
-            AdditionalTagProvider provider = entrypoint.getEntrypoint();
+        FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", ContractProvider.class).forEach(entrypoint -> {
+            ContractProvider provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 

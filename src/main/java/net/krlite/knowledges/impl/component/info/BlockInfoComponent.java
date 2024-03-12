@@ -6,14 +6,14 @@ import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.data.DataInvoker;
-import net.krlite.knowledges.api.data.DataProtocol;
+import net.krlite.knowledges.api.data.transfer.DataInvoker;
+import net.krlite.knowledges.api.data.transfer.DataProtocol;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
-import net.krlite.knowledges.api.representable.Representable;
+import net.krlite.knowledges.api.representable.base.Representable;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
-import net.krlite.knowledges.impl.component.AbstractInfoComponent;
+import net.krlite.knowledges.impl.component.base.InfoComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class BlockInfoComponent extends AbstractInfoComponent {
+public class BlockInfoComponent extends InfoComponent {
 	public interface MineableToolInvoker extends DataInvoker<BlockInfoComponent, MineableToolInvoker.Protocol> {
 		MineableToolInvoker INSTANCE = new MineableToolInvoker() {
 			@Override

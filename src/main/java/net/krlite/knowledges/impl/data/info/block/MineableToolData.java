@@ -1,7 +1,7 @@
 package net.krlite.knowledges.impl.data.info.block;
 
 import net.krlite.knowledges.impl.component.info.BlockInfoComponent;
-import net.krlite.knowledges.impl.data.info.AbstractBlockInfoComponentData;
+import net.krlite.knowledges.impl.data.info.base.BlockInfoComponentData;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.MutableText;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class MineableToolData extends AbstractBlockInfoComponentData implements BlockInfoComponent.MineableToolInvoker.Protocol {
+public class MineableToolData extends BlockInfoComponentData implements BlockInfoComponent.MineableToolInvoker.Protocol {
     @Override
     public Optional<MutableText> mineableTool(BlockState blockState) {
         MutableText tool = null;

@@ -12,13 +12,12 @@ import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
-import net.krlite.knowledges.api.representable.Representable;
-import net.krlite.knowledges.impl.component.AbstractInfoComponent;
+import net.krlite.knowledges.api.representable.base.Representable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-public class InfoComponent extends AbstractInfoComponent {
+public class InfoComponent extends net.krlite.knowledges.impl.component.base.InfoComponent {
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
         if (!KnowledgeProxy.hitResultNotAir(representable.hitResult())) reset();

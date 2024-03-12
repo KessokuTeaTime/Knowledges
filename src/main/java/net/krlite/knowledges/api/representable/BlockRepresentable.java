@@ -1,5 +1,6 @@
 package net.krlite.knowledges.api.representable;
 
+import net.krlite.knowledges.api.representable.base.Representable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

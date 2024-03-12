@@ -7,7 +7,7 @@ import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
-import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
+import net.krlite.knowledges.impl.data.info.base.block.BlockInformationData;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.item.Items;
@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class NoteBlockInformationData extends AbstractBlockInformationData {
+public class NoteBlockInformationData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         if (representable.blockState().isOf(Blocks.NOTE_BLOCK)) {

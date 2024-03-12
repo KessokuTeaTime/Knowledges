@@ -1,11 +1,9 @@
 package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 
 import net.krlite.knowledges.api.representable.EntityRepresentable;
-import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
-import net.minecraft.entity.Entity;
+import net.krlite.knowledges.impl.data.info.base.entity.EntityDescriptionData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -13,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class VillagerEntityDescriptionData extends AbstractEntityDescriptionData {
+public class VillagerEntityDescriptionData extends EntityDescriptionData {
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity().getType() == EntityType.VILLAGER) {

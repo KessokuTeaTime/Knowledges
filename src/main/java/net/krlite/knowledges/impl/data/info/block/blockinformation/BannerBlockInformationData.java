@@ -1,11 +1,8 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
-import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
-import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
-import net.minecraft.block.BlockState;
+import net.krlite.knowledges.impl.data.info.base.block.BlockInformationData;
 import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.MutableText;
@@ -15,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class BannerBlockInformationData extends AbstractBlockInformationData {
+public class BannerBlockInformationData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         return representable.blockEntity().flatMap(blockEntity -> {

@@ -11,15 +11,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.api.representable.PacketByteBufWritable;
 import net.krlite.knowledges.config.KnowledgesClientConfig;
-import net.krlite.knowledges.impl.component.AbstractInfoComponent;
-import net.krlite.knowledges.manager.KnowledgesComponentManager;
-import net.krlite.knowledges.manager.KnowledgesDataManager;
-import net.krlite.knowledges.manager.KnowledgesManager;
+import net.krlite.knowledges.impl.component.base.InfoComponent;
+import net.krlite.knowledges.manager.ComponentManager;
+import net.krlite.knowledges.manager.DataManager;
+import net.krlite.knowledges.manager.base.Manager;
 import net.krlite.knowledges.networking.ClientNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
@@ -42,15 +41,15 @@ public class KnowledgesClient implements ClientModInitializer {
         CONFIG = AutoConfig.getConfigHolder(KnowledgesClientConfig.class);
 
         CONFIG.registerLoadListener((configHolder, knowledgesClientConfig) -> {
-            KnowledgesManager.fixKeysAndSort(knowledgesClientConfig.components.enabled);
-            KnowledgesManager.fixKeysAndSort(knowledgesClientConfig.data.enabled);
+            Manager.fixKeysAndSort(knowledgesClientConfig.components.enabled);
+            Manager.fixKeysAndSort(knowledgesClientConfig.data.enabled);
 
             return ActionResult.PASS;
         });
     }
 
-    public static final KnowledgesComponentManager COMPONENTS = new KnowledgesComponentManager();
-    public static final KnowledgesDataManager DATA = new KnowledgesDataManager();
+    public static final ComponentManager COMPONENTS = new ComponentManager();
+    public static final DataManager DATA = new DataManager();
 
     public static final KnowledgesHud HUD = new KnowledgesHud();
 
@@ -68,10 +67,10 @@ public class KnowledgesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        KnowledgesManager.fixKeysAndSort(CONFIG.get().components.enabled);
-        KnowledgesManager.fixKeysAndSort(CONFIG.get().data.enabled);
+        Manager.fixKeysAndSort(CONFIG.get().components.enabled);
+        Manager.fixKeysAndSort(CONFIG.get().data.enabled);
 
-        AbstractInfoComponent.Animation.registerEvents();
+        InfoComponent.Animation.registerEvents();
         new ClientNetworking().register();
 
         // Components

@@ -1,5 +1,6 @@
 package net.krlite.knowledges.api.representable;
 
+import net.krlite.knowledges.api.representable.base.Representable;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;

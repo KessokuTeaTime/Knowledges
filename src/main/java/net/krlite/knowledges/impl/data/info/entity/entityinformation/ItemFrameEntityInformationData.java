@@ -1,11 +1,9 @@
 package net.krlite.knowledges.impl.data.info.entity.entityinformation;
 
 import net.krlite.knowledges.api.representable.EntityRepresentable;
-import net.krlite.knowledges.impl.data.info.entity.AbstractEntityInformationData;
-import net.minecraft.entity.Entity;
+import net.krlite.knowledges.impl.data.info.base.entity.EntityInformationData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -14,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class ItemFrameEntityInformationData extends AbstractEntityInformationData {
+public class ItemFrameEntityInformationData extends EntityInformationData {
     @Override
     public Optional<MutableText> entityInformation(EntityRepresentable representable) {
         if (representable.entity().getType() == EntityType.ITEM_FRAME || representable.entity().getType() == EntityType.GLOW_ITEM_FRAME) {

@@ -3,8 +3,8 @@ package net.krlite.knowledges.impl.data.info.block.blockinformation;
 import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
-import net.krlite.knowledges.impl.data.info.block.AbstractBlockInformationData;
-import net.krlite.knowledges.impl.tag.block.BeehiveTag;
+import net.krlite.knowledges.impl.data.info.base.block.BlockInformationData;
+import net.krlite.knowledges.impl.contract.block.BeehiveContract;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BeehiveBlockEntity;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class BeehiveBlockInformationData extends AbstractBlockInformationData {
+public class BeehiveBlockInformationData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         return representable.blockEntity().flatMap(blockEntity -> {
@@ -30,13 +30,13 @@ public class BeehiveBlockInformationData extends AbstractBlockInformationData {
                 );
 
                 final AtomicReference<MutableText> beeCountText = new AtomicReference<>(Text.empty());
-                BeehiveTag.BEES.get(data).ifPresent(beeCount -> {
+                BeehiveContract.BEES.get(data).ifPresent(beeCount -> {
                     beeCountText.set(beeCount == 0 ? localize("bee_count", "empty") : Text.translatable(
                             localizationKey("bee_count"),
                             beeCount
                     ));
                 });
-                BeehiveTag.FULL.get(data).ifPresent(full -> {
+                BeehiveContract.FULL.get(data).ifPresent(full -> {
                     if (full) beeCountText.set(localize("bee_count", "full"));
                 });
 

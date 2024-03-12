@@ -2,8 +2,8 @@ package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 
 import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
-import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
-import net.krlite.knowledges.impl.tag.entity.AnimalOwnerTag;
+import net.krlite.knowledges.impl.data.info.base.entity.EntityDescriptionData;
+import net.krlite.knowledges.impl.contract.entity.AnimalOwnerContract;
 import net.minecraft.entity.Tameable;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class AnimalOwnerEntityDescriptionData extends AbstractEntityDescriptionData {
+public class AnimalOwnerEntityDescriptionData extends EntityDescriptionData {
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity() instanceof Tameable tameable && tameable.getOwnerUuid() != null) {
@@ -22,7 +22,7 @@ public class AnimalOwnerEntityDescriptionData extends AbstractEntityDescriptionD
                     name
             );
 
-            return AnimalOwnerTag.OWNER.get(representable.data())
+            return AnimalOwnerContract.OWNER.get(representable.data())
                     .map(localization)
                     .or(() -> {
                         UUID ownerUuid = tameable.getOwnerUuid();

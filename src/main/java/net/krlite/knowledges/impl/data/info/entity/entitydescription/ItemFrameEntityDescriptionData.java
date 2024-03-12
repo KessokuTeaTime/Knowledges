@@ -3,7 +3,7 @@ package net.krlite.knowledges.impl.data.info.entity.entitydescription;
 import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.proxy.KnowledgeProxy;
 import net.krlite.knowledges.api.representable.EntityRepresentable;
-import net.krlite.knowledges.impl.data.info.entity.AbstractEntityDescriptionData;
+import net.krlite.knowledges.impl.data.info.base.entity.EntityDescriptionData;
 import net.krlite.knowledges.mixin.common.ItemStackInvoker;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class ItemFrameEntityDescriptionData extends AbstractEntityDescriptionData {
+public class ItemFrameEntityDescriptionData extends EntityDescriptionData {
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity().getType() == EntityType.ITEM_FRAME || representable.entity().getType() == EntityType.GLOW_ITEM_FRAME) {

@@ -8,7 +8,7 @@ import net.krlite.knowledges.Util;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
-import net.krlite.knowledges.api.representable.Representable;
+import net.krlite.knowledges.api.representable.base.Representable;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;

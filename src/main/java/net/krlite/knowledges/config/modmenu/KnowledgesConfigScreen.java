@@ -17,7 +17,7 @@ import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
 import net.krlite.knowledges.Util;
-import net.krlite.knowledges.manager.KnowledgesManager;
+import net.krlite.knowledges.manager.base.Manager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -259,7 +259,7 @@ public class KnowledgesConfigScreen {
     }
 
     private <T extends WithPath & WithIndependentConfigPage & Localizable.WithName> void initIndependentConfigPages(
-            KnowledgesManager<T> manager,
+            Manager<T> manager,
             Function<T, BooleanToggleBuilder> builder,
             BooleanListEntrySyncHelper helper,
             String path
