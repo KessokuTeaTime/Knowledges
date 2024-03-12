@@ -1,4 +1,4 @@
-package net.krlite.knowledges.api.representable;
+package net.krlite.knowledges.api.representable.base;
 
 import net.minecraft.network.PacketByteBuf;
 

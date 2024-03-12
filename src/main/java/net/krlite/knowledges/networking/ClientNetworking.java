@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.krlite.knowledges.KnowledgesClient;
-import net.krlite.knowledges.api.representable.PacketByteBufWritable;
+import net.krlite.knowledges.api.representable.base.PacketByteBufWritable;
 import net.krlite.knowledges.networking.base.KnowledgesNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;

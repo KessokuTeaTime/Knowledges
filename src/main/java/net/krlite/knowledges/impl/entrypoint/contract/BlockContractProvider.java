@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BlockContractProviderImpl implements BlockContract.Provider {
+public class BlockContractProvider implements BlockContract.Provider {
     @Override
     public @NotNull List<Class<? extends BlockContract>> provide() {
         return List.of(

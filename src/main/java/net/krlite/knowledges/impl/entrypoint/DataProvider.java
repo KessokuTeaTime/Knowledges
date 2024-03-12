@@ -1,7 +1,6 @@
 package net.krlite.knowledges.impl.entrypoint;
 
 import net.krlite.knowledges.api.data.Data;
-import net.krlite.knowledges.api.entrypoint.DataProvider;
 import net.krlite.knowledges.impl.data.info.block.MineableToolData;
 import net.krlite.knowledges.impl.data.info.block.blockinformation.*;
 import net.krlite.knowledges.impl.data.info.entity.entitydescription.AnimalOwnerEntityDescriptionData;
@@ -14,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DataProviderImpl implements DataProvider {
+public class DataProvider implements net.krlite.knowledges.api.entrypoint.DataProvider.Global {
     @Override
     public @NotNull List<Class<? extends Data<?>>> provide() {
         return List.of(

@@ -23,7 +23,7 @@ public enum EntrypointInvoker {
         default void register(EntrypointInvoker invoker, Class<T> clazz) {
             FabricLoader.getInstance().getEntrypointContainers(invoker.entrypointPath(), clazz).forEach(entrypoint -> {
                 T provider = entrypoint.getEntrypoint();
-                var classes = provider.provide();
+                var classes = provider.provideAll();
                 if (classes.isEmpty()) return;
 
                 ModContainer mod = entrypoint.getProvider();

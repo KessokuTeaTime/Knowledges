@@ -1,6 +1,5 @@
 package net.krlite.knowledges.api.representable.base;
 
-import net.krlite.knowledges.api.representable.PacketByteBufWritable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;

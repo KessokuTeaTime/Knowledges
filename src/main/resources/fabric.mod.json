@@ -29,14 +29,16 @@
       "net.krlite.knowledges.config.modmenu.KnowledgesModMenuIntegration"
     ],
     "knowledges:component": [
-      "net.krlite.knowledges.impl.entrypoint.ComponentProviderImpl"
+      "net.krlite.knowledges.impl.entrypoint.component.ComponentProvider",
+      "net.krlite.knowledges.impl.entrypoint.component.InfoComponentProvider"
     ],
     "knowledges:data": [
-      "net.krlite.knowledges.impl.entrypoint.DataProviderImpl"
+      "net.krlite.knowledges.impl.entrypoint.data.info.BlockInfoComponentDataProvider",
+      "net.krlite.knowledges.impl.entrypoint.data.info.EntityInfoComponentDataProvider"
     ],
     "knowledges:contract": [
-      "net.krlite.knowledges.impl.entrypoint.contract.BlockContractProviderImpl",
-      "net.krlite.knowledges.impl.entrypoint.contract.EntityContractProviderImpl"
+      "net.krlite.knowledges.impl.entrypoint.contract.BlockContractProvider",
+      "net.krlite.knowledges.impl.entrypoint.contract.EntityContractProvider"
     ]
   },
   "mixins": [

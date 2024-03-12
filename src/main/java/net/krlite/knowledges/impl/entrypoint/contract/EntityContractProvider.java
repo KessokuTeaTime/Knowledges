@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class EntityContractProviderImpl implements EntityContract.Provider {
+public class EntityContractProvider implements EntityContract.Provider {
     @Override
     public @NotNull List<Class<? extends EntityContract>> provide() {
         return List.of(
