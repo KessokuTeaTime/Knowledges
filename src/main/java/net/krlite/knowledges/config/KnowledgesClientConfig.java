@@ -90,7 +90,7 @@ public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
 			public boolean ignoresOtherFluids = false;
 		}
 
-		public Map<String, Boolean> enabled = new TreeMap<>();
+		public Map<String, Boolean> available = new TreeMap<>();
 	}
 
 	@Config(name = "data")
@@ -104,6 +104,6 @@ public class KnowledgesClientConfig extends PartitioningSerializer.GlobalData {
 			public NoteBlockInformationData.MusicalAlphabet musicalAlphabet = NoteBlockInformationData.MusicalAlphabet.ENGLISH;
 		}
 
-		public Map<String, Boolean> enabled = new TreeMap<>();
+		public Map<String, Boolean> available = new TreeMap<>();
 	}
 }

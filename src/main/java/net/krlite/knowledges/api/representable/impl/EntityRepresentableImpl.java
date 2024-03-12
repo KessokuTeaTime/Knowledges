@@ -35,7 +35,7 @@ public class EntityRepresentableImpl extends RepresentableImpl<EntityHitResult> 
             Entity entity = representable.entity();
             if (entity == null) return;
 
-            var tags = KnowledgesCommon.TAGS.byEntity(representable.entity());
+            var tags = KnowledgesCommon.CONTRACTS.byEntity(representable.entity());
             if (tags.isEmpty()) return;
 
             NbtCompound compound = representable.data();

@@ -9,12 +9,12 @@ import java.util.TreeMap;
 
 @Config(name = "knowledges")
 public class KnowledgesCommonConfig extends PartitioningSerializer.GlobalData{
-    public Tags tags = new Tags();
+    public Tags contracts = new Tags();
 
-    @Config(name = "tags")
+    @Config(name = "contracts")
     public static class Tags implements ConfigData {
         public boolean autoTidiesUp = false;
 
-        public Map<String, Boolean> enabled = new TreeMap<>();
+        public Map<String, Boolean> available = new TreeMap<>();
     }
 }

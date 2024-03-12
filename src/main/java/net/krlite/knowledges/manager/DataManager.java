@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class DataManager extends Manager<Data<?>> {
     public DataManager() {
-        super(() -> KnowledgesClient.CONFIG.get().data.enabled);
+        super(() -> KnowledgesClient.CONFIG.get().data.available);
     }
 
     @Override

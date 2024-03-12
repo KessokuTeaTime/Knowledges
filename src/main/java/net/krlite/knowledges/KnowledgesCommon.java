@@ -10,6 +10,7 @@ import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ContractProvider;
 import net.krlite.knowledges.config.KnowledgesCommonConfig;
 import net.krlite.knowledges.config.modmenu.cache.UsernameCache;
+import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
 import net.krlite.knowledges.manager.ContractManager;
 import net.krlite.knowledges.networking.ServerNetworking;
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 public class KnowledgesCommon implements ModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
-    public static final Logger LOGGER = LoggerFactory.getLogger(ID + ":common");
+    public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
 
     public static final ConfigHolder<KnowledgesCommonConfig> CONFIG;
@@ -30,13 +31,13 @@ public class KnowledgesCommon implements ModInitializer {
         CONFIG = AutoConfig.getConfigHolder(KnowledgesCommonConfig.class);
 
         CONFIG.registerLoadListener((configHolder, knowledgesCommonConfig) -> {
-            Manager.fixKeysAndSort(knowledgesCommonConfig.tags.enabled);
+            Manager.fixKeysAndSort(knowledgesCommonConfig.contracts.available);
 
             return ActionResult.PASS;
         });
     }
 
-    public static final ContractManager TAGS = new ContractManager();
+    public static final ContractManager CONTRACTS = new ContractManager();
 
     public static final UsernameCache CACHE_USERNAME = new UsernameCache();
 
@@ -44,13 +45,14 @@ public class KnowledgesCommon implements ModInitializer {
     public void onInitialize() {
         CACHE_USERNAME.load();
 
-        Manager.fixKeysAndSort(CONFIG.get().tags.enabled);
+        Manager.fixKeysAndSort(CONFIG.get().contracts.available);
 
         new ServerNetworking().register();
 
+        /*
         // Tags
         FabricLoader.getInstance().getEntrypointContainers(ID + ":tags", ContractProvider.class).forEach(entrypoint -> {
-            ContractProvider provider = entrypoint.getEntrypoint();
+            ContractProvider<?> provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 
@@ -60,7 +62,7 @@ public class KnowledgesCommon implements ModInitializer {
             LOGGER.info(String.format(
                     "Registering %d %s for %s...",
                     classes.size(),
-                    classes.size() <= 1 ? "tag" : "tags",
+                    classes.size() <= 1 ? "contract" : "contracts",
                     name
             ));
 
@@ -76,14 +78,18 @@ public class KnowledgesCommon implements ModInitializer {
                             ), throwable);
                         }
                     })
-                    .forEach(tag -> TAGS.register(namespace, tag));
+                    .forEach(tag -> CONTRACTS.register(namespace, tag));
         });
+
+         */
+
+        EntrypointInvoker.CONTRACT.invoke(CONTRACTS::register);
 
         tidyUpConfig();
         CONFIG.save();
     }
 
     public static void tidyUpConfig() {
-        TAGS.tidyUp();
+        CONTRACTS.tidyUp();
     }
 }

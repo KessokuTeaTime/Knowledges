@@ -28,15 +28,15 @@
     "modmenu": [
       "net.krlite.knowledges.config.modmenu.KnowledgesModMenuImpl"
     ],
-    "knowledges": [
+    "knowledges:component": [
       "net.krlite.knowledges.impl.entrypoint.ComponentProviderImpl"
     ],
     "knowledges:data": [
       "net.krlite.knowledges.impl.entrypoint.DataProviderImpl"
     ],
-    "knowledges:tags": [
-      "net.krlite.knowledges.impl.entrypoint.tag.ContractProviderImpl",
-      "net.krlite.knowledges.impl.entrypoint.tag.AdditionalEntityTagProviderImpl"
+    "knowledges:contract": [
+      "net.krlite.knowledges.impl.entrypoint.contract.BlockContractProviderImpl",
+      "net.krlite.knowledges.impl.entrypoint.contract.EntityContractProviderImpl"
     ]
   },
   "mixins": [

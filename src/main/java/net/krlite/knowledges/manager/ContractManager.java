@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ContractManager extends Manager<Contract<?, ?>> {
     public ContractManager() {
-        super(() -> KnowledgesCommon.CONFIG.get().tags.enabled);
+        super(() -> KnowledgesCommon.CONFIG.get().contracts.available);
     }
 
     @Override

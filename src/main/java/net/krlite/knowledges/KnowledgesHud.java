@@ -8,6 +8,7 @@ import net.krlite.knowledges.api.representable.impl.EmptyRepresentableImpl;
 import net.krlite.knowledges.api.representable.impl.BlockRepresentableImpl;
 import net.krlite.knowledges.api.representable.impl.EntityRepresentableImpl;
 import net.krlite.knowledges.mixin.client.InGameHudInvoker;
+import net.krlite.knowledges.networking.ClientNetworking;
 import net.krlite.knowledges.networking.base.KnowledgesNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -123,7 +124,7 @@ public class KnowledgesHud {
             }
 
             if (channel != null) {
-                KnowledgesClient.requestDataFor(representable, channel);
+                ClientNetworking.requestDataFor(representable, channel);
             }
         }
     }

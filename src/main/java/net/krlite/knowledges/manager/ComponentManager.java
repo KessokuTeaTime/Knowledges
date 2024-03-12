@@ -8,7 +8,7 @@ import net.krlite.knowledges.manager.base.Manager;
 
 public class ComponentManager extends Manager<Knowledge> {
     public ComponentManager() {
-        super(() -> KnowledgesClient.CONFIG.get().components.enabled);
+        super(() -> KnowledgesClient.CONFIG.get().components.available);
     }
 
     public void render(RenderProxy renderProxy, Representable<?> representable) {

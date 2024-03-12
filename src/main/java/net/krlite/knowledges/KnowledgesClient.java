@@ -6,21 +6,18 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.krlite.knowledges.api.entrypoint.ComponentProvider;
 import net.krlite.knowledges.api.entrypoint.DataProvider;
-import net.krlite.knowledges.api.representable.PacketByteBufWritable;
 import net.krlite.knowledges.config.KnowledgesClientConfig;
 import net.krlite.knowledges.impl.component.base.InfoComponent;
 import net.krlite.knowledges.manager.ComponentManager;
 import net.krlite.knowledges.manager.DataManager;
+import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
 import net.krlite.knowledges.networking.ClientNetworking;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -31,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import static net.krlite.knowledges.api.core.localization.Localizable.Separator.KEY;
 
 public class KnowledgesClient implements ClientModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + ":client");
+    public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + "-client");
 
     public static final ConfigHolder<KnowledgesClientConfig> CONFIG;
     public static final KnowledgesClientConfig DEFAULT_CONFIG = new KnowledgesClientConfig();
@@ -41,8 +38,8 @@ public class KnowledgesClient implements ClientModInitializer {
         CONFIG = AutoConfig.getConfigHolder(KnowledgesClientConfig.class);
 
         CONFIG.registerLoadListener((configHolder, knowledgesClientConfig) -> {
-            Manager.fixKeysAndSort(knowledgesClientConfig.components.enabled);
-            Manager.fixKeysAndSort(knowledgesClientConfig.data.enabled);
+            Manager.fixKeysAndSort(knowledgesClientConfig.components.available);
+            Manager.fixKeysAndSort(knowledgesClientConfig.data.available);
 
             return ActionResult.PASS;
         });
@@ -53,29 +50,18 @@ public class KnowledgesClient implements ClientModInitializer {
 
     public static final KnowledgesHud HUD = new KnowledgesHud();
 
-    public static Identifier identifier(String path) {
-        return new Identifier(KnowledgesCommon.ID, path);
-    }
-
-    public static String localizationKey(String category, String... paths) {
-        return category + KEY + KnowledgesCommon.ID + KEY + String.join(KEY.toString(), paths);
-    }
-
-    public static MutableText localize(String category, String... paths) {
-        return Text.translatable(localizationKey(category, paths));
-    }
-
     @Override
     public void onInitializeClient() {
-        Manager.fixKeysAndSort(CONFIG.get().components.enabled);
-        Manager.fixKeysAndSort(CONFIG.get().data.enabled);
+        Manager.fixKeysAndSort(CONFIG.get().components.available);
+        Manager.fixKeysAndSort(CONFIG.get().data.available);
 
         InfoComponent.Animation.registerEvents();
         new ClientNetworking().register();
 
+        /*
         // Components
         FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID, ComponentProvider.class).forEach(entrypoint -> {
-            ComponentProvider provider = entrypoint.getEntrypoint();
+            ComponentProvider<?> provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 
@@ -106,7 +92,7 @@ public class KnowledgesClient implements ClientModInitializer {
 
         // Data
         FabricLoader.getInstance().getEntrypointContainers(KnowledgesCommon.ID + ":data", DataProvider.class).forEach(entrypoint -> {
-            DataProvider provider = entrypoint.getEntrypoint();
+            DataProvider<?> provider = entrypoint.getEntrypoint();
             var classes = provider.provide();
             if (classes.isEmpty()) return;
 
@@ -135,6 +121,11 @@ public class KnowledgesClient implements ClientModInitializer {
                     .forEach(data -> DATA.register(namespace, data));
         });
 
+         */
+
+        EntrypointInvoker.COMPONENT.invoke(COMPONENTS::register);
+        EntrypointInvoker.DATA.invoke(DATA::register);
+
         tidyUpConfig();
         CONFIG.save();
 
@@ -162,16 +153,22 @@ public class KnowledgesClient implements ClientModInitializer {
         }));
     }
 
+    public static Identifier identifier(String path) {
+        return new Identifier(KnowledgesCommon.ID, path);
+    }
+
+    public static String localizationKey(String category, String... paths) {
+        return category + KEY + KnowledgesCommon.ID + KEY + String.join(KEY.toString(), paths);
+    }
+
+    public static MutableText localize(String category, String... paths) {
+        return Text.translatable(localizationKey(category, paths));
+    }
+
     public static void tidyUpConfig() {
         if (CONFIG.get().components.autoTidiesUp)
             COMPONENTS.tidyUp();
         if (CONFIG.get().data.autoTidiesUp)
             DATA.tidyUp();
-    }
-
-    public static void requestDataFor(PacketByteBufWritable writable, Identifier channel) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        writable.writeToBuf(buf);
-        ClientPlayNetworking.send(channel, buf);
     }
 }

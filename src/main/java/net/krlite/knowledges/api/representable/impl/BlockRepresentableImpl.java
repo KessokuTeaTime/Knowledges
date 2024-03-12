@@ -68,7 +68,7 @@ public class BlockRepresentableImpl extends RepresentableImpl<BlockHitResult> im
             Optional<BlockEntity> blockEntity = representable.blockEntity();
             if (blockEntity.isEmpty()) return;
 
-            var tags = KnowledgesCommon.TAGS.byBlock(representable.block());
+            var tags = KnowledgesCommon.CONTRACTS.byBlock(representable.block());
             if (tags.isEmpty()) return;
 
             NbtCompound compound = representable.data();
