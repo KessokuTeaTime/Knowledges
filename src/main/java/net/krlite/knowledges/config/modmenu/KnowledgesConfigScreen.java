@@ -14,6 +14,7 @@ import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.data.Data;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.ModProxy;
+import net.krlite.knowledges.config.modmenu.impl.InvisibleSeparatorListEntry;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
 import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
 import net.krlite.knowledges.api.core.localization.Localizable;
@@ -116,8 +117,8 @@ public class KnowledgesConfigScreen {
         return localize(ArrayUtils.add(paths, "tooltip"));
     }
 
-    public static TextDescriptionBuilder separatorBuilder() {
-        return new TextDescriptionBuilder(Text.empty(), Text.empty(), Text.literal(" "));
+    public static InvisibleSeparatorListEntry.Builder separatorBuilder() {
+        return new InvisibleSeparatorListEntry.Builder();
     }
 
     public Screen build() {
