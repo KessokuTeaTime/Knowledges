@@ -34,7 +34,7 @@ public class BlockInfoComponent extends InfoComponent {
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
 				return protocols -> blockState -> Util.Text.combineToMultiline(
 						protocols.stream()
-								.map(protocol -> protocol.mineableTool(blockState))
+								.map(protocol -> protocol.mineableToolName(blockState))
 								.filter(Optional::isPresent)
 								.toList()
 				);
@@ -43,7 +43,7 @@ public class BlockInfoComponent extends InfoComponent {
 
 		@FunctionalInterface
 		interface Protocol extends DataProtocol<BlockInfoComponent> {
-			Optional<MutableText> mineableTool(BlockState blockState);
+			Optional<MutableText> mineableToolName(BlockState blockState);
 
 			@Override
 			default DataInvoker<BlockInfoComponent, ?> dataInvoker() {
@@ -130,7 +130,7 @@ public class BlockInfoComponent extends InfoComponent {
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
-					Optional<MutableText> data = MineableTool.INVOKER.invoker().mineableTool(blockState);
+					Optional<MutableText> data = MineableTool.INVOKER.invoker().mineableToolName(blockState);
 
 					if (hardness < 0) {
 						// Unbreakable

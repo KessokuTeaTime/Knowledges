@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class MineableToolData extends BlockInfoComponentData implements BlockInfoComponent.MineableTool.Protocol {
     @Override
-    public Optional<MutableText> mineableTool(BlockState blockState) {
+    public Optional<MutableText> mineableToolName(BlockState blockState) {
         MutableText tool = null;
 
         if (blockState.isIn(BlockTags.PICKAXE_MINEABLE)) {
