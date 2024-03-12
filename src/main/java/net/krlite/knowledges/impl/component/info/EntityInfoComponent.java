@@ -1,7 +1,6 @@
 package net.krlite.knowledges.impl.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.color.Palette;
@@ -28,8 +27,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class EntityInfoComponent extends InfoComponent {
-	public interface EntityInformationInvoker extends DataInvoker<EntityInfoComponent, EntityInfoComponent.EntityInformationInvoker.Protocol> {
-		EntityInformationInvoker INSTANCE = new EntityInformationInvoker() {
+	public interface EntityInformation extends DataInvoker<EntityInfoComponent, EntityInformation.Protocol> {
+		EntityInformation INVOKER = new EntityInformation() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
 				return protocols -> (representable) -> protocols.stream()
@@ -40,12 +39,13 @@ public class EntityInfoComponent extends InfoComponent {
 			}
 		};
 
+		@FunctionalInterface
 		interface Protocol extends DataProtocol<EntityInfoComponent> {
 			Optional<MutableText> entityInformation(EntityRepresentable representable);
 
 			@Override
 			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
-				return EntityInformationInvoker.INSTANCE;
+				return EntityInformation.INVOKER;
 			}
 		}
 
@@ -55,8 +55,8 @@ public class EntityInfoComponent extends InfoComponent {
 		}
 	}
 
-	public interface EntityDescriptionInvoker extends DataInvoker<EntityInfoComponent, EntityInfoComponent.EntityDescriptionInvoker.Protocol> {
-		EntityDescriptionInvoker INSTANCE = new EntityDescriptionInvoker() {
+	public interface EntityDescription extends DataInvoker<EntityInfoComponent, EntityDescription.Protocol> {
+		EntityDescription INVOKER = new EntityDescription() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
 				return protocols -> (representable) -> protocols.stream()
@@ -67,12 +67,13 @@ public class EntityInfoComponent extends InfoComponent {
 			}
 		};
 
+		@FunctionalInterface
 		interface Protocol extends DataProtocol<EntityInfoComponent> {
 			Optional<MutableText> entityDescription(EntityRepresentable representable);
 
 			@Override
 			default DataInvoker<EntityInfoComponent, ?> dataInvoker() {
-				return EntityDescriptionInvoker.INSTANCE;
+				return EntityDescription.INVOKER;
 			}
 		}
 
@@ -155,7 +156,7 @@ public class EntityInfoComponent extends InfoComponent {
 			// Right Below
 			subtitleRightBelow: {
 				Animation.Text.subtitleRightBelow(
-						EntityInformationInvoker.INSTANCE.invoker().entityInformation(entityRepresentable).orElse(net.minecraft.text.Text.empty())
+						EntityInformation.INVOKER.invoker().entityInformation(entityRepresentable).orElse(net.minecraft.text.Text.empty())
 				);
 			}
 
@@ -169,7 +170,7 @@ public class EntityInfoComponent extends InfoComponent {
 			// Left Below
 			subtitleLeftBelow: {
 				Animation.Text.subtitleLeftBelow(
-						EntityDescriptionInvoker.INSTANCE.invoker().entityDescription(entityRepresentable).orElse(net.minecraft.text.Text.empty())
+						EntityDescription.INVOKER.invoker().entityDescription(entityRepresentable).orElse(net.minecraft.text.Text.empty())
 				);
 			}
 		} else {

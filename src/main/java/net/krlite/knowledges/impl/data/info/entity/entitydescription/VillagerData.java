@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class VillagerEntityDescriptionData extends EntityDescriptionData {
+public class VillagerData extends EntityDescriptionData {
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity().getType() == EntityType.VILLAGER) {

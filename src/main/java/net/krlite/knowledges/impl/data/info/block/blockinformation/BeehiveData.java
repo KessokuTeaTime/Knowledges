@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class BeehiveBlockInformationData extends BlockInformationData {
+public class BeehiveData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         return representable.blockEntity().flatMap(blockEntity -> {

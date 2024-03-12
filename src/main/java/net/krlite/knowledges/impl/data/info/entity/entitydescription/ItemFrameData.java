@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class ItemFrameEntityDescriptionData extends EntityDescriptionData {
+public class ItemFrameData extends EntityDescriptionData {
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity().getType() == EntityType.ITEM_FRAME || representable.entity().getType() == EntityType.GLOW_ITEM_FRAME) {

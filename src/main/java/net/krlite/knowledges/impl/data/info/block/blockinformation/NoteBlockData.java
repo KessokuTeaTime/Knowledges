@@ -1,7 +1,6 @@
 package net.krlite.knowledges.impl.data.info.block.blockinformation;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
@@ -21,7 +20,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class NoteBlockInformationData extends BlockInformationData {
+public class NoteBlockData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         if (representable.blockState().isOf(Blocks.NOTE_BLOCK)) {

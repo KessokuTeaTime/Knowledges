@@ -1,7 +1,6 @@
 package net.krlite.knowledges.impl.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.krlite.equator.visual.color.Palette;
@@ -28,8 +27,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class BlockInfoComponent extends InfoComponent {
-	public interface MineableToolInvoker extends DataInvoker<BlockInfoComponent, MineableToolInvoker.Protocol> {
-		MineableToolInvoker INSTANCE = new MineableToolInvoker() {
+	public interface MineableTool extends DataInvoker<BlockInfoComponent, MineableTool.Protocol> {
+		MineableTool INVOKER = new MineableTool() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
 				return protocols -> blockState -> protocols.stream()
@@ -40,12 +39,13 @@ public class BlockInfoComponent extends InfoComponent {
 			}
 		};
 
+		@FunctionalInterface
 		interface Protocol extends DataProtocol<BlockInfoComponent> {
 			Optional<MutableText> mineableTool(BlockState blockState);
 
 			@Override
 			default DataInvoker<BlockInfoComponent, ?> dataInvoker() {
-				return MineableToolInvoker.INSTANCE;
+				return MineableTool.INVOKER;
 			}
 		}
 
@@ -55,8 +55,8 @@ public class BlockInfoComponent extends InfoComponent {
 		}
 	}
 
-	public interface BlockInformationInvoker extends DataInvoker<BlockInfoComponent, BlockInformationInvoker.Protocol> {
-		BlockInformationInvoker INSTANCE = new BlockInformationInvoker() {
+	public interface BlockInformation extends DataInvoker<BlockInfoComponent, BlockInformation.Protocol> {
+		BlockInformation INVOKER = new BlockInformation() {
 			@Override
 			public @NotNull Function<List<Protocol>, Protocol> protocolStream() {
 				return protocols -> (representable) -> protocols.stream()
@@ -67,12 +67,13 @@ public class BlockInfoComponent extends InfoComponent {
 			}
 		};
 
+		@FunctionalInterface
 		interface Protocol extends DataProtocol<BlockInfoComponent> {
 			Optional<MutableText> blockInformation(BlockRepresentable representable);
 
 			@Override
 			default DataInvoker<BlockInfoComponent, ?> dataInvoker() {
-				return BlockInformationInvoker.INSTANCE;
+				return BlockInformation.INVOKER;
 			}
 		}
 
@@ -126,7 +127,7 @@ public class BlockInfoComponent extends InfoComponent {
 				boolean foundSemanticMiningLevel = false;
 
 				tool: {
-					Optional<MutableText> data = MineableToolInvoker.INSTANCE.invoker().mineableTool(blockState);
+					Optional<MutableText> data = MineableTool.INVOKER.invoker().mineableTool(blockState);
 
 					if (hardness < 0) {
 						// Unbreakable
@@ -174,7 +175,7 @@ public class BlockInfoComponent extends InfoComponent {
 						&& world.isReceivingRedstonePower(blockRepresentable.blockPos());
 
 				Animation.Text.subtitleLeftBelow(
-						BlockInformationInvoker.INSTANCE.invoker().blockInformation(blockRepresentable)
+						BlockInformation.INVOKER.invoker().blockInformation(blockRepresentable)
 								.orElse(powered ? localize("powered") : net.minecraft.text.Text.empty())
 				);
 			}

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class BannerBlockInformationData extends BlockInformationData {
+public class BannerData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         return representable.blockEntity().flatMap(blockEntity -> {

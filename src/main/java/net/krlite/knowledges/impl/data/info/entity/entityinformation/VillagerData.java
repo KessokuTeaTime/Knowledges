@@ -7,17 +7,16 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.village.VillagerData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class VillagerEntityInformationData extends EntityInformationData {
+public class VillagerData extends EntityInformationData {
     @Override
     public Optional<MutableText> entityInformation(EntityRepresentable representable) {
         if (representable.entity().getType() == EntityType.VILLAGER) {
             if (!(representable.entity() instanceof VillagerEntity villagerEntity)) return Optional.empty();
-            VillagerData villagerData = villagerEntity.getVillagerData();
+            net.minecraft.village.VillagerData villagerData = villagerEntity.getVillagerData();
 
             return Optional.of(Text.translatable(
                     localizationKey("profession_and_level"),

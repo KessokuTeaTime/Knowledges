@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class RedstoneWireBlockInformationData extends BlockInformationData {
+public class RedstoneWireData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         if (representable.blockState().isOf(Blocks.REDSTONE_WIRE)) {

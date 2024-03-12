@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class MineableToolData extends BlockInfoComponentData implements BlockInfoComponent.MineableToolInvoker.Protocol {
+public class MineableToolData extends BlockInfoComponentData implements BlockInfoComponent.MineableTool.Protocol {
     @Override
     public Optional<MutableText> mineableTool(BlockState blockState) {
         MutableText tool = null;

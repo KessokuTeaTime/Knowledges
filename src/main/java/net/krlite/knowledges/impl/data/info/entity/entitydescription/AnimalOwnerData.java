@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class AnimalOwnerEntityDescriptionData extends EntityDescriptionData {
+public class AnimalOwnerData extends EntityDescriptionData {
     @Override
     public Optional<MutableText> entityDescription(EntityRepresentable representable) {
         if (representable.entity() instanceof Tameable tameable && tameable.getOwnerUuid() != null) {
