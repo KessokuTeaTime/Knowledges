@@ -110,9 +110,6 @@
   "knowledges:component/knowledges:crosshair:config/subtitles"        : "副标题",
   "knowledges:component/knowledges:crosshair:config/subtitles.tooltip": "显示位于准心文本上方或下方的描述性文本",
 
-  "knowledges:component/knowledges:crosshair:config/spare_delay"        : "空闲延迟",
-  "knowledges:component/knowledges:crosshair:config/spare_delay.tooltip": "决定准心组件在变为可见状态前的延迟等待时间",
-
   "knowledges:component/knowledges:crosshair:config/primary_opacity"        : "主要透明度",
   "knowledges:component/knowledges:crosshair:config/primary_opacity.tooltip": "控制准心处主要信息的显示透明度",
 

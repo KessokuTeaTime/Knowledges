@@ -108,9 +108,6 @@
   "knowledges:component/knowledges:crosshair:config/subtitles"        : "Subtitles",
   "knowledges:component/knowledges:crosshair:config/subtitles.tooltip": "Whether to display the descriptive texts that are above or below the crosshair texts",
 
-  "knowledges:component/knowledges:crosshair:config/spare_delay"        : "Spare Delay",
-  "knowledges:component/knowledges:crosshair:config/spare_delay.tooltip": "Determines how long the cursor waits before appearing to be visible",
-
   "knowledges:component/knowledges:crosshair:config/primary_opacity"        : "Primary Opacity",
   "knowledges:component/knowledges:crosshair:config/primary_opacity.tooltip": "Controls the display opacity of primary information around the cursor",
 

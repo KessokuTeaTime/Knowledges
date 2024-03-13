@@ -207,18 +207,6 @@ public class CrosshairComponent implements Knowledge {
 
                 KnowledgesConfigScreen.emptyEntryBuilder(),
 
-                entryBuilder.startLongSlider(
-                                localizeForConfig("spare_delay"),
-                                KnowledgesClient.CONFIG.get().components.crosshair.spareDelayMilliseconds,
-                                0, 2000
-                        )
-                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.spareDelayMilliseconds)
-                        .setTooltip(localizeTooltipForConfig("spare_delay"))
-                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.spareDelayMilliseconds = value)
-                        .setTextGetter(LocalizationProxy.TimeUnit::fitAndLocalize),
-
-                KnowledgesConfigScreen.emptyEntryBuilder(),
-
                 entryBuilder.startIntSlider(
                                 localizeForConfig("primary_opacity"),
                                 KnowledgesClient.CONFIG.get().components.crosshair.primaryOpacityAsInt(),
