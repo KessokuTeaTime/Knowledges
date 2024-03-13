@@ -34,7 +34,7 @@ public class BannerData extends BlockInformationData {
 
                                     if (available > 2) {
                                         return Text.translatable(
-                                                localizationKey("more_patterns"),
+                                                localizationKey("pattern", "more"),
                                                 name.getString(),
                                                 available - 1,
                                                 // Counts the rest of the patterns. Use '%2$d' to reference.
@@ -43,7 +43,7 @@ public class BannerData extends BlockInformationData {
                                         );
                                     } else if (available > 1) {
                                         return Text.translatable(
-                                                localizationKey("one_more_pattern"),
+                                                localizationKey("pattern", "one_more"),
                                                 name.getString()
                                         );
                                     } else {

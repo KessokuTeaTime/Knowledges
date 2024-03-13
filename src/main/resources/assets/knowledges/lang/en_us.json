@@ -78,6 +78,15 @@
 
   "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
 
+  "time_unit.knowledges.ms"       : "%1$s millisecond",
+  "time_unit.knowledges.ms.plural": "%1$s milliseconds",
+  "time_unit.knowledges.s"        : "%1$s second",
+  "time_unit.knowledges.s.plural" : "%1$s seconds",
+  "time_unit.knowledges.m"        : "%1$s minute",
+  "time_unit.knowledges.m.plural" : "%1$s minutes",
+  "time_unit.knowledges.h"        : "%1$s hour",
+  "time_unit.knowledges.h.plural" : "%1$s hours",
+
 
 
   "knowledges:component/knowledges:crosshair:name"   : "Crosshair",
@@ -96,6 +105,9 @@
 
   "knowledges:component/knowledges:crosshair:config/subtitles"        : "Subtitles",
   "knowledges:component/knowledges:crosshair:config/subtitles.tooltip": "Whether to display the descriptive texts that are above or below the crosshair texts",
+
+  "knowledges:component/knowledges:crosshair:config/spare_delay"        : "Spare Delay",
+  "knowledges:component/knowledges:crosshair:config/spare_delay.tooltip": "Determines how long the cursor waits before appearing to be visible",
 
   "knowledges:component/knowledges:crosshair:config/primary_opacity"        : "Primary Opacity",
   "knowledges:component/knowledges:crosshair:config/primary_opacity.tooltip": "Controls the display opacity of primary information around the cursor",
@@ -166,8 +178,8 @@
   "knowledges:data/knowledges:info/block//block_information/banner:tooltip": "Provides information about banners",
 
   "knowledges:data/knowledges:info/block//block_information/banner:pattern"         : "%1$s",
-  "knowledges:data/knowledges:info/block//block_information/banner:more_patterns"   : "§r%1$s §7and %2$d More",
-  "knowledges:data/knowledges:info/block//block_information/banner:one_more_pattern": "§r%1$s §7and 1 More",
+  "knowledges:data/knowledges:info/block//block_information/banner:pattern.more"    : "§r%1$s §7and %2$d More",
+  "knowledges:data/knowledges:info/block//block_information/banner:pattern.one_more": "§r%1$s §7and 1 More",
 
   "knowledges:data/knowledges:info/block//block_information/composter:name"   : "Composter Information",
   "knowledges:data/knowledges:info/block//block_information/composter:tooltip": "Provides information about composters' composition levels",

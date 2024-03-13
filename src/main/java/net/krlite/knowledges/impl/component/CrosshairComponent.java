@@ -13,6 +13,7 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
+import net.krlite.knowledges.api.proxy.LocalizationProxy;
 import net.krlite.knowledges.api.proxy.RenderProxy;
 import net.krlite.knowledges.api.representable.base.Representable;
 import net.krlite.knowledges.config.modmenu.KnowledgesConfigScreen;
@@ -202,6 +203,18 @@ public class CrosshairComponent implements Knowledge {
                         .setTooltip(localizeTooltipForConfig("subtitles"))
                         .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.subtitlesEnabled = value)
                         .setYesNoTextSupplier(KnowledgesConfigScreen.BooleanSupplier.DISPLAYED_HIDDEN),
+
+                KnowledgesConfigScreen.emptyEntryBuilder(),
+
+                entryBuilder.startLongSlider(
+                                localizeForConfig("spare_delay"),
+                                KnowledgesClient.CONFIG.get().components.crosshair.spareDelayMilliseconds,
+                                0, 2000
+                        )
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.components.crosshair.spareDelayMilliseconds)
+                        .setTooltip(localizeTooltipForConfig("spare_delay"))
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().components.crosshair.spareDelayMilliseconds = value)
+                        .setTextGetter(LocalizationProxy.TimeUnit::fitAndLocalize),
 
                 KnowledgesConfigScreen.emptyEntryBuilder(),
 

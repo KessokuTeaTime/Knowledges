@@ -11,13 +11,14 @@ public class BlockInformationDataProvider implements DataProvider<BlockInformati
     @Override
     public @NotNull List<Class<? extends BlockInformationData>> provide() {
         return List.of(
-                NoteBlockData.class,
                 BannerData.class,
+                BeehiveData.class,
+                BrewingStandData.class,
                 ComposterData.class,
-                RedstoneWireData.class,
                 CropData.class,
-                SaplingData.class,
-                BeehiveData.class
+                NoteBlockData.class,
+                RedstoneWireData.class,
+                SaplingData.class
         );
     }
 }

@@ -57,6 +57,7 @@ public class ClientConfig extends PartitioningSerializer.GlobalData {
 			public boolean textsRightEnabled = true;
 			public boolean textsLeftEnabled = true;
 			public boolean subtitlesEnabled = true;
+			public long spareDelayMilliseconds = 200;
 			public double primaryOpacity = 0.72;
 			public double secondaryOpacity = 0.5;
 

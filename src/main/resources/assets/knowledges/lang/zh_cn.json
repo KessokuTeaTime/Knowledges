@@ -79,6 +79,15 @@
   "ring_shape.knowledges.diamond.tooltip": "看起来棱角分明，渲染速度更快",
 
   "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
+
+  "time_unit.knowledges.ms"       : "%1$s毫秒",
+  "time_unit.knowledges.ms.plural": "%1$s毫秒",
+  "time_unit.knowledges.s"        : "%1$s秒",
+  "time_unit.knowledges.s.plural" : "%1$s秒",
+  "time_unit.knowledges.m"        : "%1$s分钟",
+  "time_unit.knowledges.m.plural" : "%1$s分钟",
+  "time_unit.knowledges.h"        : "%1$s小时",
+  "time_unit.knowledges.h.plural" : "%1$s小时",
   
   
 
@@ -98,6 +107,9 @@
 
   "knowledges:component/knowledges:crosshair:config/subtitles"        : "副标题",
   "knowledges:component/knowledges:crosshair:config/subtitles.tooltip": "显示位于准心文本上方或下方的描述性文本",
+
+  "knowledges:component/knowledges:crosshair:config/spare_delay"        : "空闲延迟",
+  "knowledges:component/knowledges:crosshair:config/spare_delay.tooltip": "决定准心组件在变为可见状态前的延迟等待时间",
 
   "knowledges:component/knowledges:crosshair:config/primary_opacity"        : "主要透明度",
   "knowledges:component/knowledges:crosshair:config/primary_opacity.tooltip": "控制准心处主要信息的显示透明度",
@@ -167,8 +179,8 @@
   "knowledges:data/knowledges:info/block//block_information/banner:name"   : "旗帜信息",
   "knowledges:data/knowledges:info/block//block_information/banner:tooltip": "提供有关旗帜的信息",
 
-  "knowledges:data/knowledges:info/block//block_information/banner:more_patterns"   : "§r%1$s§7等%3$d个样式",
-  "knowledges:data/knowledges:info/block//block_information/banner:one_more_pattern": "§r%1$s§7等2个样式",
+  "knowledges:data/knowledges:info/block//block_information/banner:pattern.more"   : "§r%1$s§7等%3$d个样式",
+  "knowledges:data/knowledges:info/block//block_information/banner:pattern.one_more": "§r%1$s§7等2个样式",
 
   "knowledges:data/knowledges:info/block//block_information/composter:name"   : "堆肥桶信息",
   "knowledges:data/knowledges:info/block//block_information/composter:tooltip": "提供有关堆肥桶的堆肥等级的信息",

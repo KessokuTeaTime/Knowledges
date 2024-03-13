@@ -13,8 +13,8 @@ public class EntityInformationDataProvider implements DataProvider<EntityInforma
     @Override
     public @NotNull List<Class<? extends EntityInformationData>> provide() {
         return List.of(
-                PaintingData.class,
                 ItemFrameData.class,
+                PaintingData.class,
                 VillagerData.class
         );
     }
