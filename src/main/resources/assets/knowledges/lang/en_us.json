@@ -76,7 +76,9 @@
   "ring_shape.knowledges.oval.tooltip"   : "Looks smoother, requires higher hardware performance",
   "ring_shape.knowledges.diamond.tooltip": "Looks sharp and angular, fast to render",
 
-  "util.knowledges.date_and_time": "§7Day %1$s, §r%2$s:%3$s",
+  "date_and_time.knowledges.formatted": "§7Day %1$s, §r%2$s:%3$s",
+
+  "mod_name.knowledges.unknown": "Unknown",
 
   "time_unit.knowledges.ms"       : "%1$s millisecond",
   "time_unit.knowledges.ms.plural": "%1$s milliseconds",

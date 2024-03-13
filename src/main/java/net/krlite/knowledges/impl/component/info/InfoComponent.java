@@ -18,9 +18,14 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public class InfoComponent extends net.krlite.knowledges.impl.component.base.InfoComponent {
+    public InfoComponent() {
+        super();
+        Animation.initialize();
+    }
+
     @Override
     public void render(RenderProxy renderProxy, @NotNull Representable<?> representable) {
-        if (!ModProxy.hitResultNotAir(representable.hitResult())) reset();
+        if (!Animation.isVisible()) reset();
 
         Box textsRight = FrameInfo.scaled()
                 .leftCenter(LayoutProxy.crosshairSafeArea().rightCenter())

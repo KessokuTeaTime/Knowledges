@@ -4,9 +4,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.enums.Instrument;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
@@ -48,10 +48,11 @@ public class ModProxy {
     }
 
     public static MutableText getModName(String namespace) {
-        return Text.literal(FabricLoader.getInstance().getModContainer(namespace)
+        return FabricLoader.getInstance().getModContainer(namespace)
                 .map(ModContainer::getMetadata)
                 .map(ModMetadata::getName)
-                .orElse(""));
+                .map(Text::literal)
+                .orElse(KnowledgesCommon.localize("mod_name", "unknown"));
     }
 
     public static Optional<FluidState> getFluidState(HitResult hitResult) {
@@ -131,24 +132,5 @@ public class ModProxy {
         }
 
         return namespace;
-    }
-
-    public static MutableText getInstrumentName(Instrument instrument) {
-        return KnowledgesClient.localize("instrument", instrument.asString());
-    }
-
-    public static MutableText getDateAndTime() {
-        if (MinecraftClient.getInstance().world == null) return Text.empty();
-
-        long time = MinecraftClient.getInstance().world.getTimeOfDay() + 24000 / 4; // Offset to morning
-        long day = time / 24000;
-        double percentage = (time % 24000) / 24000.0;
-
-        int hour = (int) (24 * percentage), minute = (int) (60 * ((percentage * 24) % 1));
-
-        return Text.translatable(
-                KnowledgesClient.localizationKey("util", "date_and_time"),
-                String.valueOf(day), String.format("%02d", hour), String.format("%02d", minute)
-        );
     }
 }

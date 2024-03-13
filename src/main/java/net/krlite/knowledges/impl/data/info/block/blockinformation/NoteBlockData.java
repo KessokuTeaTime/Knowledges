@@ -3,8 +3,10 @@ package net.krlite.knowledges.impl.data.info.block.blockinformation;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.core.localization.EnumLocalizable;
 import net.krlite.knowledges.Util;
+import net.krlite.knowledges.api.proxy.LocalizationProxy;
 import net.krlite.knowledges.api.proxy.ModProxy;
 import net.krlite.knowledges.api.representable.BlockRepresentable;
 import net.krlite.knowledges.impl.data.info.base.block.BlockInformationData;
@@ -24,7 +26,7 @@ public class NoteBlockData extends BlockInformationData {
     @Override
     public Optional<MutableText> blockInformation(BlockRepresentable representable) {
         if (representable.blockState().isOf(Blocks.NOTE_BLOCK)) {
-            MutableText instrumentText = ModProxy.getInstrumentName(representable.blockState().get(NoteBlock.INSTRUMENT));
+            MutableText instrumentText = LocalizationProxy.localizeInstrument(representable.blockState().get(NoteBlock.INSTRUMENT));
             MutableText noteText = KnowledgesClient.CONFIG.get().data.noteBlockInformation.musicalAlphabet.alphabet(
                     representable.blockState().get(NoteBlock.NOTE),
                     KnowledgesClient.CONFIG.get().data.noteBlockInformation.noteModifier
@@ -34,7 +36,7 @@ public class NoteBlockData extends BlockInformationData {
         }
 
         if (representable.player().getMainHandStack().isOf(Items.NOTE_BLOCK)) {
-            return Optional.of(ModProxy.getInstrumentName(representable.blockState().getInstrument()));
+            return Optional.of(LocalizationProxy.localizeInstrument(representable.blockState().getInstrument()));
         }
 
         return Optional.empty();
@@ -104,7 +106,7 @@ public class NoteBlockData extends BlockInformationData {
 
         @Override
         public MutableText localization() {
-            return KnowledgesClient.localize("note_modifier", path());
+            return KnowledgesCommon.localize("note_modifier", path());
         }
     }
 
@@ -112,7 +114,7 @@ public class NoteBlockData extends BlockInformationData {
         NUMERIC(
                 "numeric",
                 (n, m) -> Text.literal(String.valueOf(n)),
-                KnowledgesClient.localize("musical_alphabet", "numeric", "tooltip")
+                KnowledgesCommon.localize("musical_alphabet", "numeric", "tooltip")
         ),
         SOLFEGE("solfege", mapNotes(
                 m -> m.map("Fa♯3", "So♭l3"),
@@ -337,7 +339,7 @@ public class NoteBlockData extends BlockInformationData {
         @Override
         public MutableText localization() {
             return Text.translatable(
-                    KnowledgesClient.localizationKey("musical_alphabet", path()),
+                    KnowledgesCommon.localizationKey("musical_alphabet", path()),
                     demo
             );
         }

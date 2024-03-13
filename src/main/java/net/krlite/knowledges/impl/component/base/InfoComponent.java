@@ -11,6 +11,7 @@ import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
+import net.krlite.knowledges.KnowledgesClient;
 import net.krlite.knowledges.api.core.path.WithPartialPath;
 import net.krlite.knowledges.Util;
 import net.krlite.knowledges.animation.InterpolatedText;
@@ -220,24 +221,33 @@ public abstract class InfoComponent implements Knowledge, WithPartialPath {
 
 
 
-		static {
+		protected static boolean initialized = false;
+
+		public static boolean isVisible() {
+			return ModProxy.hitResultNotAir(MinecraftClient.getInstance().crosshairTarget);
+		}
+
+		public static void initialize() {
+			if (initialized) return;
+
 			Ring.focusingBlock.speedDirection(false);
 
 			Mouse.Callbacks.Click.EVENT.register((button, action, modifiers) -> {
 				Ring.mouseHolding.target(action.isPress() ? 1D : 0D);
 			});
+
+			registerEvents();
+
+			initialized = true;
 		}
 
-		public static void registerEvents() {
+		protected static void registerEvents() {
 			ClientTickEvents.END_CLIENT_TICK.register(client -> {
 				if (client != null) {
-					HitResult hitResult = MinecraftClient.getInstance().crosshairTarget;
-					boolean hitResultNotAir = ModProxy.hitResultNotAir(hitResult);
+					Ring.ovalOpacity.target(isVisible() ? 1D : 0D);
 
-					Ring.ovalOpacity.target(hitResultNotAir ? 1D : 0D);
-
-					if (Ring.focusingBlock.isPositive() != hitResultNotAir) {
-						Ring.focusingBlock.speedDirection(hitResultNotAir);
+					if (Ring.focusingBlock.isPositive() != isVisible()) {
+						Ring.focusingBlock.speedDirection(isVisible());
 						Ring.focusingBlock.play();
 					}
 				}

@@ -14,14 +14,9 @@ import net.krlite.knowledges.manager.DataManager;
 import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
 import net.krlite.knowledges.networking.ClientNetworking;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static net.krlite.knowledges.api.core.localization.Localizable.Separator.KEY;
 
 public class KnowledgesClient implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(KnowledgesCommon.ID + "-client");
@@ -52,7 +47,6 @@ public class KnowledgesClient implements ClientModInitializer {
         Manager.fixKeysAndSort(CONFIG.get().components.available);
         Manager.fixKeysAndSort(CONFIG.get().data.available);
 
-        InfoComponent.Animation.registerEvents();
         new ClientNetworking().register();
 
         EntrypointInvoker.COMPONENT.invoke(COMPONENTS::register);
@@ -83,18 +77,6 @@ public class KnowledgesClient implements ClientModInitializer {
         HudRenderCallback.EVENT.register(((context, tickDelta) -> {
             HUD.render(context, COMPONENTS::render);
         }));
-    }
-
-    public static Identifier identifier(String path) {
-        return new Identifier(KnowledgesCommon.ID, path);
-    }
-
-    public static String localizationKey(String category, String... paths) {
-        return category + KEY + KnowledgesCommon.ID + KEY + String.join(KEY.toString(), paths);
-    }
-
-    public static MutableText localize(String category, String... paths) {
-        return Text.translatable(localizationKey(category, paths));
     }
 
     public static void tidyUpConfig() {

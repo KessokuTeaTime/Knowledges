@@ -84,11 +84,14 @@ public class KnowledgesConfigScreen {
     }
 
     private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
-            .setTitle(KnowledgesClient.localize("screen", "config", "title"))
+            .setTitle(KnowledgesCommon.localize("screen", "config", "title"))
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
             .setSavingRunnable(() -> {
+                KnowledgesCommon.tidyUpConfig();
+                KnowledgesCommon.CONFIG.save();
+
                 KnowledgesClient.tidyUpConfig();
                 KnowledgesClient.CONFIG.save();
             });
@@ -107,7 +110,7 @@ public class KnowledgesConfigScreen {
     }
 
     public static String localizationKey(String... paths) {
-        return KnowledgesClient.localizationKey("config", paths);
+        return KnowledgesCommon.localizationKey("config", paths);
     }
 
     public static MutableText localize(String... paths) {

@@ -11,6 +11,7 @@ import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
 import net.krlite.knowledges.api.component.Knowledge;
 import net.krlite.knowledges.api.proxy.LayoutProxy;
 import net.krlite.knowledges.api.proxy.LocalizationProxy;
@@ -256,12 +257,12 @@ public class CrosshairComponent implements Knowledge {
 
         @Override
         public MutableText localization() {
-            return KnowledgesClient.localize("ring_shape", path());
+            return KnowledgesCommon.localize("ring_shape", path());
         }
 
         @Override
         public MutableText toolip() {
-            return KnowledgesClient.localize("ring_shape", path(), "tooltip");
+            return KnowledgesCommon.localize("ring_shape", path(), "tooltip");
         }
     }
 }

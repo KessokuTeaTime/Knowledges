@@ -11,9 +11,15 @@ import net.krlite.knowledges.manager.ContractManager;
 import net.krlite.knowledges.manager.base.EntrypointInvoker;
 import net.krlite.knowledges.manager.base.Manager;
 import net.krlite.knowledges.networking.ServerNetworking;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static net.krlite.knowledges.api.core.localization.Localizable.Separator.KEY;
 
 public class KnowledgesCommon implements ModInitializer {
     public static final String NAME = "Knowledges", ID = "knowledges";
@@ -53,6 +59,19 @@ public class KnowledgesCommon implements ModInitializer {
     }
 
     public static void tidyUpConfig() {
-        CONTRACTS.tidyUp();
+        if (CONFIG.get().contracts.autoTidiesUp)
+            CONTRACTS.tidyUp();
+    }
+
+    public static Identifier identifier(String path) {
+        return new Identifier(ID, path);
+    }
+
+    public static String localizationKey(String category, String... paths) {
+        return String.join(KEY.toString(), ArrayUtils.insert(0, paths, category, ID));
+    }
+
+    public static MutableText localize(String category, String... paths) {
+        return Text.translatable(localizationKey(category, paths));
     }
 }

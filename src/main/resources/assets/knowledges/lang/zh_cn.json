@@ -78,7 +78,9 @@
   "ring_shape.knowledges.oval.tooltip"   : "看起来更加圆滑，需要更高的硬件性能",
   "ring_shape.knowledges.diamond.tooltip": "看起来棱角分明，渲染速度更快",
 
-  "util.knowledges.date_and_time": "§7第%1$s天，§r%2$s:%3$s",
+  "date_and_time.knowledges.formatted": "§7第%1$s天，§r%2$s:%3$s",
+
+  "mod_name.knowledges.unknown": "未知",
 
   "time_unit.knowledges.ms"       : "%1$s毫秒",
   "time_unit.knowledges.ms.plural": "%1$s毫秒",
