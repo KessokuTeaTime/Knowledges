@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * An entrypoint to provide api implementations for register.
+ * @param <T>   the type of the provided data.
+ */
 public interface Provider<T> {
     @NotNull List<Class<? extends T>> provide();
 
