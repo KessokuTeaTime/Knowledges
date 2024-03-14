@@ -9,7 +9,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * An invoker to provide data restrictions and invoking methods.
+ * @param <K>   the target {@link Knowledge} class.
+ * @param <P>   the target {@link DataProtocol} class.
+ */
 public interface DataInvoker<K extends Knowledge, P extends DataProtocol<K>> {
+    /**
+     * @return  the target {@link Knowledge} class.
+     */
     @NotNull Class<K> targetKnowledgeClass();
 
     default Optional<Knowledge> targetKnowledge() {

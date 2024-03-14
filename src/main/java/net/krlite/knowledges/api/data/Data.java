@@ -7,6 +7,10 @@ import net.krlite.knowledges.api.core.localization.Localizable;
 import net.krlite.knowledges.api.core.path.WithPath;
 import net.krlite.knowledges.api.data.transfer.DataProtocol;
 
+/**
+ * A data which provides extendable information for a {@link Knowledge}.
+ * @param <K>
+ */
 public interface Data<K extends Knowledge> extends DataProtocol<K>, WithPath, Localizable.WithName, WithIndependentConfigPage {
     @Override
     default String localizationKey(String... paths) {
