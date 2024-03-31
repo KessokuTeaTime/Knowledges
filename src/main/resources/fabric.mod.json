@@ -51,7 +51,7 @@
     "fabric-api": "*",
     "minecraft": "1.20.x",
     "cloth-config": "*",
-    "equator": ">=2.6.2"
+    "equator": ">=2.6.4"
   },
   "suggests": {
   }
