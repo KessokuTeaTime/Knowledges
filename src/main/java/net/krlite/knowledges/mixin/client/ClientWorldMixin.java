@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin {
     @Inject(method = "addEntity", at = @At("HEAD"))
-    private void addPlayer(Entity entity, CallbackInfo ci) {
+    private void addPlayer(int i, Entity entity, CallbackInfo ci) {
         if (entity instanceof PlayerEntity player)
             KnowledgesCommon.CACHE_USERNAME.put(player);
     }

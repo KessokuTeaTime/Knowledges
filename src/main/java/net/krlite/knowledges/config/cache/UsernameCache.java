@@ -1,7 +1,6 @@
 package net.krlite.knowledges.config.cache;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.yggdrasil.ProfileResult;
 import net.krlite.knowledges.config.cache.base.Cache;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,12 +52,9 @@ public class UsernameCache extends Cache<UUID, String> {
                 LOGGER.info("Downloading player name for caching. UUID: {}", uuid);
                 callback.downloading.add(uuid);
 
-                ProfileResult profileResult = MinecraftClient.getInstance().getSessionService().fetchProfile(uuid, true);
-                if (profileResult == null) {
-                    return;
-                }
+                GameProfile profile = new GameProfile(uuid, "???");
+                profile = MinecraftClient.getInstance().getSessionService().fillProfileProperties(profile, true);
 
-                GameProfile profile = profileResult.profile();
                 String name = profile.getName();
                 if (name == null || name.equals("???")) {
                     return;

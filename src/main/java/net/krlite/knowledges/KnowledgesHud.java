@@ -72,7 +72,7 @@ public class KnowledgesHud {
                 boolean isFirstPerson = client.options.getPerspective().isFirstPerson();
                 boolean isSpectator = client.interactionManager != null && client.interactionManager.getCurrentGameMode() == GameMode.SPECTATOR;
                 boolean shouldRenderSpectatorCrosshair = ((InGameHudInvoker) client.inGameHud).invokeShouldRenderSpectatorCrosshair(rep.hitResult());
-                boolean isInDebugHud = client.getDebugHud().shouldShowDebugHud()
+                boolean isInDebugHud = client.options.debugEnabled
                         && !client.options.hudHidden
                         && !client.player.hasReducedDebugInfo()
                         && !client.options.getReducedDebugInfo().getValue();
