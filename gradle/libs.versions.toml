@@ -1,7 +1,7 @@
 [versions]
 maven-group = "band.kessokuteatime"
 archives-name = "knowledges"
-mod = "4.0.1"
+mod = "5.0.0"
 
 minecraft = "1.20"
 yarn = "1.20+build.1"
@@ -11,7 +11,7 @@ fabric-loom = "1.5-SNAPSHOT"
 
 cloth-config = "11.1.118"
 modmenu = "7.0.1"
-equator = "2.6.2-mc1.20"
+equator = "2.6.4-mc1.20"
 
 [libraries]
 minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }

@@ -5,24 +5,31 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.api.Requirement;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
-import net.krlite.knowledges.Knowledges;
-import net.krlite.knowledges.api.Data;
-import net.krlite.knowledges.api.Knowledge;
+import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
+import net.krlite.knowledges.KnowledgesClient;
+import net.krlite.knowledges.KnowledgesCommon;
+import net.krlite.knowledges.api.data.Data;
+import net.krlite.knowledges.api.component.Knowledge;
+import net.krlite.knowledges.api.data.transfer.DataInvoker;
+import net.krlite.knowledges.api.data.transfer.DataProtocol;
+import net.krlite.knowledges.api.proxy.ModProxy;
+import net.krlite.knowledges.config.modmenu.impl.EmptyEntryBuilder;
 import net.krlite.knowledges.config.modmenu.impl.KnowledgesConfigBuilder;
-import net.krlite.knowledges.core.config.WithIndependentConfigPage;
-import net.krlite.knowledges.core.localization.Localizable;
-import net.krlite.knowledges.core.path.WithPath;
-import net.krlite.knowledges.core.util.Helper;
-import net.krlite.knowledges.manager.AbstractManager;
+import net.krlite.knowledges.api.core.config.WithIndependentConfigPage;
+import net.krlite.knowledges.api.core.localization.Localizable;
+import net.krlite.knowledges.api.core.path.WithPath;
+import net.krlite.knowledges.Util;
+import net.krlite.knowledges.manager.base.Manager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("UnstableApiUsage")
 public class KnowledgesConfigScreen {
@@ -72,16 +79,22 @@ public class KnowledgesConfigScreen {
 
         public void register(Object object, BooleanListEntry entry) {
             ENTRY_INDEXED.put(entry, object);
-            Helper.Map.fastMerge(OBJECT_INDEXED, object, entry);
+            Util.Map.fastMerge(OBJECT_INDEXED, object, entry);
         }
     }
 
     private final KnowledgesConfigBuilder configBuilder = (KnowledgesConfigBuilder) new KnowledgesConfigBuilder()
-            .setTitle(Knowledges.localize("screen", "config", "title"))
+            .setTitle(KnowledgesCommon.localize("screen", "config", "title"))
             .transparentBackground()
             .setShouldTabsSmoothScroll(true)
             .setShouldListSmoothScroll(true)
-            .setSavingRunnable(Knowledges.CONFIG_HOLDER::save);
+            .setSavingRunnable(() -> {
+                KnowledgesCommon.tidyUpConfig();
+                KnowledgesCommon.CONFIG.save();
+
+                KnowledgesClient.tidyUpConfig();
+                KnowledgesClient.CONFIG.save();
+            });
     private final ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
     public KnowledgesConfigScreen(Screen parent) {
@@ -92,16 +105,28 @@ public class KnowledgesConfigScreen {
         initComponentEntries();
         initDataEntries();
 
-        initIndependentConfigPages(Knowledges.COMPONENTS, component -> componentEntry(component, false), BooleanListEntrySyncHelper.COMPONENTS, "components");
-        initIndependentConfigPages(Knowledges.DATA, data -> dataEntry(data, false), BooleanListEntrySyncHelper.DATA, "data");
+        initIndependentConfigPages(KnowledgesClient.COMPONENTS, component -> componentEntry(component, false), BooleanListEntrySyncHelper.COMPONENTS, "components");
+        initIndependentConfigPages(KnowledgesClient.DATA, data -> dataEntry(data, false), BooleanListEntrySyncHelper.DATA, "data");
     }
 
     public static String localizationKey(String... paths) {
-        return Knowledges.localizationKey("config", paths);
+        return KnowledgesCommon.localizationKey("config", paths);
     }
 
     public static MutableText localize(String... paths) {
         return Text.translatable(localizationKey(paths));
+    }
+
+    public static MutableText localizeTooltip(String... paths) {
+        return localize(ArrayUtils.add(paths, "tooltip"));
+    }
+
+    public static EmptyEntryBuilder emptyEntryBuilder(int height) {
+        return new EmptyEntryBuilder(height);
+    }
+
+    public static EmptyEntryBuilder emptyEntryBuilder() {
+        return new EmptyEntryBuilder();
     }
 
     public Screen build() {
@@ -117,12 +142,12 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "main_scalar"),
-                                Knowledges.CONFIG.global.mainScalar,
+                                KnowledgesClient.CONFIG.get().general.mainScalarAsInt(),
                                 500, 2000
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.global.mainScalar)
-                        .setTooltip(localize("general", "main_scalar", "tooltip"))
-                        .setSaveConsumer(value -> Knowledges.CONFIG.global.mainScalar = value)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.mainScalarAsInt())
+                        .setTooltip(localizeTooltip("general", "main_scalar"))
+                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::mainScalarAsInt)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
@@ -130,24 +155,26 @@ public class KnowledgesConfigScreen {
         category.addEntry(
                 entryBuilder.startIntSlider(
                                 localize("general", "crosshair_safe_area_scalar"),
-                                Knowledges.CONFIG.global.crosshairSafeAreaScalar,
-                            500, 2000
+                                KnowledgesClient.CONFIG.get().general.crosshairSafeAreaScalarAsInt(),
+                                500, 2000
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.global.crosshairSafeAreaScalar)
-                        .setTooltip(localize("general", "crosshair_safe_area_scalar", "tooltip"))
-                        .setSaveConsumer(value -> Knowledges.CONFIG.global.crosshairSafeAreaScalar = value)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.crosshairSafeAreaScalarAsInt())
+                        .setTooltip(localizeTooltip("general", "crosshair_safe_area_scalar"))
+                        .setSaveConsumer(KnowledgesClient.CONFIG.get().general::crosshairSafeAreaScalarAsInt)
                         .setTextGetter(value -> Text.literal(String.format("%.2f", value / 1000.0)))
                         .build()
         );
 
+        category.addEntry(emptyEntryBuilder().build());
+
         category.addEntry(
                 entryBuilder.startBooleanToggle(
                                 localize("general", "visible_in_debug_hud"),
-                                Knowledges.CONFIG.global.visibleInDebugHud
+                                KnowledgesClient.CONFIG.get().general.visibleInDebugHud
                         )
-                        .setDefaultValue(Knowledges.DEFAULT_CONFIG.global.visibleInDebugHud)
-                        .setTooltip(localize("general", "visible_in_debug_hud", "tooltip"))
-                        .setSaveConsumer(value -> Knowledges.CONFIG.global.visibleInDebugHud = value)
+                        .setDefaultValue(KnowledgesClient.DEFAULT_CONFIG.general.visibleInDebugHud)
+                        .setTooltip(localizeTooltip("general", "visible_in_debug_hud"))
+                        .setSaveConsumer(value -> KnowledgesClient.CONFIG.get().general.visibleInDebugHud = value)
                         .build()
         );
     }
@@ -155,20 +182,20 @@ public class KnowledgesConfigScreen {
     private BooleanToggleBuilder componentEntry(Knowledge component, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
                         component.name(),
-                        Knowledges.COMPONENTS.isEnabled(component)
+                        KnowledgesClient.COMPONENTS.isEnabled(component)
                 )
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> Optional.ofNullable(
                         allowsTooltip && component.providesTooltip() ? new Text[]{component.tooltip()} : null
                 ))
-                .setSaveConsumer(value -> Knowledges.COMPONENTS.setEnabled(component, value))
+                .setSaveConsumer(value -> KnowledgesClient.COMPONENTS.setEnabled(component, value))
                 .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
     private BooleanToggleBuilder dataEntry(Data<?> data, boolean allowsTooltip) {
         return entryBuilder.startBooleanToggle(
                         data.name(),
-                        Knowledges.DATA.isEnabled(data)
+                        KnowledgesClient.DATA.isEnabled(data)
                 )
                 .setDefaultValue(true)
                 .setTooltipSupplier(() -> data.dataInvoker().targetKnowledge()
@@ -176,22 +203,22 @@ public class KnowledgesConfigScreen {
                                 (allowsTooltip && data.providesTooltip()) ? data.tooltip() : Text.empty(),
                                 Text.translatable(
                                         localizationKey("data", "footnote"),
-                                        Helper.Text.withFormatting(knowledge.name(), Formatting.GRAY),
-                                        Helper.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
+                                        Util.Text.withFormatting(knowledge.name(), Formatting.GRAY),
+                                        Util.Text.withFormatting(data.dataInvoker().name(), Formatting.GRAY)
                                 )
                         }))
-                .setSaveConsumer(value -> Knowledges.DATA.setEnabled(data, value))
+                .setSaveConsumer(value -> KnowledgesClient.DATA.setEnabled(data, value))
                 .setYesNoTextSupplier(BooleanSupplier.ENABLED_DISABLED);
     }
 
     private void initComponentEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "components"));
 
-        if (!Knowledges.COMPONENTS.asMap().isEmpty()) {
-            Knowledges.COMPONENTS.asMap().forEach((namespace, components) -> {
-                MutableText name = Knowledge.Util.modName(namespace);
-                boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
-                if (isInDefaultNamespace) name.append(localize("components", "suffix", "default"));
+        if (!KnowledgesClient.COMPONENTS.asMap().isEmpty()) {
+            KnowledgesClient.COMPONENTS.asMap().forEach((namespace, components) -> {
+                MutableText name = ModProxy.getModName(namespace);
+                boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
+                if (isInDefaultNamespace) name = localize("components", "default");
 
                 category.addEntry(entryBuilder.startSubCategory(
                         name,
@@ -211,35 +238,47 @@ public class KnowledgesConfigScreen {
     private void initDataEntries() {
         ConfigCategory category = configBuilder.getOrCreateCategory(localize("category", "data"));
 
-        if (!Knowledges.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
-            Knowledges.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
-                MutableText name = Knowledge.Util.modName(namespace);
-                boolean isInDefaultNamespace = namespace.equals(Knowledges.ID);
-                if (isInDefaultNamespace) name.append(localize("data", "suffix", "default"));
+        if (!KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().isEmpty()) {
+            KnowledgesClient.DATA.asNamespaceKnowledgeClassifiedMap().forEach((namespace, map) -> {
+                MutableText name = ModProxy.getModName(namespace);
+                boolean isInDefaultNamespace = namespace.equals(KnowledgesCommon.ID);
+                if (isInDefaultNamespace) name = localize("data", "default");
 
                 ArrayList<AbstractConfigListEntry> entries = new ArrayList<>();
 
-                map.forEach((component, data) -> {
+                map.forEach((component, dataList) -> {
                     entries.add(
                             entryBuilder.startTextDescription(Text.translatable(
                                             localizationKey("data", "classifier"),
-                                            Helper.Text.withFormatting(component.name(), Formatting.GRAY)
+                                            Util.Text.withFormatting(component.name(), Formatting.GRAY)
                                     ))
                                     .setTooltipSupplier(() -> !component.providesTooltip() ? Optional.empty() : Optional.of(
                                             new Text[]{component.tooltip()}
                                     ))
                                     .build()
                     );
-                    entries.addAll(
-                            data.stream()
-                                    .map(d -> {
-                                        var built = dataEntry(d, true).build();
-                                        BooleanListEntrySyncHelper.DATA.register(d, built);
 
-                                        return (AbstractConfigListEntry) built;
-                                    })
-                                    .toList()
-                    );
+                    Map<DataInvoker<?, ?>, List<Data<?>>> dataInvokerClassified = dataList.stream()
+                                    .collect(Collectors.groupingBy(DataProtocol::dataInvoker));
+                    var iterator = dataInvokerClassified.values().iterator();
+
+                    while (iterator.hasNext()) {
+                        var dataListSegment = iterator.next();
+                        entries.addAll(
+                                dataListSegment.stream()
+                                        .map(data -> {
+                                            var built = dataEntry(data, true).build();
+                                            BooleanListEntrySyncHelper.DATA.register(data, built);
+
+                                            return (AbstractConfigListEntry) built;
+                                        })
+                                        .toList()
+                        );
+
+                        if (iterator.hasNext()) {
+                            entries.add(emptyEntryBuilder().build());
+                        }
+                    }
                 });
 
                 category.addEntry(entryBuilder.startSubCategory(name, entries)
@@ -249,7 +288,7 @@ public class KnowledgesConfigScreen {
     }
 
     private <T extends WithPath & WithIndependentConfigPage & Localizable.WithName> void initIndependentConfigPages(
-            AbstractManager<T> manager,
+            Manager<T> manager,
             Function<T, BooleanToggleBuilder> builder,
             BooleanListEntrySyncHelper helper,
             String path
@@ -271,13 +310,14 @@ public class KnowledgesConfigScreen {
 
             category.addEntry(built);
             category.addEntry(
-                    entryBuilder.startTextDescription(((MutableText) t.tooltip()).append("\n"))
+                    entryBuilder.startTextDescription(t.tooltip())
                             .setRequirement(Requirement.isTrue(t::providesTooltip))
                             .build()
             );
+            category.addEntry(emptyEntryBuilder(16).build());
 
             t.buildConfigEntries().apply(entryBuilder).stream()
-                    .map(AbstractFieldBuilder::build)
+                    .map(FieldBuilder::build)
                     .forEach(category::addEntry);
         });
     }
