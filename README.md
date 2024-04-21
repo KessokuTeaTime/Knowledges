@@ -30,35 +30,35 @@ By default, **Knowledges** provides 6 components:
     <summary>
       Breaking an Oak Log with Minimum UI Enabled
     </summary>
-    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/oak_log.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/oak_log.png?raw=true">
   </details>
   
   <details>
     <summary>
       Fighting a Zombie, Wearing Armor
     </summary>
-    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/zombie.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/zombie.png?raw=true">
   </details>
   
   <details>
     <summary>
       Inspecting Day Time through a Clock in an Item Frame
     </summary>
-    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/clock.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/clock.png?raw=true">
   </details>
   
   <details>
     <summary>
       Playing with a Note Block
     </summary>
-    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/note_block.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/note_block.png?raw=true">
   </details>
   
   <details>
     <summary>
       Configuring Knowledges through Mod Menu
     </summary>
-    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/config_screen.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/config_screen.png?raw=true">
   </details>
 </blockquote>
 
