@@ -3,15 +3,16 @@
   "id": "knowledges",
   "version": "${version}",
 
-  "name": "Knowledges",
+  "name": "${display.name}",
   "description": "What you see is knowledge!",
   "authors": [
+    "Kessoku Tea Time",
     "KrLite"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/knowledges",
-    "sources": "https://github.com/KrLite/Mod.Knowledges",
-    "issues": "https://github.com/KrLite/Mod.Knowledges/issues"
+    "sources": "https://github.com/KessokuTeaTime/Knowledges",
+    "issues": "https://github.com/KessokuTeaTime/Knowledges/issues"
   },
 
   "license": "GPL-3.0",
@@ -20,25 +21,25 @@
   "environment": "client",
   "entrypoints": {
     "main": [
-      "net.krlite.knowledges.KnowledgesCommon"
+      "band.kessokuteatime.knowledges.KnowledgesCommon"
     ],
     "client": [
-      "net.krlite.knowledges.KnowledgesClient"
+      "band.kessokuteatime.knowledges.KnowledgesClient"
     ],
     "modmenu": [
-      "net.krlite.knowledges.config.modmenu.KnowledgesModMenuIntegration"
+      "band.kessokuteatime.knowledges.config.modmenu.KnowledgesModMenuIntegration"
     ],
     "knowledges:component": [
-      "net.krlite.knowledges.impl.entrypoint.component.ComponentProvider",
-      "net.krlite.knowledges.impl.entrypoint.component.InfoComponentProvider"
+      "band.kessokuteatime.knowledges.impl.entrypoint.component.ComponentProvider",
+      "band.kessokuteatime.knowledges.impl.entrypoint.component.InfoComponentProvider"
     ],
     "knowledges:data": [
-      "net.krlite.knowledges.impl.entrypoint.data.info.BlockInfoComponentDataProvider",
-      "net.krlite.knowledges.impl.entrypoint.data.info.EntityInfoComponentDataProvider"
+      "band.kessokuteatime.knowledges.impl.entrypoint.data.info.BlockInfoComponentDataProvider",
+      "band.kessokuteatime.knowledges.impl.entrypoint.data.info.EntityInfoComponentDataProvider"
     ],
     "knowledges:contract": [
-      "net.krlite.knowledges.impl.entrypoint.contract.BlockContractProvider",
-      "net.krlite.knowledges.impl.entrypoint.contract.EntityContractProvider"
+      "band.kessokuteatime.knowledges.impl.entrypoint.contract.BlockContractProvider",
+      "band.kessokuteatime.knowledges.impl.entrypoint.contract.EntityContractProvider"
     ]
   },
   "mixins": [
@@ -49,7 +50,7 @@
   "depends": {
     "fabricloader": "*",
     "fabric-api": "*",
-    "minecraft": "1.20.x",
+    "minecraft": ">=1.20.2",
     "cloth-config": "*",
     "equator": ">=2.6.4"
   },
