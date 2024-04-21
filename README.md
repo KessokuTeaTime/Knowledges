@@ -1,4 +1,4 @@
-### <p align=right>[`→` Modrinth](https://modrinth.com/mod/knowledges)</p>
+### <p align=right>[`→` CurseForge](https://www.curseforge.com/minecraft/mc-mods/knowledges)&ensp;[`→` Modrinth](https://modrinth.com/mod/knowledges)</p>
 
 # Knowledges
 
@@ -19,7 +19,7 @@ By default, **Knowledges** provides 6 components:
 - **Armor Durability**  
   <sup>Displays **armor durability *through color*** at the bottom right of the screen.</sup>
 
-...and countless of data.
+...and countless data.
 
 **Knowledges** works well with **Mod Menu** and **Cloth Config API,** so you can easily configure the above by installing the two mods.
 
@@ -30,35 +30,35 @@ By default, **Knowledges** provides 6 components:
     <summary>
       Breaking an Oak Log with Minimum UI Enabled
     </summary>
-    <img src="https://github.com/KrLite/Mod.Knowledges/blob/artwork/content/oak_log.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/oak_log.png">
   </details>
   
   <details>
     <summary>
       Fighting a Zombie, Wearing Armor
     </summary>
-    <img src="https://github.com/KrLite/Mod.Knowledges/blob/artwork/content/zombie.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/zombie.png">
   </details>
   
   <details>
     <summary>
       Inspecting Day Time through a Clock in an Item Frame
     </summary>
-    <img src="https://github.com/KrLite/Mod.Knowledges/blob/artwork/content/clock.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/clock.png">
   </details>
   
   <details>
     <summary>
       Playing with a Note Block
     </summary>
-    <img src="https://github.com/KrLite/Mod.Knowledges/blob/artwork/content/note_block.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/note_block.png">
   </details>
   
   <details>
     <summary>
       Configuring Knowledges through Mod Menu
     </summary>
-    <img src="https://github.com/KrLite/Mod.Knowledges/blob/artwork/content/config_screen.png">
+    <img src="https://github.com/KessokuTeaTime/Knowledges/blob/artwork/content/config_screen.png">
   </details>
 </blockquote>
 
