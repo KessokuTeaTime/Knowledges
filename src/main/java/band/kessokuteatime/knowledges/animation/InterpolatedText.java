@@ -1,6 +1,5 @@
 package band.kessokuteatime.knowledges.animation;
 
-import net.krlite.equator.math.algebra.Theory;
 import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;

@@ -3,7 +3,6 @@ package band.kessokuteatime.knowledges.api.entrypoint.base;
 import band.kessokuteatime.knowledges.KnowledgesCommon;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -8,7 +8,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import band.kessokuteatime.knowledges.config.ClientConfig;
-import band.kessokuteatime.knowledges.impl.component.base.InfoComponent;
 import band.kessokuteatime.knowledges.manager.ComponentManager;
 import band.kessokuteatime.knowledges.manager.DataManager;
 import band.kessokuteatime.knowledges.manager.base.EntrypointInvoker;
