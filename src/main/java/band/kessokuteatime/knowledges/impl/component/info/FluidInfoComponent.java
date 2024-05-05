@@ -1,7 +1,6 @@
 package band.kessokuteatime.knowledges.impl.component.info;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.AbstractFieldBuilder;
 import me.shedaniel.clothconfig2.impl.builders.FieldBuilder;
 import net.krlite.equator.visual.color.Palette;
 import band.kessokuteatime.knowledges.KnowledgesClient;

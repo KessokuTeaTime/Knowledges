@@ -9,7 +9,6 @@ import net.krlite.equator.visual.color.base.ColorStandard;
 import net.krlite.equator.visual.text.Paragraph;
 import net.krlite.equator.visual.text.Section;
 import band.kessokuteatime.knowledges.KnowledgesClient;
-import band.kessokuteatime.knowledges.api.proxy.ModProxy;
 import band.kessokuteatime.knowledges.api.proxy.LayoutProxy;
 import band.kessokuteatime.knowledges.api.proxy.RenderProxy;
 import band.kessokuteatime.knowledges.api.representable.base.Representable;

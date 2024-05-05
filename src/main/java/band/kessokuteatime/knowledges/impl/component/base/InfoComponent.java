@@ -11,7 +11,6 @@ import net.krlite.equator.visual.animation.interpolated.InterpolatedDouble;
 import net.krlite.equator.visual.color.AccurateColor;
 import net.krlite.equator.visual.color.Palette;
 import net.krlite.equator.visual.color.base.ColorStandard;
-import band.kessokuteatime.knowledges.KnowledgesClient;
 import band.kessokuteatime.knowledges.api.core.path.WithPartialPath;
 import band.kessokuteatime.knowledges.Util;
 import band.kessokuteatime.knowledges.animation.InterpolatedText;
@@ -19,7 +18,6 @@ import band.kessokuteatime.knowledges.api.component.Knowledge;
 import band.kessokuteatime.knowledges.api.proxy.ModProxy;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
-import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class InfoComponent implements Knowledge, WithPartialPath {

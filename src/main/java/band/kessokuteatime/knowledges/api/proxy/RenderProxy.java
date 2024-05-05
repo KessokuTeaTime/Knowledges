@@ -1,17 +1,13 @@
 package band.kessokuteatime.knowledges.api.proxy;
 
 import net.krlite.equator.math.geometry.flat.Box;
-import net.krlite.equator.math.geometry.flat.Vector;
 import net.krlite.equator.render.base.Renderable;
-import net.krlite.equator.render.frame.FrameInfo;
 import net.krlite.equator.render.renderer.Flat;
-import band.kessokuteatime.knowledges.KnowledgesClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 public class RenderProxy {

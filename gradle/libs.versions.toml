@@ -1,7 +1,7 @@
 [versions]
 maven-group = "band.kessokuteatime"
 archives-name = "knowledges"
-mod = "5.1.0"
+mod = "5.1.1"
 loader = "fabric"
 
 minecraft = "1.20"

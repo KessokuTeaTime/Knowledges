@@ -3,7 +3,6 @@ package band.kessokuteatime.knowledges.config.modmenu.impl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.shedaniel.clothconfig2.gui.ClothConfigScreen;
 import me.shedaniel.clothconfig2.gui.ClothConfigTabButton;
-import band.kessokuteatime.knowledges.mixin.client.clothconfig.ClothConfigTabButtonAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.StringVisitable;

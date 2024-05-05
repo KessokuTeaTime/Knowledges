@@ -14,7 +14,6 @@ import band.kessokuteatime.knowledges.KnowledgesClient;
 import band.kessokuteatime.knowledges.KnowledgesCommon;
 import band.kessokuteatime.knowledges.api.component.Knowledge;
 import band.kessokuteatime.knowledges.api.proxy.LayoutProxy;
-import band.kessokuteatime.knowledges.api.proxy.LocalizationProxy;
 import band.kessokuteatime.knowledges.api.proxy.RenderProxy;
 import band.kessokuteatime.knowledges.api.representable.base.Representable;
 import band.kessokuteatime.knowledges.config.modmenu.KnowledgesConfigScreen;
