@@ -1,5 +1,7 @@
 package band.kessokuteatime.knowledges.api.proxy;
 
+import com.terraformersmc.modmenu.ModMenu;
+import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -28,6 +30,8 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ModProxy {
@@ -48,11 +52,40 @@ public class ModProxy {
     }
 
     public static MutableText getModName(String namespace) {
+        return getKnowledgesModName(namespace)
+                .or(() -> getModMenuModName(namespace).map(Text::literal))
+                .or(() -> getFabricModName(namespace).map(Text::literal))
+                .orElse(KnowledgesCommon.localize("mod_name", "unknown"));
+    }
+
+    public static Optional<String> getFabricModName(String namespace) {
         return FabricLoader.getInstance().getModContainer(namespace)
                 .map(ModContainer::getMetadata)
-                .map(ModMetadata::getName)
-                .map(Text::literal)
-                .orElse(KnowledgesCommon.localize("mod_name", "unknown"));
+                .map(ModMetadata::getName);
+    }
+
+    public static Optional<String> getModMenuModName(String namespace) {
+        if (FabricLoader.getInstance().isModLoaded("modmenu")) {
+            return ModMenu.MODS.entrySet().stream()
+                    .filter(entry -> entry.getKey().equals(namespace))
+                    .findFirst()
+                    .map(Map.Entry::getValue)
+                    .map(Mod::getTranslatedName);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public static Optional<MutableText> getKnowledgesModName(String namespace) {
+        String key = KnowledgesCommon.localizationKey("mod_name", namespace);
+        MutableText text = Text.translatable(key);
+
+        if (key.equals(text.getString())) {
+            // No translation provided
+            return Optional.empty();
+        } else {
+            return Optional.of(text);
+        }
     }
 
     public static Optional<FluidState> getFluidState(HitResult hitResult) {
