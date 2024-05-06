@@ -50,7 +50,7 @@
   "depends": {
     "fabricloader": "*",
     "fabric-api": "*",
-    "minecraft": ">=1.20.2",
+    "minecraft": ["~1.20", "~1.20.1],
     "cloth-config": "*",
     "equator": ">=2.6.4"
   },
